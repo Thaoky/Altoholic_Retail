@@ -1,0 +1,168 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Sharing_Authorizations.lua"></Script>
+	
+	<Frame parentKey="SharingAuthorizations" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Info" inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
+					<Size x="610" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="20" y="-120" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="CharacterLabel" inherits="GameFontNormal">
+					<Size x="80" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="20" y="-360" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="IconNever" inherits="GameFontNormal">
+					<Size x="20" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="208" y="-178" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="IconAsk" inherits="GameFontNormal">
+					<Size x="20" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.IconNever" relativePoint="TOPRIGHT" x="2" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="IconAuto" inherits="GameFontNormal">
+					<Size x="20" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.IconAsk" relativePoint="TOPRIGHT" x="2" y="0" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton parentKey="IsEnabled" inherits="AltoToggleableOptionTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="40" y="-80" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="UI.AccountSharing.IsEnabled" />
+					<KeyValue key="locLabel" value="ACCOUNT_SHARING_ACTIVE_LABEL" />
+					<KeyValue key="locTitle" value="ACCOUNT_SHARING_ACTIVE_TITLE" />
+					<KeyValue key="locEnabled" value="ACCOUNT_SHARING_ACTIVE_ENABLED" />
+					<KeyValue key="locDisabled" value="ACCOUNT_SHARING_ACTIVE_DISABLED" />
+				</KeyValues>
+				<Scripts>
+					<OnClick>
+						self:Button_OnClick()
+						
+						local sharing = LibStub("LibMVC-1.0"):GetService("AltoholicUI.AccountSharing")
+						sharing.UpdateMessageHandler()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			
+			<Frame parentKey="CharactersContainer" inherits="TooltipBorderBackdropTemplate">
+				<Size x="250" y="150" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="50" y="-200"/>
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropBorderColor" value="LIGHTGRAY_FONT_COLOR" type="global"/>
+				</KeyValues>
+				<Frames>
+					<ScrollFrame parentKey="ScrollFrame" inherits="AddonFactory_UIPanelScrollFrameTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" />
+							<Anchor point="BOTTOMRIGHT" />
+						</Anchors>
+						<Scripts>
+							<OnVerticalScroll>
+								local parent = self:GetParent():GetParent()
+								self:OnVerticalScroll(offset, 18, function() parent:Update() end)		
+							</OnVerticalScroll>
+						</Scripts>
+						<KeyValues>
+							<KeyValue key="numRows" value="6" type="number" />
+							<KeyValue key="rowHeight" value="18" type="number" />
+							<KeyValue key="rowTemplate" value="AuthorizedClientsRowTemplate" />
+							<KeyValue key="xOffset" value="10" type="number" />
+							<KeyValue key="yOffset" value="-10" type="number" />
+						</KeyValues>
+					</ScrollFrame>
+				</Frames>
+			</Frame>
+			
+			<EditBox parentKey="CharacterName" inherits="InputBoxTemplate">
+				<Size x="100" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.CharacterLabel" relativePoint="BOTTOMLEFT" x="10" y="-5" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self:SetAutoFocus(true)
+					</OnLoad>
+					<OnEnterPressed>
+						self:ClearFocus()
+						self:SetFocus()
+						self:GetParent():AddCharacter(self:GetText())
+					</OnEnterPressed>
+					<OnEscapePressed>
+						if self:GetText() == "" then
+							AltoholicFrame:ToggleUI()
+						else
+							self:SetText("")
+						end
+					</OnEscapePressed>
+				</Scripts>
+			</EditBox>
+			<Button parentKey="AddButton" inherits="UIPanelButtonTemplate">
+				<Size x="80" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.CharacterName" relativePoint="TOPRIGHT" x="10" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local parent = self:GetParent()
+						local name = parent.CharacterName:GetText()
+						
+						parent:AddCharacter(name)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button parentKey="RemoveButton" inherits="UIPanelButtonTemplate" text="Del">
+				<Size x="80" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.AddButton" relativePoint="TOPRIGHT" x="10" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local parent = self:GetParent()
+						local name = parent.CharacterName:GetText()
+						
+						parent:RemoveCharacter(name)
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SharingAuthorizations")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

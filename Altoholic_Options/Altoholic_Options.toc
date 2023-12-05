@@ -1,0 +1,34 @@
+﻿## Interface: 100200
+## Title: Altoholic_Options
+## IconTexture: Interface\Icons\inv_drink_13
+
+## Notes: Altoholic's Options UI
+## Author: Thaoky (EU-Marécages de Zangar)
+## Version: 10.2.007
+## Dependencies: Altoholic, DataStore, DataStore_Characters
+## LoadOnDemand: 1
+## X-Category: Interface Enhancements
+
+Locale.xml
+
+Templates\UITemplates.xml
+TabOptions.xml
+
+Frames\Settings_Altoholic_General.xml
+Frames\Settings_Altoholic_Mail.xml
+Frames\Settings_Altoholic_Tooltip.xml
+Frames\Settings_Altoholic_Calendar.xml
+Frames\Settings_Altoholic_Miscellaneous.xml
+
+Frames\Settings_DataStore_Auctions.xml
+Frames\Settings_DataStore_Characters.xml
+Frames\Settings_DataStore_Garrisons.xml
+Frames\Settings_DataStore_Inventory.xml
+Frames\Settings_DataStore_Mails.xml
+Frames\Settings_DataStore_Quests.xml
+
+Frames\Sharing_Authorizations.xml
+Frames\Sharing_Content.xml
+Frames\Sharing_Process.xml
+
+Frames\Help.xml

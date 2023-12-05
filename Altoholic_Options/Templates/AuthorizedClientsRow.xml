@@ -1,0 +1,101 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="AuthorizedClientsRow.lua"></Script>
+	
+	<CheckButton name="AuthorizedClientsRowCheckTemplate" inherits="SendMailRadioButtonTemplate" virtual="true">
+		<Scripts>
+			<OnEnter>
+				if self.tooltipText then
+					AddonFactory_Tooltip:SetOwner(self, "ANCHOR_RIGHT")
+					AddonFactory_Tooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1)
+				end
+				
+				if self.tooltipRequirement then
+					AddonFactory_Tooltip:AddLine(self.tooltipRequirement, 1.0, 1.0, 1.0)
+					AddonFactory_Tooltip:Show()
+				end
+			</OnEnter>
+			<OnLeave>
+				AddonFactory_Tooltip:Hide()
+			</OnLeave>
+		</Scripts>
+	</CheckButton>
+	
+	<Button name="AuthorizedClientsRowTemplate" virtual="true">
+		<Size x="230" y="22"/>
+		<Frames>
+			<Button parentKey="Name">
+				<Size x="100" y="18" />
+				<Anchors>
+					<Anchor point="TOPLEFT" />
+				</Anchors>
+				<ButtonText parentKey="Text" justifyH="LEFT">
+					<Size x="100" y="18" />
+					<Anchors>
+						<Anchor point="LEFT" />
+					</Anchors>
+				</ButtonText>
+				<Scripts>
+					<OnClick>
+						-- This will contain a character name, when clicked, set this name in the edit box
+						if self.Text.name then
+							self:GetParent():GetParent():GetParent().CharacterName:SetText(self.Text.name)
+						end
+					</OnClick>
+				</Scripts>
+				<NormalFont style="GameFontNormalSmallLeft" />
+			</Button>
+			<CheckButton parentKey="Auto" inherits="AuthorizedClientsRowCheckTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-22" y="0"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local parent = self:GetParent()
+						
+						parent.Ask:SetChecked(nil)
+						parent.Never:SetChecked(nil)
+						
+						parent:CheckButton_OnClick(self:GetID())
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton parentKey="Ask" inherits="AuthorizedClientsRowCheckTemplate" id="2">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeKey="$parent.Auto" relativePoint="TOPLEFT" x="-5" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local parent = self:GetParent()
+						
+						parent.Auto:SetChecked(nil)
+						parent.Never:SetChecked(nil)
+						
+						parent:CheckButton_OnClick(self:GetID())
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton parentKey="Never" inherits="AuthorizedClientsRowCheckTemplate" id="3">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeKey="$parent.Ask" relativePoint="TOPLEFT" x="-5" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local name = self:GetParent():GetName()
+
+						local parent = self:GetParent()
+						
+						parent.Auto:SetChecked(nil)
+						parent.Ask:SetChecked(nil)
+						
+						parent:CheckButton_OnClick(self:GetID())
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.AuthorizedClientsRow")
+			</OnLoad>
+		</Scripts>
+	</Button>
+</Ui>

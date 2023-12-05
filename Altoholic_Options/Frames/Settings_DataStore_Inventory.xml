@@ -1,0 +1,72 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Settings_DataStore_Inventory.lua"></Script>
+	
+	<Frame parentKey="SettingsDataStoreInventory" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton parentKey="AutoClearGuildInventory" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOPLEFT" x="40" y="-80" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="AutoClearGuildInventory" />
+					<KeyValue key="locLabel" value="CLEAR_INVENTORY_TEXT" />
+					<KeyValue key="locTitle" value="CLEAR_INVENTORY_TITLE" />
+					<KeyValue key="locEnabled" value="CLEAR_INVENTORY_ENABLED" />
+					<KeyValue key="locDisabled" value="CLEAR_INVENTORY_DISABLED" />
+					<KeyValue key="module" value="DataStore_Inventory" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="BroadcastAiL" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOP" relativeKey="$parent.AutoClearGuildInventory" relativePoint="BOTTOM" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="BroadcastAiL" />
+					<KeyValue key="locLabel" value="BROADCAST_AIL_TEXT" />
+					<KeyValue key="locTitle" value="BROADCAST_AIL_TITLE" />
+					<KeyValue key="locEnabled" value="BROADCAST_AIL_ENABLED" />
+					<KeyValue key="locDisabled" value="BROADCAST_AIL_DISABLED" />
+					<KeyValue key="module" value="DataStore_Inventory" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="EquipmentRequestNotification" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOP" relativeKey="$parent.BroadcastAiL" relativePoint="BOTTOM" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="EquipmentRequestNotification" />
+					<KeyValue key="locLabel" value="EQUIP_REQ_TEXT" />
+					<KeyValue key="locTitle" value="EQUIP_REQ_TITLE" />
+					<KeyValue key="locEnabled" value="EQUIP_REQ_ENABLED" />
+					<KeyValue key="locDisabled" value="EQUIP_REQ_DISABLED" />
+					<KeyValue key="module" value="DataStore_Inventory" />
+				</KeyValues>
+			</CheckButton>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsDataStoreInventory")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

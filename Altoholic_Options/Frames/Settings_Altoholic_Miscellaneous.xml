@@ -1,0 +1,49 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Settings_Altoholic_Miscellaneous.lua"></Script>
+	
+	<Frame parentKey="SettingsAltoholicMiscellaneous" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton parentKey="AHColorCoding" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOPLEFT" x="40" y="-80" />
+				</Anchors>      
+				<KeyValues>
+					<KeyValue key="option" value="UI.AHColorCoding" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="VendorColorCoding" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOP" relativeKey="$parent.AHColorCoding" relativePoint="BOTTOM" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="UI.VendorColorCoding" />
+				</KeyValues>
+			</CheckButton>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsAltoholicMiscellaneous")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

@@ -1,0 +1,55 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="AvailableContentRow.lua"></Script>
+	
+	<Button name="AvailableContentRowTemplate" virtual="true">
+		<Size x="430" y="22" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString parentKey="Size" inherits="GameFontNormalSmall" justifyH="RIGHT">
+					<Size x="80" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="310" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Date" inherits="GameFontNormalSmall" justifyH="RIGHT">
+					<Size x="120" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Size" relativePoint="TOPRIGHT" x="20" y="0" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="Collapse" inherits="AddonFactory_ToggleButtonTemplate">
+				<Anchors>
+					<Anchor point="LEFT" x="7" y="1" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:Toggle()
+						
+						local parent = self:GetParent()
+						parent:Collapse_OnClick()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<CheckButton parentKey="Check" inherits="InterfaceOptionsCheckButtonTemplate">
+				<Size x="20" y="20" />
+				<Anchors> 
+					<Anchor point="TOPLEFT" x="20" y="0"/>
+				</Anchors>      
+				<Scripts>
+					<OnClick>
+						local parent = self:GetParent()
+						parent:CheckButton_OnClick(self)
+					</OnClick>
+				</Scripts>
+			</CheckButton>			
+		</Frames>		
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.AvailableContentRow")
+			</OnLoad>
+		</Scripts>
+	</Button>
+</Ui>

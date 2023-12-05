@@ -1,0 +1,141 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="TabOptions.lua"></Script>
+	
+	<Button name="AltoURLButtonTemplate" inherits="AddonFactory_ButtonTemplate" virtual="true">
+		<Scripts>
+			<OnEnter>
+				local L = LibStub("AceLocale-3.0"):GetLocale("Altoholic")
+				AddonFactory_Tooltip:ShowInfo(self, L[self.locLabel])
+			</OnEnter>
+			<OnLeave>
+				AddonFactory_Tooltip:Hide()
+			</OnLeave>
+			<OnClick>
+				local parent = self:GetParent()
+				local url = parent.URL
+				
+				url.text = self.url
+				url:SetText(url.text)
+				url:HighlightText()
+				url:Show()
+				parent.URLInfo:Show()
+			</OnClick>
+		</Scripts>
+	</Button>
+	
+	
+	<Frame parentKey="TabOptions" inherits="AddonFactory_AuctionHouseTabFrameTemplate" parent="AltoholicFrame" id="8">
+		<Size x="758" y="447" />
+		<Anchors>
+			<Anchor point="TOPLEFT"/>
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Status" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="350" y="24" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="200" y="4" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="CategoriesList" inherits="AddonFactory_AuctionHouseCategoriesListTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="4" y="-68"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabOptionsCategoriesList", "AddonFactory.AuctionHouseCategoriesList")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			
+			<Button parentKey="URLIcon1" inherits="AltoURLButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="250" y="-28" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\AddOns\Altoholic_Options\Textures\icon_discord.tga" />
+					<KeyValue key="locLabel" value="DISCORD_ICON_ON_ENTER" />
+					<KeyValue key="url" value="https://discord.gg/J7JnuQV" />
+				</KeyValues>
+			</Button>
+			<Button parentKey="URLIcon2" inherits="AltoURLButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.URLIcon1" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\AddOns\Altoholic_Options\Textures\icon_curseforge.tga" />
+					<KeyValue key="locLabel" value="CURSE_ICON_ON_ENTER" />
+					<KeyValue key="url" value="https://www.curseforge.com/wow/addons/altoholic" />
+				</KeyValues>
+			</Button>
+			<Button parentKey="URLIcon3" inherits="AltoURLButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.URLIcon2" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\AddOns\Altoholic_Options\Textures\icon_wowinterface.tga" />
+					<KeyValue key="locLabel" value="WOWI_ICON_ON_ENTER" />
+					<KeyValue key="url" value="https://www.wowinterface.com/downloads/info8533-Altoholic.html" />
+				</KeyValues>
+			</Button>
+			<Button parentKey="URLIcon4" inherits="AltoURLButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.URLIcon3" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\inv_letter_04" />
+					<KeyValue key="locLabel" value="EMAIL_ICON_ON_ENTER" />
+					<KeyValue key="url" value="thaoky.altoholic@yahoo.com" />
+				</KeyValues>
+			</Button>
+			
+			<EditBox parentKey="URL" inherits="InputBoxTemplate" hidden="true">
+				<Size x="400" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.URLIcon4" relativePoint="TOPRIGHT" x="20" y="-18" />
+				</Anchors>
+				<Scripts>
+					<OnChar>
+						self:SetText(self.text)
+						self:HighlightText()
+					</OnChar>
+					<OnEscapePressed>
+						self:Hide()
+						self:GetParent().URLInfo:Hide()
+					</OnEscapePressed>
+				</Scripts>
+			</EditBox>
+			
+			<Frame parentKey="Background" useParentLevel="true">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.CategoriesList" relativePoint="TOPRIGHT" x="4" y="0"/>
+					<Anchor point="RIGHT" relativeTo="AltoholicFrame" relativePoint="RIGHT" x="-30" y="0"/>
+					<Anchor point="BOTTOM" relativeTo="AltoholicFrame" relativePoint="BOTTOM" x="0" y="28"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND" textureSubLevel="-5">
+						<Texture parentKey="bg" atlas="auctionhouse-background-index" useAtlasSize="true" />
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="URLInfo" inherits="GameFontNormalSmall" justifyH="LEFT" hidden="true">
+					<Size x="350" y="16" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeKey="$parent.URL" relativePoint="TOPLEFT" x="2" y="2" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

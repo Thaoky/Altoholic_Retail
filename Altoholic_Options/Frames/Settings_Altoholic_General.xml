@@ -1,0 +1,146 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Settings_Altoholic_General.lua"></Script>
+	
+	<Frame parentKey="SettingsAltoholicGeneral" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton parentKey="BankAutoUpdate" inherits="AltoToggleableOptionTemplate" >
+				<Anchors> 
+					<Anchor point="TOPLEFT" x="40" y="-80" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="UI.Tabs.Guild.BankAutoUpdate" />
+					<KeyValue key="locLabel" value="BANK_AUTO_UPDATE_TEXT" />
+					<KeyValue key="locTitle" value="BANK_AUTO_UPDATE_TITLE" />
+					<KeyValue key="locEnabled" value="BANK_AUTO_UPDATE_ENABLED" />
+					<KeyValue key="locDisabled" value="BANK_AUTO_UPDATE_DISABLED" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="ClampWindowToScreen" inherits="AltoToggleableOptionTemplate" >
+				<Anchors> 
+					<Anchor point="TOPLEFT" relativeKey="$parent.BankAutoUpdate" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="locLabel" value="CLAMP_TO_SCREEN_TEXT" />
+					<KeyValue key="locTitle" value="CLAMP_TO_SCREEN_TITLE" />
+					<KeyValue key="locEnabled" value="CLAMP_TO_SCREEN_ENABLED" />
+					<KeyValue key="locDisabled" value="CLAMP_TO_SCREEN_DISABLED" />
+				</KeyValues>
+				<Scripts>
+					<OnClick>
+						self:GetParent():ToggleScreenClamping(self:GetChecked())
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton parentKey="ShowMinimapIcon" inherits="AltoToggleableOptionTemplate">
+				<KeyValues>
+					<KeyValue key="locLabel" value="SHOW_ICON_TEXT" />
+					<KeyValue key="locTitle" value="SHOW_ICON_TITLE" />
+					<KeyValue key="locEnabled" value="SHOW_ICON_ENABLED" />
+					<KeyValue key="locDisabled" value="SHOW_ICON_DISABLED" />
+				</KeyValues>
+				<Anchors> 
+					<Anchor point="TOPLEFT" relativeKey="$parent.ClampWindowToScreen" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+				</Anchors>      
+				<Scripts>
+					<OnClick>
+						self:GetParent():ToggleMinimapIcon(self:GetChecked())
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			
+			<Slider parentKey="MinimapIconAngle" inherits="AddonFactory_OptionsSliderTemplate">
+				<Size x="180" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.ShowMinimapIcon" relativePoint="BOTTOMLEFT" x="20" y="-40" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsAltoholicGeneral.MinimapIconAngle")
+					</OnLoad>
+				</Scripts>
+			</Slider>
+			<Slider parentKey="MinimapIconRadius" inherits="AddonFactory_OptionsSliderTemplate">
+				<Size x="180" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.MinimapIconAngle" relativePoint="BOTTOMLEFT" x="0" y="-60" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsAltoholicGeneral.MinimapIconRadius")
+					</OnLoad>
+				</Scripts>
+			</Slider>
+			<Slider parentKey="Transparency" inherits="AddonFactory_OptionsSliderTemplate">
+				<Size x="180" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.MinimapIconAngle" relativePoint="TOPRIGHT" x="130" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsAltoholicGeneral.Transparency")
+					</OnLoad>
+				</Scripts>
+			</Slider>
+			<Slider parentKey="UIScale" inherits="AddonFactory_OptionsSliderTemplate">
+				<Size x="180" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Transparency" relativePoint="BOTTOMLEFT" x="0" y="-60" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsAltoholicGeneral.UIScale")
+					</OnLoad>
+				</Scripts>
+			</Slider>
+			<Button parentKey="ResetButton" inherits="UIPanelButtonTemplate" text="RESET">
+				<Size x="80" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.UIScale" relativePoint="BOTTOMLEFT" x="0" y="-20" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local parent = self:GetParent()
+						parent.UIScale:Reset()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button parentKey="ApplyButton" inherits="UIPanelButtonTemplate" text="APPLY">
+				<Size x="80" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.ResetButton" relativePoint="TOPRIGHT" x="20" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local parent = self:GetParent()
+						parent.UIScale:Apply()
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad inherit="prepend">
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsAltoholicGeneral")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

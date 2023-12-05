@@ -1,0 +1,70 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Settings_DataStore_Auctions.lua"></Script>
+	
+	<Frame parentKey="SettingsDataStoreAuctions" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Slider parentKey="SliderLastVisit" inherits="AddonFactory_OptionsSliderTemplate">
+				<Size x="180" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="40" y="-80" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsDataStoreAuctions.SliderLastVisit")
+					</OnLoad>
+				</Scripts>
+			</Slider>
+			<CheckButton parentKey="CheckLastVisit" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOPLEFT" relativeKey="$parent.SliderLastVisit" relativePoint="BOTTOMLEFT" x="0" y="-30" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="CheckLastVisit" />
+					<KeyValue key="locLabel" value="LAST_VISIT_CHECK_LABEL" />
+					<KeyValue key="locTitle" value="LAST_VISIT_CHECK_TITLE" />
+					<KeyValue key="locEnabled" value="LAST_VISIT_CHECK_ENABLED" />
+					<KeyValue key="locDisabled" value="LAST_VISIT_CHECK_DISABLED" />
+					<KeyValue key="module" value="DataStore_Auctions" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="AutoClearExpiredItems" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOP" relativeKey="$parent.CheckLastVisit" relativePoint="BOTTOM" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="AutoClearExpiredItems" />
+					<KeyValue key="locLabel" value="CLEAR_EXPIRED_ITEMS_LABEL" />
+					<KeyValue key="locTitle" value="CLEAR_EXPIRED_ITEMS_TITLE" />
+					<KeyValue key="locEnabled" value="CLEAR_EXPIRED_ITEMS_ENABLED" />
+					<KeyValue key="locDisabled" value="CLEAR_EXPIRED_ITEMS_DISABLED" />
+					<KeyValue key="module" value="DataStore_Auctions" />
+				</KeyValues>
+			</CheckButton>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsDataStoreAuctions")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

@@ -1,0 +1,73 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Settings_Altoholic_Mail.lua"></Script>
+	
+	<Frame parentKey="SettingsAltoholicMail" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton parentKey="GuildMailWarning" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOPLEFT" x="40" y="-80" />
+				</Anchors>     
+				<KeyValues>
+					<KeyValue key="option" value="UI.Mail.GuildMailWarning" />
+					<KeyValue key="locLabel" value="GUILD_WARNING_TEXT" />
+					<KeyValue key="locTitle" value="GUILD_WARNING_TITLE" />
+					<KeyValue key="locEnabled" value="GUILD_WARNING_ENABLED" />
+					<KeyValue key="locDisabled" value="GUILD_WARNING_DISABLED" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="AutoCompleteRecipient" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOP" relativeKey="$parent.GuildMailWarning" relativePoint="BOTTOM" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="UI.Mail.AutoCompleteRecipient" />
+					<KeyValue key="locLabel" value="AUTO_COMPLETE_TEXT" />
+					<KeyValue key="locTitle" value="AUTO_COMPLETE_TITLE" />
+					<KeyValue key="locEnabled" value="AUTO_COMPLETE_ENABLED" />
+					<KeyValue key="locDisabled" value="AUTO_COMPLETE_DISABLED" />
+				</KeyValues>
+			</CheckButton>
+			<Frame parentKey="AutoCompletePriority" inherits="AddonFactory_DropDownMenuTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.AutoCompleteRecipient" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+				</Anchors>
+			</Frame>
+			<Slider parentKey="TimeToNextWarning" inherits="AddonFactory_OptionsSliderTemplate">
+				<Size x="220" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.GuildMailWarning" relativePoint="TOPRIGHT" x="300" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsAltoholicMail.TimeToNextWarning")
+					</OnLoad>
+				</Scripts>
+			</Slider>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsAltoholicMail")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

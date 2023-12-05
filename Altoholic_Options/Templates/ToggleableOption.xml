@@ -1,0 +1,29 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="ToggleableOption.lua"></Script>
+	
+	<CheckButton name="AltoToggleableOptionTemplate" inherits="InterfaceOptionsCheckButtonTemplate" virtual="true">
+		<Size x="20" y="20" />
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.ToggleableOption")
+			</OnLoad>
+			<OnEnter>
+				if self.tooltipText then
+					GetAppropriateTooltip():SetOwner(self, self.tooltipOwnerPoint or "ANCHOR_RIGHT")
+					GetAppropriateTooltip():SetText(self.tooltipText, nil, nil, nil, nil, true)
+				end
+				
+				if self.tooltipRequirement then
+					GetAppropriateTooltip():AddLine(self.tooltipRequirement, 1.0, 1.0, 1.0, true)
+					GetAppropriateTooltip():Show()
+				end
+			</OnEnter>
+			<OnLeave>
+				GetAppropriateTooltip():Hide()
+			</OnLeave>
+			<OnClick>
+				self:Button_OnClick()
+			</OnClick>
+		</Scripts>
+	</CheckButton>	
+</Ui>

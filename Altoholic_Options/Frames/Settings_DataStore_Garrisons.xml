@@ -1,0 +1,58 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Settings_DataStore_Garrisons.lua"></Script>
+	
+	<Frame parentKey="SettingsDataStoreGarrisons" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton parentKey="ReportUncollected" inherits="AltoToggleableOptionTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="40" y="-80" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="ReportUncollected" />
+					<KeyValue key="locLabel" value="REPORT_UNCOLLECTED_LABEL" />
+					<KeyValue key="locTitle" value="REPORT_UNCOLLECTED_TITLE" />
+					<KeyValue key="locEnabled" value="REPORT_UNCOLLECTED_ENABLED" />
+					<KeyValue key="locDisabled" value="REPORT_UNCOLLECTED_DISABLED" />
+					<KeyValue key="module" value="DataStore_Garrisons" />
+				</KeyValues>
+			</CheckButton>
+			
+			<Slider parentKey="ReportLevel" inherits="AddonFactory_OptionsSliderTemplate">
+				<Size x="180" y="16" />
+				<Anchors> 
+					<Anchor point="TOPLEFT" relativeKey="$parent.ReportUncollected" relativePoint="BOTTOMLEFT" x="0" y="-30" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsDataStoreGarrisons.ReportLevel")
+					</OnLoad>
+				</Scripts>
+			</Slider>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsDataStoreGarrisons")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

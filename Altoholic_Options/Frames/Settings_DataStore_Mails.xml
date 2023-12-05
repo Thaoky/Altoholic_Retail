@@ -1,0 +1,110 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Settings_DataStore_Mails.lua"></Script>
+	
+	<Frame parentKey="SettingsDataStoreMails" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Slider parentKey="SliderMailExpiry" inherits="AddonFactory_OptionsSliderTemplate">
+				<Size x="180" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="40" y="-80" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsDataStoreMails.SliderMailExpiry")
+					</OnLoad>
+				</Scripts>
+			</Slider>
+				
+			<CheckButton parentKey="CheckMailExpiry" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOPLEFT" relativeKey="$parent.SliderMailExpiry" relativePoint="BOTTOMLEFT" x="0" y="-20" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="CheckMailExpiry" />
+					<KeyValue key="locLabel" value="EXPIRY_CHECK_LABEL" />
+					<KeyValue key="locTitle" value="EXPIRY_CHECK_TITLE" />
+					<KeyValue key="locEnabled" value="EXPIRY_CHECK_ENABLED" />
+					<KeyValue key="locDisabled" value="EXPIRY_CHECK_DISABLED" />
+					<KeyValue key="module" value="DataStore_Mails" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="ReportExpiredMailsToChat" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOP" relativeKey="$parent.CheckMailExpiry" relativePoint="BOTTOM" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="ReportExpiredMailsToChat" />
+					<KeyValue key="locLabel" value="REPORT_EXPIRED_MAILS_LABEL" />
+					<KeyValue key="locTitle" value="REPORT_EXPIRED_MAILS_TITLE" />
+					<KeyValue key="locEnabled" value="REPORT_EXPIRED_MAILS_ENABLED" />
+					<KeyValue key="locDisabled" value="REPORT_EXPIRED_MAILS_DISABLED" />
+					<KeyValue key="module" value="DataStore_Mails" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="ScanMailBody" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOP" relativeKey="$parent.ReportExpiredMailsToChat" relativePoint="BOTTOM" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="ScanMailBody" />
+					<KeyValue key="locLabel" value="SCAN_MAIL_BODY_LABEL" />
+					<KeyValue key="locTitle" value="SCAN_MAIL_BODY_TITLE" />
+					<KeyValue key="locEnabled" value="SCAN_MAIL_BODY_ENABLED" />
+					<KeyValue key="locDisabled" value="SCAN_MAIL_BODY_DISABLED" />
+					<KeyValue key="module" value="DataStore_Mails" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="CheckMailExpiryAllAccounts" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOP" relativeKey="$parent.ScanMailBody" relativePoint="BOTTOM" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="CheckMailExpiryAllAccounts" />
+					<KeyValue key="locLabel" value="EXPIRY_ALL_ACCOUNTS_LABEL" />
+					<KeyValue key="locTitle" value="EXPIRY_ALL_ACCOUNTS_TITLE" />
+					<KeyValue key="locEnabled" value="EXPIRY_ALL_ACCOUNTS_ENABLED" />
+					<KeyValue key="locDisabled" value="EXPIRY_ALL_ACCOUNTS_DISABLED" />
+					<KeyValue key="module" value="DataStore_Mails" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="CheckMailExpiryAllRealms" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOP" relativeKey="$parent.CheckMailExpiryAllAccounts" relativePoint="BOTTOM" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="CheckMailExpiryAllRealms" />
+					<KeyValue key="locLabel" value="EXPIRY_ALL_REALMS_LABEL" />
+					<KeyValue key="locTitle" value="EXPIRY_ALL_REALMS_TITLE" />
+					<KeyValue key="locEnabled" value="EXPIRY_ALL_REALMS_ENABLED" />
+					<KeyValue key="locDisabled" value="EXPIRY_ALL_REALMS_DISABLED" />
+					<KeyValue key="module" value="DataStore_Mails" />
+				</KeyValues>
+			</CheckButton>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsDataStoreMails")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

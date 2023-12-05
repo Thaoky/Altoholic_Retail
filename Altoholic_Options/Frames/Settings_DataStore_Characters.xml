@@ -1,0 +1,59 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Settings_DataStore_Characters.lua"></Script>
+	
+	<Frame parentKey="SettingsDataStoreCharacters" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton parentKey="RequestPlayTime" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOPLEFT" x="40" y="-80" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="RequestPlayTime" />
+					<KeyValue key="locLabel" value="REQUEST_PLAYTIME_TEXT" />
+					<KeyValue key="locTitle" value="REQUEST_PLAYTIME_TITLE" />
+					<KeyValue key="locEnabled" value="REQUEST_PLAYTIME_ENABLED" />
+					<KeyValue key="locDisabled" value="REQUEST_PLAYTIME_DISABLED" />
+					<KeyValue key="module" value="DataStore_Characters" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="HideRealPlayTime" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOP" relativeKey="$parent.RequestPlayTime" relativePoint="BOTTOM" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="HideRealPlayTime" />
+					<KeyValue key="locLabel" value="HIDE_PLAYTIME_TEXT" />
+					<KeyValue key="locTitle" value="HIDE_PLAYTIME_TITLE" />
+					<KeyValue key="locEnabled" value="HIDE_PLAYTIME_ENABLED" />
+					<KeyValue key="locDisabled" value="HIDE_PLAYTIME_DISABLED" />
+					<KeyValue key="module" value="DataStore_Characters" />
+				</KeyValues>
+			</CheckButton>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsDataStoreCharacters")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

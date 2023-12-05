@@ -1,0 +1,100 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Sharing_Content.lua"></Script>
+	
+	<Frame parentKey="SharingContent" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Info" inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
+					<Size x="610" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="20" y="-60" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="ToggleAll" inherits="AddonFactory_ToggleButtonTemplate">
+				<Size x="16" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="40" y="-100" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:Toggle()
+						self:GetParent():ToggleAll(self.isCollapsed)
+					</OnClick>
+				</Scripts>
+				<NormalTexture name="$parentIcon" file="Interface\Buttons\UI-MinusButton-UP" />
+				<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD" />
+			</Button>
+			<CheckButton parentKey="CheckAll" inherits="InterfaceOptionsCheckButtonTemplate">
+				<Size x="20" y="20" />
+				<Anchors> 
+					<Anchor point="LEFT" relativeKey="$parent.ToggleAll" relativePoint="RIGHT" x="5" y="0" />
+				</Anchors>      
+				<Scripts>
+					<OnLoad>
+						self.Text:SetText(ALL)
+					</OnLoad>
+					<OnClick>
+						self:GetParent():CheckAll(self)
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			
+			<Frame parentKey="ContentContainer" inherits="TooltipBorderBackdropTemplate">
+				<Size x="450" y="330" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="160" y="-90"/>
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropBorderColor" value="LIGHTGRAY_FONT_COLOR" type="global"/>
+				</KeyValues>
+				<Frames>
+					<ScrollFrame parentKey="ScrollFrame" inherits="AddonFactory_UIPanelScrollFrameTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" />
+							<Anchor point="BOTTOMRIGHT" />
+						</Anchors>
+						<Scripts>
+							<OnVerticalScroll>
+								local parent = self:GetParent():GetParent()
+								self:OnVerticalScroll(offset, 18, function() parent:Update() end)		
+							</OnVerticalScroll>
+						</Scripts>
+						<KeyValues>
+							<KeyValue key="numRows" value="14" type="number" />
+							<KeyValue key="rowHeight" value="18" type="number" />
+							<KeyValue key="rowTemplate" value="SharedContentRowTemplate" />
+							<KeyValue key="xOffset" value="0" type="number" />
+							<KeyValue key="yOffset" value="-10" type="number" />
+						</KeyValues>
+					</ScrollFrame>
+				</Frames>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SharingContent")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

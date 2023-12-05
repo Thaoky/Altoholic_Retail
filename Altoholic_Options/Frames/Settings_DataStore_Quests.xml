@@ -1,0 +1,72 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Settings_DataStore_Quests.lua"></Script>
+	
+	<Frame parentKey="SettingsDataStoreQuests" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString parentKey="DailyResetDropDownLabel" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="300" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="300" y="-80" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton parentKey="TrackTurnIns" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOPLEFT" x="40" y="-80" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="TrackTurnIns" />
+					<KeyValue key="locLabel" value="TRACK_TURNINS_LABEL" />
+					<KeyValue key="locTitle" value="TRACK_TURNINS_TITLE" />
+					<KeyValue key="locEnabled" value="TRACK_TURNINS_ENABLED" />
+					<KeyValue key="locDisabled" value="TRACK_TURNINS_DISABLED" />
+					<KeyValue key="module" value="DataStore_Quests" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="AutoUpdateHistory" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOP" relativeKey="$parent.TrackTurnIns" relativePoint="BOTTOM" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="AutoUpdateHistory" />
+					<KeyValue key="locLabel" value="AUTO_UPDATE_LABEL" />
+					<KeyValue key="locTitle" value="AUTO_UPDATE_TITLE" />
+					<KeyValue key="locEnabled" value="AUTO_UPDATE_ENABLED" />
+					<KeyValue key="locDisabled" value="AUTO_UPDATE_DISABLED" />
+					<KeyValue key="module" value="DataStore_Quests" />
+				</KeyValues>
+			</CheckButton>
+			<Frame parentKey="DailyResetDropDown" inherits="AddonFactory_DropDownMenuTemplate">
+				<Anchors> 
+					<Anchor point="TOPLEFT" relativeKey="$parent.DailyResetDropDownLabel" relativePoint="BOTTOMLEFT" x="-20" y="-8" />
+				</Anchors>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsDataStoreQuests")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

@@ -1,0 +1,94 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Settings_Altoholic_Calendar.lua"></Script>
+	
+	<Frame parentKey="SettingsAltoholicCalendar" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton parentKey="WeekStartsOnMonday" inherits="InterfaceOptionsCheckButtonTemplate">
+				<Size x="20" y="20" />
+				<Anchors> 
+					<Anchor point="TOPLEFT" x="40" y="-80" />
+				</Anchors>      
+				<Scripts>
+					<OnClick>
+						self:GetParent():ToggleWeekStart(self:GetChecked())
+					</OnClick>
+				</Scripts>
+				<KeyValues>
+					<KeyValue key="locLabel" value="CALENDAR_WEEKSTART_MONDAY_TEXT" />
+					<KeyValue key="locTitle" value="CALENDAR_WEEKSTART_MONDAY_TITLE" />
+					<KeyValue key="locEnabled" value="CALENDAR_WEEKSTART_MONDAY_ENABLED" />
+					<KeyValue key="locDisabled" value="CALENDAR_WEEKSTART_MONDAY_DISABLED" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="UseDialogBoxForWarnings" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOPLEFT" relativeKey="$parent.WeekStartsOnMonday" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="UI.Calendar.UseDialogBoxForWarnings" />
+					<KeyValue key="locLabel" value="CALENDAR_WARNINGS_DIALOG_TEXT" />
+					<KeyValue key="locTitle" value="CALENDAR_WARNINGS_DIALOG_TITLE" />
+					<KeyValue key="locEnabled" value="CALENDAR_WARNINGS_DIALOG_ENABLED" />
+					<KeyValue key="locDisabled" value="CALENDAR_WARNINGS_DIALOG_DISABLED" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="WarningsEnabled" inherits="AltoToggleableOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOPLEFT" relativeKey="$parent.UseDialogBoxForWarnings" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="UI.Calendar.WarningsEnabled" />
+					<KeyValue key="locLabel" value="CALENDAR_WARNINGS_ENABLED_TEXT" />
+					<KeyValue key="locTitle" value="CALENDAR_WARNINGS_ENABLED_TITLE" />
+					<KeyValue key="locEnabled" value="CALENDAR_WARNINGS_ENABLED_ENABLED" />
+					<KeyValue key="locDisabled" value="CALENDAR_WARNINGS_ENABLED_DISABLED" />
+				</KeyValues>
+			</CheckButton>
+			<Frame parentKey="WarningType1" inherits="AddonFactory_DropDownMenuTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.WarningsEnabled" relativePoint="BOTTOMLEFT" x="0" y="-20" />
+				</Anchors>
+			</Frame>
+			<Frame parentKey="WarningType2" inherits="AddonFactory_DropDownMenuTemplate" id="2">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.WarningType1" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+				</Anchors>
+			</Frame>
+			<Frame parentKey="WarningType3" inherits="AddonFactory_DropDownMenuTemplate" id="3">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.WarningType2" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+				</Anchors>
+			</Frame>
+			<Frame parentKey="WarningType4" inherits="AddonFactory_DropDownMenuTemplate" id="4">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.WarningType3" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+				</Anchors>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SettingsAltoholicCalendar")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

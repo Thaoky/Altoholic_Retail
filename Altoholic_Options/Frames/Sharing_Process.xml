@@ -1,0 +1,220 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Sharing_Process.lua"></Script>
+	
+	<Frame parentKey="SharingProcess" hidden="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="Separator">
+					<Size x="600" y="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-40" />
+					</Anchors>
+					<Color r="0.25" g="0.25" b="0.25"/>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Info" inherits="GameFontNormal" justifyH="LEFT" justifyV="TOP">
+					<Size x="610" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="20" y="-50" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="AccountNameLabel" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="120" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-50" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="AccountNameInfo" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="450" y="80" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.AccountNameLabel" relativePoint="BOTTOMLEFT" x="130" y="25" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="SendRequestLabel" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="250" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="10" y="-120" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="TransferStatus" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="350" y="24" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="0" y="-24" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<EditBox parentKey="AccountName" inherits="InputBoxTemplate">
+				<Size x="100" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.AccountNameLabel" relativePoint="BOTTOMLEFT" x="10" y="-5" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self:SetAutoFocus(true)
+					</OnLoad>
+					<OnEnterPressed>
+						self:ClearFocus()
+						self:GetParent().SharingTarget:SetFocus()
+					</OnEnterPressed>
+					<OnEscapePressed>
+						if self:GetText() == "" then
+							AltoholicFrame:ToggleUI()
+						else
+							self:SetText("")
+						end
+					</OnEscapePressed>
+				</Scripts>
+			</EditBox>
+			<CheckButton parentKey="UseTarget" inherits="UIRadioButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SendRequestLabel" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self:SetChecked(1)
+					</OnLoad>
+					<OnClick>
+						self:GetParent().UseName:SetChecked(nil)
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton parentKey="UseName" inherits="UIRadioButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.UseTarget" relativePoint="TOPRIGHT" x="80" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self:SetChecked(nil)
+					</OnLoad>
+					<OnClick>
+						local parent = self:GetParent()
+						
+						parent.UseTarget:SetChecked(nil)
+						parent.SharingTarget:SetFocus()
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<EditBox parentKey="SharingTarget" inherits="InputBoxTemplate">
+				<Size x="120" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.UseName" relativePoint="TOPRIGHT" x="90" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self:SetAutoFocus(false)
+					</OnLoad>
+					<OnEnterPressed>
+						self:ClearFocus()
+					</OnEnterPressed>
+					<OnEscapePressed>
+						if self:GetText() == "" then
+							AltoholicFrame:ToggleUI()
+						else
+							self:SetText("")
+						end
+					</OnEscapePressed>
+				</Scripts>
+			</EditBox>
+			
+			<Button parentKey="SendRequest" inherits="UIPanelButtonTemplate">
+				<Size x="140" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SharingTarget" relativePoint="TOPRIGHT" x="20" y="5" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():SendRequest_OnClick(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button parentKey="Cancel" inherits="UIPanelButtonTemplate" text="Cancel">
+				<Size x="80" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SendRequest" relativePoint="TOPRIGHT" x="30" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Cancel_OnClick(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button parentKey="ToggleAll" inherits="AddonFactory_ToggleButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.UseTarget" relativePoint="BOTTOMLEFT" x="10" y="-10" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:Toggle()
+						
+						local parent = self:GetParent()
+						parent:ToggleAll(self)
+					</OnClick>
+				</Scripts>
+			</Button>
+			<CheckButton parentKey="CheckAll" inherits="InterfaceOptionsCheckButtonTemplate">
+				<Size x="20" y="20" />
+				<Anchors> 
+					<Anchor point="LEFT" relativeKey="$parent.ToggleAll" relativePoint="RIGHT" x="5" y="0" />
+				</Anchors>      
+				<Scripts>
+					<OnLoad>
+						self.Text:SetText(ALL)
+					</OnLoad>
+					<OnClick>
+						local parent = self:GetParent()
+						parent:CheckAll(self)
+					</OnClick>
+				</Scripts>
+			</CheckButton>	
+			
+			<Frame parentKey="ContentContainer" inherits="TooltipBorderBackdropTemplate">
+				<Size x="560" y="240" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.UseTarget" relativePoint="BOTTOMLEFT" x="0" y="-35" />
+					<Anchor point="BOTTOM" y="10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="backdropBorderColor" value="LIGHTGRAY_FONT_COLOR" type="global"/>
+				</KeyValues>
+				<Frames>
+					<ScrollFrame parentKey="ScrollFrame" inherits="AddonFactory_UIPanelScrollFrameTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" />
+							<Anchor point="BOTTOMRIGHT" />
+						</Anchors>
+						<Scripts>
+							<OnVerticalScroll>
+								local parent = self:GetParent():GetParent()
+								self:OnVerticalScroll(offset, 18, function() parent:Update() end)		
+							</OnVerticalScroll>
+						</Scripts>
+						<KeyValues>
+							<KeyValue key="numRows" value="22" type="number" />
+							<KeyValue key="rowHeight" value="18" type="number" />
+							<KeyValue key="rowTemplate" value="AvailableContentRowTemplate" />
+							<KeyValue key="xOffset" value="0" type="number" />
+							<KeyValue key="yOffset" value="-10" type="number" />
+						</KeyValues>
+					</ScrollFrame>
+				</Frames>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabOptions.SharingProcess")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>
