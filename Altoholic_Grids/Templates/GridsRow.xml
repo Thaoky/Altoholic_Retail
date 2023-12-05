@@ -1,0 +1,95 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="GridsRow.lua"></Script>
+	
+	<Button name="AltoGridsRowTemplate" virtual="true">
+		<Size x="615" y="38" />
+		<Frames>
+			<Button parentKey="Name">
+				<Size x="190" y="37"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="0" y="0" />
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<FontString parentKey="Text" inherits="GameFontNormal" justifyH="LEFT" justifyV="MIDDLE">
+							<Size x="190" y="37"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="10" y="0" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Button>
+			<Button parentKey="Item1" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent" relativePoint="BOTTOMLEFT" x="205" y="3" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item2" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item1" relativePoint="BOTTOMRIGHT" x="4" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item3" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item2" relativePoint="BOTTOMRIGHT" x="4" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item4" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item3" relativePoint="BOTTOMRIGHT" x="4" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item5" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item4" relativePoint="BOTTOMRIGHT" x="4" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item6" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item5" relativePoint="BOTTOMRIGHT" x="4" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item7" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item6" relativePoint="BOTTOMRIGHT" x="4" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item8" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item7" relativePoint="BOTTOMRIGHT" x="4" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item9" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item8" relativePoint="BOTTOMRIGHT" x="4" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item10" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item9" relativePoint="BOTTOMRIGHT" x="4" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item11" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item10" relativePoint="BOTTOMRIGHT" x="4" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item12" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item11" relativePoint="BOTTOMRIGHT" x="4" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item13" inherits="AltoGridsButtonTemplate">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item12" relativePoint="BOTTOMRIGHT" x="4" y="0" />
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.GridsRow")
+			</OnLoad>
+		</Scripts>
+	</Button>
+</Ui>
