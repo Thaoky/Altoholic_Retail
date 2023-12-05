@@ -1,0 +1,259 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="TabSummary.lua"></Script>
+
+	<Frame parentKey="TabSummary" inherits="AddonFactory_AuctionHouseTabFrameTemplate" parent="AltoholicFrame" id="1">
+		<Size x="758" y="447" />
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Filters" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="450" y="24" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="200" y="4" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Totals" inherits="GameFontNormal" justifyH="RIGHT">
+					<Size x="350" y="24" />
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="-32" y="4" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="CategoriesList" inherits="AddonFactory_AuctionHouseCategoriesListTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="4" y="-68"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabSummaryCategoriesList", "AddonFactory.AuctionHouseCategoriesList")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			
+			<Button parentKey="ToggleView" inherits="AddonFactory_ToggleButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="250" y="-40" />
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString parentKey="CollapseAllText" inherits="GameFontNormalSmall" justifyH="LEFT" text="ALL">
+							<Size x="60" y="20" />
+							<Anchors>
+								<Anchor point="TOPLEFT" relativeKey="$parent" relativePoint="TOPRIGHT" x="4" y="2" />
+							</Anchors>
+							<Color r="255" g="255" b="255" />
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnClick>
+						local Characters = LibStub("LibMVC-1.0"):GetService("AltoholicUI.Characters")
+					
+						self:Toggle()
+						Characters.ToggleView(self)
+						self:GetParent():Update()
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Button parentKey="RealmsIcon" inherits="AddonFactory_ButtonTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="330" y="-30" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\Achievement_GuildPerk_Everyones a Hero_rank2" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="FactionIcon" inherits="AddonFactory_ButtonTemplate" id="2">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.RealmsIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\Achievement_BG_winWSG" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="LevelIcon" inherits="AddonFactory_ButtonTemplate" id="3">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.FactionIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\achievement_level_100" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="ProfessionsIcon" inherits="AddonFactory_ButtonTemplate" id="4">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.LevelIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\Achievement_GuildPerk_WorkingOvertime" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="ClassIcon" inherits="AddonFactory_ButtonTemplate" id="5">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.ProfessionsIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\Achievement_Character_Gnome_Female" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="MiscIcon" inherits="AddonFactory_ButtonTemplate" id="6">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.ClassIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\achievement_bg_captureflag_wsg" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="BankIcon" inherits="AddonFactory_ButtonTemplate" id="7">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.MiscIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\trade_archaeology_chestoftinyglassanimals" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			
+			<Button parentKey="RequestSharing" inherits="AddonFactory_ButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.ClassIcon" relativePoint="TOPRIGHT" x="200" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\Achievement_Reputation_01" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():AccountSharingButton_OnEnter(self)
+					</OnEnter>
+					<OnLeave>
+						AddonFactory_Tooltip:Hide()
+					</OnLeave>
+					<OnClick>
+						self:GetParent():AccountSharingButton_OnClick()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button parentKey="AltoholicOptionsIcon" inherits="AddonFactory_ButtonTemplate" id="8">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.RequestSharing" relativePoint="TOPRIGHT" x="20" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\Trade_Engineering" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>			
+			<Button parentKey="DataStoreOptionsIcon" inherits="AddonFactory_ButtonTemplate" id="9">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.AltoholicOptionsIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\INV_Misc_Book_11" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>			
+			
+			<Frame parentKey="HeaderContainer" inherits="AddonFactory_AuctionHouseHeaderContainerTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.CategoriesList" relativePoint="TOPRIGHT" x="0" y="-4"/>
+					<Anchor point="RIGHT" x="-20" y="0"/>
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="numButtons" value="10" type="number" />
+					<KeyValue key="option" value="UI.Tabs.Summary.SortAscending" />
+				</KeyValues>
+			</Frame>	
+			
+			<Frame parentKey="Background" useParentLevel="true">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.CategoriesList" relativePoint="TOPRIGHT" x="4" y="-25"/>
+					<Anchor point="RIGHT" relativeTo="AltoholicFrame" relativePoint="RIGHT" x="-30" y="0"/>
+					<Anchor point="BOTTOM" relativeTo="AltoholicFrame" relativePoint="BOTTOM" x="0" y="28"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND" textureSubLevel="-5">
+						<Texture parentKey="bg" atlas="auctionhouse-background-index" useAtlasSize="true" />
+					</Layer>
+				</Layers>
+			</Frame>		
+
+			<Frame parentKey="Summary">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Background" relativePoint="TOPLEFT" x="0" y="0" />
+					<Anchor point="BOTTOMRIGHT" relativeKey="$parent.Background" relativePoint="BOTTOMRIGHT" x="26" y="0" />
+				</Anchors>
+				<Frames>
+					<ScrollFrame parentKey="ScrollFrame" inherits="AddonFactory_BaseScrollFrameTemplate">
+						<Scripts>
+							<OnVerticalScroll>
+								self:OnVerticalScroll(offset, 18, function() AltoholicFrame.TabSummary:Update() end)
+							</OnVerticalScroll>
+						</Scripts>
+						<KeyValues>
+							<KeyValue key="numRows" value="30" type="number" />
+							<KeyValue key="rowHeight" value="18" type="number" />
+							<KeyValue key="rowTemplate" value="AltoSummaryPaneRowTemplate" />
+							<KeyValue key="xOffset" value="-2" type="number" />
+							<KeyValue key="yOffset" value="-2" type="number" />
+						</KeyValues>
+					</ScrollFrame>
+				</Frames>
+			</Frame>
+			
+			<Frame parentKey="ContextualMenu" inherits="AddonFactory_ContextualMenuTemplate" />
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabSummary")
+			</OnLoad>
+			<OnShow>
+				self:Update()
+			</OnShow>
+			<OnHide>
+				self.ContextualMenu:Close()
+			</OnHide>
+		</Scripts>
+	</Frame>
+</Ui>

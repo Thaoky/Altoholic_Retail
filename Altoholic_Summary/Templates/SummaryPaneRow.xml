@@ -1,0 +1,79 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="SummaryPaneRow.lua"></Script>
+	
+	<Button name="AltoSummaryPaneRowTemplate" virtual="true">
+		<Size x="615" y="22" />
+		<Frames>
+			<Button parentKey="Collapse" inherits="AddonFactory_ToggleButtonTemplate">
+				<Anchors>
+					<Anchor point="LEFT" x="7" y="1" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local Characters = LibStub("LibMVC-1.0"):GetService("AltoholicUI.Characters")
+					
+						self:Toggle()
+						Characters.ToggleHeader(self)
+						self:GetParent():GetParent():GetParent():Update()
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button parentKey="Item1" inherits="AltoSummaryPaneButtonTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="25" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Item2" inherits="AltoSummaryPaneButtonTemplate" id="2">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item1" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Item3" inherits="AltoSummaryPaneButtonTemplate" id="3">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item2" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Item4" inherits="AltoSummaryPaneButtonTemplate" id="4">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item3" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Item5" inherits="AltoSummaryPaneButtonTemplate" id="5">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item4" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Item6" inherits="AltoSummaryPaneButtonTemplate" id="6">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item5" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Item7" inherits="AltoSummaryPaneButtonTemplate" id="7">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item6" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Item8" inherits="AltoSummaryPaneButtonTemplate" id="8">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item7" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Item9" inherits="AltoSummaryPaneButtonTemplate" id="9">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item8" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Item10" inherits="AltoSummaryPaneButtonTemplate" id="10">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item9" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.SummaryPaneRow")
+			</OnLoad>
+		</Scripts>
+	</Button>
+</Ui>

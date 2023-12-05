@@ -1,0 +1,25 @@
+﻿## Interface: 100200
+## Title: Altoholic_Summary
+## IconTexture: Interface\Icons\inv_drink_13
+
+## Notes: Altoholic's Summary Tab
+## Author: Thaoky (EU-Marécages de Zangar)
+## Version: 10.2.007
+## Dependencies: Altoholic, DataStore, DataStore_Characters
+## LoadOnDemand: 1
+## X-Category: Interface Enhancements
+
+Locale.xml
+Services\Characters.lua
+Services\Columns.lua
+
+Columns_CharacterInformation.lua
+Columns_Containers.lua
+Columns_Skills.lua
+Columns_Activity.lua
+Columns_Currencies.lua
+Columns_ExpansionFeatures.lua
+Columns_MythicKeystones.lua
+
+Templates\UITemplates.xml
+TabSummary.xml
