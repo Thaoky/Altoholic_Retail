@@ -1,0 +1,107 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="CategoriesList.lua"></Script>
+
+	<!-- Category button template -->
+	<Button name="AddonFactory_AuctionCategoryButtonTemplate" parentArray="Buttons" inherits="TruncatedTooltipScriptTemplate" virtual="true">
+		<Size x="152" y="21"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Lines" atlas="auctionhouse-nav-button-tertiary-filterline" useAtlasSize="true">
+					<Anchors>
+						<Anchor point="LEFT" x="18" y="3"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="NormalTexture" atlas="auctionhouse-nav-button" useAtlasSize="false">
+					<Size x="156" y="32"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-2" y="0"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture parentKey="HighlightTexture" atlas="auctionhouse-nav-button-highlight" hidden="true">
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture parentKey="SelectedTexture" atlas="auctionhouse-nav-button-select" alphaMode="ADD" hidden="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.NormalTexture" relativePoint="TOPLEFT"/>
+						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.NormalTexture" relativePoint="BOTTOMRIGHT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				LibStub("LibMVC-1.0"):BindViewToController(self, "AddonFactory.AuctionHouseCategoryButton")
+			</OnLoad>
+			<OnClick>
+				self:Button_OnClick(button)
+			</OnClick>
+		</Scripts>
+		<ButtonText parentKey="Text" justifyH="LEFT">
+			<Size x="0" y="8"/>
+			<Anchors>
+				<Anchor point="LEFT" x="4" y="0"/>
+				<Anchor point="RIGHT" x="-4" y="0"/>
+			</Anchors>
+			<Shadow>
+				<Offset>
+					<AbsDimension x="1" y="-1"/>
+				</Offset>
+				<Color r="0" g="0" b="0"/>
+			</Shadow>
+		</ButtonText>
+		<NormalFont style="GameFontNormalSmall"/>
+		<HighlightFont style="GameFontHighlightSmall"/>
+	</Button>	
+
+	<!-- Categories List template -->
+	<Frame name="AddonFactory_AuctionHouseCategoriesListTemplate" virtual="true">
+		<Size x="188" y="438"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Background" atlas="auctionhouse-background-categories">
+					<Size x="182" y="432"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="3" y="-3"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<ScrollFrame parentKey="ScrollFrame" inherits="AddonFactory_MenuScrollFrameTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="17" y="-4"/>
+					<Anchor point="BOTTOMRIGHT" x="-29" y="2"/>
+				</Anchors>
+				<Scripts>
+					<OnVerticalScroll>
+						local parent = self:GetParent()
+						self:OnVerticalScroll(offset, 20, function() parent:UpdateCategories() end)
+					</OnVerticalScroll>
+				</Scripts>
+				<KeyValues>
+					<KeyValue key="numRows" value="20" type="number" />
+					<KeyValue key="rowHeight" value="20" type="number" />
+					<KeyValue key="rowTemplate" value="AddonFactory_AuctionCategoryButtonTemplate" />
+					<KeyValue key="xOffset" value="6" type="number" />
+					<KeyValue key="yOffset" value="-6" type="number" />
+					<KeyValue key="scrollBarHideable" value="false" type="boolean"/>
+				</KeyValues>
+			</ScrollFrame>			
+			
+			<!-- Isolated loader, to prevent from being superseded by the inherited frame's OnLoad -->
+			<Frame>
+				<Scripts>
+					<OnLoad>
+						LibStub("LibMVC-1.0"):BindViewToController(self:GetParent(), "AddonFactory.AuctionHouseCategoriesList")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+	</Frame>
+</Ui>

@@ -1,0 +1,375 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="DropDownMenu.lua"></Script>
+
+	<Button name="AddonFactory_DropDownMenuButtonTemplate" virtual="true">
+		<Size x="100" y="16"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Highlight" file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD" setAllPoints="true" hidden="true"/>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture parentKey="Check" file="Interface\Common\UI-DropDownRadioChecks">
+					<Size x="16" y="16" />
+					<Anchors>
+						<Anchor point="LEFT" x="0" y="0" />
+					</Anchors>
+					<TexCoords left="0" right="0.5" top="0.5" bottom="1.0"/>
+				</Texture>
+				<Texture parentKey="UnCheck" file="Interface\Common\UI-DropDownRadioChecks">
+					<Size x="16" y="16" />
+					<Anchors>
+						<Anchor point="LEFT" x="0" y="0" />
+					</Anchors>
+					<TexCoords left="0.5" right="1.0" top="0.5" bottom="1.0"/>
+				</Texture>
+				<Texture parentKey="Icon" hidden="true">
+					<Size x="16" y="16" />
+					<Anchors>
+						<Anchor point="RIGHT" x="0" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="ColorSwatch" hidden="true">
+				<Size x="16" y="16" />
+				<Anchors>
+					<Anchor point="RIGHT" x="-6" y="0" />
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="SwatchBg">
+							<Size x="14" y="14" />
+							<Anchors>
+								<Anchor point="CENTER" x="0" y="0" />
+							</Anchors>
+							<Color r="1.0" g="1.0" b="1.0"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnClick>
+						CloseMenus()
+						local parent = self:GetParent()
+						parent:OpenColorPicker()
+					</OnClick>
+					<OnEnter>
+						local list = self:GetParent():GetParent()
+						
+						list:Close(list:GetID() + 1)
+						self.SwatchBg:SetVertexColor(NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b)
+						list:StopCounting()
+					</OnEnter>
+					<OnLeave>
+						local list = self:GetParent():GetParent()
+						
+						self.SwatchBg:SetVertexColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
+						list:StartCounting()
+					</OnLeave>
+				</Scripts>
+				<NormalTexture parentKey="NormalTexture" file="Interface\ChatFrame\ChatFrameColorSwatch"/>
+			</Button>
+			<Button parentKey="ExpandArrow" hidden="true">
+				<Size x="16" y="16" />
+				<Anchors>
+					<Anchor point="RIGHT" x="0" y="0" />                  
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						local list = self:GetParent():GetParent()
+						local button = self:GetParent()
+						local level =  list:GetID() + 1
+						
+						list:Toggle(level, button.value, nil, nil, nil, nil, button.menuList, button)
+					</OnClick>
+					<OnEnter>
+						local list = self:GetParent():GetParent()
+						local button = self:GetParent()
+						local level =  list:GetID() + 1
+						
+						local listFrame = list:GetListFromPool(level)
+						if ( not listFrame or not listFrame:IsShown() or select(2, listFrame:GetPoint()) ~= self ) then
+							list:Toggle(level, button.value, nil, nil, nil, nil, button.menuList, button)
+						end
+						
+						list:StopCounting()
+					</OnEnter>
+					<OnLeave>
+						local list = self:GetParent():GetParent()
+						list:StartCounting()
+					</OnLeave>
+				</Scripts>
+				<NormalTexture file="Interface\ChatFrame\ChatFrameExpandArrow"/>
+			</Button>
+			<Button parentKey="InvisibleButton" hidden="true" >
+				<Anchors>
+					<Anchor point="TOPLEFT"/>
+					<Anchor point="BOTTOMLEFT"/>
+					<Anchor point="RIGHT" relativeKey="$parent.ColorSwatch" relativePoint="LEFT" x="0" y="0" /> 
+				</Anchors>
+				<Scripts>
+					<OnEnter>
+						local list = self:GetParent():GetParent()
+						list:StopCounting()
+						list:Close(list:GetID() + 1)
+
+						local parent = self:GetParent()
+						if ( parent.tooltipTitle and parent.tooltipWhileDisabled) then
+							if ( parent.tooltipOnButton ) then
+								GameTooltip:SetOwner(parent, "ANCHOR_RIGHT")
+								GameTooltip:AddLine(parent.tooltipTitle, 1.0, 1.0, 1.0)
+								GameTooltip:AddLine(parent.tooltipText, nil, nil, nil, true)
+								GameTooltip:Show()
+							else
+								GameTooltip_AddNewbieTip(parent, parent.tooltipTitle, 1.0, 1.0, 1.0, parent.tooltipText, 1)
+							end
+						end
+					</OnEnter>
+					<OnLeave>
+						local list = self:GetParent():GetParent()
+						list:StartCounting()
+						GameTooltip:Hide()
+					</OnLeave>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				LibStub("LibMVC-1.0"):BindViewToController(self, "AddonFactory.DropDownMenuButton")
+
+				self:SetFrameLevel(self:GetParent():GetFrameLevel()+2)
+			</OnLoad>
+			<OnClick>
+				self:OnClick(button, down)
+			</OnClick>
+			<OnEnter>
+				local list = self:GetParent()
+				local level =  list:GetID() + 1
+			
+				if self.hasArrow then
+					local listFrame = list:GetListFromPool(level)
+					if ( not listFrame or not listFrame:IsShown() or select(2, listFrame:GetPoint()) ~= self ) then
+						list:Toggle(level, self.value, nil, nil, nil, nil, self.menuList, self)
+					end
+				else
+					list:Close(level)
+				end
+				
+				self.Highlight:Show()
+				list:StopCounting()
+
+				if ( self.tooltipTitle ) then
+					if ( self.tooltipOnButton ) then
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+						GameTooltip:AddLine(self.tooltipTitle, 1.0, 1.0, 1.0);
+						GameTooltip:AddLine(self.tooltipText, nil, nil, nil, true);
+						GameTooltip:Show();
+					else
+						GameTooltip_AddNewbieTip(self, self.tooltipTitle, 1.0, 1.0, 1.0, self.tooltipText, 1);
+					end
+				end
+			</OnEnter>
+			<OnLeave>
+				self.Highlight:Hide()
+				local list = self:GetParent()
+				list:StartCounting()
+				GameTooltip:Hide()
+			</OnLeave>
+			<OnEnable>
+				self.InvisibleButton:Hide();
+			</OnEnable>
+			<OnDisable>
+				self.InvisibleButton:Show()
+			</OnDisable>
+		</Scripts>
+		<ButtonText parentKey="NormalText">
+			<Anchors>
+				<Anchor point="LEFT" x="-5" y="0" />
+			</Anchors>
+		</ButtonText>
+		<NormalFont style="GameFontHighlightSmallLeft"/>
+		<HighlightFont style="GameFontHighlightSmallLeft"/>
+		<DisabledFont style="GameFontDisableSmallLeft"/>
+	</Button>
+	
+	<Button name="AddonFactory_DropDownListTemplate" hidden="true" frameStrata="DIALOG" enableMouse="true" virtual="true">
+		<Frames>
+			<Frame parentKey="Backdrop" setAllPoints="true" inherits="TooltipBackdropTemplate">
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_DIALOG_32_32" type="global"/>
+				</KeyValues>
+			</Frame>
+			<Frame parentKey="MenuBackdrop" setAllPoints="true" inherits="TooltipBackdropTemplate">
+				<KeyValues>
+					<KeyValue key="backdropInfo" value="BACKDROP_TOOLTIP_16_16_5555" type="global"/>
+				</KeyValues>
+				<Scripts>
+					<OnLoad inherit="prepend">
+						self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b);
+						self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b);
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				LibStub("LibMVC-1.0"):BindViewToController(self, "AddonFactory.DropDownList")
+			</OnLoad>
+			<OnClick>
+				self:Hide()
+			</OnClick>
+			<OnEnter>
+				self:StopCounting(motion)
+			</OnEnter>
+			<OnLeave>
+				self:StartCounting(motion)
+			</OnLeave>
+			<OnUpdate>
+				-- If dropdown is visible then see if its timer has expired, if so hide the frame
+				if self.shouldRefresh then
+					self:RefreshDropDownSize()
+					self.shouldRefresh = false
+				end
+				
+				if not self.showTimer or not self.isCounting then
+					return
+				end
+				
+				if self.showTimer >= 0 then
+					self.showTimer = self.showTimer - elapsed
+				else
+					self:Hide()
+					self.showTimer = nil
+					self.isCounting = nil
+				end
+			</OnUpdate>
+			<OnShow>
+				for i = 1, self.numButtons do
+					if not self.noResize then
+						self["Button"..i]:SetWidth(self.maxWidth)
+					end
+				end
+				
+				if not self.noResize then
+					self:SetWidth(self.maxWidth+25)
+				end
+				self.showTimer = nil
+				
+				if (self:GetID() > 1) then
+					self.parent = self:GetListFromPool(self:GetID() - 1)
+				end
+			</OnShow>
+			<OnHide>
+				self:OnHide()
+			</OnHide>
+		</Scripts>
+	</Button>
+	
+	<Frame name="AddonFactory_DropDownMenuTemplate" virtual="true">
+		<Size x="40" y="32" />
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture parentKey="Left" file="Interface\Glues\CharacterCreate\CharacterCreate-LabelFrame">
+					<Size x="25" y="64" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="17" />
+					</Anchors>
+					<TexCoords left="0" right="0.1953125" top="0" bottom="1"/>
+				</Texture>
+				<Texture parentKey="Middle" file="Interface\Glues\CharacterCreate\CharacterCreate-LabelFrame">
+					<Size x="115" y="64" />
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Left" relativePoint="RIGHT" />
+					</Anchors>
+					<TexCoords left="0.1953125" right="0.8046875" top="0" bottom="1"/>
+				</Texture>
+				<Texture parentKey="Right" file="Interface\Glues\CharacterCreate\CharacterCreate-LabelFrame">
+					<Size x="25" y="64" />
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Middle" relativePoint="RIGHT" />
+					</Anchors>
+					<TexCoords left="0.8046875" right="1" top="0" bottom="1"/>
+				</Texture>
+				<FontString parentKey="Text" inherits="GameFontHighlightSmall" justifyH="RIGHT" wordwrap="false" >
+					<Size x="0" y="10" />
+					<Anchors>
+						<Anchor point="RIGHT" relativeKey="$parent.Right" x="-43" y="2" />
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture parentKey="Icon" hidden="true">
+					<Size x="16" y="16" />
+					<Anchors>
+						<Anchor point="LEFT" x="30" y="2" />
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="Button"  motionScriptsWhileDisabled="true" >
+				<Size x="24" y="24" />
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeKey="$parent.Right" x="-16" y="-18" />
+				</Anchors>
+				<Scripts>
+					<OnEnter>
+						local parent = self:GetParent()
+						local script = parent:GetScript("OnEnter")
+						if script then
+							script(parent)
+						end
+					</OnEnter>
+					<OnLeave>
+						local parent = self:GetParent()
+						local script = parent:GetScript("OnLeave")
+						if script then
+							script(parent)
+						end
+					</OnLeave>
+					<OnClick>
+						local parent = self:GetParent()
+						parent:Toggle()
+						PlaySound(856)
+					</OnClick>
+				</Scripts>
+				<NormalTexture parentKey="NormalTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Up">
+					<Size x="24" y="24" />
+					<Anchors>
+						<Anchor point="RIGHT"/>
+					</Anchors>
+				</NormalTexture>
+				<PushedTexture parentKey="PushedTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Down">
+					<Size x="24" y="24" />
+					<Anchors>
+						<Anchor point="RIGHT"/>
+					</Anchors>
+				</PushedTexture>
+				<DisabledTexture parentKey="DisabledTexture" file="Interface\ChatFrame\UI-ChatIcon-ScrollDown-Disabled">
+					<Size x="24" y="24" />
+					<Anchors>
+						<Anchor point="RIGHT"/>
+					</Anchors>
+				</DisabledTexture>
+				<HighlightTexture parentKey="HighlightTexture" file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD">
+					<Size x="24" y="24" />
+					<Anchors>
+						<Anchor point="RIGHT"/>
+					</Anchors>
+				</HighlightTexture>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				LibStub("LibMVC-1.0"):BindViewToController(self, "AddonFactory.DropDownMenu")
+			</OnLoad>
+			<OnHide>
+				self:Close()
+			</OnHide>
+		</Scripts>
+	</Frame>
+	
+	<Frame name="AddonFactory_ContextualMenuTemplate" inherits="AddonFactory_DropDownMenuTemplate" hidden="true" virtual="true">
+		<Size x="100" y="40" />
+	</Frame>
+</Ui>

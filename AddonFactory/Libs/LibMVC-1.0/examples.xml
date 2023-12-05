@@ -1,0 +1,84 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+
+	<!-- *** Example 1 / Simple controller *** -->
+	<Button name="ToggleButtonTemplate" virtual="true">
+		<Size x="16" y="16" />
+		<Scripts>
+			<OnLoad>
+				-- The LibMVC methods are injected into your addon's variable, so you can call this:
+				-- Param 1 : always self
+				-- Param 2 : a unique name defining this controller, prefix it to avoid conflicts with other addons using this library
+				
+				YourAddon:BindViewToController(self, "YourAddon.ToggleButton")
+			</OnLoad>
+		</Scripts>
+		<NormalTexture parentKey="Icon" file="Interface\Buttons\UI-MinusButton-UP" />
+		<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD" />
+	</Button>
+
+	<!-- *** Example 2 / Using OnBind *** -->
+ 	<Button name="ButtonTemplate" virtual="true">
+		<Size x="37" y="37" />
+		<Layers>
+			<Layer level="BORDER">
+				<Texture parentKey="Icon" setAllPoints="true" />
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				-- The call to BindViewToController should always be in 'OnLoad'
+				-- Also, if your controller contains an 'OnBind' method, this method will be called right away.
+				-- In this case, you should also move all the code that normally would be in 'OnLoad' into the 'OnBind' method.
+
+				YourAddon:BindViewToController(self, "YourAddon.Button")
+			</OnLoad>
+		</Scripts>
+	</Button>
+	
+	<!-- *** Example 3 / Inheritance *** -->
+ 	<Button name="ItemIconTemplate" inherits="ButtonTemplate" parentArray="Items" virtual="true">
+		<Scripts>
+			<OnLoad>
+				-- Param 3 : inherit from controller
+				-- When inheriting from another controller, the 'OnBind' method of that controller
+				-- will be called before the 'OnBind' method of this controller.
+				-- Same as an inherited class in C++/C# would call the constructor of its base class before doing anything in its own.
+			
+				YourAddon:BindViewToController(self, "YourAddon.ItemIcon", "YourAddon.Button")
+			</OnLoad>
+			<OnEnter>
+				self:Item_OnEnter(123)
+			</OnEnter>
+		</Scripts>
+	</Button>
+		
+	<!-- *** Example 4 / Multiple Inheritance *** -->
+	<Frame name="RealmPickerTemplate" inherits="DropDownMenuTemplate" virtual="true">
+		<Scripts>
+			<OnLoad>
+				-- Param 3 : multiple controllers can be inherited from
+				-- The controller names must be comma separated.
+				-- There is no limit to how many controllers you can inherit from.
+				-- 'OnBind' methods are executed from left to right, no form of hierarchy is existing in LibMVC
+				-- When using multiple inheritance, be careful about method names, make sure you don't have duplicate names.
+				-- The methods of the leftmost controller would silently be overwritten by that of the rightmost controller
+				
+				YourAddon:BindViewToController(self, "YourAddon.RealmPicker", "YourAddon.Frame,YourAddon.DropDownMenu")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+	
+	<!-- *** Example 5 / Dependency Injection *** -->
+	<Button name="AnyButtonTemplate" virtual="true">
+		<Scripts>
+			<OnLoad>
+				YourAddon:BindViewToController(self, "YourAddon.AnyButton")
+			</OnLoad>
+		</Scripts>
+	</Button>
+	
+	
+	<!-- Example 6 / Dependency Injection in a service -->
+	<!-- Only in the Lua file -->
+	
+</Ui>

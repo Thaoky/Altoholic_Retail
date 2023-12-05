@@ -1,0 +1,9 @@
+## Interface: 90005
+
+## Title: Lib: LibMVC
+## Notes: LibMVC
+## Author: Thaoky (EU-Marécages de Zangar)
+## X-Category: Library
+## X-License: Public Domain
+
+LibMVC-1.0.xml

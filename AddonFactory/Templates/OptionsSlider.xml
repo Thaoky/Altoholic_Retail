@@ -1,0 +1,67 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	
+	<Slider name="AddonFactory_OptionsSliderTemplate" orientation="HORIZONTAL" virtual="true" enableMouse="true">
+		<Size>
+			<AbsDimension x="128" y="17"/>
+		</Size>
+		<HitRectInsets>
+			<AbsInset left="0" right="0" top="-10" bottom="-10"/>
+		</HitRectInsets>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Text" inherits="GameFontNormalSmall">
+					<Anchors>
+						<Anchor point="BOTTOM" relativePoint="TOP"/>
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Low" inherits="GameFontHighlightSmall" text="LOW">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="2" y="3" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="High" inherits="GameFontHighlightSmall" text="HIGH">
+					<Anchors>
+						<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-2" y="3" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="Backdrop" setAllPoints="true" inherits="BackdropTemplate">
+				<Scripts>
+					<OnLoad inherit="prepend">
+						self:SetBackdrop({
+							bgFile = "Interface\\Buttons\\UI-SliderBar-Background",
+							edgeFile = "Interface\\Buttons\\UI-SliderBar-Border",
+							tile = true,
+							tileSize = 8,
+							edgeSize = 8,
+							insets = { left = 3, right = 3, top = 6, bottom = 6, },
+						})
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnEnter>
+				if self.tooltipText then
+					GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+					GameTooltip:SetText(self.tooltipText, nil, nil, nil, nil, 1)
+				end
+				
+				if self.tooltipRequirement then
+					GameTooltip:AddLine(self.tooltipRequirement, 1.0, 1.0, 1.0)
+					GameTooltip:Show()
+				end
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide()
+			</OnLeave>
+		</Scripts>
+		<ThumbTexture parentKey="Thumb" file="Interface\Buttons\UI-SliderBar-Button-Horizontal">
+			<Size>
+				<AbsDimension x="32" y="32"/>
+			</Size>
+		</ThumbTexture>
+	</Slider>
+</Ui>

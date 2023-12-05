@@ -1,0 +1,61 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="SortButton.lua"></Script>
+
+	<Button name="AddonFactory_AuctionHouseSortButtonTemplate" hidden="true" virtual="true">
+		<Size x="50" y="19" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Left" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size x="5" y="19" />
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+					<TexCoords left="0" right="0.078125" top="0" bottom="0.59375"/>
+				</Texture>
+				<Texture parentKey="Right" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size x="4" y="19" />
+					<Anchors>
+						<Anchor point="TOPRIGHT"/>
+					</Anchors>
+					<TexCoords left="0.90625" right="0.96875" top="0" bottom="0.59375"/>
+				</Texture>
+				<Texture parentKey="Middle" file="Interface\FriendsFrame\WhoFrame-ColumnTabs">
+					<Size x="10" y="19" />
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Left" relativePoint="RIGHT"/>
+						<Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="LEFT"/>
+					</Anchors>
+					<TexCoords left="0.078125" right="0.90625" top="0" bottom="0.59375"/>
+				</Texture>
+			</Layer>
+		</Layers>
+		<ButtonText parentKey="Text">
+			<Anchors>
+				<Anchor point="LEFT" x="8" y="-1" />
+			</Anchors>
+		</ButtonText>
+		<NormalFont style="GameFontHighlightSmall"/>
+		<NormalTexture parentKey="Arrow" file="Interface\Buttons\UI-SortArrow">
+			<Size x="9" y="8" />
+			<Anchors>
+				<Anchor point="LEFT" relativeKey="$parent.Text" relativePoint="RIGHT" x="3" y="0" />
+			</Anchors>
+			<TexCoords left="0" right="0.5625" top="0" bottom="1.0"/>
+		</NormalTexture>
+		<HighlightTexture file="Interface\PaperDollInfoFrame\UI-Character-Tab-Highlight" alphaMode="ADD">
+			<Size x="5" y="24" />
+			<Anchors>
+				<Anchor point="TOPLEFT" x="0" y="0" />
+				<Anchor point="BOTTOMRIGHT" x="4" y="-2" />
+			</Anchors>
+		</HighlightTexture>
+		<Scripts>
+			<OnLoad>
+				LibStub("LibMVC-1.0"):BindViewToController(self, "AddonFactory.AuctionHouseSortButton")
+			</OnLoad>
+			<OnClick>
+				self:OnClick(button)
+			</OnClick>
+		</Scripts>
+	</Button>
+</Ui>

@@ -1,0 +1,58 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="MinimapButton.lua"></Script>
+	
+	<Button name="AddonFactory_MinimapButtonTemplate" parent="Minimap" frameStrata="MEDIUM" toplevel="true" virtual="true">
+		<Size x="33" y="33" />
+		<Anchors>
+			<Anchor point="CENTER" relativeTo="Minimap" relativePoint="RIGHT" x="5" y="0" />
+		</Anchors>		
+		<Scripts>
+			<OnUpdate>
+				self:Update()
+			</OnUpdate>
+			<OnDragStart>
+				self.isMoving = true
+			</OnDragStart>
+			<OnDragStop>
+				self.isMoving = false
+			</OnDragStop>
+			<OnEnter> 
+				AddonFactory_Tooltip:ShowInfo(self, self.tooltip)
+			</OnEnter>
+			<OnLeave>
+				AddonFactory_Tooltip:Hide()
+			</OnLeave>
+		</Scripts>
+		<Layers>
+			<Layer level="ARTWORK">
+				<Texture parentKey="Icon">
+					<Size x="21" y="21" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="7" y="-6" />
+					</Anchors>
+					<TexCoords left="0.075" right="0.925" top="0.075" bottom="0.925"/>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture file="Interface\Minimap\MiniMap-TrackingBorder">
+					<Size x="56" y="56" />
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
+		<Frames>
+			<Frame>
+				<Scripts>
+					<OnLoad inherit="prepend">
+						local parent = self:GetParent()
+						
+						LibStub("LibMVC-1.0"):BindViewToController(parent, "AddonFactory.MinimapButton")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+	</Button>
+</Ui>

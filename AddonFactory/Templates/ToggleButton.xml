@@ -1,0 +1,14 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="ToggleButton.lua"></Script>
+
+	<Button name="AddonFactory_ToggleButtonTemplate" virtual="true">
+		<Size x="16" y="16" />
+		<Scripts>
+			<OnLoad>
+				LibStub("LibMVC-1.0"):BindViewToController(self, "AddonFactory.ToggleButton")
+			</OnLoad>
+		</Scripts>
+		<NormalTexture parentKey="Icon" file="Interface\Buttons\UI-MinusButton-UP" />
+		<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD" />
+	</Button>
+</Ui>
