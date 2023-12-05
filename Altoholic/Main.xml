@@ -1,0 +1,97 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Main.lua"></Script>
+
+	<GameTooltip name="AltoScanningTooltip" inherits="GameTooltipTemplate">
+		<Scripts>
+			<Onload>
+				self:SetOwner(WorldFrame, "ANCHOR_NONE")
+			</Onload>
+		</Scripts>
+	</GameTooltip>
+	
+	<Button name="AltoholicMinimapButton" inherits="AddonFactory_MinimapButtonTemplate">
+		<Scripts>
+			<OnLoad>
+				local addonName = "Altoholic"
+				
+				self:Initialize({
+					addonName = addonName,
+					icon = "Interface\\Icons\\INV_Drink_13",
+					iconAngleOption = "UI.Minimap.IconAngle",
+					iconRadiusOption = "UI.Minimap.IconRadius",
+				})
+				
+				local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+				local white = "|cFFFFFFFF"
+				local green = "|cFF00FF00"
+	
+				self.tooltip = format("%s\n\n%s%s\n%s%s", addonName,
+					white, format(L["Left-click to %sopen"], green), 
+					white, format(L["Right-click to %sdrag"], green))
+			</OnLoad>
+			<OnClick>
+				if button == "LeftButton" then
+					AltoholicFrame:ToggleUI()
+				end
+			</OnClick>
+		</Scripts>
+	</Button>
+	
+	<Frame name="AltoMessageBox" inherits="AddonFactory_MessageBoxTemplate" />
+	
+	<Frame name="AltoholicFrame" inherits="AddonFactory_AuctionHouseMainFrameTemplate">
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.MainFrame", "AddonFactory.AuctionHouseMainFrame")
+				self:Initialize({
+					minWidth = 925, maxWidth = 1085,
+					minHeight = 530, maxHeight = 800,
+					closeOnESC = true
+				})
+				
+				local addonName = "Altoholic"
+				local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+				
+				self:SetTabs("AltoholicFrame", {
+					{ id = "Summary", name = L["TAB_SUMMARY"], loadOnDemand = "Altoholic_Summary" },
+					{ id = "Characters", name = L["TAB_CHARACTERS"], loadOnDemand = "Altoholic_Characters" },
+					{ id = "Search", name = SEARCH, loadOnDemand = "Altoholic_Search" },
+					{ id = "Guild", name = GUILD, loadOnDemand = "Altoholic_Guild" },
+					{ id = "Achievements", name = ACHIEVEMENT_BUTTON, loadOnDemand = "Altoholic_Achievements" },
+					{ id = "Agenda", name = L["TAB_AGENDA"], loadOnDemand = "Altoholic_Agenda" },
+					{ id = "Grids", name = L["TAB_GRIDS"], loadOnDemand = "Altoholic_Grids" },
+					{ id = "Options", name = GAMEOPTIONS_MENU, loadOnDemand = "Altoholic_Options" },
+				})
+			</OnLoad>
+			<OnShow>
+				if not IsAddOnLoaded("Altoholic_Summary") then
+					LoadAddOn("Altoholic_Summary")
+					self.TabSummary:Show()
+				end
+			</OnShow>
+		</Scripts>
+		<Frames>
+			<EditBox parentKey="SearchBox" historyLines="1" bytes="64" inherits="SearchBoxTemplate">
+				<Size x="150" y="22"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="70" y="-32"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self:SetAutoFocus(false)
+						self:SetTextInsets(16, 20, 0, 0)
+					</OnLoad>
+					<OnEnterPressed>
+						AltoholicFrame:SwitchToTab("Search")
+						AltoholicFrame.TabSearch:Find(self:GetText())
+						self:ClearFocus()
+					</OnEnterPressed>
+					<OnEscapePressed>
+						AltoholicFrame:ToggleUI()
+					</OnEscapePressed>
+				</Scripts>
+			</EditBox>
+		</Frames>
+	</Frame>
+	
+</Ui>

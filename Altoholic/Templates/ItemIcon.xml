@@ -1,0 +1,48 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="ItemIcon.lua"></Script>
+
+	<!-- parentArray="Items" so that multiple instantiations with the same parent are easily addressable  -->
+ 	<Button name="AltoItemIconTemplate" inherits="AddonFactory_ButtonTemplate" parentArray="Items" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK" textureSubLevel="2">
+				<FontString parentKey="Count" inherits="NumberFontNormal" justifyH="RIGHT" hidden="true" >
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="-5" y="2" />
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture parentKey="IconBorder" file="Interface\Buttons\UI-ActionButton-Border" hidden="true" alphaMode="ADD">
+					<Size x="67" y="67"/>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<NormalTexture parentKey="NormalTexture" file="Interface\Buttons\UI-Quickslot2" hidden="true">
+			<Size x="64" y="64" />
+			<Anchors>
+				<Anchor point="CENTER" x="0" y="-1" />
+			</Anchors>
+		</NormalTexture>
+		<Frames>
+			<Cooldown parentKey="Cooldown" inherits="CooldownFrameTemplate"/>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.ItemIcon", "AddonFactory.Button")
+			</OnLoad>
+			<OnEnter>
+				self:Item_OnEnter()
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide()
+				BattlePetTooltip:Hide()
+			</OnLeave>
+			<OnClick>
+				self:Item_OnClick(button)
+			</OnClick>
+		</Scripts>
+	</Button>
+</Ui>

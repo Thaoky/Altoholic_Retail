@@ -1,0 +1,9 @@
+Project name  : Altoholic
+License model : All Rights Reserved unless otherwise explicitly stated.
+Created by    : Thaoky - EU-Marécages de Zangar (thaoky.altoholic@yahoo.com)
+Creation date : December 2007
+
+This file (license.txt) must always be present in the root folder of the project.
+Its content may not be altered by anyone else than Thaoky.
+
+The scope of this license includes Altoholic and all its side-modules.

@@ -1,0 +1,25 @@
+﻿## Interface: 100200
+## Title: Altoholic by |cFF69CCF0Thaoky|r
+## IconTexture: Interface\Icons\inv_drink_13
+
+## Notes: Provides information about your alts
+## Notes-ruRU: Предоставляет информацию о вашем персонажах
+## Notes-zhTW: 讓你即時撿閱你所有角色的資料
+## Notes-zhCN: 能让你全面掌握你的所有角色的信息。
+## Notes-koKR: 부캐들(alts)의 정보들을 제공해 줍니다.
+
+## Author: Thaoky (EU-Marécages de Zangar)
+## Version: 10.2.007
+## Dependencies: AddonFactory, DataStore, DataStore_Achievements, DataStore_Agenda, DataStore_Auctions, DataStore_Characters, DataStore_Containers, DataStore_Crafts, DataStore_Currencies, DataStore_Garrisons, DataStore_Inventory, DataStore_Mails, DataStore_Pets, DataStore_Quests, DataStore_Reputations, DataStore_Spells, DataStore_Stats, DataStore_Talents
+## OptionalDeps: Ace3
+## SavedVariables: AltoholicDB
+
+# Libraries
+embeds.xml
+
+Locale.xml
+
+Core.lua
+Services\Services.xml
+Templates\UITemplates.xml
+Main.xml
