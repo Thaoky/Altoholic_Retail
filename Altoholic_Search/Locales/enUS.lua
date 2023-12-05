@@ -1,0 +1,27 @@
+local L = LibStub("AceLocale-3.0"):NewLocale("Altoholic", "enUS", true, false)
+
+L["FILTER_SEARCH_LOCATION"] = "Search location"
+L["FILTER_SEARCH_RARITY"] = "Rarity filter"
+L["FILTER_SEARCH_SLOT"] = "Equipment filter"
+L["FILTER_SEARCH_EXPANSION"] = "Expansion filter"
+L["FILTER_SEARCH_OPTIONS"] = "Search options"
+L["This character"] = true
+L["This realm"] = true
+L["This faction"] = true
+L["Both factions"] = true
+L["All realms"] = true
+L["All accounts"] = true
+L["Any"] = true
+L["Bags"] = true
+L["Bank"] = true
+L["Mail"] = true
+L["Equipped"] = true
+L["NO_MATCH_FOUND_BLANK"] = "No match found !"
+L["ITEM_NOT_FOUND"] = "%s%s|r was not found"
+L["SEARCH_RESULTS_FOUND"] = "%s%d|r %sresults found"
+L["Include items without level requirement"] = true
+L["Include mailboxes"] = true
+L["Include guild banks"] = true
+L["Include known recipes"] = true
+L["USE_CLASS_COLOR"] = "Use class color for character names"
+L["USE_FACTION_COLOR"] = "Use faction color for realm names"

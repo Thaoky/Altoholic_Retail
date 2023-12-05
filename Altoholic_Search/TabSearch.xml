@@ -1,0 +1,197 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="TabSearch.lua"></Script>
+	
+	<Frame parentKey="TabSearch" inherits="AddonFactory_AuctionHouseTabFrameTemplate" parent="AltoholicFrame" id="3">
+		<Size x="758" y="447" />
+		<Anchors>
+			<Anchor point="TOPLEFT"/>
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="LevelRange" inherits="GameFontNormalSmall" text="LEVEL_RANGE">
+					<Size x="70" y="20" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="510" y="-26" />
+					</Anchors>
+					<Color r="255" g="255" b="255" />
+				</FontString>
+				<FontString parentKey="Status" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="670" y="24" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="200" y="4" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="CategoriesList" inherits="AddonFactory_AuctionHouseCategoriesListTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="4" y="-68"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabSearchCategoriesList", "AddonFactory.AuctionHouseCategoriesList")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+
+			<Button parentKey="Reset" inherits="UIPanelButtonTemplate">
+				<Size x="80" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="228" y="-32" />
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self:SetText(RESET)
+					</OnLoad>
+					<OnClick>
+						self:GetParent():Reset_OnClick()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button parentKey="LocationIcon" inherits="AddonFactory_ButtonTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="330" y="-30" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\inv_legion_cache_dreamweavers" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="RarityIcon" inherits="AddonFactory_ButtonTemplate" id="2">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.LocationIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\inv_helm_cloth_holiday_christmas_a_03" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="EquipmentIcon" inherits="AddonFactory_ButtonTemplate" id="3">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.RarityIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\inv_chest_cloth_81" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>	
+			<Button parentKey="ExpansionsIcon" inherits="AddonFactory_ButtonTemplate" id="4">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.EquipmentIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\achievement_zone_easternkingdoms_01" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="ProfessionsIcon" inherits="AddonFactory_ButtonTemplate" id="5" hidden="true">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.ExpansionsIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\Achievement_GuildPerk_WorkingOvertime" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="SearchOptionsIcon" inherits="AddonFactory_ButtonTemplate" id="6">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.ProfessionsIcon" relativePoint="TOPRIGHT" x="80" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\Trade_Engineering" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			
+			<EditBox parentKey="MinLevel" letters="3" numeric="true" autoFocus="false" inherits="InputBoxTemplate">
+				<Size x="25" y="16" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.LevelRange" relativePoint="BOTTOMLEFT" x="6" y="-2" />
+				</Anchors>
+				<Scripts>
+					<OnTabPressed>
+						self:GetParent().MaxLevel:SetFocus()
+					</OnTabPressed>
+					<OnEnterPressed>
+						self:ClearFocus()
+					</OnEnterPressed>
+				</Scripts>
+			</EditBox>
+			<EditBox parentKey="MaxLevel" letters="3" numeric="true" autoFocus="false" inherits="InputBoxTemplate">
+				<Size x="25" y="16" />
+				<Anchors>
+					<Anchor point="LEFT" relativeKey="$parent.MinLevel" relativePoint="RIGHT" x="12" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnTabPressed>
+						self:GetParent().MinLevel:SetFocus()
+					</OnTabPressed>
+					<OnEnterPressed>
+						self:ClearFocus()
+					</OnEnterPressed>
+				</Scripts>
+			</EditBox>
+			
+			
+
+			<Frame parentKey="HeaderContainer" inherits="AddonFactory_AuctionHouseHeaderContainerTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.CategoriesList" relativePoint="TOPRIGHT" x="0" y="-4"/>
+					<Anchor point="RIGHT" x="-20" y="0"/>
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="numButtons" value="5" type="number" />
+					<KeyValue key="option" value="UI.Tabs.Search.SortAscending" />
+				</KeyValues>
+			</Frame>
+
+			<Frame parentKey="Background" useParentLevel="true">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.CategoriesList" relativePoint="TOPRIGHT" x="4" y="-25"/>
+					<Anchor point="RIGHT" relativeTo="AltoholicFrame" relativePoint="RIGHT" x="-30" y="0"/>
+					<Anchor point="BOTTOM" relativeTo="AltoholicFrame" relativePoint="BOTTOM" x="0" y="28"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND" textureSubLevel="-5">
+						<Texture parentKey="bg" atlas="auctionhouse-background-index" useAtlasSize="true" />
+					</Layer>
+				</Layers>
+			</Frame>
+
+			<Frame parentKey="ContextualMenu" inherits="AddonFactory_ContextualMenuTemplate" />
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabSearch")
+			</OnLoad>
+			<OnHide>
+				self.ContextualMenu:Close()
+			</OnHide>
+		</Scripts>
+	</Frame>
+</Ui>

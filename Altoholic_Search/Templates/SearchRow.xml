@@ -1,0 +1,79 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="SearchRow.lua"></Script>
+
+	<Button name="AltoSearchRowTemplate" virtual="true">
+		<Size x="615" y="41" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString parentKey="Name" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="240" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="53" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="ILevel" inherits="GameFontNormal" justifyH="CENTER">
+					<Size x="50" y="32" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Name" relativePoint="TOPRIGHT" x="5" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Owner" inherits="GameFontNormal" justifyH="CENTER">
+					<Size x="140" y="32" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.ILevel" relativePoint="TOPRIGHT" x="5" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Realm" inherits="GameFontNormal" justifyH="CENTER">
+					<Size x="140" y="32" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Owner" relativePoint="TOPRIGHT" x="5" y="0" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Cooldown parentKey="Cooldown" inherits="CooldownFrameTemplate"/>
+			<Button parentKey="Item" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="10" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Source">
+				<Size x="240" y="10" />
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Name" relativePoint="BOTTOMLEFT" x="0" y="0" />
+				</Anchors>
+				<ButtonText parentKey="Text" justifyH="LEFT">
+					<Size x="240" y="10" />
+					<Anchors>
+						<Anchor point="LEFT" x="0" y="0" />
+					</Anchors>
+				</ButtonText>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Source_OnClick(self, button)
+					</OnClick>
+					<OnEnter>
+						self:GetParent():Source_OnEnter(self)
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide()
+					</OnLeave>
+				</Scripts>
+				<NormalFont style="GameFontNormalSmallLeft" />
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.SearchRow")
+			</OnLoad>
+		</Scripts>
+		<HighlightTexture parentKey="Highlight" file="Interface\HelpFrame\HelpFrameButton-Highlight" alphaMode="ADD">
+			<Size x="580" y="37" />
+			<Anchors>
+				<Anchor point="TOPLEFT" x="55" y="0" />
+			</Anchors>
+			<TexCoords left="0" right="1.0" top="0" bottom="0.578125"/>
+		</HighlightTexture>
+	</Button>
+</Ui>

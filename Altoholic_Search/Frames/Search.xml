@@ -1,0 +1,32 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Search.lua"></Script>
+	
+	<Frame parentKey="Search" hidden="true">
+		<Size x="615" y="306" />
+		<Frames>
+			<ScrollFrame parentKey="ScrollFrame" inherits="AddonFactory_BaseScrollFrameTemplate">
+				<Scripts>
+					<OnVerticalScroll>
+						local parent = self:GetParent()
+						self:OnVerticalScroll(offset, 41, function() parent:Update() end)					
+					</OnVerticalScroll>
+				</Scripts>
+				<KeyValues>
+					<KeyValue key="numRows" value="16" type="number" />
+					<KeyValue key="rowHeight" value="41" type="number" />
+					<KeyValue key="rowTemplate" value="AltoSearchRowTemplate" />
+					<KeyValue key="xOffset" value="-5" type="number" />
+					<KeyValue key="yOffset" value="-5" type="number" />
+				</KeyValues>
+			</ScrollFrame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabSearch.Search")
+			</OnLoad>
+			<OnShow>
+				self:CheckForResize()
+			</OnShow>
+		</Scripts>
+	</Frame>
+</Ui>

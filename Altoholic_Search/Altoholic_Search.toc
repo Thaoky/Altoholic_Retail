@@ -1,0 +1,20 @@
+﻿## Interface: 100200
+## Title: Altoholic_Search
+## IconTexture: Interface\Icons\inv_drink_13
+
+## Notes: Altoholic's Search UI
+## Author: Thaoky (EU-Marécages de Zangar)
+## Version: 10.2.007
+## Dependencies: Altoholic, DataStore, DataStore_Characters
+## LoadOnDemand: 1
+## X-Category: Interface Enhancements
+
+Locale.xml
+Services\ItemFilters.lua
+Services\Results.lua
+Services\DataBrowser.lua
+
+Templates\UITemplates.xml
+TabSearch.xml
+
+Frames\Search.xml
