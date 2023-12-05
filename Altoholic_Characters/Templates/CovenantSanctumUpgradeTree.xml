@@ -1,0 +1,101 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="CovenantSanctumUpgradeTree.lua"></Script>
+
+	<Frame name="AltoCovenantSanctumUpgradeTreeIconTemplate" virtual="true">
+		<Size x="64" y="64" />
+		<Anchors>
+			<Anchor point="TOPLEFT" x="0" y="0" />
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Icon">
+					<Size x="64" y="64" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="0" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture parentKey="Border">
+					<Size x="128" y="128" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Icon" relativePoint="TOPLEFT" x="-32" y="32"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture parentKey="TierBorder" atlas="CovenantSanctum-Icon-RankBorder" useAtlasSize="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Border" relativePoint="BOTTOMLEFT" x="52" y="38"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+			  <FontString parentKey="Tier" inherits="GameFontNormal">
+				 <Anchors>
+					<Anchor point="CENTER" relativeKey="$parent.TierBorder"/>
+				 </Anchors>
+			  </FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnEnter>
+				if not self.title then return end
+				
+				local tooltip = AddonFactory_Tooltip
+				
+				tooltip:ClearLines()
+				tooltip:SetOwner(self, "ANCHOR_RIGHT")
+				tooltip:SetText(self.title, 1, 1, 1)
+				tooltip:AddLine(self.description, 1, 0.82, 0, true)
+				tooltip:Show()
+			</OnEnter> 
+			<OnLeave>
+				AddonFactory_Tooltip:Hide()
+			</OnLeave>
+		</Scripts>
+	</Frame>
+	
+	
+	<!-- Light version of Blizzard's own CovenantSanctumUpgradeTreeTemplate in Blizzard_CovenantSanctumUpgrades.xml -->
+	<Frame name="AltoCovenantSanctumUpgradeTreeTemplate" parentArray="Upgrades" virtual="true">
+		<Size x="150" y="306" />
+		<Frames>
+			<Frame parentKey="IconButton" inherits="AltoCovenantSanctumUpgradeTreeIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="43" y="-22" />
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Item1" inherits="AltoCovenantSanctumUpgradeTalentTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="0" y="-110" />
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Item2" inherits="AltoCovenantSanctumUpgradeTalentTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Item1" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Item3" inherits="AltoCovenantSanctumUpgradeTalentTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Item2" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Item4" inherits="AltoCovenantSanctumUpgradeTalentTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Item3" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Item5" inherits="AltoCovenantSanctumUpgradeTalentTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Item4" relativePoint="BOTTOMLEFT" x="0" y="-2"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.CovenantSanctumUpgradeTree")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

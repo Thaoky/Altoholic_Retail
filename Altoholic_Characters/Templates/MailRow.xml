@@ -1,0 +1,59 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="MailRow.lua"></Script>
+	
+	<Button name="AltoMailRowTemplate" virtual="true">
+		<Size x="615" y="41" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString parentKey="Name" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="220" y="32" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="53" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Character" inherits="GameFontNormal">
+					<Size x="130" y="32" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeKey="$parent.Name" relativePoint="BOTTOMRIGHT" x="5" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Expiry" inherits="GameFontNormal">
+					<Size x="200" y="32" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeKey="$parent.Character" relativePoint="BOTTOMRIGHT" x="5" y="0" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="Item" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="10" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():Item_OnEnter(self)
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide()
+					</OnLeave>
+					<OnClick>
+						self:GetParent():Item_OnClick(self, button)
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<HighlightTexture parentKey="Highlight" file="Interface\HelpFrame\HelpFrameButton-Highlight" alphaMode="ADD">
+			<Size x="560" y="37" />
+			<Anchors>
+				<Anchor point="TOPLEFT" x="50" y="0" />
+			</Anchors>
+			<TexCoords left="0" right="1.0" top="0" bottom="0.578125"/>
+		</HighlightTexture>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.MailRow")
+			</OnLoad>
+		</Scripts>
+	</Button>
+</Ui>

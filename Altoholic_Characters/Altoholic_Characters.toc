@@ -1,0 +1,27 @@
+﻿## Interface: 100200
+## Title: Altoholic_Characters
+## IconTexture: Interface\Icons\inv_drink_13
+
+## Notes: Altoholic's Characters UI
+## Author: Thaoky (EU-Marécages de Zangar)
+## Version: 10.2.007
+## Dependencies: Altoholic, DataStore, DataStore_Characters
+## LoadOnDemand: 1
+## X-Category: Interface Enhancements
+
+Locale.xml
+
+Templates\UITemplates.xml
+TabCharacters.xml
+
+Frames\AuctionHouse.xml
+Frames\Containers.xml
+Frames\Mails.xml
+Frames\QuestLog.xml
+Frames\Recipes.xml
+Frames\Spellbook.xml
+Frames\Talents.xml
+Frames\Garrisons.xml
+Frames\Covenants_Renown.xml
+Frames\Covenants_Reservoir.xml
+Frames\Covenants_Soulbinds.xml

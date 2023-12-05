@@ -1,0 +1,33 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Talents.lua"></Script>
+	
+	<Frame parentKey="Talents" hidden="true">
+		<Frames>
+			<Frame parentKey="Spec1" inherits="AltoTalentSpecializationTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="0" y="0" />
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Spec2" inherits="AltoTalentSpecializationTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Spec1" relativePoint="TOPRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Spec3" inherits="AltoTalentSpecializationTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Spec2" relativePoint="TOPRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Spec4" inherits="AltoTalentSpecializationTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Spec3" relativePoint="TOPRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.Talents")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

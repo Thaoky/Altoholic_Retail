@@ -1,0 +1,36 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="GarrisonMissionFollower.lua"></Script>
+	
+	<Button name="AltoGarrisonMissionFollowerTemplate" virtual="true">
+		<Size x="36" y="36" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Ring" atlas="GarrMission_PortraitRing_Empty">
+					<Size x="36" y="36" />
+					<Anchors>
+						<Anchor point="TOPLEFT" />
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture parentKey="Portrait">
+					<Size x="26" y="26" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="5" y="-2" />
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.GarrisonMissionFollower")
+			</OnLoad>
+			<OnEnter>
+				Altoholic:DrawFollowerTooltip(self)
+			</OnEnter>
+			<OnLeave>
+				FloatingGarrisonFollowerTooltip:Hide()
+			</OnLeave>
+		</Scripts>
+	</Button>
+</Ui>

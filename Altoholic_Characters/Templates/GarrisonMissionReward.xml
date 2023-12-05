@@ -1,0 +1,44 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="GarrisonMissionReward.lua"></Script>
+	
+	<Button name="AltoGarrisonMissionRewardTemplate" virtual="true">
+		<Size x="34" y="34" />
+		<Layers>
+			<Layer level="BACKGROUND">	
+				<Texture parentKey="Icon" file="Interface\Icons\inv_garrison_resource">
+					<Size x="34" y="34" />
+					<Anchors>
+						<Anchor point="LEFT" />
+					</Anchors>
+				</Texture>
+				<FontString parentKey="Quantity" justifyH="RIGHT" inherits="NumberFontNormal">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" relativeKey="$parent.Icon" x="-2" y="2" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.GarrisonMissionReward", "AltoholicUI.ItemIcon")
+			</OnLoad>
+			<OnEnter>
+				if self.itemID then
+					self:Item_OnEnter()
+					return
+				end
+				
+				GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+				GameTooltip:AddLine(self.title)
+				GameTooltip:AddLine(self.tooltip, 1, 1, 1)
+				GameTooltip:Show()
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide()
+			</OnLeave>
+			<OnClick>
+				self:Item_OnClick(button)
+			</OnClick>
+		</Scripts>
+	</Button>
+</Ui>

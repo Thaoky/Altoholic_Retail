@@ -1,0 +1,47 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="SoulbindTreeButton.lua"></Script>
+	
+	<!-- Button for one tree node -->
+	<Button name="AltoSoulbindTreeButtonTemplate" virtual="true">
+		<Size x="26" y="26" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Icon">
+					<Size x="26" y="26"/>
+					<Anchors>
+						<Anchor point="CENTER" x="-1" y="2"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK" textureSubLevel="1">
+				<Texture parentKey="Slot" inherits="Talent-SingleBorder">
+					<Size x="26" y="26"/>
+					<Anchors>
+						<Anchor point="CENTER" x="-1" y="2"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture parentKey="Border" atlas="inspect-talent-selected" useAtlasSize="true">
+					<Anchors>
+						<Anchor point="CENTER" x="-1" y="2"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.SoulbindTreeButton", "AddonFactory.Button")
+			</OnLoad>
+			<OnEnter>
+				self:Node_OnEnter()
+			</OnEnter>
+			<OnLeave>
+				AddonFactory_Tooltip:Hide()
+			</OnLeave>
+			<OnClick>
+				self:Node_OnClick(button)
+			</OnClick>
+		</Scripts>
+	</Button>
+</Ui>

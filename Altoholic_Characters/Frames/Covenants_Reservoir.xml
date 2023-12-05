@@ -1,0 +1,33 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Covenants_Reservoir.lua"></Script>
+
+	<Frame parentKey="Reservoir" hidden="true">
+		<Frames>
+			<Frame parentKey="TravelUpgrade" inherits="AltoCovenantSanctumUpgradeTreeTemplate" frameLevel="100">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="0" y="0" />
+				</Anchors>
+			</Frame>
+			<Frame parentKey="DiversionUpgrade" inherits="AltoCovenantSanctumUpgradeTreeTemplate" frameLevel="100">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.TravelUpgrade" relativePoint="TOPRIGHT" x="2" y="0"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="AdventureUpgrade" inherits="AltoCovenantSanctumUpgradeTreeTemplate" frameLevel="100">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.DiversionUpgrade" relativePoint="TOPRIGHT" x="2" y="0"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="UniqueUpgrade" inherits="AltoCovenantSanctumUpgradeTreeTemplate" frameLevel="100">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.AdventureUpgrade" relativePoint="TOPRIGHT" x="2" y="0"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.ReservoirPanel")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

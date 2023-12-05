@@ -1,0 +1,18 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Include file="AuctionsRow.xml"/>
+	<Include file="CovenantSanctumUpgradeTalent.xml"/>
+	<Include file="CovenantSanctumUpgradeTree.xml"/>
+	<Include file="GarrisonMissionFollower.xml"/>
+	<Include file="GarrisonMissionRow.xml"/>
+	<Include file="GarrisonMissionReward.xml"/>
+	<Include file="QuestLogRow.xml"/>
+	<Include file="MailRow.xml"/>
+	<Include file="RecipeRow.xml"/>
+	<Include file="SoulbindTreeButton.xml"/>
+	<Include file="SoulbindTreeRow.xml"/>
+	<Include file="SoulbindTree.xml"/>
+	<Include file="SpellButton.xml"/>
+	<Include file="TalentButton.xml"/>
+	<Include file="TalentRow.xml"/>
+	<Include file="TalentSpecialization.xml"/>
+</Ui>

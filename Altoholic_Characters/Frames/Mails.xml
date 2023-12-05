@@ -1,0 +1,28 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Mails.lua"></Script>
+
+	<Frame parentKey="Mails" hidden="true">
+		<Frames>
+			<ScrollFrame parentKey="ScrollFrame" inherits="AddonFactory_BaseScrollFrameTemplate">
+				<Scripts>
+					<OnVerticalScroll>
+						local parent = self:GetParent()
+						self:OnVerticalScroll(offset, 41, function() parent:Update() end)		
+					</OnVerticalScroll>
+				</Scripts>
+				<KeyValues>
+					<KeyValue key="numRows" value="15" type="number" />
+					<KeyValue key="rowHeight" value="41" type="number" />
+					<KeyValue key="rowTemplate" value="AltoMailRowTemplate" />
+					<KeyValue key="xOffset" value="0" type="number" />
+					<KeyValue key="yOffset" value="-2" type="number" />
+				</KeyValues>
+			</ScrollFrame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.Mails")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

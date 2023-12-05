@@ -1,0 +1,75 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="TalentSpecialization.lua"></Script>
+	
+	<!-- Template for one talent specialization (7 rows / tiers) -->
+ 	<Frame name="AltoTalentSpecializationTemplate" parentArray="Specs" virtual="true">
+		<Size x="210" y="306"/>
+		<Frames>
+			<Button parentKey="SpecInfo">
+				<Size x="110" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="50" y="-5" />
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString parentKey="Name" inherits="GameFontNormal">
+							<Size x="110" y="24" />
+							<Anchors>
+								<Anchor point="TOPLEFT" x="0" y="0" />
+							</Anchors>
+							<Color r="0.984375" g="0.828125" b="0" />
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():SpecInfo_OnEnter(self)
+					</OnEnter>
+					<OnLeave>
+						AddonFactory_Tooltip:Hide()
+					</OnLeave>
+				</Scripts>
+			</Button>
+			<Frame parentKey="Tier1" inherits="AltoTalentRowTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="50" y="-40"/>
+				</Anchors>				
+			</Frame>
+			<Frame parentKey="Tier2" inherits="AltoTalentRowTemplate" id="2">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Tier1" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>				
+			</Frame>
+			<Frame parentKey="Tier3" inherits="AltoTalentRowTemplate" id="3">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Tier2" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>				
+			</Frame>
+			<Frame parentKey="Tier4" inherits="AltoTalentRowTemplate" id="4">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Tier3" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>				
+			</Frame>
+			<Frame parentKey="Tier5" inherits="AltoTalentRowTemplate" id="5">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Tier4" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>				
+			</Frame>
+			<Frame parentKey="Tier6" inherits="AltoTalentRowTemplate" id="6">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Tier5" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>				
+			</Frame>
+			<Frame parentKey="Tier7" inherits="AltoTalentRowTemplate" id="7">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Tier6" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TalentSpecialization")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

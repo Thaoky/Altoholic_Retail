@@ -1,0 +1,29 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Containers.lua"></Script>
+	
+	<Frame parentKey="Containers" hidden="true">
+		<Size x="615" y="306" />
+		<Frames>
+			<ScrollFrame parentKey="ScrollFrame" inherits="AddonFactory_BaseScrollFrameTemplate">
+				<Scripts>
+					<OnVerticalScroll>
+						local parent = self:GetParent()
+						self:OnVerticalScroll(offset, 41, function() parent:Update() end)					
+					</OnVerticalScroll>
+				</Scripts>
+				<KeyValues>
+					<KeyValue key="numRows" value="16" type="number" />
+					<KeyValue key="rowHeight" value="41" type="number" />
+					<KeyValue key="rowTemplate" value="AltoContainerTemplate" />
+					<KeyValue key="xOffset" value="-10" type="number" />
+					<KeyValue key="yOffset" value="0" type="number" />
+				</KeyValues>
+			</ScrollFrame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.Containers")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

@@ -1,0 +1,59 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="TalentButton.lua"></Script>
+	
+	<!-- Button for one talent -->
+	<Button name="AltoTalentButtonTemplate" virtual="true">
+		<Size x="26" y="26" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Icon">
+					<Size x="26" y="26"/>
+					<Anchors>
+						<Anchor point="CENTER" x="-1" y="2"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK" textureSubLevel="1">
+				<Texture parentKey="Slot" inherits="Talent-SingleBorder">
+					<Size x="26" y="26"/>
+					<Anchors>
+						<Anchor point="CENTER" x="-1" y="2"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture parentKey="Border" atlas="inspect-talent-selected" useAtlasSize="true">
+					<Anchors>
+						<Anchor point="CENTER" x="-1" y="2"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TalentButton", "AddonFactory.Button")
+			</OnLoad>
+			<OnEnter>
+				if not self.talentID then return end
+				
+				
+				AddonFactory_Tooltip:ShowLink(self, GetTalentLink(self.talentID), "ANCHOR_RIGHT")
+
+			</OnEnter> 
+			<OnLeave>
+				AddonFactory_Tooltip:Hide()
+			</OnLeave>
+			<OnClick>
+				if button ~= "LeftButton" or not IsShiftKeyDown() or not self.talentID then return end
+
+				local chat = ChatEdit_GetLastActiveWindow()
+				if not chat:IsShown() then return end
+
+				local link = GetTalentLink(self.talentID)
+				if not link then return end
+					
+				chat:Insert(link)
+			</OnClick>
+		</Scripts>
+	</Button>
+</Ui>

@@ -1,0 +1,68 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="SpellButton.lua"></Script>
+	
+	<!-- Button for one talent -->
+	<Button name="AltoSpellButtonTemplate" virtual="true">
+		<Size x="37" y="37" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Background" inherits="Spellbook-EmptySlot">
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="TextBackground" inherits="Spellbook-TextBackground">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Background" relativePoint="TOPRIGHT" x="-4" y="-5"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture parentKey="Icon" setAllPoints="true" hidden="true"/>
+				<FontString parentKey="SpellName" inherits="GameFontNormal" maxLines="3" hidden="true" justifyH="LEFT">
+					<Size x="145" y="0" />
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" x="8" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="SubSpellName" inherits="SubSpellFont" hidden="true" justifyH="LEFT">
+					<Size x="145" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.SpellName" relativePoint="BOTTOMLEFT" x="0" y="2" />
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="OVERLAY" textureSubLevel="-1">
+				<Texture parentKey="Slot" inherits="Spellbook-SlotFrame">
+					<Anchors>
+						<Anchor point="CENTER" x="1.5"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.SpellButton", "AddonFactory.Button")
+			</OnLoad>
+			<OnEnter>
+				AddonFactory_Tooltip:ShowSpellInfo(self, self.spellID)
+			</OnEnter>
+			<OnLeave>
+				AddonFactory_Tooltip:Hide()
+			</OnLeave>
+			<OnClick>
+				if button ~= "LeftButton" or not IsShiftKeyDown() or not self.spellID then return end
+				
+				local chat = ChatEdit_GetLastActiveWindow()
+				if not chat:IsShown() then return end
+				
+				local link = GetSpellLink(self.spellID)
+				
+				if link then
+					chat:Insert(link)
+				end
+			</OnClick>
+		</Scripts>
+		<HighlightTexture parentKey="Highlight" file="Interface\Buttons\ButtonHilight-Square" alphaMode="ADD"/>
+	</Button>
+</Ui>

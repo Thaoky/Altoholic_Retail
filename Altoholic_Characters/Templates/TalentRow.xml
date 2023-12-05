@@ -1,0 +1,30 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="TalentRow.lua"></Script>
+	
+	<!-- Template for one talent row / tier (= 3 buttons) -->
+ 	<Frame name="AltoTalentRowTemplate" virtual="true">
+		<Size x="110" y="26"/>
+		<Frames>
+			<Button parentKey="Talent1" inherits="AltoTalentButtonTemplate">
+				<Anchors>
+					<Anchor point="LEFT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Talent2" inherits="AltoTalentButtonTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeKey="$parent.Talent1" relativePoint="RIGHT" x="16"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Talent3" inherits="AltoTalentButtonTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeKey="$parent.Talent2" relativePoint="RIGHT" x="16"/>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TalentRow")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

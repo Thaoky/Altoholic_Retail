@@ -1,0 +1,95 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="GarrisonMissionRow.lua"></Script>
+	
+	<Button name="AltoGarrisonMissionRowTemplate" virtual="true">
+		<Size x="615" y="43" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString parentKey="Name" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="220" y="32" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="45" y="6" />
+					</Anchors>
+				</FontString>
+				<Texture parentKey="CostIcon" file="Interface\Icons\inv_garrison_resource" hidden="true" alphaMode="ADD">
+					<Size x="16" y="16"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Name" relativePoint="BOTTOMLEFT" x="0" y="6" />
+					</Anchors>
+				</Texture>
+				<FontString parentKey="Cost" inherits="GameFontNormal" justifyH="LEFT" hidden="true">
+					<Size x="220" y="32" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.CostIcon" relativePoint="TOPRIGHT" x="2" y="7" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Remaining" inherits="GameFontNormal" justifyH="RIGHT">
+					<Size x="120" y="32" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Name" relativePoint="TOPRIGHT" x="140" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Success" inherits="GameFontNormal" justifyH="RIGHT">
+					<Size x="120" y="32" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Name" relativePoint="TOPRIGHT" x="140" y="-16" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="MissionType" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="2" y="-2" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Follower1" inherits="AltoGarrisonMissionFollowerTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Name" relativePoint="TOPRIGHT" x="5" y="-9" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Follower2" inherits="AltoGarrisonMissionFollowerTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeKey="$parent.Follower1" relativePoint="RIGHT" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Follower3" inherits="AltoGarrisonMissionFollowerTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeKey="$parent.Follower2" relativePoint="RIGHT" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Follower4" inherits="AltoGarrisonMissionFollowerTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeKey="$parent.Follower3" relativePoint="RIGHT" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Follower5" inherits="AltoGarrisonMissionFollowerTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeKey="$parent.Follower4" relativePoint="RIGHT" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Reward1" inherits="AltoGarrisonMissionRewardTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-50" y="-4" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Reward2" inherits="AltoGarrisonMissionRewardTemplate">
+				<Anchors>
+					<Anchor point="LEFT" relativeKey="$parent.Reward1" relativePoint="RIGHT" x="6" y="0"/>
+				</Anchors>
+			</Button>
+		</Frames>
+		<HighlightTexture parentKey="Highlight" file="Interface\HelpFrame\HelpFrameButton-Highlight" alphaMode="ADD">
+			<Size x="560" y="39" />
+			<Anchors>
+				<Anchor point="TOPLEFT" x="42" y="-2" />
+			</Anchors>
+			<TexCoords left="0" right="1.0" top="0" bottom="0.578125"/>
+		</HighlightTexture>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.GarrisonMissionRow")
+			</OnLoad>
+		</Scripts>
+	</Button>
+</Ui>

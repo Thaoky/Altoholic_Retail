@@ -1,0 +1,118 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Spellbook.lua"></Script>
+
+	<Frame parentKey="Spellbook" hidden="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString parentKey="PageNumber" inherits="GameFontHighlightSmallOutline" justifyH="RIGHT">
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="500" y="20" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="SpellIcon1" inherits="AltoSpellButtonTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="30" y="-15" />
+				</Anchors>
+			</Button>
+			<Button parentKey="SpellIcon2" inherits="AltoSpellButtonTemplate" id="2">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SpellIcon1" relativePoint="BOTTOMLEFT" x="0" y="-30" />
+				</Anchors>
+			</Button>
+			<Button parentKey="SpellIcon3" inherits="AltoSpellButtonTemplate" id="3">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SpellIcon2" relativePoint="BOTTOMLEFT" x="0" y="-30" />
+				</Anchors>
+			</Button>
+			<Button parentKey="SpellIcon4" inherits="AltoSpellButtonTemplate" id="4">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SpellIcon3" relativePoint="BOTTOMLEFT" x="0" y="-30" />
+				</Anchors>
+			</Button>
+			
+			<Button parentKey="SpellIcon5" inherits="AltoSpellButtonTemplate" id="5">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SpellIcon1" relativePoint="TOPRIGHT" x="170" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="SpellIcon6" inherits="AltoSpellButtonTemplate" id="6">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SpellIcon5" relativePoint="BOTTOMLEFT" x="0" y="-30" />
+				</Anchors>
+			</Button>
+			<Button parentKey="SpellIcon7" inherits="AltoSpellButtonTemplate" id="7">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SpellIcon6" relativePoint="BOTTOMLEFT" x="0" y="-30" />
+				</Anchors>
+			</Button>
+			<Button parentKey="SpellIcon8" inherits="AltoSpellButtonTemplate" id="8">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SpellIcon7" relativePoint="BOTTOMLEFT" x="0" y="-30" />
+				</Anchors>
+			</Button>
+			
+			<Button parentKey="SpellIcon9" inherits="AltoSpellButtonTemplate" id="9">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SpellIcon5" relativePoint="TOPRIGHT" x="170" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="SpellIcon10" inherits="AltoSpellButtonTemplate" id="10">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SpellIcon9" relativePoint="BOTTOMLEFT" x="0" y="-30" />
+				</Anchors>
+			</Button>
+			<Button parentKey="SpellIcon11" inherits="AltoSpellButtonTemplate" id="11">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SpellIcon10" relativePoint="BOTTOMLEFT" x="0" y="-30" />
+				</Anchors>
+			</Button>
+			<Button parentKey="SpellIcon12" inherits="AltoSpellButtonTemplate" id="12">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.SpellIcon11" relativePoint="BOTTOMLEFT" x="0" y="-30" />
+				</Anchors>
+			</Button>
+			
+			<Button parentKey="PrevPage">
+				<Size x="32" y="32" />
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" x="550" y="10" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():GoToPreviousPage()
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
+				<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
+				<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+			</Button>
+			<Button parentKey="NextPage">
+				<Size x="32" y="32" />
+				<Anchors>
+					<Anchor point="LEFT" relativeKey="$Parent.PrevPage" relativePoint="RIGHT" x="10" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():GoToNextPage()
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
+				<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
+				<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.Spellbook")
+			</OnLoad>
+			<OnMouseWheel>
+				self:OnMouseWheel(delta)
+			</OnMouseWheel>
+		</Scripts>
+	</Frame>
+</Ui>

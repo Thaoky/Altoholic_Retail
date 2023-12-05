@@ -1,0 +1,51 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="CovenantSanctumUpgradeTalent.lua"></Script>
+
+	<!-- Light version of Blizzard's own CovenantSanctumUpgradeTalentTemplate in Blizzard_CovenantSanctumUpgrades.xml -->
+	<Frame name="AltoCovenantSanctumUpgradeTalentTemplate" parentArray="Talents" virtual="true">
+		<Size x="150" y="36" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Icon">
+					<Size x="32" y="32" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="2" y="0"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString parentKey="Name" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="114" y="0"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent.Icon" relativePoint="TOPRIGHT" x="4" y="-2"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.CovenantSanctumUpgradeTalent")
+			</OnLoad>
+			<OnEnter>
+				if not self.name then return end
+				
+				local tooltip = AddonFactory_Tooltip
+				
+				tooltip:ClearLines()
+				tooltip:SetOwner(self, "ANCHOR_RIGHT")
+				tooltip:SetText(self.name, 1, 1, 1)
+				tooltip:AddLine(self.description, 1, 0.82, 0, true)
+				
+				if self.costString then
+					tooltip:AddLine(" ")
+					tooltip:AddLine(self.costString, 1, 1, 1)
+				end
+
+				tooltip:Show()
+			</OnEnter> 
+			<OnLeave>
+				AddonFactory_Tooltip:Hide()
+			</OnLeave>
+		</Scripts>
+	</Frame>
+</Ui>

@@ -1,0 +1,92 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="SoulbindTree.lua"></Script>
+	
+	<!-- Template for one talent specialization (7 rows / tiers) -->
+ 	<Frame name="AltoSoulbindTreeTemplate" virtual="true">
+		<Size x="210" y="306"/>
+		<Frames>
+			<Button parentKey="SpecInfo">
+				<Size x="110" y="24" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="50" y="-5" />
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString parentKey="Name" inherits="GameFontNormal">
+							<Size x="110" y="24" />
+							<Anchors>
+								<Anchor point="TOPLEFT" x="0" y="0" />
+							</Anchors>
+							<Color r="0.984375" g="0.828125" b="0" />
+						</FontString>
+					</Layer>
+				</Layers>
+			</Button>
+			<Frame parentKey="Row1" inherits="AltoSoulbindTreeRowTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="50" y="-40"/>
+				</Anchors>				
+			</Frame>
+			<Frame parentKey="Row2" inherits="AltoSoulbindTreeRowTemplate" id="2">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Row1" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>				
+			</Frame>
+			<Frame parentKey="Row3" inherits="AltoSoulbindTreeRowTemplate" id="3">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Row2" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>				
+			</Frame>
+			<Frame parentKey="Row4" inherits="AltoSoulbindTreeRowTemplate" id="4">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Row3" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>				
+			</Frame>
+			<Frame parentKey="Row5" inherits="AltoSoulbindTreeRowTemplate" id="5">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Row4" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>				
+			</Frame>
+			<Frame parentKey="Row6" inherits="AltoSoulbindTreeRowTemplate" id="6">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Row5" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>				
+			</Frame>
+			<Frame parentKey="Row7" inherits="AltoSoulbindTreeRowTemplate" id="7">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Row6" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Row8" inherits="AltoSoulbindTreeRowTemplate" id="8">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Row7" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Row9" inherits="AltoSoulbindTreeRowTemplate" id="9">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Row8" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Row10" inherits="AltoSoulbindTreeRowTemplate" id="10">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Row9" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Row11" inherits="AltoSoulbindTreeRowTemplate" id="11">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Row10" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>
+			</Frame>
+			<Frame parentKey="Row12" inherits="AltoSoulbindTreeRowTemplate" id="12">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Row11" relativePoint="BOTTOMLEFT" x="0" y="-12"/>
+				</Anchors>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.SoulbindTree")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

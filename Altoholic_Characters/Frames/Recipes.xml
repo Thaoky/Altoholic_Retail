@@ -1,0 +1,68 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="Recipes.lua"></Script>
+
+	<Frame parentKey="Recipes" hidden="true">
+		<Frames>
+			<ScrollFrame parentKey="ScrollFrame" inherits="AddonFactory_BaseScrollFrameTemplate">
+				<Scripts>
+					<OnVerticalScroll>
+						local parent = self:GetParent()
+						self:OnVerticalScroll(offset, 43, parent.Update, parent)
+					</OnVerticalScroll>
+				</Scripts>
+				<KeyValues>
+					<KeyValue key="numRows" value="15" type="number" />
+					<KeyValue key="rowHeight" value="43" type="number" />
+					<KeyValue key="rowTemplate" value="AltoRecipeRowTemplate" />
+					<KeyValue key="xOffset" value="5" type="number" />
+					<KeyValue key="yOffset" value="-5" type="number" />
+				</KeyValues>
+			</ScrollFrame>
+			
+			<Button parentKey="LinkButton"> 
+				<Size x="32" y="16" /> 
+				<Anchors> 
+					<Anchor point="TOPLEFT" x="550" y="50" />
+				</Anchors> 
+				<Scripts> 
+					<OnClick> 
+						self:GetParent():Link_OnClick(button) 
+					</OnClick> 
+					<OnEnter> 
+						GameTooltip:SetOwner(self,"ANCHOR_TOPLEFT")
+						GameTooltip:SetText(LINK_TRADESKILL_TOOLTIP, nil, nil, nil, nil, 1)
+						GameTooltip:Show()
+					</OnEnter> 
+					<OnLeave> 
+						GameTooltip:Hide()
+					</OnLeave> 
+				</Scripts> 
+				<NormalTexture file="Interface\TradeSkillFrame\UI-TradeSkill-LinkButton"> 
+					<TexCoords left="0" right="1.0" top="0" bottom="0.5"/> 
+				</NormalTexture> 
+				<HighlightTexture file="Interface\TradeSkillFrame\UI-TradeSkill-LinkButton" alphaMode="ADD"> 
+					<TexCoords left="0" right="1.0" top="0.5" bottom="1.0"/> 
+				</HighlightTexture> 
+			</Button>
+			<EditBox parentKey="SearchBox" autoFocus="false" inherits="SearchBoxTemplate">
+				<Size x="112" y="20"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="550" y="30"/>
+				</Anchors>
+				<Scripts>
+					<OnShow>
+						self:SetText("")
+					</OnShow>
+					<OnTextChanged inherit="prepend">
+						self:GetParent():OnSearchTextChanged(self)
+					</OnTextChanged>
+				</Scripts>
+			</EditBox>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.Recipes")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

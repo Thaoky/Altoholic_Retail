@@ -1,0 +1,137 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="RecipeRow.lua"></Script>
+	
+	<Frame name="AltoRecipeStarTemplate" parentArray="Stars" virtual="true">
+		<Size x="16" y="15"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="UnearnedStar" atlas="tradeskills-star-off" alpha=".28" />
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture parentKey="EarnedStar" atlas="tradeskills-star"/>
+			</Layer>
+			<Layer level="OVERLAY" textureSubLevel="1">
+				<Texture parentKey="FlashStar" atlas="tradeskills-star-off" alpha=".7" alphaMode="ADD" hidden="true"/>
+			</Layer>
+		</Layers>
+		<Animations>
+			<AnimationGroup parentKey="Pulse" looping="BOUNCE">
+				<Alpha childKey="FlashStar" fromAlpha="0" toAlpha="1" duration="0.4"/>
+			</AnimationGroup>
+		</Animations>
+	</Frame>
+	
+	<Button name="AltoRecipeRowTemplate" virtual="true">
+		<Size x="615" y="43" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString parentKey="IsLearned" inherits="GameFontNormalSmall" justifyH="LEFT">
+					<Size x="80" y="14" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="100" y="-15" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+		 	<Button parentKey="CraftedItem" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="0" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="RecipeLink">
+				<Size x="230" y="18" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="42" y="3" />
+				</Anchors>
+				<ButtonText parentKey="Text" justifyH="LEFT">
+					<Size x="230" y="18" />
+					<Anchors>
+						<Anchor point="LEFT" x="0" y="0" />
+					</Anchors>
+				</ButtonText>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():RecipeLink_OnEnter()
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide()
+					</OnLeave>
+					<OnClick>
+						self:GetParent():RecipeLink_OnClick(button)
+					</OnClick>
+				</Scripts>		
+				<NormalFont style="GameFontNormalLeft"/>
+			</Button>
+			<Frame parentKey="StarsFrame">
+				<Size x="45" y="16"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="42" y="-16" />
+				</Anchors>
+				<Frames>
+					<Frame parentKey="Star1" inherits="AltoRecipeStarTemplate">
+						<Anchors>
+							<Anchor point="LEFT" />
+						</Anchors>
+					</Frame>
+					<Frame parentKey="Star2" inherits="AltoRecipeStarTemplate">
+						<Anchors>
+							<Anchor point="LEFT" relativeKey="$parent.Star1" relativePoint="RIGHT" x="2" y="0"/>
+						</Anchors>
+					</Frame>
+					<Frame parentKey="Star3" inherits="AltoRecipeStarTemplate">
+						<Anchors>
+							<Anchor point="LEFT" relativeKey="$parent.Star2" relativePoint="RIGHT" x="2" y="0"/>
+						</Anchors>
+					</Frame>
+				</Frames>
+			</Frame>
+			
+			<Button parentKey="Reagent1" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.RecipeLink" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Reagent2" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent1" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Reagent3" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent2" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Reagent4" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent3" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Reagent5" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent4" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Reagent6" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent5" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Reagent7" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent6" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Reagent8" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent7" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabCharacters.RecipeRow")
+			</OnLoad>
+		</Scripts>
+	</Button>
+</Ui>
