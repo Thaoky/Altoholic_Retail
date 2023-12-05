@@ -1,0 +1,55 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="CalendarEvent.lua"></Script>
+	
+	<Button name="AltoCalendarEventTemplate" virtual="true">
+		<Size x="245" y="22" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Background" file="Interface\Calendar\CalendarBackground">
+					<Size x="241" y="18" />
+					<Anchors>
+						<Anchor point="LEFT" x="2" y="0" />
+					</Anchors>
+					<TexCoords left="0.3505625" right="0.701125" top="0.713125" bottom="0.8115"/>
+				</Texture>
+				<FontString parentKey="Date" inherits="GameFontNormalSmall" justifyH="CENTER">
+					<Size x="245" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-2" />
+					</Anchors>
+					<Color r="1.0" g="1.0" b="0.6039215686274509803921568627451"/>
+				</FontString>
+				<FontString parentKey="Hour" inherits="GameFontNormalSmall" justifyH="LEFT">
+					<Size x="35" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="0" />
+					</Anchors>
+					<Color r="255" g="255" b="255" />
+				</FontString>
+				<FontString parentKey="Character" inherits="GameFontNormalSmall" justifyH="LEFT">
+					<Size x="100" y="18" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeKey="$parent.Hour" relativePoint="BOTTOMRIGHT" x="5" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Title" inherits="GameFontNormalSmall" justifyH="RIGHT">
+					<Size x="105" y="18" />
+					<Anchors>
+						<Anchor point="TOPRIGHT" x="-2" y="0" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.CalendarEvent")
+			</OnLoad>
+			<OnEnter>
+				self:Event_OnEnter()
+			</OnEnter>
+			<OnLeave>
+				AddonFactory_Tooltip:Hide()
+			</OnLeave>
+		</Scripts>
+	</Button>
+</Ui>

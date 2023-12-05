@@ -1,0 +1,386 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="CalendarEventList.lua"></Script>
+	<Script file="Calendar.lua"></Script>
+
+	<Texture name="AltoWeekdayBackgroundTemplate" file="Interface\Calendar\CalendarBackground" virtual="true">
+		<Size x="50" y="22" />
+	</Texture>
+	
+	<Font name="AltoWeekdayNameFont" inherits="GameFontNormal" justifyH="CENTER" virtual="true">
+		<Color r="1.0" g="1.0" b="0.6039215686274509803921568627451"/>
+	</Font>
+
+	<Frame parentKey="Calendar" hidden="true">
+		<Size x="615" y="306" />	
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Weekday1Background" inherits="AltoWeekdayBackgroundTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeKey="$parent" relativePoint="TOPLEFT" x="280" y="25" />
+					</Anchors>
+				</Texture>
+				<Texture parentKey="Weekday2Background" inherits="AltoWeekdayBackgroundTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Weekday1Background" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="Weekday3Background" inherits="AltoWeekdayBackgroundTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Weekday2Background" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="Weekday4Background" inherits="AltoWeekdayBackgroundTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Weekday3Background" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="Weekday5Background" inherits="AltoWeekdayBackgroundTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Weekday4Background" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="Weekday6Background" inherits="AltoWeekdayBackgroundTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Weekday5Background" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+				<Texture parentKey="Weekday7Background" inherits="AltoWeekdayBackgroundTemplate">
+					<Anchors>
+						<Anchor point="LEFT" relativeKey="$parent.Weekday6Background" relativePoint="RIGHT"/>
+					</Anchors>
+				</Texture>
+				
+				<FontString parentKey="Weekday1Name" inherits="AltoWeekdayNameFont">
+					<Anchors>
+						<Anchor point="CENTER" relativeKey="$parent.Weekday1Background"/>
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Weekday2Name" inherits="AltoWeekdayNameFont">
+					<Anchors>
+						<Anchor point="CENTER" relativeKey="$parent.Weekday2Background"/>
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Weekday3Name" inherits="AltoWeekdayNameFont">
+					<Anchors>
+						<Anchor point="CENTER" relativeKey="$parent.Weekday3Background"/>
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Weekday4Name" inherits="AltoWeekdayNameFont">
+					<Anchors>
+						<Anchor point="CENTER" relativeKey="$parent.Weekday4Background"/>
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Weekday5Name" inherits="AltoWeekdayNameFont">
+					<Anchors>
+						<Anchor point="CENTER" relativeKey="$parent.Weekday5Background"/>
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Weekday6Name" inherits="AltoWeekdayNameFont">
+					<Anchors>
+						<Anchor point="CENTER" relativeKey="$parent.Weekday6Background"/>
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Weekday7Name" inherits="AltoWeekdayNameFont">
+					<Anchors>
+						<Anchor point="CENTER" relativeKey="$parent.Weekday7Background"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="ARTWORK">
+				<FontString parentKey="MonthYear" inherits="DialogButtonNormalText" justifyH="Center">
+					<Size x="250" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="335" y="50" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="PrevMonth">
+				<Size x="32" y="32" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="295" y="60" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						C_Calendar.SetMonth(-1)
+						self:GetParent():Update()
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
+				<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
+				<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+			</Button>
+			<Button parentKey="NextMonth">
+				<Size x="32" y="32" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="595" y="60" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						C_Calendar.SetMonth(1)
+						self:GetParent():Update()
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
+				<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
+				<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+			</Button>
+
+			<Frame parentKey="EventList">
+				<Size x="272" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="3" y="0" />
+				</Anchors>
+				<Frames>
+					<ScrollFrame parentKey="ScrollFrame" inherits="AddonFactory_BaseScrollFrameTemplate">
+						<Scripts>
+							<OnVerticalScroll>
+								self:OnVerticalScroll(offset, 18, self:GetParent():Update())
+							</OnVerticalScroll>
+						</Scripts>
+						<KeyValues>
+							<KeyValue key="numRows" value="14" type="number" />
+							<KeyValue key="rowHeight" value="18" type="number" />
+							<KeyValue key="rowTemplate" value="AltoCalendarEventTemplate" />
+						</KeyValues>
+					</ScrollFrame>
+				</Frames>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.CalendarEventList")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			
+			<!-- Week 1 -->
+			<Button parentKey="Day1" inherits="AltoCalendarDayButtonTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="280" y="-3" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Day2" inherits="AltoCalendarDayButtonTemplate" id="2">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day1" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day3" inherits="AltoCalendarDayButtonTemplate" id="3">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day2" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day4" inherits="AltoCalendarDayButtonTemplate" id="4">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day3" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day5" inherits="AltoCalendarDayButtonTemplate" id="5">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day4" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day6" inherits="AltoCalendarDayButtonTemplate" id="6">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day5" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day7" inherits="AltoCalendarDayButtonTemplate" id="7">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day6" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			
+			<!-- Week 2 -->
+			<Button parentKey="Day8" inherits="AltoCalendarDayButtonTemplate" id="8">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day1" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day9" inherits="AltoCalendarDayButtonTemplate" id="9">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day8" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day10" inherits="AltoCalendarDayButtonTemplate" id="10">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day9" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day11" inherits="AltoCalendarDayButtonTemplate" id="11">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day10" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day12" inherits="AltoCalendarDayButtonTemplate" id="12">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day11" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day13" inherits="AltoCalendarDayButtonTemplate" id="13">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day12" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day14" inherits="AltoCalendarDayButtonTemplate" id="14">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day13" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			
+			<!-- Week 3 -->
+			<Button parentKey="Day15" inherits="AltoCalendarDayButtonTemplate" id="15">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day8" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day16" inherits="AltoCalendarDayButtonTemplate" id="16">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day15" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day17" inherits="AltoCalendarDayButtonTemplate" id="17">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day16" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day18" inherits="AltoCalendarDayButtonTemplate" id="18">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day17" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day19" inherits="AltoCalendarDayButtonTemplate" id="19">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day18" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day20" inherits="AltoCalendarDayButtonTemplate" id="20">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day19" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day21" inherits="AltoCalendarDayButtonTemplate" id="21">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day20" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			
+			<!-- Week 4 -->
+			<Button parentKey="Day22" inherits="AltoCalendarDayButtonTemplate" id="22">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day15" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day23" inherits="AltoCalendarDayButtonTemplate" id="23">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day22" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day24" inherits="AltoCalendarDayButtonTemplate" id="24">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day23" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day25" inherits="AltoCalendarDayButtonTemplate" id="25">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day24" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day26" inherits="AltoCalendarDayButtonTemplate" id="26">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day25" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day27" inherits="AltoCalendarDayButtonTemplate" id="27">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day26" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day28" inherits="AltoCalendarDayButtonTemplate" id="28">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day27" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			
+			<!-- Week 5 -->
+			<Button parentKey="Day29" inherits="AltoCalendarDayButtonTemplate" id="29">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day22" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day30" inherits="AltoCalendarDayButtonTemplate" id="30">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day29" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day31" inherits="AltoCalendarDayButtonTemplate" id="31">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day30" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day32" inherits="AltoCalendarDayButtonTemplate" id="32">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day31" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day33" inherits="AltoCalendarDayButtonTemplate" id="33">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day32" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day34" inherits="AltoCalendarDayButtonTemplate" id="34">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day33" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day35" inherits="AltoCalendarDayButtonTemplate" id="35">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day34" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			
+			<!-- Week 6 -->
+			<Button parentKey="Day36" inherits="AltoCalendarDayButtonTemplate" id="36">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day29" relativePoint="BOTTOMLEFT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day37" inherits="AltoCalendarDayButtonTemplate" id="37">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day36" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day38" inherits="AltoCalendarDayButtonTemplate" id="38">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day37" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day39" inherits="AltoCalendarDayButtonTemplate" id="39">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day38" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day40" inherits="AltoCalendarDayButtonTemplate" id="40">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day39" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day41" inherits="AltoCalendarDayButtonTemplate" id="41">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day40" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Day42" inherits="AltoCalendarDayButtonTemplate" id="42">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Day41" relativePoint="TOPRIGHT"/>
+				</Anchors>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabAgenda.Calendar")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>
