@@ -1,0 +1,24 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Script file="LibItemInfo.lua"/>
+	<Script file="Database\Alchemy.lua"/>
+	<Script file="Database\Archaeology.lua"/>
+	<Script file="Database\Blacksmithing.lua"/>
+	<Script file="Database\Cooking.lua"/>
+	<Script file="Database\Enchanting.lua"/>
+	<Script file="Database\Engineering.lua"/>
+	<Script file="Database\Fishing.lua"/>
+	<Script file="Database\Herbalism.lua"/>
+	<Script file="Database\Inscription.lua"/>
+	<Script file="Database\Jewelcrafting.lua"/>
+	<Script file="Database\Mining.lua"/>
+	<Script file="Database\MultipleProfessions.lua"/>
+	<Script file="Database\Skinning.lua"/>
+	<Script file="Database\Tailoring.lua"/>
+	
+	<Script file="Database\DungeonLoots.lua"/>
+	<Script file="Database\RaidLoots.lua"/>
+	<Script file="Database\Factions.lua"/>
+	<Script file="Database\Quests.lua"/>
+	<Script file="Database\Zones.lua"/>
+</Ui>
