@@ -1,0 +1,98 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="GuildMemberRow.lua"></Script>
+
+	<Button name="AltoGuildMemberRowTemplate" virtual="true">
+		<Size x="440" y="22" />
+		<Layers>
+			<Layer level="BACKGROUND">
+				<FontString parentKey="Level" inherits="GameFontNormalSmall" justifyH="CENTER">
+					<Size x="55" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="145" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Version" inherits="GameFontNormalSmall" justifyH="CENTER">
+					<Size x="80" y="18" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeKey="$parent.Level" relativePoint="BOTTOMRIGHT" x="70" y="0" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="Class" inherits="GameFontNormalSmall" justifyH="LEFT">
+					<Size x="100" y="18" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" relativeKey="$parent.Version" relativePoint="BOTTOMRIGHT" x="5" y="0" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="Collapse" inherits="AddonFactory_ToggleButtonTemplate">
+				<Size x="16" y="16" />
+				<Anchors>
+					<Anchor point="LEFT" x="0" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:Toggle()
+						self:GetParent():Collapse_OnClick()
+					</OnClick>
+				</Scripts>
+				<NormalTexture name="$parentIcon" file="Interface\Buttons\UI-MinusButton-UP" />
+				<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD" />
+			</Button>
+
+			<Button parentKey="Name">
+				<Size x="170" y="18" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="20" y="0" />
+				</Anchors>
+				<ButtonText parentKey="Text" justifyH="LEFT">
+					<Size x="170" y="18" />
+					<Anchors>
+						<Anchor point="LEFT" x="0" y="0" />
+					</Anchors>
+				</ButtonText>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():Name_OnEnter()
+					</OnEnter>
+					<OnLeave>
+						AddonFactory_Tooltip:Hide()
+					</OnLeave>
+				</Scripts>
+				<NormalFont style="GameFontNormalSmallLeft"/>
+				<HighlightFont style="GameFontHighlightSmallLeft"/>
+			</Button>
+			<Button parentKey="AvgILevel">
+				<Size x="65" y="18" />
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Level" relativePoint="BOTTOMRIGHT" x="5" y="0" />
+				</Anchors>
+				<ButtonText parentKey="Text" justifyH="CENTER">
+					<Size x="60" y="18" />
+					<Anchors>
+						<Anchor point="LEFT" x="0" y="0" />
+					</Anchors>
+				</ButtonText>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():Level_OnEnter(self)
+					</OnEnter>
+					<OnLeave>
+						AddonFactory_Tooltip:Hide()
+					</OnLeave>
+					<OnClick>
+						self:GetParent():Level_OnClick(button)
+					</OnClick>
+				</Scripts>
+				<NormalFont style="GameFontNormalSmallLeft"/>
+				<HighlightFont style="GameFontHighlightSmallLeft"/>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.GuildMemberRow")
+			</OnLoad>
+		</Scripts>
+	</Button>
+</Ui>

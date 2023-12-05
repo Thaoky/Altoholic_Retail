@@ -1,0 +1,156 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="GuildMembers.lua"></Script>
+
+	<Frame parentKey="Members" hidden="true">
+		<Size x="615" y="306" />
+		<Frames>
+			<ScrollFrame parentKey="ScrollFrame" inherits="AddonFactory_BaseScrollFrameTemplate">
+				<Scripts>
+					<OnVerticalScroll>
+						local parent = self:GetParent()
+						self:OnVerticalScroll(offset, 18, parent.Update, parent)
+					</OnVerticalScroll>
+				</Scripts>
+				<KeyValues>
+					<KeyValue key="numRows" value="30" type="number" />
+					<KeyValue key="rowHeight" value="18" type="number" />
+					<KeyValue key="rowTemplate" value="AltoGuildMemberRowTemplate" />
+				</KeyValues>
+			</ScrollFrame>
+
+			<Frame parentKey="Equipment">
+				<Size x="170" y="306" />
+				<Anchors>
+					<Anchor point="TOPLEFT" x="465" y="0" />
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString parentKey="Name" inherits="DialogButtonNormalText" justifyH="Center">
+							<Size x="170" />
+							<Anchors>
+								<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" x="0" y="20" />
+							</Anchors>
+						</FontString>
+						<FontString parentKey="Info" inherits="GameFontNormal" justifyH="Center">
+							<Size x="150" />
+							<Anchors>
+								<Anchor point="TOPLEFT" relativeKey="$parent.Name" relativePoint="BOTTOMLEFT" x="10" y="-20" />
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button parentKey="Item1" inherits="AltoItemIconTemplate" id="1">
+						<Anchors>
+							<Anchor point="TOPLEFT" x="20" y="-10" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item2" inherits="AltoItemIconTemplate" id="3">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item1" relativePoint="BOTTOMLEFT" x="0" y="-3" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item3" inherits="AltoItemIconTemplate" id="5">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item2" relativePoint="BOTTOMLEFT" x="0" y="-3" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item4" inherits="AltoItemIconTemplate" id="9">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item3" relativePoint="BOTTOMLEFT" x="0" y="-3" />
+						</Anchors>
+					</Button>
+					
+					<Button parentKey="Item5" inherits="AltoItemIconTemplate" id="10">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item1" relativePoint="TOPRIGHT" x="10" y="0" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item6" inherits="AltoItemIconTemplate" id="6">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item5" relativePoint="BOTTOMLEFT" x="0" y="-3" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item7" inherits="AltoItemIconTemplate" id="7">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item6" relativePoint="BOTTOMLEFT" x="0" y="-3" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item8" inherits="AltoItemIconTemplate" id="8">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item7" relativePoint="BOTTOMLEFT" x="0" y="-3" />
+						</Anchors>
+					</Button>
+					
+					<Button parentKey="Item9" inherits="AltoItemIconTemplate" id="11">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item5" relativePoint="TOPRIGHT" x="10" y="0" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item10" inherits="AltoItemIconTemplate" id="12">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item9" relativePoint="BOTTOMLEFT" x="0" y="-3" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item11" inherits="AltoItemIconTemplate" id="13">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item10" relativePoint="BOTTOMLEFT" x="0" y="-3" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item12" inherits="AltoItemIconTemplate" id="14">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item11" relativePoint="BOTTOMLEFT" x="0" y="-3" />
+						</Anchors>
+					</Button>
+					
+					<Button parentKey="Item13" inherits="AltoItemIconTemplate" id="15">
+						<Anchors>
+							<Anchor point="TOPRIGHT" relativeKey="$parent.Item8" relativePoint="BOTTOMLEFT" x="15" y="-10" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item14" inherits="AltoItemIconTemplate" id="4">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item8" relativePoint="BOTTOMRIGHT" x="-15" y="-10" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item15" inherits="AltoItemIconTemplate" id="2">
+						<Anchors>
+							<Anchor point="TOPRIGHT" relativeKey="$parent.Item13" relativePoint="TOPLEFT" x="-3" y="0" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item16" inherits="AltoItemIconTemplate" id="19">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item14" relativePoint="TOPRIGHT" x="3" y="0" />
+						</Anchors>
+					</Button>
+					
+					<Button parentKey="Item18" inherits="AltoItemIconTemplate" id="17">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item8" relativePoint="BOTTOMLEFT" x="0" y="-56" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item17" inherits="AltoItemIconTemplate" id="16">
+						<Anchors>
+							<Anchor point="TOPRIGHT" relativeKey="$parent.Item18" relativePoint="TOPLEFT" x="-3" y="0" />
+						</Anchors>
+					</Button>
+					<Button parentKey="Item19" inherits="AltoItemIconTemplate" id="18">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeKey="$parent.Item18" relativePoint="TOPRIGHT" x="3" y="0" />
+						</Anchors>
+					</Button>
+				</Frames>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabGuild.Members.Equipment")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabGuild.Members")
+			</OnLoad>
+		</Scripts>
+	</Frame>
+</Ui>

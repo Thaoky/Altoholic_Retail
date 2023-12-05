@@ -1,0 +1,14 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="GuildBankIcon.lua"></Script>
+
+	<Button name="AltoGuildBankIconTemplate" inherits="AddonFactory_ButtonTemplate" virtual="true">
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.GuildBankIcon", "AddonFactory.Button")
+			</OnLoad>
+			<OnEnter>
+				self:Icon_OnEnter()
+			</OnEnter>
+		</Scripts>
+	</Button>
+</Ui>

@@ -1,0 +1,18 @@
+﻿## Interface: 100200
+## Title: Altoholic_Guild
+## IconTexture: Interface\Icons\inv_drink_13
+
+## Notes: Altoholic's Guild UI
+## Author: Thaoky (EU-Marécages de Zangar)
+## Version: 10.2.007
+## Dependencies: Altoholic, DataStore, DataStore_Characters
+## LoadOnDemand: 1
+## X-Category: Interface Enhancements
+
+Locale.xml
+
+Templates\UITemplates.xml
+TabGuild.xml
+
+Frames\GuildMembers.xml
+Frames\GuildBank.xml
