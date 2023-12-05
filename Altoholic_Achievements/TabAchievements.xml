@@ -1,0 +1,126 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="TabAchievements.lua"></Script>
+	
+	<Button name="AltoTabAchievementsClassIconTemplate" inherits="AltoClassIconTemplate" virtual="true">
+		<KeyValues>
+			<KeyValue key="optionFormat" value="Tabs.Achievements.%s.%s.Column%d" />
+		</KeyValues>
+		<Scripts>
+			<OnEnter>
+				self:Icon_OnEnter()
+			</OnEnter>
+		</Scripts>
+	</Button>
+	
+	<Frame parentKey="TabAchievements" inherits="AddonFactory_AuctionHouseTabFrameTemplate" parent="AltoholicFrame" id="5">
+		<Size x="758" y="447" />
+		<Anchors>
+			<Anchor point="TOPLEFT"/>
+		</Anchors>
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="LabelView" inherits="GameFontNormalSmall" justifyH="LEFT" text="GUILD_ROSTER_VIEW">
+					<Size x="60" y="18" />
+					<Anchors>
+						<Anchor point="TOPLEFT" x="245" y="-30" />
+					</Anchors>
+					<Color r="255" g="255" b="255" />
+				</FontString>
+				<FontString parentKey="Status" inherits="GameFontNormal" justifyH="LEFT">
+					<Size x="350" y="24" />
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="200" y="4" />
+					</Anchors>
+				</FontString>
+				<FontString parentKey="PageNumber" inherits="GameFontHighlightSmallOutline" justifyH="RIGHT">
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="-130" y="10" />
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="CategoriesList" inherits="AddonFactory_AuctionHouseCategoriesListTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="4" y="-68"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						Altoholic:BindViewToController(self, "AltoholicUI.TabAchievementsCategoriesList", "AddonFactory.AuctionHouseCategoriesList")
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			
+			<Frame parentKey="SelectRealm" inherits="AltoRealmPickerTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.LabelView" relativePoint="BOTTOMLEFT" x="-30" y="-2" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="menuWidth" value="140" type="number" />
+				</KeyValues>
+			</Frame>
+			
+			<Frame parentKey="ClassIcons" inherits="AltoClassIconsContainerTemplate">
+				<KeyValues>
+					<KeyValue key="numIcons" value="13" type="number" />
+					<KeyValue key="iconTemplate" value="AltoTabAchievementsClassIconTemplate" />
+					<KeyValue key="tabName" value="Achievements" />
+				</KeyValues>
+			</Frame>
+			
+			<Button parentKey="NextPage">
+				<Size x="32" y="32" />
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" x="-40" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():GoToNextPage()
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Down"/>
+				<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-NextPage-Disabled"/>
+				<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+			</Button>
+			<Button parentKey="PrevPage">
+				<Size x="32" y="32" />
+				<Anchors>
+					<Anchor point="RIGHT" relativeKey="$Parent.NextPage" relativePoint="LEFT" x="-10" y="0" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():GoToPreviousPage()
+					</OnClick>
+				</Scripts>
+				<NormalTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Up"/>
+				<PushedTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Down"/>
+				<DisabledTexture file="Interface\Buttons\UI-SpellbookIcon-PrevPage-Disabled"/>
+				<HighlightTexture file="Interface\Buttons\UI-Common-MouseHilight" alphaMode="ADD"/>
+			</Button>
+			
+			<Frame parentKey="Background" useParentLevel="true">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.CategoriesList" relativePoint="TOPRIGHT" x="4" y="-25"/>
+					<Anchor point="RIGHT" relativeTo="AltoholicFrame" relativePoint="RIGHT" x="-30" y="0"/>
+					<Anchor point="BOTTOM" relativeTo="AltoholicFrame" relativePoint="BOTTOM" x="0" y="28"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND" textureSubLevel="-5">
+						<Texture parentKey="bg" atlas="auctionhouse-background-index" useAtlasSize="true" />
+					</Layer>
+				</Layers>
+			</Frame>		
+			
+			<Frame parentKey="ContextualMenu" inherits="AddonFactory_ContextualMenuTemplate" />
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				Altoholic:BindViewToController(self, "AltoholicUI.TabAchievements")
+			</OnLoad>
+			<OnHide>
+				self.ContextualMenu:Close()
+			</OnHide>
+		</Scripts>
+	</Frame>
+</Ui>

@@ -1,0 +1,69 @@
+<Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
+	<Script file="AchievementButton.lua"></Script>
+	
+	<Button name="AltoAchievementButtonTemplate" hidden="true" virtual="true" inherits="BackdropTemplate">
+		<Size x="32" y="32" />
+		<Layers> 
+			<Layer level="BACKGROUND"> 
+				<Texture parentKey="Background">
+					<Size x="28" y="28" />
+					<Anchors>
+						<Anchor point="LEFT" x="2" y="0" />
+					</Anchors>
+					<Color r="0.2" g="0.2" b="0.2" a="1" /> 
+				</Texture> 
+			</Layer>
+			<Layer level="OVERLAY">
+				<Texture parentKey="IconBorder" file="Interface\Buttons\UI-ActionButton-Border" alphaMode="ADD">
+					<Size x="67" y="67"/>
+					<Anchors>
+						<Anchor point="CENTER"/>
+					</Anchors>
+				</Texture>
+				<FontString parentKey="Name" inherits="GameFontNormalSmall" justifyH="CENTER" >
+					<Size x="30" y="18" />
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT" x="5" y="0" />
+					</Anchors>
+					<Color r="1" g="1" b="1" /> 
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad inherit="prepend">
+				self:SetBackdrop({
+					bgFile = "Interface\\TutorialFrame\\TutorialFrameBackground",
+					edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+					tile = true,
+					tileSize = 30,
+					edgeSize = 8,
+					insets = { left = 5, right = 5, top = 5, bottom = 5, },
+				})
+				self:SetBackdropColor(1, 1, 1, 0)
+			
+				Altoholic:BindViewToController(self, "AltoholicUI.AchievementButton")
+				
+				local level = self:GetParent():GetFrameLevel()
+				self:SetFrameLevel(level + 1)
+				self:RegisterForClicks("LeftButtonDown", "RightButtonDown")
+			</OnLoad>
+			<OnEnter>
+				self:Button_OnEnter()
+			</OnEnter> 
+			<OnLeave>
+				AddonFactory_Tooltip:Hide()
+			</OnLeave>
+			<OnClick>
+				if button ~= "LeftButton" or not IsShiftKeyDown() or not self.key then return end
+
+				local chat = ChatEdit_GetLastActiveWindow()
+				if not chat:IsShown() then return end
+
+				local link = DataStore:GetAchievementLink(self.key, self.id)
+				if not link then return end
+					
+				chat:Insert(link)
+			</OnClick>
+		</Scripts>
+	</Button>
+</Ui>

@@ -1,0 +1,18 @@
+﻿## Interface: 100200
+## Title: Altoholic_Achievements
+## IconTexture: Interface\Icons\inv_drink_13
+
+## Notes: Altoholic's Achievements UI
+## Author: Thaoky (EU-Marécages de Zangar)
+## Version: 10.2.007
+## Dependencies: Altoholic, DataStore, DataStore_Achievements, DataStore_Characters
+## LoadOnDemand: 1
+## X-Category: Interface Enhancements
+
+Locale.xml
+Services\AchievementsLists.lua
+
+Templates\UITemplates.xml
+TabAchievements.xml
+
+Frames\Achievements.xml
