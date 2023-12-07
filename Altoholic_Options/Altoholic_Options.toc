@@ -4,7 +4,7 @@
 
 ## Notes: Altoholic's Options UI
 ## Author: Thaoky (EU-Marécages de Zangar)
-## Version: 10.2.007
+## Version: 10.2.008
 ## Dependencies: Altoholic, DataStore, DataStore_Characters
 ## LoadOnDemand: 1
 ## X-Category: Interface Enhancements
