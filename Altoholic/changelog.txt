@@ -15,6 +15,11 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+10.2.008 (07/12/2023)
+
+- First release via Github.
+- ToC Update.
+
 10.2.007 (26/11/2023)
 
 - DataStore_Crafts: The module is now shared between all versions of the game.
