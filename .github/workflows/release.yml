@@ -1,0 +1,129 @@
+name: Curseforge Release
+
+on:
+  push:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # specify the environment variables used by the packager, matching the secrets from the project on GitHub
+    env:
+      CURSEFORGE_API_TOKEN: ${{ secrets.CURSEFORGE_API_TOKEN }}
+      DISPLAY_NAME: ""
+      ZIP_FILE_NAME: ""
+      ADDON_VERSION: ""
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Copy subfolders from DataStore repositories
+        run: |
+          git clone https://github.com/Thaoky/DataStore.git temp
+          mv temp/DataStore .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Achievements.git temp
+          mv temp/DataStore_Achievements .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Agenda.git temp
+          mv temp/DataStore_Agenda .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Auctions.git temp
+          mv temp/DataStore_Auctions .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Characters.git temp
+          mv temp/DataStore_Characters .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Containers.git temp
+          mv temp/DataStore_Containers .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Crafts.git temp
+          mv temp/DataStore_Crafts .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Currencies.git temp
+          mv temp/DataStore_Currencies .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Garrisons.git temp
+          mv temp/DataStore_Garrisons .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Inventory.git temp
+          mv temp/DataStore_Inventory .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Mails.git temp
+          mv temp/DataStore_Mails .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Pets.git temp
+          mv temp/DataStore_Pets .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Quests.git temp
+          mv temp/DataStore_Quests .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Reputations.git temp
+          mv temp/DataStore_Reputations .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Spells.git temp
+          mv temp/DataStore_Spells .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Stats.git temp
+          mv temp/DataStore_Stats .
+          rm -rf temp
+          
+          git clone https://github.com/Thaoky/DataStore_Talents.git temp
+          mv temp/DataStore_Talents .
+          rm -rf temp
+          
+      - name: Extract Version
+        run: |
+          ADDON_VERSION=$(grep -oP "## Version: \K[^ ]+" Altoholic/Altoholic.toc)
+          echo "Version found: $ADDON_VERSION"
+          echo "ADDON_VERSION=$ADDON_VERSION" >> $GITHUB_ENV
+
+      # Runs a single command using the runners shell
+      - name: Generate Zip file
+        run: |
+          # Combine date and value to form the zip file name
+          DISPLAY_NAME="${{ vars.CURSEFORGE_DISPLAY_NAME }} v$ADDON_VERSION" 
+          ZIP_FILE_NAME="$DISPLAY_NAME.zip"
+
+          # Get the content of linked submodules before zipping
+          git submodule update --init --recursive
+          zip -r -9 "$ZIP_FILE_NAME" * -x README.md
+          echo "File name: $ZIP_FILE_NAME"
+
+          # Set as environment variable for the next step
+          echo "DISPLAY_NAME=$DISPLAY_NAME" >> $GITHUB_ENV
+          echo "ZIP_FILE_NAME=$ZIP_FILE_NAME" >> $GITHUB_ENV
+
+      - name: Upload to Curseforge API
+        run: |
+          API_URL="https://wow.curseforge.com/api/projects/${{ vars.CURSEFORGE_PROJECT_ID }}/upload-file"
+          
+          curl -L -X POST \
+          -H "x-api-token: ${{ secrets.CURSEFORGE_API_TOKEN }}" \
+          -F "metadata={\"displayName\": \"$DISPLAY_NAME\", \"gameVersions\": [ ${{ vars.CURSEFORGE_GAME_VERSIONS }}], \"releaseType\": \"release\", \"changelog\": \"See changelog.txt\"}"  \
+          -F "file=@$ZIP_FILE_NAME" \
+          "$API_URL"
