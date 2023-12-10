@@ -98,7 +98,7 @@ jobs:
           
       - name: Extract Version
         run: |
-          ADDON_VERSION=$(grep -oP "## Version: \K[^ ]+" Altoholic/Altoholic.toc)
+          ADDON_VERSION=$(grep -oP "## Version: \K[^\r ]+" Altoholic/Altoholic.toc)
           echo "Version found: $ADDON_VERSION"
           echo "ADDON_VERSION=$ADDON_VERSION" >> $GITHUB_ENV
 
@@ -109,8 +109,6 @@ jobs:
           DISPLAY_NAME="${{ vars.CURSEFORGE_DISPLAY_NAME }} v$ADDON_VERSION" 
           ZIP_FILE_NAME="$DISPLAY_NAME.zip"
 
-          # Get the content of linked submodules before zipping
-          git submodule update --init --recursive
           zip -r -9 "$ZIP_FILE_NAME" * -x README.md
           echo "File name: $ZIP_FILE_NAME"
 
