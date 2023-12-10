@@ -15,6 +15,11 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+10.2.009 (10/12/2023)
+
+- DataStore_Quests: Added weekly world bosses.
+- DataStore_Containers: Fixed Bag5 being treated as the reagent bag in non-retail, causing the proper count not to be displayed for the first bank bag.
+
 10.2.008 (07/12/2023)
 
 - First release via Github.
