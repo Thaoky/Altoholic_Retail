@@ -4,7 +4,7 @@
 
 ## Notes: AddonFactory is a collection of templates for rapid UI development.
 ## Author: Thaoky (EU-Marécages de Zangar)
-## Version: 10.2.008
+## Version: 10.2.009
 
 Libs\LibStub\LibStub.lua
 Libs\LibMVC-1.0\LibMVC-1.0.xml
