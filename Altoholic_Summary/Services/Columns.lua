@@ -49,7 +49,7 @@ addon:Service("AltoholicUI.TabSummaryColumnProfiles",  function()
 		-- Currencies / Warlords of Draenor
 		[13] = { "Name", "Level", "Cur_Garrison", "Cur_Oil", "Cur_Apexis", "Cur_InevitableFate", "Cur_TemperedFate", "Cur_ArtifactFragment" },
 		-- Currencies / Legion
-		[14] = { "Name", "Level", "Cur_OrderHall", "Cur_WarSupplies", "Cur_Nethershard", "Cur_BrokenFate", "Cur_SightlessEye", "Cur_AncientMana" },
+		[14] = { "Name", "Level", "Cur_OrderHall", "Cur_WarSupplies", "Cur_Nethershard", "Cur_BrokenFate", "Cur_SightlessEye", "Cur_AncientMana", "Cur_VeiledArgunite" },
 		-- Currencies / Battle for Azeroth
 		[15] = { "Name", "Level", "Cur_WarResources", "Cur_WartornFate", "Cur_BfADubloons", "Cur_BfAWarSupplies", "Cur_BfARichAzerite" },
 		-- Currencies / Shadowlands 9.0
