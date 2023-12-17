@@ -22,6 +22,7 @@ L["WOWI_ICON_ON_ENTER"] = "Cliquer pour afficher la page de l'add-on sur WoW Int
 L["CURSE_ICON_ON_ENTER"] = "Cliquer pour afficher la page de l'add-on sur Curseforge"
 L["DISCORD_ICON_ON_ENTER"] = "Cliquer pour afficher l'adresse du serveur Discord"
 L["EMAIL_ICON_ON_ENTER"] = "Cliquer pour afficher l'adresse e-mail de Thaoky"
+L["GITHUB_ICON_ON_ENTER"] = "Cliquer pour afficher l'adresse Github de Thaoky"
 L["TAB_NOT_LOADED_YET"] = "Onglet pas encore chargé"
 
 -- ** Settings / Altoholic / General **
