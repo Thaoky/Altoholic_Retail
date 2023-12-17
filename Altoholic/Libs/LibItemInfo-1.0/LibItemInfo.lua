@@ -12,12 +12,12 @@ The information returned is not necessarily the source, although it may be, it i
 Ex: enchanted heavy callous hide would be "leatherworking", even though it was created by "enchanting".
 Leatherworking is the profession where it will be helpful, and is also the bag type that in which it will be stored.
 
-Note: I know the game is now supposed to returned the expansion pack of an item with GetItemInfo, but it appears this info
+Note: I know the game is now supposed to return the expansion pack of an item with GetItemInfo, but it appears this info
 is only valid for BfA & Shadowlands. Older items are mostly invalid.
 
 --]]
 
-local LIB_VERSION_MAJOR, LIB_VERSION_MINOR = "LibItemInfo-1.0", 2
+local LIB_VERSION_MAJOR, LIB_VERSION_MINOR = "LibItemInfo-1.0", 3
 local lib = LibStub:NewLibrary(LIB_VERSION_MAJOR, LIB_VERSION_MINOR)
 
 if not lib then return end -- No upgrade needed
@@ -46,8 +46,6 @@ format [spellID] = attribute (number, to be read bit by bit)
 -- *** Bitwise operations ***
 local bAnd = bit.band
 local bOr = bit.bor
-local RShift = bit.rshift
-local LShift = bit.lshift
 
 local function RightShift(value, numBits)
 	-- for bits beyond bit 31
@@ -57,6 +55,17 @@ end
 local function LeftShift(value, numBits)
    -- for bits beyond bit 31
    return value * 2^numBits
+end
+
+local function GetBits(value, low, high)
+	-- low = lowest bit
+	-- high = highest bit
+	-- Ex: local x = GetBits(15, 18) => returns the value of bits 15 to 18 (so 4 bits)
+	
+	local numBits = (high - low) + 1		-- ex: 18 - 15 = 3 + 1 = 4 bits
+	local mask = (2 ^ numBits) - 1		-- ex: 2^4 = 16 - 1 = 15
+	
+	return bAnd(RightShift(value, low), mask)
 end
 
 local itemDB = {}
@@ -184,64 +193,85 @@ function lib.SetQuestItem(expansion)
 		+ (TYPE_QUEST_ITEM * 32)							-- Bits 5-9 : type
 end
 
+local itemSources = {
+	[TYPE_REAGENT] = function(attrib)
+			local professionID = GetBits(attrib, 10, 14)			-- Bits 10-14 : profession
+			local goesInBag = GetBits(attrib, 15, 18)				-- Bits 15-18 : bag type
+			local level = GetBits(attrib, 19, 35)					-- Bits 19+ : level
+		
+			local profession = reagentTypes[professionID] or UNKNOWN
+			if level > 0 then
+				profession = format("%s, %d", profession, level)
+			end
+		
+			return profession, bagTypes[goesInBag], professionID	
+		end,
+		
+	[TYPE_DUNGEON_LOOT] = function(attrib)
+			local instanceID = GetBits(attrib, 10, 25)	-- Bits 10-25 : instance id
+			-- local instanceName = EJ_GetInstanceInfo(instanceID)	-- not reliable !!
+			local instanceName = GetRealZoneText(instanceID)
+
+			local bossID = GetBits(attrib, 26, 48)			-- Bits 26+ : boss/encounter id
+			local bossName = EJ_GetEncounterInfo(bossID)
+		
+			return instanceName, bossName
+		end,
+		
+	[TYPE_RAID_LOOT] = function(attrib)
+			local instanceID = GetBits(attrib, 10, 25)	-- Bits 10-25 : instance id
+			-- local instanceName = EJ_GetInstanceInfo(instanceID)	-- not reliable !!
+			local instanceName = GetRealZoneText(instanceID)
+
+			local bossID = GetBits(attrib, 26, 48)			-- Bits 26+ : boss/encounter id
+			local bossName = EJ_GetEncounterInfo(bossID)
+		
+			return instanceName, bossName
+		end,
+		
+	[TYPE_PVP_LOOT] = function(attrib) end,
+		
+	[TYPE_FACTION_ITEM] = function(attrib)
+			-- instance id's from https://wow.tools/dbc/?dbc=map or https://wowpedia.fandom.com/wiki/InstanceID
+			-- retrieved in-game with GetRealZoneText(zoneID)
+		
+			local factionID = GetBits(attrib, 10, 25)		-- Bits 10-25 : faction id
+			local instanceID = GetBits(attrib, 26, 43)	-- Bits 26+ : instance id
+			
+			local factionName = GetFactionInfoByID(factionID)
+			local instanceName = (instanceID ~= 0) and GetRealZoneText(instanceID) or nil
+			
+			return factionName, instanceName
+		end,
+		
+	[TYPE_ZONE_ITEM] = function(attrib)
+			-- https://wowpedia.fandom.com/wiki/UiMapID
+			-- C_Map.GetMapInfo()  https://wowpedia.fandom.com/wiki/API_C_Map.GetMapInfo
+			-- ID's : https://wowpedia.fandom.com/wiki/UiMapID
+		
+			local UiMapID = GetBits(attrib, 10, 25)		-- Bits 10-25 : UiMapID
+			local locX = GetBits(attrib, 26, 35)			-- Bits 26-35 : locX = X coordinates on the map
+			local locY = GetBits(attrib, 36, 45)			-- Bits 36-45 : locY = Y coordinates on the map
+			
+			local zoneInfo = C_Map.GetMapInfo(UiMapID)
+			local zoneName = (zoneInfo) and zoneInfo.name or ""
+		
+			return zoneName, locX, locY
+		end,
+		
+	[TYPE_QUEST_ITEM] = function(attrib)
+			return "Can be deleted after quest completion"
+		end,
+}
 
 -- Returns the name of the profession that created the item
 function lib:GetItemSource(itemID)
 	if not itemDB[itemID] then return end
 
 	local attrib = itemDB[itemID]
-	local expansion = bAnd(attrib, 31)							-- Bits 0-4 : expansion (classic = 0)
-	local itemType = bAnd(RightShift(attrib, 5), 31)		-- Bits 5-9 : type
+	local expansion = GetBits(attrib, 0, 4)	-- Bits 0-4 : expansion (classic = 0)
+	local itemType = GetBits(attrib, 5, 9)		-- Bits 5-9 : type
+	local expansionName = _G[format("EXPANSION_NAME%d", expansion)]
 	
-	if itemType == TYPE_REAGENT then
-		local professionID = bAnd(RightShift(attrib, 10), 31)		-- Bits 10-14 : profession
-		local goesInBag = bAnd(RightShift(attrib, 15), 15)			-- Bits 15-18 : bag type
-		local level = bAnd(RightShift(attrib, 19), 524287)			-- Bits 19+ : level
-		
-		local profession = reagentTypes[professionID] or UNKNOWN
-		if level > 0 then
-			profession = format("%s, %d", profession, level)
-		end
-		
-		return itemType, _G[format("EXPANSION_NAME%d", expansion)], expansion, profession, bagTypes[goesInBag], professionID
-	
-	elseif itemType == TYPE_DUNGEON_LOOT or itemType == TYPE_RAID_LOOT then
-		local instanceID = bAnd(RightShift(attrib, 10), 65535)	-- Bits 10-25 : instance id
-		local bossID = bAnd(RightShift(attrib, 26), 65535)			-- Bits 26+ : boss/encounter id
-
-		local bossName = EJ_GetEncounterInfo(bossID)
-		-- local instanceName = EJ_GetInstanceInfo(instanceID)	-- not reliable !!
-		local instanceName = GetRealZoneText(instanceID)
-	
-		return itemType, _G[format("EXPANSION_NAME%d", expansion)], expansion, instanceName, bossName
-		
-	elseif itemType == TYPE_FACTION_ITEM then
-		-- instance id's from https://wow.tools/dbc/?dbc=map or https://wowpedia.fandom.com/wiki/InstanceID
-		-- retrieved in-game with GetRealZoneText(zoneID)
-	
-		local factionID = bAnd(RightShift(attrib, 10), 65535)		-- Bits 10-25 : faction id
-		local instanceID = bAnd(RightShift(attrib, 26), 65535)	-- Bits 26+ : instance id
-		
-		local factionName = GetFactionInfoByID(factionID)
-		local instanceName = (instanceID ~= 0) and GetRealZoneText(instanceID) or nil
-		
-		return itemType, _G[format("EXPANSION_NAME%d", expansion)], expansion, factionName, instanceName
-	
-	elseif itemType == TYPE_ZONE_ITEM then
-		-- https://wowpedia.fandom.com/wiki/UiMapID
-		-- C_Map.GetMapInfo()  https://wowpedia.fandom.com/wiki/API_C_Map.GetMapInfo
-		-- ID's : https://wowpedia.fandom.com/wiki/UiMapID
-	
-		local UiMapID = bAnd(RightShift(attrib, 10), 65535)		-- Bits 10-25 : UiMapID
-		local locX = bAnd(RightShift(attrib, 26), 1023)				-- Bits 26-35 : locX = X coordinates on the map
-		local locY = bAnd(RightShift(attrib, 36), 1023)				-- Bits 36-45 : locY = Y coordinates on the map
-		local zoneInfo = C_Map.GetMapInfo(UiMapID)
-		local zoneName = (zoneInfo) and zoneInfo.name or ""
-	
-		return itemType, _G[format("EXPANSION_NAME%d", expansion)], expansion, zoneName, locX, locY
-	
-	elseif itemType == TYPE_QUEST_ITEM then
-	
-		return itemType, _G[format("EXPANSION_NAME%d", expansion)], expansion, "Can be deleted after quest completion"
-	end
+	return itemType, expansionName, expansion, itemSources[itemType](attrib)
 end
