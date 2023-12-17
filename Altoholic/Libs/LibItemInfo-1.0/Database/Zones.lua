@@ -9,7 +9,7 @@
 Items stored in this file are "zone items", or items that are only relevant to a given zone.
 The goal is to provide a minimum of info to the user for all those items that only have a vague description.
 If it's an item that can simply be clicked to learn (like a pet or a toy), it has nothing to do in this list.
-If the item already a clear description about a faction it is related to, it has nothing to do in this list.
+If the item already has a clear description about a faction it is related to, it has nothing to do in this list.
 However, if it is an item for which you cannot say from which expansion/zone it is.. then it should be here.
 For some items that have only 1 location where they can be used in the zone, then try to add X-Y Coords with SetZoneItem()
 
@@ -44,6 +44,8 @@ local OHNAHRAN_PLAINS = 2023
 local AZURE_SPAN = 2024
 local VALDRAKKEN = 2112
 local WAKING_SHORES = 2127
+local ZARALEK_CAVERN = 2175
+local EMERALD_DREAM = 2200
 
 lib:RegisterItems({
 
@@ -122,6 +124,14 @@ lib:RegisterItems({
 	[199339] = SetZoneItem(9, OHNAHRAN_PLAINS, 822, 731), -- Silver Coin of the Isles
 	[199340] = SetZoneItem(9, OHNAHRAN_PLAINS, 822, 731), -- Gold Coin of the Isles
 	[201159] = SetZoneItem(9, OHNAHRAN_PLAINS, 623, 423), -- Aloom's Token
+	
+	-- 10.1 Zaralek Cavern
+	-- [] = SetZoneItem(9, ZARALEK_CAVERN), -- xx
+	
+	-- 10.2 Emerald Dream
+	[208066] = SetZoneItem(9, EMERALD_DREAM), -- Small Dreamseed
+	[208067] = SetZoneItem(9, EMERALD_DREAM), -- Plump Dreamseed
+	[208047] = SetZoneItem(9, EMERALD_DREAM), -- Gigantic Dreamseed
 	
 
 })
