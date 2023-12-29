@@ -158,6 +158,8 @@ addon:Controller("AltoholicUI.TabAchievementsCategoriesList", {
 					{ id = cat.QuestsShadowlands },
 					{ text = FormatRaid("9.2", 13536), id = cat.QuestsShadowlands92 },		-- Zereth Mortis
 					{ id = cat.QuestsDragonflight },
+					{ text = format("%s10.1|r %s%s", colors.green, colors.yellow, "Zaralek Cavern"), id = cat.QuestsDragonflight101 },
+					{ text = format("%s10.2|r %s%s", colors.green, colors.yellow, "Emerald Dream"), id = cat.QuestsDragonflight102 },
 				}},
 				{ text = TRACKER_FILTER_COMPLETED_QUESTS, id = cat.QuestsCompleted },
 				{ text = L["Daily Quests"], id = cat.QuestsDaily },
