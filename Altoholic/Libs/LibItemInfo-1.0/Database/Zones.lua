@@ -111,6 +111,41 @@ lib:RegisterItems({
 	[190198] = SetZoneItem(8, ZERETH_MORTIS), -- Sandworn Chest Key Fragment
 	[190739] = SetZoneItem(8, ZERETH_MORTIS), -- Provis Wax
 	[190740] = SetZoneItem(8, ZERETH_MORTIS), -- Automa Integration
+
+	[189157] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Animation
+	[189158] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Cunning
+	[189159] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Discovery
+	[189160] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Focus
+	[189161] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Malice
+	[189162] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Metamorphosis
+	[189163] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Motion
+	[189164] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Multiplicity
+	[189165] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Predation
+	[189166] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Renewal
+	[189167] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Satisfaction
+	[189168] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Serenity
+	[189169] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Survival
+	[189170] = SetZoneItem(8, ZERETH_MORTIS), -- Glimmer of Vigilance
+	
+	[187634] = SetZoneItem(8, ZERETH_MORTIS), -- Ambystan Lattice
+	[187636] = SetZoneItem(8, ZERETH_MORTIS), -- Aurelid Lattice
+	[187633] = SetZoneItem(8, ZERETH_MORTIS), -- Bufonid Lattice
+	[187635] = SetZoneItem(8, ZERETH_MORTIS), -- Cervid Lattice
+	[189500] = SetZoneItem(8, ZERETH_MORTIS), -- Cervid Lattice (quest item)
+	[189146] = SetZoneItem(8, ZERETH_MORTIS), -- Geomental Lattice
+	[189145] = SetZoneItem(8, ZERETH_MORTIS), -- Helicid Lattice
+	[189147] = SetZoneItem(8, ZERETH_MORTIS), -- Leporid Lattice
+	[190388] = SetZoneItem(8, ZERETH_MORTIS), -- Lipine Lattice
+	[189148] = SetZoneItem(8, ZERETH_MORTIS), -- Poultrid Lattice
+	[189149] = SetZoneItem(8, ZERETH_MORTIS), -- Proto Avian Lattice
+	[189150] = SetZoneItem(8, ZERETH_MORTIS), -- Raptora Lattice
+	[189151] = SetZoneItem(8, ZERETH_MORTIS), -- Scarabid Lattice
+	[189152] = SetZoneItem(8, ZERETH_MORTIS), -- Tarachnid Lattice
+	[189153] = SetZoneItem(8, ZERETH_MORTIS), -- Unformed Lattice
+	[189154] = SetZoneItem(8, ZERETH_MORTIS), -- Vespoid Lattice
+	[189155] = SetZoneItem(8, ZERETH_MORTIS), -- Viperid Lattice
+	[189156] = SetZoneItem(8, ZERETH_MORTIS), -- Vombata Lattice
+	
 	
 	-- 10.0 Dragonflight
 	[192055] = SetZoneItem(9, WAKING_SHORES, 471, 825), -- Dragon Isles Artifact
