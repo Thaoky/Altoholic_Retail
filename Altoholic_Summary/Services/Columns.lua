@@ -88,7 +88,7 @@ addon:Service("AltoholicUI.TabSummaryColumnProfiles",  function()
 		[28] = { "Name", "Level", "Cur_Flightstones", "Cur_ParacausalFlakes", "Cur_RidersofAzerothBadge" },
 
 		-- Currencies / Dragonflight 10.2
-		[29] = { "Name", "Level", "Cur_EmeraldDewdrop","Cur_WhelplingsDreamingCrest", "Cur_DrakesDreamingCrest", "Cur_WyrmsDreamingCrest", "Cur_AspectsDreamingCrest", "Cur_DreamInfusion" },
+		[29] = { "Name", "Level", "Cur_EmeraldDewdrop","Cur_WhelplingsDreamingCrest", "Cur_DrakesDreamingCrest", "Cur_WyrmsDreamingCrest", "Cur_AspectsDreamingCrest", "Cur_DreamInfusion", "Cur_MysteriousFragment" },
 		
 		-- Weekly Best Runs per dungeon
 		[30] = { "Name", "Level", "MPlus1", "MPlus2", "MPlus3", "MPlus4", "MPlus5", "MPlus6", "MPlus7", "MPlus8" }		
