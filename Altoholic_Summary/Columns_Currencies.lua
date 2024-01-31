@@ -981,4 +981,19 @@ Columns.RegisterColumn("Cur_DreamInfusion", {
 	Width = 60,
 	JustifyH = "CENTER",
 	GetText = function(character) return GetCurrencyText(character, enum.DreamInfusion) end,
+
+})
+
+Columns.RegisterColumn("Cur_MysteriousFragment", {
+	-- Header
+	headerWidth = 60,
+	headerLabel = format("     %s", Formatter.Texture18("Interface\\Icons\\inv_7_0raid_trinket_05a")),
+	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.MysteriousFragment) end,
+	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_MysteriousFragment") end,
+	headerSort = function(self, character) return GetTotals(character, enum.MysteriousFragment) end,
+
+	-- Content
+	Width = 60,
+	JustifyH = "CENTER",
+	GetText = function(character) return GetCurrencyText(character, enum.MysteriousFragment) end,
 })
