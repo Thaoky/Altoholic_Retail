@@ -22,6 +22,7 @@ L["Account Sharing"] = "Compartilhamento de Conta"
 -- L["CURSE_ICON_ON_ENTER"] = "Click to display the add-on's homepage on Curseforge"
 -- L["DISCORD_ICON_ON_ENTER"] = "Click to display the address of the Discord server"
 -- L["EMAIL_ICON_ON_ENTER"] = "Click to display Thaoky's E-Mail address"
+-- L["GITHUB_ICON_ON_ENTER"] = "Click to display Thaoky's Github address"
 -- L["TAB_NOT_LOADED_YET"] = "Tab not loaded yet"
 
 -- ** Settings / Altoholic / General **

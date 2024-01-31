@@ -15,6 +15,22 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+10.2.011 (29/12/2023)
+
+- LibItemInfo: added a few Zereth Mortis zone items.
+- Achievements tab -> Added categories for Dragonflight quests in 10.1 & 10.2.
+
+10.2.010 (17/12/2023)
+
+- LibItemInfo: added a few Emerald Dream zone items.
+- LibItemInfo: minor code rework.
+- DataStore_Currencies: added Legion Veiled Argunite.
+- Summary tab: added Legion Veiled Argunite to Currencies->Legion.
+- Summary tab -> Expansion features: added a column for Torghast progress in Shadowlands.
+- Summary tab -> Expansion features: added a section for Dragonflight campaign progress.
+- DataStore_Quests: Reworked the tracking of campaign progress. 
+Shadowlands covenant progress is preserved, but 9.1 and 9.2 have changed, so you need to login your alts again to get the proper values.
+
 10.2.009 (10/12/2023)
 
 - DataStore_Quests: Added weekly world bosses.

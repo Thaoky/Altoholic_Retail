@@ -495,25 +495,25 @@ Columns.RegisterColumn("Cur_AncientMana", {
 })
 
 Columns.RegisterColumn("Cur_VeiledArgunite", {
-    -- Header
-    headerWidth = 70,
-    headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\oshugun_crystalfragments")),
-    headerOnEnter = function(frame, tooltip)
-        CurrencyHeader_OnEnter(frame, enum.VeiledArgunite)
-    end,
-    headerOnClick = function()
-        AltoholicFrame.TabSummary:SortBy("Cur_VeiledArgunite")
-    end,
-    headerSort = function(self, character)
-        return GetTotals(character, enum.VeiledArgunite)
-    end,
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\oshugun_crystalfragments")),
+	headerOnEnter = function(frame, tooltip)
+		CurrencyHeader_OnEnter(frame, enum.VeiledArgunite)
+	end,
+	headerOnClick = function()
+		AltoholicFrame.TabSummary:SortBy("Cur_VeiledArgunite")
+	end,
+	headerSort = function(self, character)
+		return GetTotals(character, enum.VeiledArgunite)
+	end,
 
-    -- Content
-    Width = 70,
-    JustifyH = "CENTER",
-    GetText = function(character)
-        return GetCurrencyTextWithMax(character, enum.VeiledArgunite)
-    end
+	-- Content
+	Width = 70,
+	JustifyH = "CENTER",
+	GetText = function(character)
+		return GetCurrencyTextWithMax(character, enum.VeiledArgunite)
+	end
 })
 
 -- ** Battle for Azeroth **
@@ -981,6 +981,7 @@ Columns.RegisterColumn("Cur_DreamInfusion", {
 	Width = 60,
 	JustifyH = "CENTER",
 	GetText = function(character) return GetCurrencyText(character, enum.DreamInfusion) end,
+
 })
 
 Columns.RegisterColumn("Cur_MysteriousFragment", {

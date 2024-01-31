@@ -778,7 +778,7 @@ addon:Controller("AltoholicUI.TabSummaryCategoriesList", {
 				-- }},
 				
 				-- Shadowlands
-				{ text = format("%s%s", colors.cyan, EXPANSION_NAME8), subMenu = {
+				{ text = EXPANSION_NAME8, subMenu = {
 					-- Covenant Sanctums
 					{ text = GetCategoryInfo(15441), profile = 20 },
 					-- Sanctum Reservoir
@@ -790,6 +790,12 @@ addon:Controller("AltoholicUI.TabSummaryCategoriesList", {
 					-- Torghast
 					-- { text = GetCategoryInfo(15440), profile = 23 },
 				}},
+				
+				-- Dragonflight
+				{ text = EXPANSION_NAME9, subMenu = {
+					-- Campain Progress
+					{ text = L["COLUMN_CAMPAIGNPROGRESS_TITLE"], profile = 31 },
+				}},				
 			}},
 			{ text = CHALLENGES, subMenu = {
 				-- Weekly Best

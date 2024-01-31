@@ -52,9 +52,47 @@ local function GetRenownLevel(self, character)
 	return select(3, DataStore:GetCovenantInfo(character)) or 0
 end
 
+local function Storyline_GetText(character, storyline)
+	local numCompleted = DataStore:GetStorylineProgress(character, storyline)
+	local numQuests = DataStore:GetStorylineLength(storyline)
+	
+	return Formatter.Progress(numCompleted, numQuests)
+end
 
-
-
+local function Storyline_OnEnter(frame, campaignID, storyline)
+	local character = frame:GetParent().character
+	if not character then return end
+	
+	local numCompleted = DataStore:GetStorylineProgress(character, storyline)
+	local numQuests = DataStore:GetStorylineLength(storyline)
+	
+	local tt = AddonFactory_Tooltip
+	tt:ClearLines()
+	tt:SetOwner(frame, "ANCHOR_RIGHT")
+	tt:AddDoubleLine(
+		DataStore:GetColoredCharacterName(character), 
+		campaignID and C_CampaignInfo.GetCampaignInfo(campaignID).name or ""
+	)
+	tt:AddLine(" ")
+	tt:AddLine(format(CAMPAIGN_PROGRESS_CHAPTERS_TOOLTIP, numCompleted, numQuests))
+	
+	for _, info in pairs(DataStore:GetCampaignChaptersInfo(character, campaignID, storyline)) do
+		local color
+		local icon = " - "
+		
+		if info.completed == nil then
+			color = colors.grey				-- grey for not started
+		elseif info.completed == false then
+			color = colors.white				-- white for ongoing
+		elseif info.completed == true then
+			color = colors.green				-- green for completed
+			icon = CRITERIA_COMPLETE_ICON
+		end
+		
+		tt:AddLine(format("%s%s%s", icon, color, info.name))
+	end
+	tt:Show()
+end
 
 
 -- ** Garrison Followers **
@@ -394,6 +432,22 @@ Columns.RegisterColumn("Story90", {
 		end,
 })
 
+Columns.RegisterColumn("StoryTorghast", {
+	-- Header
+	headerWidth = 70,
+	headerLabel = L["Torghast"],
+	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
+	tooltipSubTitle = L["Torghast"],
+	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("StoryTorghast") end,
+	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "Torghast") end,
+	
+	-- Content
+	Width = 70,
+	JustifyH = "CENTER",
+	GetText = function(character) return Storyline_GetText(character, "Torghast") end,
+	OnEnter = function(frame) Storyline_OnEnter(frame, nil, "Torghast") end,
+})
+
 Columns.RegisterColumn("Story91", {
 	-- Header
 	headerWidth = 70,
@@ -401,48 +455,13 @@ Columns.RegisterColumn("Story91", {
 	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
 	tooltipSubTitle = C_CampaignInfo.GetCampaignInfo(138).name,
 	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story91") end,
-	headerSort = DataStore.GetChainsOfDominationStorylineProgress,
+	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "9.1") end,
 	
 	-- Content
 	Width = 70,
 	JustifyH = "CENTER",
-	GetText = function(character) 
-		local numCompleted = DataStore:GetChainsOfDominationStorylineProgress(character)
-		local numQuests = DataStore:GetChainsOfDominationStorylineLength(character)
-		
-		return Formatter.Progress(numCompleted, numQuests)
-	end,
-	OnEnter = function(frame)
-			local character = frame:GetParent().character
-			if not character then return end
-			
-			local numCompleted = DataStore:GetChainsOfDominationStorylineProgress(character)
-			local numQuests = DataStore:GetChainsOfDominationStorylineLength(character)
-			
-			local tt = AddonFactory_Tooltip
-			tt:ClearLines()
-			tt:SetOwner(frame, "ANCHOR_RIGHT")
-			tt:AddDoubleLine(DataStore:GetColoredCharacterName(character), C_CampaignInfo.GetCampaignInfo(138).name)
-			tt:AddLine(" ")
-			tt:AddLine(format(CAMPAIGN_PROGRESS_CHAPTERS_TOOLTIP, numCompleted, numQuests))
-			
-			for _, info in pairs(DataStore:GetCampaignChaptersInfo(character, 138, "story91Progress")) do
-				local color
-				local icon = " - "
-				
-				if info.completed == nil then
-					color = colors.grey				-- grey for not started
-				elseif info.completed == false then
-					color = colors.white				-- white for ongoing
-				elseif info.completed == true then
-					color = colors.green				-- green for completed
-					icon = CRITERIA_COMPLETE_ICON
-				end
-				
-				tt:AddLine(format("%s%s%s", icon, color, info.name))
-			end
-			tt:Show()
-		end,
+	GetText = function(character) return Storyline_GetText(character, "9.1") end,
+	OnEnter = function(frame) Storyline_OnEnter(frame, 138, "9.1") end,
 })
 
 Columns.RegisterColumn("Story92", {
@@ -452,49 +471,79 @@ Columns.RegisterColumn("Story92", {
 	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
 	tooltipSubTitle = C_CampaignInfo.GetCampaignInfo(158).name,
 	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story92") end,
-	headerSort = DataStore.GetSecretsOfTheFirstOnesStorylineProgress,
+	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "9.2") end,
 	
 	-- Content
 	Width = 70,
 	JustifyH = "CENTER",
-	GetText = function(character) 
-		local numCompleted = DataStore:GetSecretsOfTheFirstOnesStorylineProgress(character)
-		local numQuests = DataStore:GetSecretsOfTheFirstOnesStorylineLength(character)
-		
-		return Formatter.Progress(numCompleted, numQuests)
-	end,
-	OnEnter = function(frame)
-			local character = frame:GetParent().character
-			if not character then return end
-			
-			local numCompleted = DataStore:GetSecretsOfTheFirstOnesStorylineProgress(character)
-			local numQuests = DataStore:GetSecretsOfTheFirstOnesStorylineLength(character)
-			
-			local tt = AddonFactory_Tooltip
-			tt:ClearLines()
-			tt:SetOwner(frame, "ANCHOR_RIGHT")
-			tt:AddDoubleLine(DataStore:GetColoredCharacterName(character), C_CampaignInfo.GetCampaignInfo(158).name)
-			tt:AddLine(" ")
-			tt:AddLine(format(CAMPAIGN_PROGRESS_CHAPTERS_TOOLTIP, numCompleted, numQuests))
-			
-			for _, info in pairs(DataStore:GetCampaignChaptersInfo(character, 158, "story92Progress")) do
-				local color
-				local icon = " - "
-				
-				if info.completed == nil then
-					color = colors.grey				-- grey for not started
-				elseif info.completed == false then
-					color = colors.white				-- white for ongoing
-				elseif info.completed == true then
-					color = colors.green				-- green for completed
-					icon = CRITERIA_COMPLETE_ICON
-				end
-				
-				tt:AddLine(format("%s%s%s", icon, color, info.name))
-			end
-			tt:Show()
-		end,
+	GetText = function(character) return Storyline_GetText(character, "9.2") end,
+	OnEnter = function(frame) Storyline_OnEnter(frame, 158, "9.2") end,
 })
+
+Columns.RegisterColumn("Story100", {
+	-- Header
+	headerWidth = 80,
+	headerLabel = format("%s %s10.0", L["COLUMN_CAMPAIGNPROGRESS_TITLE_SHORT"], colors.green),
+	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
+	tooltipSubTitle = C_CampaignInfo.GetCampaignInfo(190).name,
+	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story100") end,
+	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "10.0") end,
+	
+	-- Content
+	Width = 80,
+	JustifyH = "CENTER",
+	GetText = function(character) return Storyline_GetText(character, "10.0") end,
+	OnEnter = function(frame) Storyline_OnEnter(frame, nil, "10.0") end,
+})
+
+Columns.RegisterColumn("Story101", {
+	-- Header
+	headerWidth = 80,
+	headerLabel = format("%s %s10.1", L["COLUMN_CAMPAIGNPROGRESS_TITLE_SHORT"], colors.green),
+	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
+	tooltipSubTitle = C_CampaignInfo.GetCampaignInfo(203).name,
+	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story101") end,
+	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "10.1") end,
+	
+	-- Content
+	Width = 80,
+	JustifyH = "CENTER",
+	GetText = function(character) return Storyline_GetText(character, "10.1") end,
+	OnEnter = function(frame) Storyline_OnEnter(frame, 203, "10.1") end,
+})
+
+Columns.RegisterColumn("Story1015", {
+	-- Header
+	headerWidth = 80,
+	headerLabel = format("%s %s10.1.5", L["COLUMN_CAMPAIGNPROGRESS_TITLE_SHORT"], colors.green),
+	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
+	tooltipSubTitle = "Dawn of the Infinites",
+	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story1015") end,
+	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "10.1.5") end,
+	
+	-- Content
+	Width = 80,
+	JustifyH = "CENTER",
+	GetText = function(character) return Storyline_GetText(character, "10.1.5") end,
+	OnEnter = function(frame) Storyline_OnEnter(frame, nil, "10.1.5") end,
+})
+
+Columns.RegisterColumn("Story102", {
+	-- Header
+	headerWidth = 80,
+	headerLabel = format("%s %s10.2", L["COLUMN_CAMPAIGNPROGRESS_TITLE_SHORT"], colors.green),
+	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
+	tooltipSubTitle = C_CampaignInfo.GetCampaignInfo(231).name,
+	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story102") end,
+	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "10.2") end,
+	
+	-- Content
+	Width = 80,
+	JustifyH = "CENTER",
+	GetText = function(character) return Storyline_GetText(character, "10.2") end,
+	OnEnter = function(frame) Storyline_OnEnter(frame, 231, "10.2") end,
+})
+
 
 -- ** Sanctum Reservoir **
 local function GetReservoirFeatureLevel(character, featureType)

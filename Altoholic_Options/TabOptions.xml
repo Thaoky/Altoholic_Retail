@@ -66,9 +66,9 @@
 					<Anchor point="TOPLEFT" relativeKey="$parent.URLIcon1" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="iconFile" value="Interface\AddOns\Altoholic_Options\Textures\icon_curseforge.tga" />
-					<KeyValue key="locLabel" value="CURSE_ICON_ON_ENTER" />
-					<KeyValue key="url" value="https://www.curseforge.com/wow/addons/altoholic" />
+					<KeyValue key="iconFile" value="Interface\AddOns\Altoholic_Options\Textures\icon_github.tga" />
+					<KeyValue key="locLabel" value="GITHUB_ICON_ON_ENTER" />
+					<KeyValue key="url" value="https://github.com/Thaoky" />
 				</KeyValues>
 			</Button>
 			<Button parentKey="URLIcon3" inherits="AltoURLButtonTemplate">
@@ -76,14 +76,24 @@
 					<Anchor point="TOPLEFT" relativeKey="$parent.URLIcon2" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="iconFile" value="Interface\AddOns\Altoholic_Options\Textures\icon_wowinterface.tga" />
-					<KeyValue key="locLabel" value="WOWI_ICON_ON_ENTER" />
-					<KeyValue key="url" value="https://www.wowinterface.com/downloads/info8533-Altoholic.html" />
+					<KeyValue key="iconFile" value="Interface\AddOns\Altoholic_Options\Textures\icon_curseforge.tga" />
+					<KeyValue key="locLabel" value="CURSE_ICON_ON_ENTER" />
+					<KeyValue key="url" value="https://www.curseforge.com/wow/addons/altoholic" />
 				</KeyValues>
 			</Button>
 			<Button parentKey="URLIcon4" inherits="AltoURLButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.URLIcon3" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\AddOns\Altoholic_Options\Textures\icon_wowinterface.tga" />
+					<KeyValue key="locLabel" value="WOWI_ICON_ON_ENTER" />
+					<KeyValue key="url" value="https://www.wowinterface.com/downloads/info8533-Altoholic.html" />
+				</KeyValues>
+			</Button>
+			<Button parentKey="URLIcon5" inherits="AltoURLButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.URLIcon4" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 				<KeyValues>
 					<KeyValue key="iconFile" value="Interface\Icons\inv_letter_04" />
@@ -95,7 +105,7 @@
 			<EditBox parentKey="URL" inherits="InputBoxTemplate" hidden="true">
 				<Size x="400" y="16" />
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeKey="$parent.URLIcon4" relativePoint="TOPRIGHT" x="20" y="-18" />
+					<Anchor point="TOPLEFT" relativeKey="$parent.URLIcon5" relativePoint="TOPRIGHT" x="20" y="-18" />
 				</Anchors>
 				<Scripts>
 					<OnChar>
