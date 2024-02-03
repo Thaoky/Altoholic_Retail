@@ -127,6 +127,21 @@
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent7" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
+			<Button parentKey="Reagent9" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent8" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Reagent10" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent9" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+			</Button>
+			<Button parentKey="Reagent11" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent10" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+			</Button>
 		</Frames>
 		<Scripts>
 			<OnLoad>
