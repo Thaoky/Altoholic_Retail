@@ -96,7 +96,7 @@ addon:Controller("AltoholicUI.TabCharacters.RecipeRow", {
 		end
 		
 		-- hide unused reagent icons
-		while index <= 8 do
+		while index <= 11 do
 			frame[format("Reagent%d", index)]:Hide()
 			index = index + 1
 		end
