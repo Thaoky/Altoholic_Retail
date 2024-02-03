@@ -45,12 +45,16 @@ local function GetCraftNameFromRecipeLink(link)
 	local craftName
 
 	-- try to determine if it's a transmute (has 2 colons in the string --> Alchemy: Transmute: blablabla)
+	--[[
 	local pos = string.find(recipeName, L["Transmute"])
 	if pos then	-- it's a transmute
 		return string.sub(recipeName, pos, -2)
 	else
 		craftName = select(2, strsplit(":", recipeName))
 	end
+	]]--
+        -- there's more than just transmutes now, so rejoin anything with extra colons
+	craftName = strjoin(":", select(2, strsplit(":", recipeName)))
 	
 	if craftName == nil then		-- will be nil for enchants
 		return string.sub(recipeName, 3, -2)		-- ex: "Enchant Weapon - Striking"
