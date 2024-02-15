@@ -45,13 +45,24 @@ local function GetCraftNameFromRecipeLink(link)
 	local craftName
 
 	-- try to determine if it's a transmute (has 2 colons in the string --> Alchemy: Transmute: blablabla)
+<<<<<<< Updated upstream
         -- there's more than just transmutes now, so rejoin anything with extra colons
+=======
+	--[[
+	local pos = string.find(recipeName, L["Transmute"])
+	if pos then	-- it's a transmute
+		return string.sub(recipeName, pos, -2)
+	else
+		craftName = select(2, strsplit(":", recipeName))
+	end
+	]]--
+>>>>>>> Stashed changes
 	craftName = strjoin(":", select(2, strsplit(":", recipeName)))
 	
 	if craftName == nil then		-- will be nil for enchants
 		return string.sub(recipeName, 3, -2)		-- ex: "Enchant Weapon - Striking"
 	end
-	
+
 	return string.sub(craftName, 2, -2)	-- at this point, get rid of the leading space and trailing square bracket
 end
 
@@ -187,7 +198,7 @@ local function IsItemAccountBound(itemLink)
 	for i = 1, numLines do		-- parse the first 5 lines maximum
 		local tooltipText = _G[format("%sTextLeft%d", tooltipName, i)]:GetText()
 		
-		if tooltipText == ITEM_BIND_TO_BNETACCOUNT or tooltipText == ITEM_BNETACCOUNTBOUND then
+		if tooltipText == ITEM_BIND_TO_BNETACCOUNT or tooltipText == ITEM_BNETACCOUNTBOUND or tooltipText == ITEM_BIND_TO_ACCOUNT or tooltipText == ITEM_ACCOUNTBOUND then
 			return true
 		end
 	end
@@ -292,6 +303,8 @@ function addon:GetRecipeOwners(professionName, link, recipeLevel)
 				DataStore:IterateRecipes(profession, 0, 0, function(recipeData)
 					local _, recipeID, isLearned = DataStore:GetRecipeInfo(recipeData)
 					local skillName = GetSpellInfo(recipeID) or ""
+
+					skillName = string.gsub(skillName, "Proto Drake", "Proto-Drake") -- this is silly. There's a typo in the Blizz spell list
 
 					if string.lower(skillName) == string.lower(craftName) and isLearned then
 						isKnownByChar = true
