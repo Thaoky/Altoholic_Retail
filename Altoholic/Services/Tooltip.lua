@@ -264,10 +264,20 @@ end
 function addon:GetRecipeOwners(professionName, link, recipeLevel)
 	local craftName
 	local spellID = addon:GetSpellIDFromRecipeLink(link)
+	local isEnchant = false
+	local categoryName = 0
 
 	if not spellID then		-- spell id unknown ? let's parse the tooltip
 		craftName = GetCraftNameFromRecipeLink(link)
 		if not craftName then return end		-- still nothing usable ? then exit
+
+		-- Enchant spell info doesn't give the category in the spell - eg. it's just "Strength" not "Enchant Bracer - Strength" - so split the category from the recipe name to compare later
+		if string.find(craftName, "^Enchant ") then
+		        isEnchant = true
+			categoryName, craftName = strsplit("-", craftName)
+			categoryName = strtrim(strsub(categoryName, 8))
+			craftName = strtrim(craftName)
+		end
 	end
 	
 	local know = {}				-- list of alts who know this recipe
@@ -295,8 +305,20 @@ function addon:GetRecipeOwners(professionName, link, recipeLevel)
 					skillName = string.gsub(skillName, "Proto Drake", "Proto-Drake") -- this is silly. There's a typo in the Blizz spell list
 
 					if string.lower(skillName) == string.lower(craftName) and isLearned then
-						isKnownByChar = true
-						return true	-- stop iteration
+					        if isEnchant then		-- matched "Strength" for instance, now check that it's the right category (eg. "Bracer" not "Chest")
+							local skillCategoryID = C_TradeSkillUI.GetRecipeInfo(recipeID).categoryID
+							local skillCategory = C_TradeSkillUI.GetCategoryInfo(skillCategoryID).name
+							skillCategory = string.gsub(skillCategory, " Enchantments", "")
+
+							if skillCategory == categoryName then
+								isKnownByChar = true
+								return true
+							end
+
+						else
+							isKnownByChar = true
+							return true	-- stop iteration
+						end
 					end
 				end)
 			end
