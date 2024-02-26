@@ -44,7 +44,7 @@ local function GetCraftNameFromRecipeLink(link)
 	local recipeName = select(4, strsplit("|", link))
 	local craftName
 
-        -- Some recipes (transmutes, drake techniques, etc) have multiple colons in the name. rejoin everything after the first
+	-- Some recipes (transmutes, drake techniques, etc) have multiple colons in the name. rejoin everything after the first
 	craftName = strjoin(":", select(2, strsplit(":", recipeName)))
 	
 	if craftName == nil then		-- will be nil for enchants
@@ -279,7 +279,7 @@ function addon:GetRecipeOwners(professionName, link, recipeLevel)
 			craftName = strtrim(craftName)
 		end
 	end
-	
+
 	local know = {}				-- list of alts who know this recipe
 	local couldLearn = {}		-- list of alts who could learn it
 	local willLearn = {}			-- list of alts who will be able to learn it later
@@ -306,13 +306,13 @@ function addon:GetRecipeOwners(professionName, link, recipeLevel)
 
 					if string.lower(skillName) == string.lower(craftName) and isLearned then
 					        if isEnchant then		-- matched "Strength" for instance, now check that it's the right category (eg. "Bracer" not "Chest")
-							local skillCategoryID = C_TradeSkillUI.GetRecipeInfo(recipeID).categoryID
-							local skillCategory = C_TradeSkillUI.GetCategoryInfo(skillCategoryID).name
+							local skillCategoryID = C_TradeSkillUI.GetRecipeInfo(recipeID, 1).categoryID
+							local skillCategory = (skillCategoryID and C_TradeSkillUI.GetCategoryInfo(skillCategoryID).name) or ""
 							skillCategory = string.gsub(skillCategory, " Enchantments", "")
 
 							if skillCategory == categoryName then
 								isKnownByChar = true
-								return true
+								return true	-- stop iteration
 							end
 
 						else
