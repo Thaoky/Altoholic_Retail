@@ -44,18 +44,13 @@ local function GetCraftNameFromRecipeLink(link)
 	local recipeName = select(4, strsplit("|", link))
 	local craftName
 
-	-- try to determine if it's a transmute (has 2 colons in the string --> Alchemy: Transmute: blablabla)
-	local pos = string.find(recipeName, L["Transmute"])
-	if pos then	-- it's a transmute
-		return string.sub(recipeName, pos, -2)
-	else
-		craftName = select(2, strsplit(":", recipeName))
-	end
+	-- Some recipes (transmutes, drake techniques, etc) have multiple colons in the name. rejoin everything after the first
+	craftName = strjoin(":", select(2, strsplit(":", recipeName)))
 	
 	if craftName == nil then		-- will be nil for enchants
 		return string.sub(recipeName, 3, -2)		-- ex: "Enchant Weapon - Striking"
 	end
-	
+
 	return string.sub(craftName, 2, -2)	-- at this point, get rid of the leading space and trailing square bracket
 end
 
@@ -191,7 +186,7 @@ local function IsItemAccountBound(itemLink)
 	for i = 1, numLines do		-- parse the first 5 lines maximum
 		local tooltipText = _G[format("%sTextLeft%d", tooltipName, i)]:GetText()
 		
-		if tooltipText == ITEM_BIND_TO_BNETACCOUNT or tooltipText == ITEM_BNETACCOUNTBOUND then
+		if tooltipText == ITEM_BIND_TO_BNETACCOUNT or tooltipText == ITEM_BNETACCOUNTBOUND or tooltipText == ITEM_BIND_TO_ACCOUNT or tooltipText == ITEM_ACCOUNTBOUND then
 			return true
 		end
 	end
@@ -269,12 +264,22 @@ end
 function addon:GetRecipeOwners(professionName, link, recipeLevel)
 	local craftName
 	local spellID = addon:GetSpellIDFromRecipeLink(link)
+	local isEnchant = false
+	local categoryName = 0
 
 	if not spellID then		-- spell id unknown ? let's parse the tooltip
 		craftName = GetCraftNameFromRecipeLink(link)
 		if not craftName then return end		-- still nothing usable ? then exit
+
+		-- Enchant spell info doesn't give the category in the spell - eg. it's just "Strength" not "Enchant Bracer - Strength" - so split the category from the recipe name to compare later
+		if string.find(craftName, "^Enchant ") then
+		        isEnchant = true
+			categoryName, craftName = strsplit("-", craftName)
+			categoryName = strtrim(strsub(categoryName, 8))
+			craftName = strtrim(craftName)
+		end
 	end
-	
+
 	local know = {}				-- list of alts who know this recipe
 	local couldLearn = {}		-- list of alts who could learn it
 	local willLearn = {}			-- list of alts who will be able to learn it later
@@ -297,9 +302,23 @@ function addon:GetRecipeOwners(professionName, link, recipeLevel)
 					local _, recipeID, isLearned = DataStore:GetRecipeInfo(recipeData)
 					local skillName = GetSpellInfo(recipeID) or ""
 
+					skillName = string.gsub(skillName, "Proto Drake", "Proto-Drake") -- this is silly. There's a typo in the Blizz spell list
+
 					if string.lower(skillName) == string.lower(craftName) and isLearned then
-						isKnownByChar = true
-						return true	-- stop iteration
+					        if isEnchant then		-- matched "Strength" for instance, now check that it's the right category (eg. "Bracer" not "Chest")
+							local skillCategoryID = C_TradeSkillUI.GetRecipeInfo(recipeID, 1).categoryID
+							local skillCategory = (skillCategoryID and C_TradeSkillUI.GetCategoryInfo(skillCategoryID) and C_TradeSkillUI.GetCategoryInfo(skillCategoryID).name) or ""
+							skillCategory = string.gsub(skillCategory, " Enchantments", "")
+
+							if skillCategory == categoryName then
+								isKnownByChar = true
+								return true	-- stop iteration
+							end
+
+						else
+							isKnownByChar = true
+							return true	-- stop iteration
+						end
 					end
 				end)
 			end
