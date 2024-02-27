@@ -307,7 +307,7 @@ function addon:GetRecipeOwners(professionName, link, recipeLevel)
 					if string.lower(skillName) == string.lower(craftName) and isLearned then
 					        if isEnchant then		-- matched "Strength" for instance, now check that it's the right category (eg. "Bracer" not "Chest")
 							local skillCategoryID = C_TradeSkillUI.GetRecipeInfo(recipeID, 1).categoryID
-							local skillCategory = (skillCategoryID and C_TradeSkillUI.GetCategoryInfo(skillCategoryID).name) or ""
+							local skillCategory = (skillCategoryID and C_TradeSkillUI.GetCategoryInfo(skillCategoryID) and C_TradeSkillUI.GetCategoryInfo(skillCategoryID).name) or ""
 							skillCategory = string.gsub(skillCategory, " Enchantments", "")
 
 							if skillCategory == categoryName then
