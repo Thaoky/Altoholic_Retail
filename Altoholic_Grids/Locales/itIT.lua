@@ -4,6 +4,7 @@ if not L then return end
 
 -- ** Menu **
 L["Equipment"] = "Equipaggiamento"
+L["Profession Equipment"] = "Equipaggiamento di professione"
 -- L["Currencies"] = true
 L["Reputations"] = "Reputazioni"
 -- L["Daily Quests"] = true
@@ -14,6 +15,17 @@ L["Characters"] = "Personaggi"
 
 -- ** Equipment **
 L["Unknown link, please relog this character"] = "Collegamento sconosciuto, per piacere riconnettere questo personaggio"
+
+-- ** Profession Equipment ** Dragonflight
+L["Prof0ToolSlot"] = "Strumento di professione (1)"
+L["Prof0Gear0Slot"] = "Accessorio di professione (1.1)"
+L["Prof0Gear1Slot"] = "Accessorio di professione (1.2)"
+L["Prof1ToolSlot"] = "Strumento di professione (2)"
+L["Prof1Gear0Slot"] = "Accessorio di professione (2.1)"
+L["Prof1Gear1Slot"] = "Accessorio di professione (2.2)"
+L["CookingToolSlot"] = "Utensile da cucina"
+L["CookingGear0Slot"] = "Accessorio di cucina"
+L["FishingToolSlot"] = "Canna da pesca"
 
 -- ** Reputations **
 L["Alliance Forces"] = "Forze dell'Alleanza"
