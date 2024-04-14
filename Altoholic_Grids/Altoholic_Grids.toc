@@ -12,12 +12,14 @@
 Locale.xml
 Services\DungeonsLists.lua
 Services\TransmogSetsLists.lua
+Services\ProfessionEquipment.lua
 
 Templates\UITemplates.xml
 TabGrids.xml
 Frames\Grids.xml
 
 Grid_Equipment.lua
+Grid_ProfessionEquipment.lua
 Grid_Reputations.lua
 Grid_Currencies.lua
 Grid_Mounts.lua

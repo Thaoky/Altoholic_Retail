@@ -4,6 +4,7 @@ if not L then return end
 
 -- ** Menu **
 L["Equipment"] = "Ausrüstung"
+L["Profession Equipment"] = "Professionelle Ausrüstung"
 -- L["Currencies"] = true
 L["Reputations"] = "Ruf"
 -- L["Daily Quests"] = true
@@ -14,6 +15,17 @@ L["Rest XP"] = "Erholt-EP"
 
 -- ** Equipment **
 L["Unknown link, please relog this character"] = "Unbekannte Verknüpfung, bitte diesen Charakter neu einloggen"
+
+-- ** Profession Equipment ** Dragonflight
+L["Prof0ToolSlot"] = "Berufsbezogenes Instrument (1)"
+L["Prof0Gear0Slot"] = "Berufliches Zubehör (1.1)"
+L["Prof0Gear1Slot"] = "Berufliches Zubehör (1.2)"
+L["Prof1ToolSlot"] = "Berufsbezogenes Instrument (2)"
+L["Prof1Gear0Slot"] = "Berufliches Zubehör (2.1)"
+L["Prof1Gear1Slot"] = "Berufliches Zubehör (2.2)"
+L["CookingToolSlot"] = "Küchengerät"
+L["CookingGear0Slot"] = "Zubehör für die Küche"
+L["FishingToolSlot"] = "Angelrute"
 
 -- ** Reputations **
 L["Alliance Forces"] = "Streitkräfte der Allianz"
