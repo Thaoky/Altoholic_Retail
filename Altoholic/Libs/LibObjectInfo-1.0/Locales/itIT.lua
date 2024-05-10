@@ -1,5 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("LibObjectInfo", "itIT")
-
+local L = DataStore:SetLocale("LibObjectInfo", "itIT")
 if not L then return end
 
 -- *** Mining nodes ***

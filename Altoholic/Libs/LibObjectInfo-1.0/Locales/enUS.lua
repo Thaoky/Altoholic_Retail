@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("LibObjectInfo", "enUS", true, false)
+local L = DataStore:SetDefaultLocale("LibObjectInfo", "enUS")
 
 -- *** Mining nodes ***
 -- ** Classic **

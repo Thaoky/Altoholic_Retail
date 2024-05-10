@@ -57,12 +57,11 @@ local function LeftShift(value, numBits)
    return value * 2^numBits
 end
 
-local function GetBits(value, low, high)
+local function GetBits(value, low, numBits)
 	-- low = lowest bit
-	-- high = highest bit
-	-- Ex: local x = GetBits(15, 18) => returns the value of bits 15 to 18 (so 4 bits)
-	
-	local numBits = (high - low) + 1		-- ex: 18 - 15 = 3 + 1 = 4 bits
+	-- numBits = number of bits starting from lowest
+	-- Ex: local x = GetBits(15, 4) => returns the value of bits 15 to 18 (so 4 bits)
+
 	local mask = (2 ^ numBits) - 1		-- ex: 2^4 = 16 - 1 = 15
 	
 	return bAnd(RightShift(value, low), mask)
@@ -195,9 +194,9 @@ end
 
 local itemSources = {
 	[TYPE_REAGENT] = function(attrib)
-			local professionID = GetBits(attrib, 10, 14)			-- Bits 10-14 : profession
-			local goesInBag = GetBits(attrib, 15, 18)				-- Bits 15-18 : bag type
-			local level = GetBits(attrib, 19, 35)					-- Bits 19+ : level
+			local professionID = GetBits(attrib, 10, 5)			-- Bits 10-14 : profession
+			local goesInBag = GetBits(attrib, 15, 4)				-- Bits 15-18 : bag type
+			local level = GetBits(attrib, 19, 17)					-- Bits 19+ : level
 		
 			local profession = reagentTypes[professionID] or UNKNOWN
 			if level > 0 then
@@ -208,22 +207,22 @@ local itemSources = {
 		end,
 		
 	[TYPE_DUNGEON_LOOT] = function(attrib)
-			local instanceID = GetBits(attrib, 10, 25)	-- Bits 10-25 : instance id
+			local instanceID = GetBits(attrib, 10, 16)	-- Bits 10-25 : instance id
 			-- local instanceName = EJ_GetInstanceInfo(instanceID)	-- not reliable !!
 			local instanceName = GetRealZoneText(instanceID)
 
-			local bossID = GetBits(attrib, 26, 48)			-- Bits 26+ : boss/encounter id
+			local bossID = GetBits(attrib, 26, 23)			-- Bits 26+ : boss/encounter id
 			local bossName = EJ_GetEncounterInfo(bossID)
 		
 			return instanceName, bossName
 		end,
 		
 	[TYPE_RAID_LOOT] = function(attrib)
-			local instanceID = GetBits(attrib, 10, 25)	-- Bits 10-25 : instance id
+			local instanceID = GetBits(attrib, 10, 16)	-- Bits 10-25 : instance id
 			-- local instanceName = EJ_GetInstanceInfo(instanceID)	-- not reliable !!
 			local instanceName = GetRealZoneText(instanceID)
 
-			local bossID = GetBits(attrib, 26, 48)			-- Bits 26+ : boss/encounter id
+			local bossID = GetBits(attrib, 26, 23)			-- Bits 26+ : boss/encounter id
 			local bossName = EJ_GetEncounterInfo(bossID)
 		
 			return instanceName, bossName
@@ -235,8 +234,8 @@ local itemSources = {
 			-- instance id's from https://wow.tools/dbc/?dbc=map or https://wowpedia.fandom.com/wiki/InstanceID
 			-- retrieved in-game with GetRealZoneText(zoneID)
 		
-			local factionID = GetBits(attrib, 10, 25)		-- Bits 10-25 : faction id
-			local instanceID = GetBits(attrib, 26, 43)	-- Bits 26+ : instance id
+			local factionID = GetBits(attrib, 10, 16)		-- Bits 10-25 : faction id
+			local instanceID = GetBits(attrib, 26, 18)	-- Bits 26+ : instance id
 			
 			local factionName = GetFactionInfoByID(factionID)
 			local instanceName = (instanceID ~= 0) and GetRealZoneText(instanceID) or nil
@@ -249,9 +248,9 @@ local itemSources = {
 			-- C_Map.GetMapInfo()  https://wowpedia.fandom.com/wiki/API_C_Map.GetMapInfo
 			-- ID's : https://wowpedia.fandom.com/wiki/UiMapID
 		
-			local UiMapID = GetBits(attrib, 10, 25)		-- Bits 10-25 : UiMapID
-			local locX = GetBits(attrib, 26, 35)			-- Bits 26-35 : locX = X coordinates on the map
-			local locY = GetBits(attrib, 36, 45)			-- Bits 36-45 : locY = Y coordinates on the map
+			local UiMapID = GetBits(attrib, 10, 16)		-- Bits 10-25 : UiMapID
+			local locX = GetBits(attrib, 26, 10)			-- Bits 26-35 : locX = X coordinates on the map
+			local locY = GetBits(attrib, 36, 10)			-- Bits 36-45 : locY = Y coordinates on the map
 			
 			local zoneInfo = C_Map.GetMapInfo(UiMapID)
 			local zoneName = (zoneInfo) and zoneInfo.name or ""
@@ -269,8 +268,8 @@ function lib:GetItemSource(itemID)
 	if not itemDB[itemID] then return end
 
 	local attrib = itemDB[itemID]
-	local expansion = GetBits(attrib, 0, 4)	-- Bits 0-4 : expansion (classic = 0)
-	local itemType = GetBits(attrib, 5, 9)		-- Bits 5-9 : type
+	local expansion = GetBits(attrib, 0, 5)	-- Bits 0-4 : expansion (classic = 0)
+	local itemType = GetBits(attrib, 5, 5)		-- Bits 5-9 : type
 	local expansionName = _G[format("EXPANSION_NAME%d", expansion)]
 	
 	return itemType, expansionName, expansion, itemSources[itemType](attrib)

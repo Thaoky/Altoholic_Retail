@@ -3,8 +3,7 @@
 -- Перевод выполнен Хэлла и Интерим @ Азурегос 
 --
 
-local L = LibStub("AceLocale-3.0"):NewLocale("LibObjectInfo", "ruRU")
-
+local L = DataStore:SetLocale("LibObjectInfo", "ruRU")
 if not L then return end
 
 -- *** Mining nodes ***

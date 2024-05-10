@@ -11,8 +11,9 @@ local lib = LibStub:NewLibrary(LIB_VERSION_MAJOR, LIB_VERSION_MINOR)
 
 if not lib then return end -- No upgrade needed
 
-local L = LibStub("AceLocale-3.0"):GetLocale("LibObjectInfo")
+local L = DataStore:GetLocale("LibObjectInfo")
 
+-- ["Object Name"] = item ID
 local nodes = {
 	-- *** Mining nodes ***
 	-- ** Classic **
