@@ -1,9 +1,9 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
-addon:Controller("AltoholicUI.GridsRow", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.GridsRow", { "AltoholicUI.ColumnOptions", function(Options)
 
 	local NUM_COLUMNS = 13
 
@@ -17,7 +17,8 @@ addon:Controller("AltoholicUI.GridsRow", { "AltoholicUI.Options", function(Optio
 				
 				local optionIndex = ((page - 1) * NUM_COLUMNS) + colIndex		-- Pages = 1-12, 13-24, etc..
 				
-				local character = Options.Get(format("Tabs.Grids.%s.%s.Column%d", account, realm, optionIndex))
+				-- local character = Options.Get(format("Tabs.Grids.%s.%s.Column%d", account, realm, optionIndex))
+				local character = Options.GetColumnKey(Altoholic_GridsTab_Columns, account, realm, optionIndex)
 				
 				if character then
 					button:SetScript("OnEnter", obj.OnEnter)

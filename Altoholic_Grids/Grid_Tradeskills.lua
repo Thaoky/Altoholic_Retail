@@ -4,8 +4,6 @@ local colors = addon.Colors
 local icons = addon.Icons
 
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
-
 local LCI = LibStub("LibCraftInfo-1.0")
 local LCL = LibStub("LibCraftLevels-1.0")
 
@@ -24,8 +22,7 @@ local xPacks = {
 	EXPANSION_NAME9,  -- "Dragonflight"
 }
 
-local OPTION_XPACK = "UI.Tabs.Grids.Tradeskills.CurrentXPack"
-local OPTION_TRADESKILL = "UI.Tabs.Grids.Tradeskills.CurrentTradeSkill"
+local OPTION_XPACK = "Tradeskills.CurrentXPack"
 
 local currentItemID
 local currentList
@@ -76,9 +73,11 @@ local function SortByCraftLevel(a, b)
 end
 
 local function BuildView()
+	local options = Altoholic_GridsTab_Options
+	
 	local tradeskills = addon.TradeSkills.spellIDs
-	local currentXPack = Options.Get(OPTION_XPACK)
-	local currentTradeSkill = Options.Get(OPTION_TRADESKILL)
+	local currentXPack = options[OPTION_XPACK]
+	local currentTradeSkill = options["Tradeskills.CurrentTradeSkill"]
 			
 	view = LCI:GetProfessionCraftList(tradeskills[currentTradeSkill], currentXPack)
 	if not view.isSorted then
@@ -98,8 +97,9 @@ tab:RegisterGrid(7, {
 			if isViewValid then return end
 			
 			BuildView()			
-	
-			local currentXPack = Options.Get(OPTION_XPACK)
+			
+			local options = Altoholic_GridsTab_Options	
+			local currentXPack = options[OPTION_XPACK]
 			tab:SetStatus(format("%s%s|r / %s%s|r / %s%s", 
 				colors.white, TRADESKILLS, 
 				colors.white, xPacks[currentXPack], 
@@ -118,8 +118,7 @@ tab:RegisterGrid(7, {
 			
 			currentItemID = DataStore:GetCraftResultItem(spellID)
 			-- local orange, yellow, green, grey = LCL:GetCraftLevels(spellID)
-			
-			currentTexture = GetItemIcon(currentItemID) or icons.questionMark
+			currentTexture = currentItemID and GetItemIcon(currentItemID) or icons.questionMark
 			
 			if orange then
 				text = format("%s%s\n%s%s %s%s %s%s %s%s",

@@ -1,9 +1,9 @@
-local L = LibStub("AceLocale-3.0"):NewLocale( "Altoholic", "zhCN" )
-
+local L = DataStore:SetLocale("Altoholic", "zhCN")
 if not L then return end
 
 -- ** Menu **
 L["Equipment"] = "装备"
+-- L["Profession Equipment"] = true
 -- L["Currencies"] = true
 L["Reputations"] = "声望"
 -- L["Daily Quests"] = true
@@ -14,6 +14,14 @@ L["Rest XP"] = "奖励经验"
 
 -- ** Equipment **
 L["Unknown link, please relog this character"] = "未知链接，请重新登入角色"
+
+-- ** Profession Equipment ** Dragonflight
+-- L["Profession"] = true
+-- L["Tool"] = true
+-- L["Accessory"] = true
+-- L["FISHING_TOOL"] = "Fishing Rod"
+-- L["COOKING_TOOL"] = "Cooking Tool"
+-- L["COOKING_ACCESSORY"] = "Cooking Accessory"
 
 -- ** Reputations **
 L["Alliance Forces"] = "联盟部队"

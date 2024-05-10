@@ -2,7 +2,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local ICON_VIEW_QUESTS = "Interface\\LFGFrame\\LFGIcon-Quest"
 
 local tab = AltoholicFrame.TabGrids
@@ -48,7 +48,7 @@ tab:RegisterGrid(4, {
 	OnUpdate = function() 
 			BuildView()
 			if not questList then
-				addon:RegisterMessage("DATASTORE_QUEST_TURNED_IN")
+				DataStore:ListenTo("DATASTORE_QUEST_TURNED_IN")
 			end
 			
 			tab:SetStatus(format("%s%s|r / %s%s", 

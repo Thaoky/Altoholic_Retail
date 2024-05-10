@@ -3,74 +3,46 @@ local addon = _G[addonName]
 local colors = addon.Colors
 
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
-
-local BUILDING_ALCHEMY = "AlchemyLab"
-local BUILDING_BARN = "Barn"
-local BUILDING_BARRACKS = "Barracks"
-local BUILDING_DWARVEN_BUNKER = "DwarvenBunker"
-local BUILDING_ENCHANTERS_STUDY = "EnchantersStudy"
-local BUILDING_ENGINEERING_WORKS = "EngineeringWorks"
-local BUILDING_FISHING_SHACK = "FishingShack"
-local BUILDING_GEM_BOUTIQUE = "GemBoutique"
-local BUILDING_GLADIATORS_SANCTUM = "GladiatorsSanctum"
-local BUILDING_GNOMISH_GEARWORKS = "GnomishGearworks"
-local BUILDING_HERB_GARDEN = "HerbGarden"
-local BUILDING_LUMBER_MILL = "LumberMill"
-local BUILDING_LUNARFALL_EXCAVATION = "LunarfallExcavation"
-local BUILDING_LUNARFALL_INN = "LunarfallInn"
-local BUILDING_MAGE_TOWER = "MageTower"
-local BUILDING_MENAGERIE = "Menagerie"
-local BUILDING_SALVAGE_YARD = "SalvageYard"
-local BUILDING_SCRIBES_QUARTERS = "ScribesQuarters"
-local BUILDING_STABLES = "Stables"
-local BUILDING_STOREHOUSE = "Storehouse"
-local BUILDING_TAILORING_EMPORIUM = "TailoringEmporium"
-local BUILDING_THE_FORGE = "TheForge"
-local BUILDING_THE_TANNERY = "TheTannery"
-local BUILDING_TRADING_POST = "TradingPost"
-
-local BUILDING_TOWN_HALL = "TownHall"
-
+local enum = DataStore.Enum.BuildingTypes
 
 local Buildings = {
 	{	-- [1]  Other
 		{ 
-			buildingType = BUILDING_TOWN_HALL, 
+			buildingType = enum.TownHall, 
 			name = format("%s / %s", GARRISON_TOWN_HALL_ALLIANCE, GARRISON_TOWN_HALL_HORDE), 
 			tex = "Interface\\Icons\\inv_garrison_resource",
 			id = 0, 
 		},
-		{ buildingType = BUILDING_LUNARFALL_EXCAVATION, id = 61 },
-		{ buildingType = BUILDING_HERB_GARDEN, id = 29 },
-		{ buildingType = BUILDING_FISHING_SHACK, id = 64 },
-		{ buildingType = BUILDING_MENAGERIE, id = 42 },
+		{ buildingType = enum.LunarfallExcavation, id = 61 },
+		{ buildingType = enum.HerbGarden, id = 29 },
+		{ buildingType = enum.FishingShack, id = 64 },
+		{ buildingType = enum.Menagerie, id = 42 },
 	},
 	{	-- [2] "Small"
-		{ buildingType = BUILDING_ALCHEMY, id = 76 },
-		{ buildingType = BUILDING_ENCHANTERS_STUDY, id = 93 },
-		{ buildingType = BUILDING_ENGINEERING_WORKS, id = 91 },
-		{ buildingType = BUILDING_GEM_BOUTIQUE, id = 96 },
-		{ buildingType = BUILDING_SALVAGE_YARD, id = 52 },
-		{ buildingType = BUILDING_SCRIBES_QUARTERS, id = 95 },
-		{ buildingType = BUILDING_STOREHOUSE, id = 51 },
-		{ buildingType = BUILDING_TAILORING_EMPORIUM, id = 94 },
-		{ buildingType = BUILDING_THE_FORGE, id = 60 },
-		{ buildingType = BUILDING_THE_TANNERY, id = 90 },
+		{ buildingType = enum.AlchemyLab, id = 76 },
+		{ buildingType = enum.EnchantersStudy, id = 93 },
+		{ buildingType = enum.EngineeringWorks, id = 91 },
+		{ buildingType = enum.GemBoutique, id = 96 },
+		{ buildingType = enum.SalvageYard, id = 52 },
+		{ buildingType = enum.ScribesQuarters, id = 95 },
+		{ buildingType = enum.Storehouse, id = 51 },
+		{ buildingType = enum.TailoringEmporium, id = 94 },
+		{ buildingType = enum.TheForge, id = 60 },
+		{ buildingType = enum.TheTannery, id = 90 },
 	},
 	{	-- [3] "Medium"
-		{ buildingType = BUILDING_BARN, id = 24 },
-		{ buildingType = BUILDING_GLADIATORS_SANCTUM, id = 159 },
-		{ buildingType = BUILDING_LUMBER_MILL, id = 40 },
-		{ buildingType = BUILDING_LUNARFALL_INN, id = 34 },
-		{ buildingType = BUILDING_TRADING_POST, id = 111 },
+		{ buildingType = enum.Barn, id = 24 },
+		{ buildingType = enum.GladiatorsSanctum, id = 159 },
+		{ buildingType = enum.LumberMill, id = 40 },
+		{ buildingType = enum.LunarfallInn, id = 34 },
+		{ buildingType = enum.TradingPost, id = 111 },
 	},
 	{	-- [4] "Large"
-		{ buildingType = BUILDING_BARRACKS, id = 26 },
-		{ buildingType = BUILDING_DWARVEN_BUNKER, id = 8 },
-		{ buildingType = BUILDING_GNOMISH_GEARWORKS, id = 162 },
-		{ buildingType = BUILDING_MAGE_TOWER, id = 37 },
-		{ buildingType = BUILDING_STABLES, id = 65 },
+		{ buildingType = enum.Barracks, id = 26 },
+		{ buildingType = enum.DwarvenBunker, id = 8 },
+		{ buildingType = enum.GnomishGearworks, id = 162 },
+		{ buildingType = enum.MageTower, id = 37 },
+		{ buildingType = enum.Stables, id = 65 },
 	},
 }
 
@@ -83,7 +55,8 @@ local function BuildView()
 	view = view or {}
 	wipe(view)
 	
-	local currentBuildings = Options.Get("UI.Tabs.Grids.Garrisons.CurrentBuildings")
+	local options = Altoholic_GridsTab_Options
+	local currentBuildings = options["Garrisons.CurrentBuildings"]
 	
 	for i, building in ipairs(Buildings[currentBuildings]) do
 		table.insert(view, building)	-- insert the table pointer

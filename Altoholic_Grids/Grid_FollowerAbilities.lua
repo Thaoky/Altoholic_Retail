@@ -3,9 +3,7 @@ local addon = _G[addonName]
 local colors = addon.Colors
 
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
-
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 local tab = AltoholicFrame.TabGrids
 
@@ -13,8 +11,6 @@ local view
 local viewItems
 local isViewValid
 local counters = {}
-
-local OPTION_STATS = "UI.Tabs.Grids.Garrisons.CurrentStats"
 
 local KEY_ABILITIES = "Abilities"
 local KEY_TRAITS = "Traits"
@@ -56,7 +52,8 @@ local function BuildView()
 	viewItems = {}
 	wipe(counters)
 	
-	currentKey = Options.Get(OPTION_STATS)
+	local options = Altoholic_GridsTab_Options
+	currentKey = options["Garrisons.CurrentStats"]
 	
 	-- Get a list of all collected followers across all alts on this realm
 	for characterKey, character in pairs(DataStore:GetCharacters(tab:GetRealm())) do

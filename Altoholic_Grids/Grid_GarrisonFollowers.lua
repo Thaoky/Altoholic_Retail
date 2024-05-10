@@ -3,17 +3,13 @@ local addon = _G[addonName]
 local colors = addon.Colors
 
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
-
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 local tab = AltoholicFrame.TabGrids
 
 local view
 local isViewValid
 local collected = {}
-
-local OPTION_FOLLOWERS = "UI.Tabs.Grids.Garrisons.CurrentFollowers"
 
 -- Followers not recruited at the inn
 local nonInnFollowers = { 
@@ -118,7 +114,8 @@ local function BuildView()
 	-- Now prepare the view, depending on user selection.
 	view = {}
 	
-	local currentFollowers = Options.Get(OPTION_FOLLOWERS)
+	local options = Altoholic_GridsTab_Options
+	local currentFollowers = options["Garrisons.CurrentFollowers"]
 	
 	if currentFollowers == 3 then		-- Not collected only
 		for k, id in pairs(uncollected) do
@@ -154,7 +151,7 @@ local function BuildView()
 	isViewValid = true
 end
 
-addon:RegisterMessage("DATASTORE_GARRISON_FOLLOWERS_UPDATED", function() 
+DataStore:ListenTo("DATASTORE_GARRISON_FOLLOWERS_UPDATED", function() 
 	isViewValid = nil
 	tab:Update()
 end)

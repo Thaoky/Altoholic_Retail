@@ -4,17 +4,13 @@ local colors = addon.Colors
 local icons = addon.Icons
 
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
-
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 local tab = AltoholicFrame.TabGrids
 
 local spellList
 local currentSpellID
 local currentPetTexture
-
-local OPTION_XPACK = "UI.Tabs.Grids.Companions.CurrentXPack"
 
 local function SortPets(a, b)
 	local textA = GetSpellInfo(a) or ""
@@ -101,7 +97,9 @@ local CAT_ALLINONE = #xPacks
 
 tab:RegisterGrid(5, {
 	OnUpdate = function() 
-			local currentXPack = Options.Get(OPTION_XPACK)
+			local options = Altoholic_GridsTab_Options
+			local currentXPack = options["Companions.CurrentXPack"]
+			
 			spellList = (currentXPack <= CAT_ALLINONE) and petList[currentXPack] or DataStore:GetCompanionList()
 		end,
 	GetSize = function() return #spellList end,
@@ -123,7 +121,7 @@ tab:RegisterGrid(5, {
 			button.Background:SetTexCoord(0, 1, 0, 1)
 			button.Background:SetTexture(currentPetTexture)
 			
-			if DataStore:IsPetKnown(character, "CRITTER", currentSpellID) then
+			if DataStore:IsPetKnown(currentSpellID) then
 				button.Background:SetVertexColor(1.0, 1.0, 1.0)
 				button.Name:SetText(icons.ready)
 			else

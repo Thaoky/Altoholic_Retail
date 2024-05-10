@@ -2,7 +2,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 local MVC = LibStub("LibMVC-1.0")
 local Equipment = MVC:GetService("AltoholicUI.Equipment")

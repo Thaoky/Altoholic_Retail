@@ -4,8 +4,6 @@ local colors = addon.Colors
 local icons = addon.Icons
 
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
-
 local ICON_VIEW_QUESTS = "Interface\\LFGFrame\\LFGIcon-Quest"
 
 local tab = AltoholicFrame.TabGrids
@@ -16,8 +14,6 @@ local isViewValid
 
 local QUEST_IN_PROGRESS = 1
 local QUEST_COMPLETE = 2
-
-local OPTION_XPACK = "UI.Tabs.Grids.Emissaries.CurrentXPack"
 
 local function GetExpansionLabel(level, withVersion)
 	local expansion = _G[ format("EXPANSION_NAME%d", level) ]
@@ -43,7 +39,8 @@ local function BuildView()
 	questList = {}
 	view = {}
 	
-	local currentXPack = Options.Get(OPTION_XPACK)
+	local options = Altoholic_GridsTab_Options
+	local currentXPack = options["Emissaries.CurrentXPack"]
 	
 	-- parse the emissary quests, but only the ones that have NOT been completed
 	for _, character in pairs(DataStore:GetCharacters(tab:GetRealm())) do	-- all alts on this realm
@@ -54,7 +51,7 @@ local function BuildView()
 			if isOnQuest and timeLeft and timeLeft > 0 and expansionLevel == currentXPack then
 				-- 2021-01-10 : Callings injected as emissaries will cause the player not yet to be "on the quest"
 				-- Param 3 : questID important if it is a calling, not used otherwise
-				local questName = DataStore:GetQuestLogInfo(character, questLogIndex, questID)
+				local questName = DataStore:GetQuestName(questID)
 
 				if not questList[questID] then
 					questList[questID] = {}

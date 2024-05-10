@@ -1,9 +1,9 @@
-local L = LibStub("AceLocale-3.0"):NewLocale( "Altoholic", "koKR" )
-
+local L = DataStore:SetLocale("Altoholic", "koKR")
 if not L then return end
 
 -- ** Menu **
 L["Equipment"] = "장비"
+-- L["Profession Equipment"] = true
 -- L["Currencies"] = true
 L["Reputations"] = "평판"
 -- L["Daily Quests"] = true
@@ -14,6 +14,14 @@ L["Rest XP"] = "휴식 경험치"
 
 -- ** Equipment **
 L["Unknown link, please relog this character"] = "알 수 없는 링크, 이 캐릭터를 다시 로긴해보세요."
+
+-- ** Profession Equipment ** Dragonflight
+-- L["Profession"] = true
+-- L["Tool"] = true
+-- L["Accessory"] = true
+-- L["FISHING_TOOL"] = "Fishing Rod"
+-- L["COOKING_TOOL"] = "Cooking Tool"
+-- L["COOKING_ACCESSORY"] = "Cooking Accessory"
 
 -- ** Reputations **
 L["Alliance Forces"] = "얼라이언스 연합"

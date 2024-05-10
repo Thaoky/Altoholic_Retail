@@ -1,5 +1,4 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale( "Altoholic", "deDE" )
-
+﻿local L = DataStore:SetLocale("Altoholic", "deDE")
 if not L then return end
 
 -- ** Menu **
@@ -17,15 +16,12 @@ L["Rest XP"] = "Erholt-EP"
 L["Unknown link, please relog this character"] = "Unbekannte Verknüpfung, bitte diesen Charakter neu einloggen"
 
 -- ** Profession Equipment ** Dragonflight
-L["Prof0ToolSlot"] = "Berufsbezogenes Instrument (1)"
-L["Prof0Gear0Slot"] = "Berufliches Zubehör (1.1)"
-L["Prof0Gear1Slot"] = "Berufliches Zubehör (1.2)"
-L["Prof1ToolSlot"] = "Berufsbezogenes Instrument (2)"
-L["Prof1Gear0Slot"] = "Berufliches Zubehör (2.1)"
-L["Prof1Gear1Slot"] = "Berufliches Zubehör (2.2)"
-L["CookingToolSlot"] = "Küchengerät"
-L["CookingGear0Slot"] = "Zubehör für die Küche"
-L["FishingToolSlot"] = "Angelrute"
+L["Profession"] = "Beruf"
+L["Tool"] = "Instrument"
+L["Accessory"] = "Zubehör"
+L["FISHING_TOOL"] = "Angelrute"
+L["COOKING_TOOL"] = "Küchengerät"
+L["COOKING_ACCESSORY"] = "Zubehör für die Küche"
 
 -- ** Reputations **
 L["Alliance Forces"] = "Streitkräfte der Allianz"

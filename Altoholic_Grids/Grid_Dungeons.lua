@@ -4,25 +4,25 @@ local colors = addon.Colors
 local icons = addon.Icons
 
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 local Dungeons = MVC:GetService("AltoholicUI.DungeonsLists")
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 local tab = AltoholicFrame.TabGrids
 
 local view
 local isViewValid
 
-local OPTION_XPACK = "UI.Tabs.Grids.Dungeons.CurrentXPack"
-local OPTION_RAIDS = "UI.Tabs.Grids.Dungeons.CurrentRaids"
+local OPTION_XPACK = "Dungeons.CurrentXPack"
+local OPTION_RAIDS = "Dungeons.CurrentRaids"
 
 local function BuildView()
 	view = view or {}
 	wipe(view)
 	
-	local currentXPack = Options.Get(OPTION_XPACK)
-	local currentRaids = Options.Get(OPTION_RAIDS)
+	local options = Altoholic_GridsTab_Options
+	local currentXPack = options[OPTION_XPACK]
+	local currentRaids = options[OPTION_RAIDS]
 
 	for index, raidList in ipairs(Dungeons.GetRaids(currentXPack, currentRaids)) do
 		table.insert(view, raidList)	-- insert the table pointer
@@ -40,8 +40,9 @@ tab:RegisterGrid(6, {
 			
 			BuildView()
 
-			local currentXPack = Options.Get(OPTION_XPACK)
-			local currentRaids = Options.Get(OPTION_RAIDS)
+			local options = Altoholic_GridsTab_Options
+			local currentXPack = options[OPTION_XPACK]
+			local currentRaids = options[OPTION_RAIDS]
 			
 			tab:SetStatus(format("%s%s|r / %s%s|r / %s%s", 
 				colors.white, LOOKING_FOR_DUNGEON, 

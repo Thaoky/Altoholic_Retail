@@ -1,11 +1,12 @@
-## Interface: 100200
+## Interface: 100207
 ## Title: Altoholic_Grids
 ## IconTexture: Interface\Icons\inv_drink_13
 
 ## Notes: Altoholic's Grids Tab
 ## Author: Thaoky (EU-Marécages de Zangar)
-## Version: 10.2.008
+## Version: 10.2.012
 ## Dependencies: Altoholic, DataStore, DataStore_Characters
+## SavedVariables: Altoholic_GridsTab_Options, Altoholic_GridsTab_Columns
 ## LoadOnDemand: 1
 ## X-Category: Interface Enhancements
 

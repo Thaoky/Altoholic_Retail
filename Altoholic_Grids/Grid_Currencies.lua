@@ -3,13 +3,10 @@ local addon = _G[addonName]
 local colors = addon.Colors
 
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
-
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 local view
 local isViewValid
-local OPTION_TOKEN = "UI.Tabs.Grids.Currencies.CurrentTokenType"
 
 local tab = AltoholicFrame.TabGrids
 
@@ -33,7 +30,9 @@ local function GetUsedTokens(header)
 end
 
 local function BuildView()
-	view = GetUsedTokens(Options.Get(OPTION_TOKEN))
+	local options = Altoholic_GridsTab_Options
+	
+	view = GetUsedTokens(options["Currencies.CurrentTokenType"])
 	isViewValid = true
 end
 

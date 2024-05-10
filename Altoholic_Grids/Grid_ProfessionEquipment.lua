@@ -2,7 +2,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 local MVC = LibStub("LibMVC-1.0")
 local ProfessionEquipment = MVC:GetService("AltoholicUI.ProfessionEquipment")
@@ -29,7 +29,7 @@ tab:RegisterGrid(15, {
 			button.Name:SetJustifyH("RIGHT")
 			button.Name:SetPoint("BOTTOMRIGHT", 0, 0)
 			
-			local _,_,inventoryId = ProfessionEquipment.GetSlotTypeInfo(dataRowID)
+			local _, _, inventoryId = ProfessionEquipment.GetSlotTypeInfo(dataRowID)
 			local item = DataStore:GetInventoryItem(character, inventoryId) -- dataRowID
 			if item then
 				button.key = character

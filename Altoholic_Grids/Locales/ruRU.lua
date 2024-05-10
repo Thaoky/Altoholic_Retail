@@ -3,12 +3,12 @@
 -- Перевод выполнен Хэлла и Интерим @ Азурегос 
 --
 
-local L = LibStub("AceLocale-3.0"):NewLocale( "Altoholic", "ruRU" )
-
+local L = DataStore:SetLocale("Altoholic", "ruRU")
 if not L then return end
 
 -- ** Menu **
 L["Equipment"] = "Экипировка"
+-- L["Profession Equipment"] = true
 -- L["Currencies"] = true
 L["Reputations"] = "Репутация"
 -- L["Daily Quests"] = true
@@ -19,6 +19,14 @@ L["Rest XP"] = "Опыт за отдых"
 
 -- ** Equipment **
 L["Unknown link, please relog this character"] = "Неизвестная ссылка, пожалуйста перезайдите этим персонажем"
+
+-- ** Profession Equipment ** Dragonflight
+-- L["Profession"] = true
+-- L["Tool"] = true
+-- L["Accessory"] = true
+-- L["FISHING_TOOL"] = "Fishing Rod"
+-- L["COOKING_TOOL"] = "Cooking Tool"
+-- L["COOKING_ACCESSORY"] = "Cooking Accessory"
 
 -- ** Reputations **
 L["Alliance Forces"] = "Силы Альянса"

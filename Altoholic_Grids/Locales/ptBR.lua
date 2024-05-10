@@ -1,10 +1,9 @@
-local L = LibStub("AceLocale-3.0"):NewLocale( "Altoholic", "ptBR" )
-
+local L = DataStore:SetLocale("Altoholic", "ptBR")
 if not L then return end
 
 -- ** Menu **
 L["Equipment"] = "Equipamento"
-L["Profession Equipment"] = true
+-- L["Profession Equipment"] = true
 -- L["Currencies"] = true
 L["Reputations"] = "Reputações"
 -- L["Daily Quests"] = true
@@ -17,15 +16,12 @@ L["Rest XP"] = "Exp em repouso"
 L["Unknown link, please relog this character"] = "Link desconhecido, por favor logue novamente este personagem"
 
 -- ** Profession Equipment ** Dragonflight
-L["Prof0ToolSlot"] = "Prof. Tool (1)"
-L["Prof0Gear0Slot"] = "Prof. Acces. (1.1)"
-L["Prof0Gear1Slot"] = "Prof. Acces. (1.2)"
-L["Prof1ToolSlot"] = "Prof. Tool (2)"
-L["Prof1Gear0Slot"] = "Prof. Acces. (2.1)"
-L["Prof1Gear1Slot"] = "Prof. Acces. (2.2)"
-L["CookingToolSlot"] = "Cooking Tool"
-L["CookingGear0Slot"] = "Cooking Acces."
-L["FishingToolSlot"] = "Fishing Rod"
+-- L["Profession"] = true
+-- L["Tool"] = true
+-- L["Accessory"] = true
+-- L["FISHING_TOOL"] = "Fishing Rod"
+-- L["COOKING_TOOL"] = "Cooking Tool"
+-- L["COOKING_ACCESSORY"] = "Cooking Accessory"
 
 -- ** Reputations **
 L["Alliance Forces"] = "Forças da Aliança"

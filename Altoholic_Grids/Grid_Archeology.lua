@@ -4,7 +4,6 @@ local colors = addon.Colors
 local icons = addon.Icons
 
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 
 local tab = AltoholicFrame.TabGrids
 
@@ -15,7 +14,10 @@ local currentItemID
 -- https://wowpedia.fandom.com/wiki/Archaeology#Race_descriptions
 
 tab:RegisterGrid(8, {
-	OnUpdate = function() currentRace = Options.Get("UI.Tabs.Grids.Archaeology.CurrentRace") end,
+	OnUpdate = function()
+			local options = Altoholic_GridsTab_Options
+			currentRace = options["Archaeology.CurrentRace"] 
+		end,
 	GetSize = function() return DataStore:GetRaceNumArtifacts(currentRace) end,
 	RowSetup = function(self, rowFrame, dataRowID)
 			local artifact = DataStore:GetArtifactInfo(currentRace, dataRowID)

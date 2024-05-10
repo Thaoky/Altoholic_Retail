@@ -3,7 +3,7 @@
 	
 	<Button name="AltoTabGridsClassIconTemplate" inherits="AltoClassIconTemplate" virtual="true">
 		<KeyValues>
-			<KeyValue key="optionFormat" value="Tabs.Grids.%s.%s.Column%d" />
+			<KeyValue key="storage" value="Altoholic_GridsTab_Columns" />
 		</KeyValues>
 		<Scripts>
 			<OnEnter>
@@ -64,7 +64,7 @@
 				<KeyValues>
 					<KeyValue key="numIcons" value="13" type="number" />
 					<KeyValue key="iconTemplate" value="AltoTabGridsClassIconTemplate" />
-					<KeyValue key="tabName" value="Grids" />
+					<KeyValue key="storage" value="Altoholic_GridsTab_Columns" />
 				</KeyValues>
 			</Frame>
 			

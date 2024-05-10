@@ -4,10 +4,9 @@ local colors = addon.Colors
 local icons = addon.Icons
 
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 local TransmogSets = MVC:GetService("AltoholicUI.TransmogSetsLists")
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 local tab = AltoholicFrame.TabGrids
 
@@ -15,11 +14,7 @@ local view
 local isViewValid
 local currentTier
 
-local OPTION_PVE = "UI.Tabs.Grids.Sets.IncludePVE"
-local OPTION_PVP = "UI.Tabs.Grids.Sets.PVP.All"
-local OPTION_XPACK = "UI.Tabs.Grids.Sets.CurrentXPack"
-local OPTION_PVPDESC_PREFIX = "UI.Tabs.Grids.Sets.PVP."
-
+local OPTION_PVPDESC_PREFIX = "Sets.PVP."
 local TEXTURE_FONT = "|T%s:%s:%s|t"
 
 local function FormatSetDescription(setInfo)
@@ -40,11 +35,12 @@ local function FormatSetDescription(setInfo)
 end
 
 local function IsPVPDescriptionChecked(description)
+	local options = Altoholic_GridsTab_Options
 	local optionName = format("%s%s", OPTION_PVPDESC_PREFIX, description)
-	local option = Options.Get(optionName)
+	local option = options[optionName]
 	
 	if type(option) == "nil" then		-- if the option does not exist (first use), then initialize it to true
-		Options.Set(optionName, true)
+		options[optionName] = true
 		option = true
 	end
 
@@ -55,11 +51,12 @@ local function BuildView()
 	view = view or {}
 	wipe(view)
 
-	local includePVE = Options.Get(OPTION_PVE)
-	local includePVP = Options.Get(OPTION_PVP)
-	local includeAlliance = Options.Get(format("%s%s", OPTION_PVPDESC_PREFIX, "Alliance"))
-	local includeHorde = Options.Get(format("%s%s", OPTION_PVPDESC_PREFIX, "Horde"))
-	local currentXPack = Options.Get(OPTION_XPACK)
+	local options = Altoholic_GridsTab_Options
+	local includePVE = options["Sets.IncludePVE"]
+	local includePVP = options["Sets.PVP.All"]
+	local includeAlliance = options[format("%s%s", OPTION_PVPDESC_PREFIX, "Alliance")]
+	local includeHorde = options[format("%s%s", OPTION_PVPDESC_PREFIX, "Horde")]
+	local currentXPack = options["Sets.CurrentXPack"]
 	
 	local activePVPTypes = {}
 	

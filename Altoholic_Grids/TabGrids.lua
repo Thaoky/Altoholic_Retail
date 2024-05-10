@@ -1,15 +1,16 @@
+local addonTabName = ...
 local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 local icons = addon.Icons
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
 
 local tab		-- small shortcut to easily address the frame (set in OnBind)
+local options
 
 local currentPanelKey = "Grids"
 local currentPage
@@ -35,15 +36,8 @@ addon:Controller("AltoholicUI.TabGrids", {
 				self:Update(account, realm, currentPage)
 				frame:Update()
 			end
-		
-		-- frame.ClassIcons.OnCharacterChanged = function()
-				-- frame:Update()
-			-- end
-			
-		local account, realm = frame.SelectRealm:GetCurrentRealm()
-		frame.ClassIcons:Update(account, realm, currentPage)		
+
 		frame.currentGridID = 1
-				
 	end,
 	
 	RegisterPanel = function(frame, key, panel)
@@ -140,8 +134,8 @@ local function categoriesList_OnClick(categoryData)
 end
 
 local function faction_OnClick(categoryData)
-	Options.Set("UI.Tabs.Grids.Reputations.CurrentXPack", categoryData.xPackID)
-	Options.Set("UI.Tabs.Grids.Reputations.CurrentFactionGroup", categoryData.factionID)	
+	options["Reputations.CurrentXPack"] = categoryData.xPackID
+	options["Reputations.CurrentFactionGroup"] = categoryData.factionID
 	
 	tab:InitializeGrid(2)
 	tab:Update()
@@ -155,7 +149,7 @@ local function currency_OnClick(categoryData)
 		value = nil		-- pass nil if All in one is selected
 	end
 
-	Options.Set("UI.Tabs.Grids.Currencies.CurrentTokenType", value)
+	options["Currencies.CurrentTokenType"] = value
 	
 	tab:SetStatus(format("%s%s|r / %s%s", 
 		colors.white, L["Currencies"], 
@@ -165,7 +159,7 @@ local function currency_OnClick(categoryData)
 end
 
 local function emissary_OnClick(categoryData)
-	Options.Set("UI.Tabs.Grids.Emissaries.CurrentXPack", categoryData.xPackID)
+	options["Emissaries.CurrentXPack"] = categoryData.xPackID
 	
 	tab:SetStatus(format("%s%s|r / %s%s|r / %s%s", 
 		colors.white, QUESTS_LABEL, 
@@ -176,7 +170,7 @@ local function emissary_OnClick(categoryData)
 end
 
 local function companion_OnClick(categoryData)
-	Options.Set("UI.Tabs.Grids.Companions.CurrentXPack", categoryData.xPackID)
+	options["Companions.CurrentXPack"] = categoryData.xPackID
 	
 	tab:SetStatus(format("%s%s|r / %s%s", 
 		colors.white, COMPANIONS, 
@@ -186,23 +180,23 @@ local function companion_OnClick(categoryData)
 end
 
 local function dungeon_OnClick(categoryData)
-	Options.Set("UI.Tabs.Grids.Dungeons.CurrentXPack", categoryData.xPackID)
-	Options.Set("UI.Tabs.Grids.Dungeons.CurrentRaids", categoryData.difficultyIndex)
+	options["Dungeons.CurrentXPack"] = categoryData.xPackID
+	options["Dungeons.CurrentRaids"] = categoryData.difficultyIndex
 	
 	tab:InitializeGrid(6)
 	tab:Update()
 end
 
 local function tradeskill_OnClick(categoryData)
-	Options.Set("UI.Tabs.Grids.Tradeskills.CurrentXPack", categoryData.xPackID)
-	Options.Set("UI.Tabs.Grids.Tradeskills.CurrentTradeSkill", categoryData.tradeskillIndex)
+	options["Tradeskills.CurrentXPack"] = categoryData.xPackID
+	options["Tradeskills.CurrentTradeSkill"] = categoryData.tradeskillIndex
 	
 	tab:InitializeGrid(7)
 	tab:Update()
 end
 
 local function archaeology_OnClick(categoryData)
-	Options.Set("UI.Tabs.Grids.Archaeology.CurrentRace", categoryData.raceID)
+	options["Archaeology.CurrentRace"] = categoryData.raceID
 	
 	tab:SetStatus(format("%s%s|r / %s%s", 
 		colors.white, GetSpellInfo(78670), 
@@ -212,7 +206,7 @@ local function archaeology_OnClick(categoryData)
 end
 
 local function garrisonBuilding_OnClick(categoryData)
-	Options.Set("UI.Tabs.Grids.Garrisons.CurrentBuildings", categoryData.buildingID)
+	options["Garrisons.CurrentBuildings"] = categoryData.buildingID
 
 	tab:SetStatus(format("%s%s|r / %s%s|r / %s%s", 
 		colors.white, SPLASH_NEW_FEATURE1_TITLE, 
@@ -223,7 +217,7 @@ local function garrisonBuilding_OnClick(categoryData)
 end
 
 local function garrisonFollower_OnClick(categoryData)
-	Options.Set("UI.Tabs.Grids.Garrisons.CurrentFollowers", categoryData.followerID)
+	options["Garrisons.CurrentFollowers"] = categoryData.followerID
 
 	tab:SetStatus(format("%s%s|r / %s%s|r / %s%s", 
 		colors.white, SPLASH_NEW_FEATURE1_TITLE, 
@@ -234,7 +228,7 @@ local function garrisonFollower_OnClick(categoryData)
 end
 
 local function followerAbilities_OnClick(categoryData)
-	Options.Set("UI.Tabs.Grids.Garrisons.CurrentStats", categoryData.abilities)
+	options["Garrisons.CurrentStats"] = categoryData.abilities
 	
 	tab:SetStatus(format("%s%s|r / %s%s|r / %s%s", 
 		colors.white, SPLASH_NEW_FEATURE1_TITLE, 
@@ -245,7 +239,7 @@ local function followerAbilities_OnClick(categoryData)
 end
 
 local function GetOptionText(option, text)
-	local value = Options.Get(option)
+	local value = options[option]
 	
 	return (value == true) 
 		and format("%s %s", icons.ready, text) 
@@ -253,7 +247,8 @@ local function GetOptionText(option, text)
 end
 
 local function setsOptions_OnClick(categoryData, button)
-	Options.Toggle(nil, categoryData.option)
+	-- Toggle the option
+	options[categoryData.option] = not options[categoryData.option]
 		
 	categoryData.text = GetOptionText(categoryData.option, categoryData.label)
 	button:GetParent():UpdateCategories()
@@ -263,7 +258,7 @@ local function setsOptions_OnClick(categoryData, button)
 end
 
 local function sets_OnClick(categoryData)
-	Options.Set("UI.Tabs.Grids.Sets.CurrentXPack", categoryData.xPackID)
+	options["Sets.CurrentXPack"] = categoryData.xPackID
 	
 	tab:SetStatus(format("%s%s|r / %s%s", colors.white, WARDROBE_SETS, colors.green, categoryData.text))
 	tab:InitializeGrid(13)
@@ -272,12 +267,12 @@ end
 
 
 addon:Controller("AltoholicUI.TabGridsCategoriesList", {
-	OnBind = function(frame)
+	-- 2024/01/01 : changed OnBind to Initialized so that it can be called a bit later, when the SV values are available
+	-- OnBind = function(frame)
+	Initialize = function(frame)
 
-		local OPTION_PVE = "UI.Tabs.Grids.Sets.IncludePVE"
-		-- local OPTION_PVP = "UI.Tabs.Grids.Sets.IncludePVP"
-		-- local OPTION_XPACK = "UI.Tabs.Grids.Sets.CurrentXPack"
-		local OPTION_PVPDESC_PREFIX = "UI.Tabs.Grids.Sets.PVP."
+		local OPTION_PVE = "Sets.IncludePVE"
+		local OPTION_PVPDESC_PREFIX = "Sets.PVP."
 	
 		local categories = {
 			{ text = L["Equipment"], callback = categoriesList_OnClick, gridID = 1 },
@@ -495,3 +490,68 @@ addon:Controller("AltoholicUI.TabGridsCategoriesList", {
 		frame:SetCategories(categories)
 	end,
 })
+
+DataStore:OnAddonLoaded(addonTabName, function() 
+	Altoholic_GridsTab_Columns = Altoholic_GridsTab_Columns or {}
+	Altoholic_GridsTab_Options = Altoholic_GridsTab_Options or {
+		["Reputations.CurrentXPack"] = 1,				-- Current expansion pack 
+		["Reputations.CurrentFactionGroup"] = 1,		-- Current faction group in that xpack
+		["Currencies.CurrentTokenType"] = nil,			-- Current token type (default to nil = all-in-one)
+		["Companions.CurrentXPack"] = 1,					-- Current expansion pack 
+		["Mounts.CurrentFaction"] = 1,					-- Current faction 
+		["Tradeskills.CurrentXPack"] = 1,				-- Current expansion pack 
+		["Tradeskills.CurrentTradeSkill"] = 1,			-- Current tradeskill index
+		["Archaeology.CurrentRace"] = 1,					-- Current race index
+		["Dungeons.CurrentXPack"] = 1,					-- Current expansion pack 
+		["Dungeons.CurrentRaids"] = 1,					-- Current raid index
+		["Garrisons.CurrentBuildings"] = 1,				-- Current building type
+		["Garrisons.CurrentFollowers"] = 1,				-- Current follower type
+		["Garrisons.CurrentStats"] = 1,					-- Current stats (abilities = 1, traits = 2, counters = 3)
+		["Sets.IncludePVE"] = true,						-- Include PVE Sets
+		["Sets.IncludePVP"] = true,						-- Include PVP Sets
+		["Sets.CurrentXPack"] = 1,							-- Current expansion pack 
+		["Emissaries.ShowXPack6"] = true,				-- Show Legion Emissaries
+		["Emissaries.ShowXPack7"] = true,				-- Show BfA Emissaries
+		["Emissaries.ShowXPack8"] = true,				-- Show Shadowlands Emissaries
+	}
+	options = Altoholic_GridsTab_Options
+		
+	--Temporary: database migration	
+	local source = AltoholicDB.global.options
+	local dest = Altoholic_GridsTab_Columns
+
+	for k, v in pairs(source) do
+		local arg1, arg2, arg3, realm, column = strsplit(".", k)
+		
+		if arg1 == "Tabs" and arg2 == "Grids" then
+			local realmKey = format("%s.%s", arg3, realm)	-- ex: "Default.Dalaran"
+			local columnIndex = tonumber(column:match("%d+$"))
+			local _, _, characterName = strsplit(".", v)
+			
+			-- Create the new entries
+			dest[realmKey] = dest[realmKey] or {}
+			dest[realmKey][columnIndex] = characterName
+			
+			-- Delete the old entries
+			source[k] = nil
+		end
+		
+		if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Grids" then
+			local prefix = "UI.Tabs.Grids."
+			local optionName = k:sub(#prefix + 1)
+			
+			-- Create the new entries
+			options[optionName] = v
+			
+			-- Delete the old entries
+			source[k] = nil
+		end
+		
+	end
+
+	-- Update only when options are ready
+	local account, realm = tab.SelectRealm:GetCurrentRealm()
+	tab.ClassIcons:Update(account, realm, currentPage)	
+	
+	tab.CategoriesList:Initialize()
+end)
