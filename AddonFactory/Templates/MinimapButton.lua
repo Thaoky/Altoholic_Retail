@@ -1,12 +1,14 @@
 local MVC = LibStub("LibMVC-1.0")
 
-MVC:Controller("AddonFactory.MinimapButton", { "AddonFactory.Options", function(Options)
+MVC:Controller("AddonFactory.MinimapButton", function()
+
+	local uiScale = UIParent:GetScale()
 
 	local function GetIconAngle()
 		local xPos, yPos = GetCursorPosition()
 
-		xPos = Minimap:GetLeft() - xPos/UIParent:GetScale() + 70 
-		yPos = yPos/UIParent:GetScale() - Minimap:GetBottom() - 70 
+		xPos = Minimap:GetLeft() - xPos/uiScale + 70 
+		yPos = yPos/uiScale - Minimap:GetBottom() - 70 
 
 		local iconAngle = math.deg(math.atan2(yPos, xPos))
 		if iconAngle < 0 then
@@ -43,8 +45,9 @@ MVC:Controller("AddonFactory.MinimapButton", { "AddonFactory.Options", function(
 			local info = buttons[frame]
 			local addon = _G[info.addonName]
 			
-			local angle = Options.Get(addon, info.iconAngleOption)
-			local radius = Options.Get(addon, info.iconRadiusOption)
+			local options = _G[info.options].Minimap
+			local angle = options.IconAngle
+			local radius = options.IconRadius
 			
 			frame:SetPoint( "TOPLEFT", "Minimap", "TOPLEFT", 79 - (radius * cos(angle)), (radius * sin(angle)) - 83)
 		end,
@@ -55,7 +58,9 @@ MVC:Controller("AddonFactory.MinimapButton", { "AddonFactory.Options", function(
 				local addon = _G[info.addonName]
 			
 				local iconAngle = GetIconAngle()
-				Options.Set(addon, info.iconAngleOption, iconAngle)
+				local options = _G[info.options].Minimap
+				options.IconAngle = iconAngle
+
 				frame:Move()
 
 				if info.onUpdate then
@@ -64,4 +69,4 @@ MVC:Controller("AddonFactory.MinimapButton", { "AddonFactory.Options", function(
 			end
 		end,
 	}
-end})
+end)
