@@ -1,5 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale( "Altoholic", "itIT" )
-
+local L = DataStore:SetLocale("Altoholic", "itIT")
 if not L then return end
 
 -- L["GUILD_BANKS"] = "Guild Banks"

@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Altoholic", "enUS", true, false)
+local L = DataStore:SetDefaultLocale("Altoholic", "enUS")
 
 L["GUILD_BANKS"] = "Guild Banks"
 L["GUILD_MEMBERS"] = "Guild Members"

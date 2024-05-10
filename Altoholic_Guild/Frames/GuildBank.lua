@@ -1,14 +1,20 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Controller("AltoholicUI.TabGuild.Bank", { "AltoholicUI.Options", "AltoholicUI.Formatter", function(Options, Formatter)
+addon:Controller("AltoholicUI.TabGuild.Bank", { "AltoholicUI.Formatter", function(Formatter)
 
 	local colors = addon.Colors
-	local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+	local L = DataStore:GetLocale(addonName)
 	local MAX_BANK_TABS = 8
 
 	local currentGuildKey
 	local currentGuildBankTab = 0
+
+	local function HideRows(frame)
+		for _, row in pairs(frame.ItemRows) do
+			row:Hide()
+		end
+	end
 
 	return {
 		OnBind = function(frame)
@@ -21,7 +27,8 @@ addon:Controller("AltoholicUI.TabGuild.Bank", { "AltoholicUI.Options", "Altoholi
 			parent:Update()		
 		
 			local menuIcons = frame.MenuIcons
-			menuIcons.RarityIcon:SetRarity(Options.Get("UI.Tabs.Guild.BankItemsRarity"))
+			-- menuIcons.RarityIcon:SetRarity(Altoholic_GuildTab_Options["BankItemsRarity"])
+			menuIcons.RarityIcon:SetRarity(0)
 				
 			-- load the drop down with a guild
 			local currentGuild = GetGuildInfo("player")
@@ -60,14 +67,15 @@ addon:Controller("AltoholicUI.TabGuild.Bank", { "AltoholicUI.Options", "Altoholi
 		end,
 		Update = function(frame)
 			if not currentGuildKey or not currentGuildBankTab then		-- no tab found ? exit
-				for _, row in pairs(frame.ItemRows) do
-					row:Hide()
-				end
+				HideRows(frame)
 				return 
 			end
 			
 			local tab = DataStore:GetGuildBankTab(currentGuildKey, currentGuildBankTab)
-			if not tab.name then return end		-- tab not yet scanned ? exit
+			if not tab or not tab.name then			-- tab not yet scanned ? exit
+				HideRows(frame)
+				return 
+			end		
 			
 			local _, _, guildName = strsplit(".", currentGuildKey)
 			local parent = frame:GetParent()
@@ -84,7 +92,7 @@ addon:Controller("AltoholicUI.TabGuild.Bank", { "AltoholicUI.Options", "Altoholi
 			local money = DataStore:GetGuildBankMoney(currentGuildKey)
 			frame.Info3:SetText(format("%s%s: %s", colors.gold, MONEY, Formatter.MoneyString(money or 0, colors.white)))
 			
-			local rarity = Options.Get("UI.Tabs.Guild.BankItemsRarity")
+			local rarity = Altoholic_GuildTab_Options["BankItemsRarity"]
 			
 			local numGuildBankRows = #frame.ItemRows
 			

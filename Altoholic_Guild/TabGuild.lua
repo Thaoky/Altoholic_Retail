@@ -1,43 +1,43 @@
+local addonTabName = ...
 local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 
 local tab		-- small shortcut to easily address the frame (set in OnBind)
 local currentPanelKey
 
-local function OnGuildAltsReceived(frame, event, sender, alts)
-	frame.Panels.Members:InvalidateView()
-	frame:Update()
+local function OnGuildAltsReceived(event, sender, alts)
+	tab.Panels.Members:InvalidateView()
+	tab:Update()
 end
 
-local function OnBankTabRequestAck(frame, event, sender)
+local function OnBankTabRequestAck(event, sender)
 	addon:Print(format(L["WAIT_OTHER_PLAYER_ACK"], sender))
 end
 
-local function OnBankTabRequestRejected(frame, event, sender)
+local function OnBankTabRequestRejected(event, sender)
 	addon:Print(format(L["REJECTED_BY_OTHER_PLAYER"], sender))
 end
 
-local function OnBankTabUpdateSuccess(frame, event, sender, guildName, tabName, tabID)
+local function OnBankTabUpdateSuccess(event, sender, guildName, tabName, tabID)
 	addon:Print(format(L["GUILD_BANK_TAB_UPDATED"], tabName ))
 	-- frame.Bank:Update()
 end
 
-local function OnGuildMemberOffline(frame, event, member)
-	frame.Panels.Members:InvalidateView()
-	frame:Update()
+local function OnGuildMemberOffline(event, member)
+	tab.Panels.Members:InvalidateView()
+	tab:Update()
 end
 
-local function OnRosterUpdate(frame)
+local function OnRosterUpdate()
 	-- local _, onlineMembers = GetNumGuildMembers()
 	-- frame.MenuItem1.Text:SetText(format("%s %s(%d)", L["GUILD_MEMBERS"], colors.green, onlineMembers))
 	
-	frame.Panels.Members:InvalidateView()
-	frame:Update()
+	tab.Panels.Members:InvalidateView()
+	tab:Update()
 end
 
 addon:Controller("AltoholicUI.TabGuild", {
@@ -45,14 +45,14 @@ addon:Controller("AltoholicUI.TabGuild", {
 		tab = frame
 		currentPanelKey = "Members"
 	
-		addon:RegisterMessage("DATASTORE_GUILD_ALTS_RECEIVED", OnGuildAltsReceived, frame)
-		addon:RegisterMessage("DATASTORE_BANKTAB_REQUEST_ACK", OnBankTabRequestAck, frame)
-		addon:RegisterMessage("DATASTORE_BANKTAB_REQUEST_REJECTED", OnBankTabRequestRejected, frame)
-		addon:RegisterMessage("DATASTORE_BANKTAB_UPDATE_SUCCESS", OnBankTabUpdateSuccess, frame)
-		addon:RegisterMessage("DATASTORE_GUILD_MEMBER_OFFLINE", OnGuildMemberOffline, frame)
+		DataStore:ListenTo("DATASTORE_GUILD_ALTS_RECEIVED", OnGuildAltsReceived)
+		DataStore:ListenTo("DATASTORE_BANKTAB_REQUEST_ACK", OnBankTabRequestAck)
+		DataStore:ListenTo("DATASTORE_BANKTAB_REQUEST_REJECTED", OnBankTabRequestRejected)
+		DataStore:ListenTo("DATASTORE_BANKTAB_UPDATE_SUCCESS", OnBankTabUpdateSuccess)
+		DataStore:ListenTo("DATASTORE_GUILD_MEMBER_OFFLINE", OnGuildMemberOffline)
 		
 		if IsInGuild() then
-			addon:RegisterEvent("GUILD_ROSTER_UPDATE", OnRosterUpdate, frame)
+			addon:ListenTo("GUILD_ROSTER_UPDATE", OnRosterUpdate)
 		end
 	end,
 	RegisterPanel = function(frame, key, panel)
@@ -88,11 +88,14 @@ addon:Controller("AltoholicUI.TabGuild", {
 		return tab.Panels.Bank:GetCurrentGuild()
 	end,
 	SortBy = function(frame, columnName, buttonIndex)
-		Options.Toggle(nil, "UI.Tabs.Guild.SortAscending")
+		local options = Altoholic_GuildTab_Options
+		
+		-- Toggle the option
+		options["SortAscending"] = not options["SortAscending"]
 		
 		-- Sort the whole view by a given column
 		local hc = frame.HeaderContainer
-		local sortOrder = Options.Get("UI.Tabs.Guild.SortAscending")		
+		local sortOrder = options["SortAscending"]		
 		
 		hc.SortButtons[buttonIndex]:DrawArrow(sortOrder)
 		
@@ -180,3 +183,30 @@ addon:Controller("AltoholicUI.TabGuildCategoriesList", {
 	end,
 
 })
+
+DataStore:OnAddonLoaded(addonTabName, function() 
+	Altoholic_GuildTab_Options = Altoholic_GuildTab_Options or {
+		["BankItemsRarity"] = 0,				-- rarity filter in the guild bank tab
+		["SortAscending"] = true,				-- ascending or descending sort order
+	}
+	local options = Altoholic_GuildTab_Options
+		
+	--Temporary: database migration	
+	local source = AltoholicDB.global.options
+
+	for k, v in pairs(source) do
+		local arg1, arg2, arg3 = strsplit(".", k)
+		
+		if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Guild" then
+			local prefix = "UI.Tabs.Guild."
+			local optionName = k:sub(#prefix + 1)
+			
+			-- Create the new entries
+			options[optionName] = v
+			
+			-- Delete the old entries
+			source[k] = nil
+		end
+		
+	end
+end)

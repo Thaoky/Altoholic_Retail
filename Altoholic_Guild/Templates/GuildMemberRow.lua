@@ -1,7 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 addon:Controller("AltoholicUI.GuildMemberRow", {
 	SetMember = function(frame, playerName, color, isHeader)

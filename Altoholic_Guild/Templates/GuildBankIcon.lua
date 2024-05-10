@@ -2,10 +2,8 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
-
 local MAX_BANK_TABS = 8
 
 local rarityIcons = {
@@ -23,13 +21,14 @@ local function OnHideInTooltip(frame, guildBank)
 	local guildKey = frame.value
 	
 	-- Option for this guild will be like : "Default.Dalaran.MyGuild.HideInTooltip"
-	local optionName = format("%s.HideInTooltip", guildKey)
+	local hiddenGuilds = Altoholic_Tooltip_Options.HiddenGuilds
 	
-	local option = Options.Get(optionName)
-	if option then
-		Options.Toggle(nil, optionName)		-- if the option already exists, toggle it
+	if hiddenGuilds[guildKey] then
+		-- if the option already exists, toggle it
+		hiddenGuilds[guildKey] = not hiddenGuilds[guildKey]
 	else
-		Options.Set(optionName, true)			-- otherwise set it to true (hidden)
+		-- otherwise set it to true (hidden)
+		hiddenGuilds[guildKey] = true
 	end
 
 	guildBank.ContextualMenu:Close()
@@ -70,7 +69,7 @@ end
 local function OnRarityChange(frame, guildBank)
 	local rarity = frame.value
 
-	Options.Set("UI.Tabs.Guild.BankItemsRarity", rarity)
+	Altoholic_GuildTab_Options["BankItemsRarity"] = rarity
 	
 	guildBank.MenuIcons.RarityIcon:SetRarity(rarity)
 	guildBank:Update()
@@ -83,7 +82,7 @@ local function GuildIcon_Initialize(frame, level)
 	local guildBank = frame:GetParent()
 	local guildKey = guildBank:GetCurrentGuild()
 	local guildName = select(3, strsplit(".", guildKey))
-	local hideInTooltip = Options.Get(format("%s.HideInTooltip", guildKey)) or false
+	local hideInTooltip = Altoholic_Tooltip_Options.HiddenGuilds[guildKey] or false
 	
 	frame:AddTitle(guildName)
 	frame:AddButtonWithArgs(format("%s%s", colors.white, L["Hide this guild in the tooltip"]), guildKey, OnHideInTooltip, guildBank, nil, (hideInTooltip == true))
@@ -190,7 +189,7 @@ local function UpdateIcon_Initialize(frame, level)
 end
 
 local function RarityIcon_Initialize(frame, level)
-	local rarity = Options.Get("UI.Tabs.Guild.BankItemsRarity")
+	local rarity = Altoholic_GuildTab_Options["BankItemsRarity"]
 	
 	local guildBank = frame:GetParent()
 	

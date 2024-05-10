@@ -2,7 +2,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 -- *** Guild Members ***
 
@@ -11,6 +11,7 @@ local viewSortField = "name"
 local viewSortOrder
 local isViewValid
 local expandedHeaders = {}
+local equipmentFrame
 
 local sortByMain = {	-- sort functions for the mains
 	["name"] = function(a, b)
@@ -200,8 +201,8 @@ local function BuildView()
 	isViewValid = true
 end
 
-local function OnPlayerEquipmentReceived(frame, event, sender, player)
-	frame.Equipment:Update(player)
+local function OnPlayerEquipmentReceived(event, sender, player)
+	equipmentFrame:Update(player)
 end
 
 addon:Controller("AltoholicUI.TabGuild.Members", { function()
@@ -225,13 +226,15 @@ addon:Controller("AltoholicUI.TabGuild.Members", { function()
 		OnBind = function(frame)
 			local parent = AltoholicFrame.TabGuild
 			
+			equipmentFrame = frame.Equipment
+			
 			frame:SetParent(parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("Members", frame)	
 			parent:Update()
-		
-			addon:RegisterMessage("DATASTORE_PLAYER_EQUIPMENT_RECEIVED", OnPlayerEquipmentReceived, frame)
+
+			DataStore:ListenTo("DATASTORE_PLAYER_EQUIPMENT_RECEIVED", OnPlayerEquipmentReceived)
 			
 			-- Handle resize
 			frame:SetScript("OnSizeChanged", function(self, width, height)
