@@ -1,9 +1,9 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Controller("AltoholicUI.TabCharacters.Mails", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabCharacters.Mails", function()
 	
-	local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+	local L = DataStore:GetLocale(addonName)
 	local colors = addon.Colors
 	local currentCharacter
 	local view, isViewValid
@@ -154,5 +154,4 @@ addon:Controller("AltoholicUI.TabCharacters.Mails", { "AltoholicUI.Options", fun
 			scrollFrame:Update(#view, maxDisplayedRows)
 			frame:Show()
 		end,
-	}
-end})
+}end)

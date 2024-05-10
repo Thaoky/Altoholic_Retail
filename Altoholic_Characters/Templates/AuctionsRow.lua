@@ -4,7 +4,7 @@ local addon = _G[addonName]
 addon:Controller("AltoholicUI.TabCharacters.AuctionsRow", { "AltoholicUI.Formatter", function(Formatter)
 
 	local colors = addon.Colors
-	local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+	local L = DataStore:GetLocale(addonName)
 	
 	return {
 		SetName = function(frame, itemName, itemRarity)

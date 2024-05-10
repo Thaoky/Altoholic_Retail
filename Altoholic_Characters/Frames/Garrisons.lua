@@ -1,10 +1,10 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", function()
 
 	local colors = addon.Colors
-	local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+	local L = DataStore:GetLocale(addonName)
 	
 	local view = {}
 
@@ -54,7 +54,7 @@ addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", { "Altoholic
 	local function BuildView(character)
 		wipe(view)
 
-		local mode = Options.Get("UI.Tabs.Characters.GarrisonMissions")
+		local mode = Altoholic_CharactersTab_Options["GarrisonMissions"]
 
 		local api = modes[mode]
 		local missions = api.GetMissions(character)
@@ -90,7 +90,7 @@ addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", { "Altoholic
 				end
 			end
 		
-			addon:RegisterEvent("GARRISON_MISSION_LIST_UPDATE", OnGarrisonMissionListUpdate)
+			addon:ListenTo("GARRISON_MISSION_LIST_UPDATE", OnGarrisonMissionListUpdate)
 			
 			-- Handle resize
 			frame:SetScript("OnSizeChanged", function(self, width, height)
@@ -105,7 +105,7 @@ addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", { "Altoholic
 			if not character then return end
 			
 			if not isResizing then
-				local mode = Options.Get("UI.Tabs.Characters.GarrisonMissions")
+				local mode = Altoholic_CharactersTab_Options["GarrisonMissions"]
 				local api = modes[mode]
 			
 				-- Set the tab status
@@ -128,17 +128,16 @@ addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", { "Altoholic
 				if line <= #view and (rowIndex <= maxDisplayedRows) then	-- if the line is visible
 					if not (isResizing and rowFrame:IsVisible()) then
 						local missionID = view[line]
-						local info = DataStore:GetMissionInfo(missionID)
 						local followers, remainingTime, successChance = DataStore:GetActiveMissionInfo(character, missionID)
 						
-						rowFrame:SetName(missionID, info.durationSeconds)
-						rowFrame:SetType(info.typeAtlas)
-						rowFrame:SetLevel(info.level, info.iLevel)
+						rowFrame:SetName(missionID, DataStore:GetMissionDuration(missionID))
+						rowFrame:SetType(DataStore:GetMissionAtlas(missionID))
+						rowFrame:SetLevel(DataStore:GetMissionLevel(missionID))
 						rowFrame:SetRemainingTime(remainingTime)
 						rowFrame:SetSuccessChance(successChance)
-						rowFrame:SetCost(info.cost)
+						rowFrame:SetCost(DataStore:GetMissionCost(missionID))
 						rowFrame:SetFollowers(followers, missionID, character)
-						rowFrame:SetRewards(info.rewards)
+						rowFrame:SetRewards(DataStore:GetMissionRewards(missionID))
 					end
 					rowFrame:Show()
 				else
@@ -149,5 +148,4 @@ addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", { "Altoholic
 			scrollFrame:Update(#view, maxDisplayedRows)
 			frame:Show()
 		end,
-	}
-end})
+}end)

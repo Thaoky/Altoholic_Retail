@@ -1,17 +1,15 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Controller("AltoholicUI.TabCharacters.Auctions", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabCharacters.Auctions", function()
 
-	local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+	local L = DataStore:GetLocale(addonName)
 	local colors = addon.Colors
 	local currentCharacter
 	local view, isViewValid
 	local viewSortField, viewSortOrder
 	local listType		-- "Auctions" or "Bids"
 	
-	local OPTION_VIEW_AUCTION_HOUSE = "UI.Tabs.Characters.ViewAuctionHouse"
-
 	local function SortByName(a, b, ascending)
 		local idA = select(2, DataStore:GetAuctionHouseItemInfo(currentCharacter, listType, a))
 		local idB = select(2, DataStore:GetAuctionHouseItemInfo(currentCharacter, listType, b))
@@ -54,7 +52,7 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", { "AltoholicUI.Options", 
 		view = view or {}
 		wipe(view)
 		
-		listType = Options.Get(OPTION_VIEW_AUCTION_HOUSE)
+		listType = Altoholic_CharactersTab_Options["ViewAuctionHouse"]
 		
 		local num
 		if listType == "Auctions" then
@@ -89,7 +87,7 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", { "AltoholicUI.Options", 
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("Auctions", frame)
 			
-			addon:RegisterMessage("DATASTORE_AUCTIONS_UPDATED", function() 
+			DataStore:ListenTo("DATASTORE_AUCTIONS_UPDATED", function() 
 
 				frame:InvalidateView()
 				if frame:IsVisible() then
@@ -107,8 +105,9 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", { "AltoholicUI.Options", 
 		end,
 		
 		PreUpdate = function(frame)
+
 			-- There is no Update(), it points to UpdateAuctions or UpdateBids
-			if Options.Get(OPTION_VIEW_AUCTION_HOUSE) == "Auctions" then
+			if Altoholic_UI_Options.ViewAuctionHouse == "Auctions" then
 				frame.Update = frame.UpdateAuctions
 			else
 				frame.Update = frame.UpdateBids
@@ -157,7 +156,7 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", { "AltoholicUI.Options", 
 						local index = view[line]
 						
 						local isGoblin, itemID, count, highBidder, startPrice, buyoutPrice, timeLeft = DataStore:GetAuctionHouseItemInfo(character, "Auctions", index)
-						
+
 						if itemID then
 							local itemName, _, itemRarity = GetItemInfo(itemID)
 							rowFrame:SetName(itemName or L["N/A"], itemRarity or 1)
@@ -236,5 +235,4 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", { "AltoholicUI.Options", 
 			scrollFrame:Update(#view, maxDisplayedRows)
 			frame:Show()
 		end,
-	}
-end})
+}end)

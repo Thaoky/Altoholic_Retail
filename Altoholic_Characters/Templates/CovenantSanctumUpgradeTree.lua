@@ -4,30 +4,33 @@ local addon = _G[addonName]
 local BORDER_TEXTURE = "CovenantSanctum-Icon-Border-%s"
 
 -- Source : Blizzard_CovenantSanctum/Blizzard_CovenantSanctumUpgrades.lua
+local features = Enum.GarrTalentFeatureType
+local covenants = Enum.CovenantType
+
 local covenantSanctumFeatureDescription = {
-	[Enum.GarrTalentFeatureType.AnimaDiversion] = {
-		[Enum.CovenantType.Venthyr] = COVENANT_SANCTUM_FEATURE_ANIMACONDUCTOR_VENTHYR,
-		[Enum.CovenantType.Kyrian] = COVENANT_SANCTUM_FEATURE_ANIMACONDUCTOR_KYRIAN,
-		[Enum.CovenantType.NightFae] = COVENANT_SANCTUM_FEATURE_ANIMACONDUCTOR_NIGHTFAE,
-		[Enum.CovenantType.Necrolord] = COVENANT_SANCTUM_FEATURE_ANIMACONDUCTOR_NECROLORD,
+	[features.AnimaDiversion] = {
+		[covenants.Venthyr] = COVENANT_SANCTUM_FEATURE_ANIMACONDUCTOR_VENTHYR,
+		[covenants.Kyrian] = COVENANT_SANCTUM_FEATURE_ANIMACONDUCTOR_KYRIAN,
+		[covenants.NightFae] = COVENANT_SANCTUM_FEATURE_ANIMACONDUCTOR_NIGHTFAE,
+		[covenants.Necrolord] = COVENANT_SANCTUM_FEATURE_ANIMACONDUCTOR_NECROLORD,
 	},
-	[Enum.GarrTalentFeatureType.TravelPortals] = {
-		[Enum.CovenantType.Venthyr] = COVENANT_SANCTUM_FEATURE_TRAVELNETWORK_VENTHYR,
-		[Enum.CovenantType.Kyrian] = COVENANT_SANCTUM_FEATURE_TRAVELNETWORK_KYRIAN,
-		[Enum.CovenantType.NightFae] = COVENANT_SANCTUM_FEATURE_TRAVELNETWORK_NIGHTFAE,
-		[Enum.CovenantType.Necrolord] = COVENANT_SANCTUM_FEATURE_TRAVELNETWORK_NECROLORD,
+	[features.TravelPortals] = {
+		[covenants.Venthyr] = COVENANT_SANCTUM_FEATURE_TRAVELNETWORK_VENTHYR,
+		[covenants.Kyrian] = COVENANT_SANCTUM_FEATURE_TRAVELNETWORK_KYRIAN,
+		[covenants.NightFae] = COVENANT_SANCTUM_FEATURE_TRAVELNETWORK_NIGHTFAE,
+		[covenants.Necrolord] = COVENANT_SANCTUM_FEATURE_TRAVELNETWORK_NECROLORD,
 	},
-	[Enum.GarrTalentFeatureType.Adventures] = {
-		[Enum.CovenantType.Venthyr] = COVENANT_SANCTUM_FEATURE_ADVENTURES_VENTHYR,
-		[Enum.CovenantType.Kyrian] = COVENANT_SANCTUM_FEATURE_ADVENTURES_KYRIAN,
-		[Enum.CovenantType.NightFae] = COVENANT_SANCTUM_FEATURE_ADVENTURES_NIGHTFAE,
-		[Enum.CovenantType.Necrolord] = COVENANT_SANCTUM_FEATURE_ADVENTURES_NECROLORD,
+	[features.Adventures] = {
+		[covenants.Venthyr] = COVENANT_SANCTUM_FEATURE_ADVENTURES_VENTHYR,
+		[covenants.Kyrian] = COVENANT_SANCTUM_FEATURE_ADVENTURES_KYRIAN,
+		[covenants.NightFae] = COVENANT_SANCTUM_FEATURE_ADVENTURES_NIGHTFAE,
+		[covenants.Necrolord] = COVENANT_SANCTUM_FEATURE_ADVENTURES_NECROLORD,
 	},
-	[Enum.GarrTalentFeatureType.SanctumUnique] = {
-		[Enum.CovenantType.Venthyr] = COVENANT_SANCTUM_UNIQUE_VENTHYR,
-		[Enum.CovenantType.Kyrian] = COVENANT_SANCTUM_UNIQUE_KYRIAN,
-		[Enum.CovenantType.NightFae] = COVENANT_SANCTUM_UNIQUE_NIGHTFAE,
-		[Enum.CovenantType.Necrolord] = COVENANT_SANCTUM_UNIQUE_NECROLORD,
+	[features.SanctumUnique] = {
+		[covenants.Venthyr] = COVENANT_SANCTUM_UNIQUE_VENTHYR,
+		[covenants.Kyrian] = COVENANT_SANCTUM_UNIQUE_KYRIAN,
+		[covenants.NightFae] = COVENANT_SANCTUM_UNIQUE_NIGHTFAE,
+		[covenants.Necrolord] = COVENANT_SANCTUM_UNIQUE_NECROLORD,
 	},
 }
 
@@ -37,10 +40,15 @@ addon:Controller("AltoholicUI.TabCharacters.CovenantSanctumUpgradeTree", {
 	Update = function(frame, character, covenantID, treeType)
 		
 		-- Get a valid tree ID
-		local treeInfo = DataStore:GetReservoirTalentTreeInfo(character, treeType)
-		if not treeInfo or not treeInfo.treeID then return end
+		local tier, treeID = DataStore:GetReservoirTalentTreeInfo(character, treeType)
 		
-		local info = C_Garrison.GetTalentTreeInfo(treeInfo.treeID)
+		-- Exit if there is nothing to show
+		if treeID == 0 then 
+			frame:Hide()
+			return 
+		end
+
+		local info = C_Garrison.GetTalentTreeInfo(treeID)
 		local textureKit = C_Covenants.GetCovenantData(covenantID).textureKit
 		
 		-- Set the upgrade type icon & border
@@ -48,7 +56,7 @@ addon:Controller("AltoholicUI.TabCharacters.CovenantSanctumUpgradeTree", {
 		
 		button.Icon:SetTexture(info.talents[1].icon)
 		button.Border:SetAtlas(format(BORDER_TEXTURE, textureKit, true))
-		button.Tier:SetText(treeInfo.tier)
+		button.Tier:SetText(tier)
 		
 		-- Prepare the tooltip
 		button.title = info.title
@@ -69,7 +77,7 @@ addon:Controller("AltoholicUI.TabCharacters.CovenantSanctumUpgradeTree", {
 		
 		-- Update the talent icon
 		for i = 1, 5 do
-			frame[format("Item%d", i)]:Update(talentCache[i], i, treeInfo.tier)
+			frame[format("Item%d", i)]:Update(talentCache[i], i, tier)
 		end
 		
 		frame:Show()

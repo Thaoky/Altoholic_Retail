@@ -1,5 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale( "Altoholic", "frFR" )
-
+local L = DataStore:SetLocale("Altoholic", "frFR")
 if not L then return end
 
 L["Account"] = "Compte"

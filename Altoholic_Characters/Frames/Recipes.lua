@@ -1,8 +1,8 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Controller("AltoholicUI.TabCharacters.Recipes", { "AltoholicUI.Options", function(Options)
-	local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+addon:Controller("AltoholicUI.TabCharacters.Recipes", function()
+	local L = DataStore:GetLocale(addonName)
 	local colors = addon.Colors
 
 	local recipeColors = { [0] = colors.recipeOrange, [1] = colors.yellow, [2] = colors.recipeGreen, [3] = colors.recipeGrey }
@@ -96,8 +96,9 @@ addon:Controller("AltoholicUI.TabCharacters.Recipes", { "AltoholicUI.Options", f
 	local function GetRecipeList(character, professionName)
 		local list = {}
 		
-		local viewLearned = Options.Get("UI.Tabs.Characters.ViewLearnedRecipes")
-		local viewUnlearned = Options.Get("UI.Tabs.Characters.ViewUnlearnedRecipes")
+		local options = Altoholic_CharactersTab_Options
+		local viewLearned = options["ViewLearnedRecipes"]
+		local viewUnlearned = options["ViewUnlearnedRecipes"]
 		local profession = DataStore:GetProfession(character, professionName)
 		
 		DataStore:IterateRecipes(profession, mainCategory, subCategory, function(recipeData) 
@@ -217,5 +218,4 @@ addon:Controller("AltoholicUI.TabCharacters.Recipes", { "AltoholicUI.Options", f
 			currentSearch = self:GetText()
 			frame:Update()
 		end,
-	}
-end})
+}end)

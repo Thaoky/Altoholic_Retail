@@ -21,7 +21,7 @@ addon:Controller("AltoholicUI.TabCharacters.SoulbindTreeRow", {
 					button:Show()
 					button.spellID = node.spellID
 					
-					local state, conduitID, conduitRank, conduitType, reason = DataStore:GetSoulbindInfo(character, node.ID)
+					local state, conduitID, conduitRank, hasConduit, conduitType, reason = DataStore:GetSoulbindInfo(character, node.ID)
 					button.reason = reason
 					
 					-- Set the right icon
@@ -32,11 +32,13 @@ addon:Controller("AltoholicUI.TabCharacters.SoulbindTreeRow", {
 					
 					elseif conduitID ~= 0 then		-- it's an item
 						local itemID = select(2, DataStore:GetConduitInfo(character, conduitID))
-						icon = GetItemIcon(itemID)
+						if itemID then
+							icon = GetItemIcon(itemID)
+						end
 						
 						button.conduitID = conduitID
 						button.conduitRank = conduitRank
-					elseif conduitType ~= -1 then		-- it's an empty socket for a conduit
+					elseif hasConduit then		-- it's an empty socket for a conduit
 						button.conduitID = nil
 						button.conduitRank = nil
 						button.conduitType = conduitType

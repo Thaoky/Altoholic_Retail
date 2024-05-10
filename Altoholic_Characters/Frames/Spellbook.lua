@@ -7,7 +7,7 @@ local SPELLS_PER_PAGE = 12
 local currentSchool
 local currentPage
 
-addon:Controller("AltoholicUI.TabCharacters.Spellbook", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabCharacters.Spellbook", function()
 
 	return {
 		OnBind = function(frame)
@@ -20,7 +20,7 @@ addon:Controller("AltoholicUI.TabCharacters.Spellbook", { "AltoholicUI.Options",
 		end,
 		
 		PreUpdate = function(frame)
-			frame:SetSchool(Options.Get("UI.Tabs.Characters.ViewSpellTab"))
+			frame:SetSchool(Altoholic_CharactersTab_Options["ViewSpellTab"])
 		end,
 		
 		Update = function(frame)
@@ -121,5 +121,4 @@ addon:Controller("AltoholicUI.TabCharacters.Spellbook", { "AltoholicUI.Options",
 				frame:GoToNextPage()
 			end
 		end,
-	}
-end})
+}end)

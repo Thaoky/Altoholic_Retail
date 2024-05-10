@@ -2,7 +2,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 -- Quest Tags Copied from 10.0.7 Constants.lua as they are REMOVED from the game --TechnoHunter
 --QUEST_ICONS_FILE = "Interface\\QuestFrame\\QuestTypeIcons";
@@ -100,9 +100,12 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLogRow", { "AltoholicUI.Formatt
 			if id == 0 then return end
 
 			local character = frame:GetParent():GetParent():GetCharacter()
-			local questName, questID, link, _, level = DataStore:GetQuestLogInfo(character, id)
+			local questID = DataStore:GetQuestLogID(character, id)
+			local questName = DataStore:GetQuestName(questID)
+			local level = DataStore:GetQuestLevel(questID)
+			local link = DataStore:GetQuestLogLink(character, id)
 			if not link then return end
-
+			
 			GameTooltip:ClearLines()
 			GameTooltip:SetOwner(frame.Name, "ANCHOR_LEFT")
 			GameTooltip:SetHyperlink(link)
@@ -124,7 +127,7 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLogRow", { "AltoholicUI.Formatt
 			if id == 0 then return end
 			
 			local character = frame:GetParent():GetParent():GetCharacter()
-			local _, _, link = DataStore:GetQuestLogInfo(character, id)
+			local link = DataStore:GetQuestLogLink(character, id)
 			if link then
 				chat:Insert(link)
 			end

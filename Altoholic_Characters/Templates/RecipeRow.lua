@@ -1,6 +1,6 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 addon:Controller("AltoholicUI.TabCharacters.RecipeRow", {
 	Update = function(frame, profession, recipeID, color, isLearned, recipeRank, totalRanks)
@@ -70,28 +70,26 @@ addon:Controller("AltoholicUI.TabCharacters.RecipeRow", {
 		end
 		
 		-- ** set the reagents **
-		local reagents = DataStore:GetCraftReagents(recipeID)		-- reagents = "2996,2|2318,1|2320,1"
+		local schematic = C_TradeSkillUI.GetRecipeSchematic(recipeID, false)
 		local index = 1
 		
-		if reagents then
-			for reagent in reagents:gmatch("([^|]+)") do
-				local reagentIcon = frame[format("Reagent%d", index)]
-				local reagentID, reagentCount = strsplit(",", reagent)
-				reagentID = tonumber(reagentID)
-				
-				if reagentID then
-					reagentCount = tonumber(reagentCount)
-					
-					reagentIcon.itemID = reagentID
-					reagentIcon:SetIcon(GetItemIcon(reagentID))
-					reagentIcon.Count:SetText(reagentCount)
-					reagentIcon.Count:Show()
-				
-					reagentIcon:Show()
-					index = index + 1
-				else
-					reagentIcon:Hide()
-				end				
+		for reagentIndex = 1, #schematic.reagentSlotSchematics do
+			local reagent = schematic.reagentSlotSchematics[reagentIndex]
+			local reagentID = reagent.reagents[1].itemID
+			local reagentIcon = frame[format("Reagent%d", index)]
+			
+			if reagentID then
+				local reagentCount = reagent.quantityRequired
+									
+				reagentIcon.itemID = reagentID
+				reagentIcon:SetIcon(GetItemIcon(reagentID))
+				reagentIcon.Count:SetText(reagentCount)
+				reagentIcon.Count:Show()
+			
+				reagentIcon:Show()
+				index = index + 1
+			else
+				reagentIcon:Hide()
 			end
 		end
 		

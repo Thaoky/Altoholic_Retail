@@ -1,10 +1,10 @@
+local addonTabName = ...
 local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 local Equipment = MVC:GetService("AltoholicUI.Equipment")
 
 local ICON_BAGS_HALLOWSEND = "Interface\\Icons\\INV_Misc_Bag_28_Halloween"
@@ -29,36 +29,40 @@ local BAG_ICONS = {
 }
 
 local tab		-- small shortcut to easily address the frame (set in OnBind)
+local options
 local currentPanelKey
 
 -- ** Icon events **
 local function OnContainerChange(self)
-	Options.Toggle(nil, self.value)
+	-- Toggle the option
+	local option = self.value
+	options[option] = not options[option]
+
 	currentPanelKey = "Containers"
 	tab:Update()
 end
 
 local function OnRarityChange(self)
-	Options.Set("UI.Tabs.Characters.ViewBagsRarity", self.value)
+	options["ViewBagsRarity"] = self.value
 	currentPanelKey = "Containers"
 	tab:Update()
 end
 
 local function OnQuestHeaderChange(self)
-	Options.Set("UI.Tabs.Characters.ViewQuestLogCategory", self.value or 0)
+	options["ViewQuestLogCategory"] = self.value or 0
 	currentPanelKey = "QuestLog"
 	tab:Update()
 end
 
 local function OnAuctionsChange(self, listType)
 	CloseDropDownMenus()
-	Options.Set("UI.Tabs.Characters.ViewAuctionHouse", listType)
+	Altoholic_UI_Options.ViewAuctionHouse = listType
 	currentPanelKey = self.value
 	tab:Update()
 end
 
 local function OnClearAHEntries(self, character)
-	local listType = Options.Get("UI.Tabs.Characters.ViewAuctionHouse")
+	local listType = Altoholic_UI_Options.ViewAuctionHouse
 	
 	if (self.value == 1) or (self.value == 3) then	-- clean this faction's data
 		DataStore:ClearAuctionEntries(character, listType, 0)
@@ -81,7 +85,7 @@ end
 
 local function OnSpellTabChange(self)
 	CloseDropDownMenus()
-	Options.Set("UI.Tabs.Characters.ViewSpellTab", self.value)
+	options["ViewSpellTab"] = self.value
 	currentPanelKey = "Spellbook"
 	tab:Update()
 end
@@ -148,27 +152,31 @@ end
 local function OnShowLearned(self)
 	CloseDropDownMenus()
 	
-	Options.Toggle(nil, "UI.Tabs.Characters.ViewLearnedRecipes")
+	-- Toggle the option
+	options["ViewLearnedRecipes"] = not options["ViewLearnedRecipes"]
+
 	currentPanelKey = "Recipes"
 	tab:Update()
 end
 
 local function OnShowUnlearned(self)
-	Options.Toggle(nil, "UI.Tabs.Characters.ViewUnlearnedRecipes")
+	-- Toggle the option
+	options["ViewUnlearnedRecipes"] = not options["ViewUnlearnedRecipes"]
+	
 	currentPanelKey = "Recipes"
 	tab:Update()
 end
 
 local function OnGarrisonMenuChange(self)
 	CloseDropDownMenus()
-	Options.Set("UI.Tabs.Characters.GarrisonMissions", self.value)
+	options["GarrisonMissions"] = self.value
 	currentPanelKey = "GarrisonMissions"
 	tab:Update()
 end
 
 local function OnCovenantChange(self)
 	CloseDropDownMenus()
-	Options.Set("UI.Tabs.Characters.CovenantSanctum", self.value)
+	options["CovenantSanctum"] = self.value
 	currentPanelKey = self.value
 	tab:Update()
 end
@@ -189,15 +197,15 @@ local function BagsIcon_Initialize(frame, level)
 	frame:AddTitle(format("%s / %s", L["Containers"], DataStore:GetColoredCharacterName(character)))
 
 	frame:AddButton(L["View"], nil, function() tab:ShowPanel("Containers") end)
-	frame:AddButton(L["Bags"], "UI.Tabs.Characters.ViewBags", OnContainerChange, nil, Options.Get("UI.Tabs.Characters.ViewBags"))
-	frame:AddButton(L["Bank"], "UI.Tabs.Characters.ViewBank", OnContainerChange, nil, Options.Get("UI.Tabs.Characters.ViewBank"))
-	frame:AddButton(VOID_STORAGE, "UI.Tabs.Characters.ViewVoidStorage", OnContainerChange, nil, Options.Get("UI.Tabs.Characters.ViewVoidStorage"))
-	frame:AddButton(REAGENT_BANK , "UI.Tabs.Characters.ViewReagentBank", OnContainerChange, nil, Options.Get("UI.Tabs.Characters.ViewReagentBank"))
-	frame:AddButton(L["All-in-one"], "UI.Tabs.Characters.ViewBagsAllInOne", OnContainerChange, nil, Options.Get("UI.Tabs.Characters.ViewBagsAllInOne"))
+	frame:AddButton(L["Bags"], "ViewBags", OnContainerChange, nil, options["ViewBags"])
+	frame:AddButton(L["Bank"], "ViewBank", OnContainerChange, nil, options["ViewBank"])
+	frame:AddButton(VOID_STORAGE, "ViewVoidStorage", OnContainerChange, nil, options["ViewVoidStorage"])
+	frame:AddButton(REAGENT_BANK , "ViewReagentBank", OnContainerChange, nil, options["ViewReagentBank"])
+	frame:AddButton(L["All-in-one"], "ViewBagsAllInOne", OnContainerChange, nil, options["ViewBagsAllInOne"])
 		
 	frame:AddTitle(" ")
 	frame:AddTitle(format("|r%s", RARITY))
-	local rarity = Options.Get("UI.Tabs.Characters.ViewBagsRarity")
+	local rarity = options["ViewBagsRarity"]
 	frame:AddButton(L["Any"], 0, OnRarityChange, nil, (rarity == 0))
 	
 	for i = Enum.ItemQuality.Uncommon, Enum.ItemQuality.Heirloom do		-- Quality: 0 = poor .. 5 = legendary
@@ -211,7 +219,7 @@ local function QuestsIcon_Initialize(frame, level)
 	local character = tab:GetCharacter()
 	if not character then return end
 	
-	local questLogCategory = Options.Get("UI.Tabs.Characters.ViewQuestLogCategory")
+	local questLogCategory = options["ViewQuestLogCategory"]
 	
 	frame:AddTitle(format("%s / %s", QUESTS_LABEL, DataStore:GetColoredCharacterName(character)))
 	frame:AddButton(ALL, 0, OnQuestHeaderChange, nil, (questLogCategory == 0))
@@ -311,14 +319,12 @@ local function SpellbookIcon_Initialize(frame, level)
 	frame:AddTitle(format("%s / %s", SPELLBOOK, DataStore:GetColoredCharacterName(character)))
 	
 	for index, spellTab in ipairs(DataStore:GetSpellTabs(character)) do
-		frame:AddButton(spellTab, spellTab, OnSpellTabChange, nil, (Options.Get("UI.Tabs.Characters.ViewSpellTab") == spellTab))
+		frame:AddButton(spellTab, spellTab, OnSpellTabChange, nil, (options["ViewSpellTab"] == spellTab))
 	end
 	frame:AddCloseMenu()
 end
 
 local function ProfessionsIcon_Initialize(frame, level)
-	if not DataStore_Crafts then return end
-	
 	local character = tab:GetCharacter()
 	if not character then return end
 	
@@ -346,7 +352,9 @@ local function ProfessionsIcon_Initialize(frame, level)
 		end
 		
 		-- Profession 1
-		rank, _, _, professionName = DataStore:GetProfession1(character)
+		rank = DataStore:GetProfession1Rank(character)
+		professionName = DataStore:GetProfession1Name(character)
+		
 		if last and rank and professionName then
 			local info = frame:CreateInfo()
 			
@@ -362,7 +370,9 @@ local function ProfessionsIcon_Initialize(frame, level)
 		end
 		
 		-- Profession 2
-		rank, _, _, professionName = DataStore:GetProfession2(character)
+		rank = DataStore:GetProfession2Rank(character)
+		professionName = DataStore:GetProfession2Name(character)
+			
 		if last and rank and professionName then
 			local info = frame:CreateInfo()
 			
@@ -374,12 +384,12 @@ local function ProfessionsIcon_Initialize(frame, level)
 			frame:AddButtonInfo(info, level)
 			
 		elseif professionName then
-			frame:AddButton(colors.grey..professionName, nil, nil)
+			frame:AddButton(format("%s%s", colors.grey, professionName), nil, nil)
 		end
 		
 		frame:AddTitle(" ")
-		frame:AddButton(TRADE_SKILLS_LEARNED_TAB, nil, OnShowLearned, nil, Options.Get("UI.Tabs.Characters.ViewLearnedRecipes"))
-		frame:AddButton(TRADE_SKILLS_UNLEARNED_TAB, nil, OnShowUnlearned, nil, Options.Get("UI.Tabs.Characters.ViewUnlearnedRecipes"))
+		frame:AddButton(TRADE_SKILLS_LEARNED_TAB, nil, OnShowLearned, nil, options["ViewLearnedRecipes"])
+		frame:AddButton(TRADE_SKILLS_UNLEARNED_TAB, nil, OnShowUnlearned, nil, options["ViewUnlearnedRecipes"])
 		frame:AddTitle(" ")
 		frame:AddTitle(FILTERS)
 		
@@ -526,12 +536,10 @@ local garrisonHeaders = {
 }
 
 local function GarrisonIcon_Initialize(frame, level)
-	if not DataStore_Garrisons then return end
-	
 	local character = tab:GetCharacter()
 	if not character then return end
 	
-	local currentMenu = Options.Get("UI.Tabs.Characters.GarrisonMissions")
+	local currentMenu = options["GarrisonMissions"]
 	local index = 1
 	local num
 	
@@ -555,7 +563,7 @@ end
 
 local function CovenantIcon_Initialize(frame, level)
 
-	local currentMenu = Options.Get("UI.Tabs.Characters.CovenantSanctum") or ""
+	local currentMenu = options["CovenantSanctum"] or ""
 
 	frame:AddTitle(GARRISON_TYPE_9_0_LANDING_PAGE_TITLE)
 	
@@ -661,11 +669,12 @@ addon:Controller("AltoholicUI.TabCharacters", { "AltoholicUI.Characters", functi
 			currentAltKey = key
 		end,
 		SortBy = function(frame, columnName, buttonIndex)
-			Options.Toggle(nil, "UI.Tabs.Characters.SortAscending")
+			-- Toggle the option
+			options["SortAscending"] = not options["SortAscending"]
 			
 			-- Sort the whole view by a given column
 			local hc = frame.HeaderContainer
-			local sortOrder = Options.Get("UI.Tabs.Characters.SortAscending")		
+			local sortOrder = options["SortAscending"]
 			
 			hc.SortButtons[buttonIndex]:DrawArrow(sortOrder)
 			
@@ -729,7 +738,7 @@ addon:Controller("AltoholicUI.TabCharactersCategoriesList", {
 		local currentRealm = ""
 		local currentAccount = ""
 	
-		DataStore:IterateCharacters(nil, nil, function(account, realm, characterName, character) 
+		DataStore:IterateCharactersSorted(nil, nil, function(account, realm, characterName, character) 
 			-- Sequence break on the account ? add an account line
 			if account ~= currentAccount then
 				table.insert(categories, { text = format("%s%s: %s%s", colors.white, L["Account"], colors.green, account), isExpanded = (account == DataStore.ThisAccount) })
@@ -762,3 +771,40 @@ addon:Controller("AltoholicUI.TabCharactersCategoriesList", {
 	end,
 
 })
+
+DataStore:OnAddonLoaded(addonTabName, function() 
+	Altoholic_CharactersTab_Options = Altoholic_CharactersTab_Options or {
+		["ViewBags"] = true,
+		["ViewBank"] = true,
+		["ViewBagsAllInOne"] = false,
+		["ViewVoidStorage"] = true,
+		["ViewReagentBank"] = true,
+		["ViewBagsRarity"] = 0,						-- rarity level of items (not a boolean !)
+		["GarrisonMissions"] = 1,					-- available missions = 1, active missions = 2
+		["SortAscending"] = true,					-- ascending or descending sort order
+		["ViewLearnedRecipes"] = true,			-- View learned recipes ?
+		["ViewUnlearnedRecipes"] = false,		-- View unlearned recipes ?
+		["ViewQuestLogCategory"] = 0,				-- Quest log category to show
+		["ViewSpellTab"] = 1,						-- Spellbook tab to show
+	}
+	options = Altoholic_CharactersTab_Options
+		
+	--Temporary: database migration	
+	local source = AltoholicDB.global.options
+
+	for k, v in pairs(source) do
+		local arg1, arg2, arg3 = strsplit(".", k)
+		
+		if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Characters" then
+			local prefix = "UI.Tabs.Characters."
+			local optionName = k:sub(#prefix + 1)
+			
+			-- Create the new entries
+			options[optionName] = v
+			
+			-- Delete the old entries
+			source[k] = nil
+		end
+		
+	end
+end)

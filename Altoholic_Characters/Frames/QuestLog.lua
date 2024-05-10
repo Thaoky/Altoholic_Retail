@@ -1,7 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Controller("AltoholicUI.TabCharacters.QuestLog", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabCharacters.QuestLog", function()
 	
 	local colors = addon.Colors
 
@@ -45,7 +45,7 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLog", { "AltoholicUI.Options", 
 			local character = parent:GetCharacter()
 			if not character then return end
 		
-			local currentCategoryID = Options.Get("UI.Tabs.Characters.ViewQuestLogCategory")
+			local currentCategoryID = Altoholic_CharactersTab_Options["ViewQuestLogCategory"]
 			
 			-- Get the quest list
 			local questList = {}
@@ -70,16 +70,19 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLog", { "AltoholicUI.Options", 
 				
 				if line <= #questList and (rowIndex <= maxDisplayedRows)then	-- if the line is visible
 					if not (isResizing and rowFrame:IsVisible()) then
-						rowFrame:SetID(questList[line])
+						local lineID = questList[line]
+						rowFrame:SetID(lineID)
+
+						local questID = DataStore:GetQuestLogID(character, lineID)
 						
-						local questName, questID, link, groupName, level, groupSize, tagID, 
-								isComplete, isDaily, isTask, isBounty, isStory, isHidden, isSolo = DataStore:GetQuestLogInfo(character, questList[line])
-						local money = DataStore:GetQuestLogMoney(character, questList[line])
-						
-						rowFrame:SetName(questName, level)
-						rowFrame:SetType(tagID)
+						rowFrame:SetName(DataStore:GetQuestName(questID), DataStore:GetQuestLevel(questID))
+						rowFrame:SetType(DataStore:GetQuestLogTag(character, lineID))
 						rowFrame:SetRewards(character)
-						rowFrame:SetInfo(isComplete, isDaily, groupSize, money)
+						rowFrame:SetInfo(
+							DataStore:IsQuestCompleted(character, lineID), 
+							DataStore:IsQuestDaily(questID), 
+							DataStore:GetQuestGroupSize(questID), 
+							DataStore:GetQuestLogMoney(character, lineID))
 					end
 					rowFrame:Show()
 				else
@@ -90,5 +93,4 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLog", { "AltoholicUI.Options", 
 			scrollFrame:Update(#questList, maxDisplayedRows)
 			frame:Show()
 		end,
-	}
-end})
+}end)

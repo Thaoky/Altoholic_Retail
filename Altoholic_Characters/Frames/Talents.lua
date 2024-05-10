@@ -17,8 +17,8 @@ addon:Controller("AltoholicUI.TabCharacters.Talents", {
 			end
 		end	
 
-		addon:RegisterEvent("PLAYER_TALENT_UPDATE", OnPlayerTalentUpdate)
-		addon:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED", OnPlayerTalentUpdate)
+		addon:ListenTo("PLAYER_TALENT_UPDATE", OnPlayerTalentUpdate)
+		addon:ListenTo("PLAYER_SPECIALIZATION_CHANGED", OnPlayerTalentUpdate)
 	end,
 	Update = function(frame)
 		frame:Hide()

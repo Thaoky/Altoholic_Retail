@@ -2,16 +2,17 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
-local OPTION_VIEW_BAGS = "UI.Tabs.Characters.ViewBags"
-local OPTION_VIEW_BANK = "UI.Tabs.Characters.ViewBank"
-local OPTION_VIEW_VOID_STORAGE = "UI.Tabs.Characters.ViewVoidStorage"
-local OPTION_VIEW_REAGENT_BANK = "UI.Tabs.Characters.ViewReagentBank"
-local OPTION_VIEW_BAGS_RARITY = "UI.Tabs.Characters.ViewBagsRarity"
-local OPTION_VIEW_BAGS_ALLINONE = "UI.Tabs.Characters.ViewBagsAllInOne"
+local enum = DataStore.Enum.ContainerIDs
 
-addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options", function(Options)
+local OPTION_VIEW_BAGS = "ViewBags"
+local OPTION_VIEW_BANK = "ViewBank"
+local OPTION_VIEW_VOID_STORAGE = "ViewVoidStorage"
+local OPTION_VIEW_REAGENT_BANK = "ViewReagentBank"
+local OPTION_VIEW_BAGS_RARITY = "ViewBagsRarity"
+
+addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 
 	-- https://wowpedia.fandom.com/wiki/BagID
 	local FIRST_BAG = 0
@@ -24,19 +25,24 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 	local function bag_OnEnter(self)
 		local id = self:GetID()
 		GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+		
 		if id == 0 then
 			GameTooltip:AddLine(BACKPACK_TOOLTIP, 1, 1, 1)
 			GameTooltip:AddLine(format(CONTAINER_SLOTS, 16, BAGSLOT), 1, 1, 1)
-		elseif id == 100 then
+		
+		elseif id == enum.MainBankSlots then
 			GameTooltip:AddLine(L["Bank"], 0.5, 0.5, 1)
 			GameTooltip:AddLine(format("%d %s", 28, L["slots"]), 1, 1, 1)
-		elseif id >= 201 and id <= 202 then
+		
+		elseif id == enum.VoidStorageTab1 or id == enum.VoidStorageTab2 then
 			GameTooltip:AddLine(VOID_STORAGE, 0.5, 0.5, 1)
-		elseif id == 300 then
+		
+		elseif id == enum.ReagentBank then
 			GameTooltip:AddLine(REAGENT_BANK, 0.5, 0.5, 1)
+		
 		else
 			local character = AltoholicFrame.TabCharacters:GetCharacter()
-			local _, link = DataStore:GetContainerInfo(character, id)
+			local link = DataStore:GetContainerLink(character, id)
 			GameTooltip:SetHyperlink(link)
 			if (id >= FIRST_BANK_BAG) and (id <= LAST_BANK_BAG) then
 				GameTooltip:AddLine(L["Bank bag"], 0, 1, 0)
@@ -79,6 +85,20 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 	
 	local containerList			-- Used by the All-in-one view
 	
+	local function GetContainer(character, containerID)
+		if containerID == enum.MainBankSlots then
+			return DataStore:GetPlayerBank(character)
+		elseif containerID == enum.VoidStorageTab1 then
+			return DataStore:GetVoidStorageTab(character, 1)
+		elseif containerID == enum.VoidStorageTab2 then
+			return DataStore:GetVoidStorageTab(character, 2)
+		elseif containerID == enum.ReagentBank then
+			return DataStore:GetReagentBank(character)
+		else
+			return DataStore:GetContainer(character, containerID)
+		end
+	end
+	
 	return {
 		OnBind = function(frame)
 			local parent = AltoholicFrame.TabCharacters
@@ -89,7 +109,7 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 			parent:RegisterPanel("Containers", frame)
 			
 			-- 25/05/2021 : this line should probably be moved, and the method as well
-			addon:RegisterEvent("BAG_UPDATE", OnBagUpdate)
+			addon:ListenTo("BAG_UPDATE", OnBagUpdate)
 			
 			-- save a reference to the 'OnEnter' script used on the items, because it might be overriden
 			item_OnEnter = frame.Entry1.Item1:GetScript("OnEnter")
@@ -105,7 +125,9 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 		
 		PreUpdate = function(frame)
 			-- There is no Update(), it points to UpdateSpread or UpdateAllInOne
-			if Options.Get(OPTION_VIEW_BAGS_ALLINONE) then
+			local options = Altoholic_CharactersTab_Options
+			
+			if options["ViewBagsAllInOne"] then
 				frame.Update = frame.UpdateAllInOne
 			else
 				frame.Update = frame.UpdateSpread
@@ -115,7 +137,8 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 		end,
 		
 		UpdateSpread = function(frame, isResizing)
-			local rarity = Options.Get(OPTION_VIEW_BAGS_RARITY)
+			local options = Altoholic_CharactersTab_Options
+			local rarity = options[OPTION_VIEW_BAGS_RARITY]
 			local scrollFrame = frame.ScrollFrame
 			local numRows = scrollFrame.numRows
 			
@@ -149,26 +172,18 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 				if line <= #bagIndices and (rowIndex <= maxDisplayedRows) then	-- if the line is visible
 					if not (isResizing and rowFrame:IsVisible()) then
 						local containerID = bagIndices[line].bagID
-						local container = DataStore:GetContainer(character, containerID)
-						local containerIcon, _, containerSize = DataStore:GetContainerInfo(character, containerID)
+
+						local container = GetContainer(character, containerID)
+						local containerIcon = DataStore:GetContainerIcon(character, containerID)
+						local containerSize = DataStore:GetContainerSize(character, containerID)
 						
 						-- Column 1 : the bag
 						itemButton = rowFrame.Item1
 						
 						if bagIndices[line].from == 1 then		-- if this is the first line for this bag .. draw bag icon
+							itemButton:SetID(containerID)
+							
 							itemButton.Icon:SetDesaturated(false)
-							
-							-- 15/10/2014: note, find a better way for this than this ugly hack
-							if containerID == "VoidStorage.Tab1" then
-								itemButton:SetID(201)	-- use id 201 for void storage, only required a few lines below
-							elseif containerID == "VoidStorage.Tab2" then
-								itemButton:SetID(202)	-- use id 202 for void storage, only required a few lines below
-							elseif containerID == REAGENTBANK_CONTAINER then
-								itemButton:SetID(300)
-							else
-								itemButton:SetID(containerID)
-							end
-							
 							itemButton.Icon:SetTexture(containerIcon)
 							itemButton:SetScript("OnEnter", bag_OnEnter)						
 							itemButton.Count:Hide()
@@ -196,7 +211,7 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 									itemButton:SetIcon(itemID)	-- override the icon if one is returned by datastore
 								end
 								
-								local startTime, duration, isEnabled = DataStore:GetContainerCooldownInfo(container, slotID)
+								local startTime, duration, isEnabled = DataStore:GetContainerCooldownInfo(containerID, slotID)
 								itemButton:SetCooldown(startTime, duration, isEnabled)
 								itemButton:SetScript("OnEnter", item_OnEnter)
 								itemButton:Show()
@@ -222,7 +237,8 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 		end,
 		
 		UpdateAllInOne = function(frame, isResizing)
-			local rarity = Options.Get(OPTION_VIEW_BAGS_RARITY)
+			local options = Altoholic_CharactersTab_Options
+			local rarity = options[OPTION_VIEW_BAGS_RARITY]
 			local scrollFrame = frame.ScrollFrame
 			local numRows = scrollFrame.numRows
 			
@@ -241,26 +257,26 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 			containerList = containerList or {}
 			wipe(containerList)
 
-			if Options.Get(OPTION_VIEW_BAGS) then
+			if options[OPTION_VIEW_BAGS] then
 				for i = FIRST_BAG, LAST_BAG do
 					table.insert(containerList, i)
 				end
 			end
 			
-			if Options.Get(OPTION_VIEW_BANK) then
+			if options[OPTION_VIEW_BANK] then
 				for i = FIRST_BANK_BAG, LAST_BANK_BAG do
 					table.insert(containerList, i)
 				end
-				table.insert(containerList, 100)
+				table.insert(containerList, enum.MainBankSlots)
 			end
 			
-			if Options.Get(OPTION_VIEW_VOID_STORAGE) then
-				table.insert(containerList, "VoidStorage.Tab1")
-				table.insert(containerList, "VoidStorage.Tab2")
+			if options[OPTION_VIEW_VOID_STORAGE] then
+				table.insert(containerList, enum.VoidStorageTab1)
+				table.insert(containerList, enum.VoidStorageTab2)
 			end
 			
-			if Options.Get(OPTION_VIEW_REAGENT_BANK) then
-				table.insert(containerList, REAGENTBANK_CONTAINER)
+			if options[OPTION_VIEW_REAGENT_BANK] then
+				table.insert(containerList, enum.ReagentBank)
 			end
 			
 			local rowIndex = 1
@@ -275,8 +291,8 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 				local rowFrame = frame[format("Entry%d", rowIndex)]
 				
 				for _, containerID in pairs(containerList) do
-					local container = DataStore:GetContainer(character, containerID)
-					local containerSize = select(3, DataStore:GetContainerInfo(character, containerID))
+					local container = GetContainer(character, containerID)
+					local containerSize = DataStore:GetContainerSize(character, containerID)
 
 					for slotID = 1, containerSize do
 						local itemID, itemLink, itemCount, isBattlePet = DataStore:GetSlotInfo(container, slotID)
@@ -294,7 +310,7 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 										itemButton:SetIcon(itemID)	-- override the icon if one is returned by datastore
 									end
 									
-									local startTime, duration, isEnabled = DataStore:GetContainerCooldownInfo(container, slotID)
+									local startTime, duration, isEnabled = DataStore:GetContainerCooldownInfo(containerID, slotID)
 									itemButton:SetCooldown(startTime, duration, isEnabled)
 									itemButton:Show()
 								-- end
@@ -336,7 +352,8 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 		end,
 	
 		UpdateAllInOne__BACKUP_TEST = function(frame)
-			local rarity = Options.Get(OPTION_VIEW_BAGS_RARITY)
+			local options = Altoholic_CharactersTab_Options
+			local rarity = options[OPTION_VIEW_BAGS_RARITY]
 			local scrollFrame = frame.ScrollFrame
 			local numRows = scrollFrame.numRows
 			local numColumns = 20
@@ -360,26 +377,26 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 			
 			local containerList = {}
 
-			if Options.Get(OPTION_VIEW_BAGS) then
+			if options[OPTION_VIEW_BAGS] then
 				for i = FIRST_BAG, LAST_BAG do
 					table.insert(containerList, i)
 				end
 			end
 			
-			if Options.Get(OPTION_VIEW_BANK) then
+			if options[OPTION_VIEW_BANK] then
 				for i = FIRST_BANK_BAG, LAST_BANK_BAG do
 					table.insert(containerList, i)
 				end
-				table.insert(containerList, 100)
+				table.insert(containerList, enum.MainBankSlots)
 			end
 			
-			if Options.Get(OPTION_VIEW_VOID_STORAGE) then
-				table.insert(containerList, "VoidStorage.Tab1")
-				table.insert(containerList, "VoidStorage.Tab2")
+			if options[OPTION_VIEW_VOID_STORAGE] then
+				table.insert(containerList, enum.VoidStorageTab1)
+				table.insert(containerList, enum.VoidStorageTab2)
 			end
 			
-			if Options.Get(OPTION_VIEW_REAGENT_BANK) then
-				table.insert(containerList, REAGENTBANK_CONTAINER)
+			if options[OPTION_VIEW_REAGENT_BANK] then
+				table.insert(containerList, enum.ReagentBank)
 			end
 			
 			local itemButton
@@ -388,7 +405,7 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 				
 				for _, containerID in pairs(containerList) do
 					local container = DataStore:GetContainer(character, containerID)
-					local _, _, containerSize = DataStore:GetContainerInfo(character, containerID)
+					local containerSize = DataStore:GetContainerSize(character, containerID)
 
 					for slotID = 1, containerSize do
 						local itemID, itemLink, itemCount, isBattlePet = DataStore:GetSlotInfo(container, slotID)
@@ -403,7 +420,7 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 									itemButton:SetIcon(itemID)	-- override the icon if one is returned by datastore
 								end
 								
-								local startTime, duration, isEnabled = DataStore:GetContainerCooldownInfo(container, slotID)
+								local startTime, duration, isEnabled = DataStore:GetContainerCooldownInfo(containerID, slotID)
 								itemButton:SetCooldown(startTime, duration, isEnabled)
 								itemButton:SetScript("OnEnter", item_OnEnter)
 								itemButton:Show()
@@ -461,38 +478,35 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", { "AltoholicUI.Options"
 			wipe(bagIndices)
 
 			local character = frame:GetParent():GetCharacter()
+			local options = Altoholic_CharactersTab_Options
 			
-			if Options.Get(OPTION_VIEW_BAGS) then
+			if options[OPTION_VIEW_BAGS] then
 				for bagID = FIRST_BAG, LAST_BAG do
 					if DataStore:GetContainer(character, bagID) then
-						local _, _, size = DataStore:GetContainerInfo(character, bagID)
-						UpdateBagIndices(bagID, size)
+						UpdateBagIndices(bagID, DataStore:GetContainerSize(character, bagID))
 					end
 				end	
 			end
 			
-			if Options.Get(OPTION_VIEW_BANK) then
+			if options[OPTION_VIEW_BANK] then
 				for bagID = FIRST_BANK_BAG, LAST_BANK_BAG do
 					if DataStore:GetContainer(character, bagID) then
-						local _, _, size = DataStore:GetContainerInfo(character, bagID)
-						UpdateBagIndices(bagID, size)
+						UpdateBagIndices(bagID, DataStore:GetContainerSize(character, bagID))
 					end
 				end
 				
-				if DataStore:GetContainer(character, 100) then 	-- if bank has been visited, add it
-					UpdateBagIndices(100, 28)
+				if DataStore:HasPlayerVisitedBank(character) then				-- if bank has been visited, add it
+					UpdateBagIndices(enum.MainBankSlots, 28)
 				end
 			end
 			
-			if Options.Get(OPTION_VIEW_VOID_STORAGE) then
-				UpdateBagIndices("VoidStorage.Tab1", 80)
-				UpdateBagIndices("VoidStorage.Tab2", 80)
+			if options[OPTION_VIEW_VOID_STORAGE] then
+				UpdateBagIndices(enum.VoidStorageTab1, 80)
+				UpdateBagIndices(enum.VoidStorageTab2, 80)
 			end
 			
-			if Options.Get(OPTION_VIEW_REAGENT_BANK) then
-				local _, _, size = DataStore:GetContainerInfo(character, REAGENTBANK_CONTAINER)
-				UpdateBagIndices(REAGENTBANK_CONTAINER, size)
+			if options[OPTION_VIEW_REAGENT_BANK] then
+				UpdateBagIndices(enum.ReagentBank, DataStore:GetContainerSize(character, REAGENTBANK_CONTAINER))
 			end
 		end,
-	}
-end})
+}end)
