@@ -1,33 +1,36 @@
+local addonTabName = ...
 local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 local AccountSharing = MVC:GetService("AltoholicUI.AccountSharing")
 
-local OPTION_REALMS = "UI.Tabs.Summary.CurrentRealms"
-local OPTION_ALTGROUPS = "UI.Tabs.Summary.CurrentAltGroup"
-local OPTION_FACTIONS = "UI.Tabs.Summary.CurrentFactions"
-local OPTION_LEVELS = "UI.Tabs.Summary.CurrentLevels"
-local OPTION_LEVELS_MIN = "UI.Tabs.Summary.CurrentLevelsMin"
-local OPTION_LEVELS_MAX = "UI.Tabs.Summary.CurrentLevelsMax"
-local OPTION_CLASSES = "UI.Tabs.Summary.CurrentClasses"
-local OPTION_MISC = "UI.Tabs.Summary.CurrentMisc"
-local OPTION_BANKTYPE = "UI.Tabs.Summary.CurrentBankType"
-local OPTION_TRADESKILL = "UI.Tabs.Summary.CurrentTradeSkill"
-local OPTION_COLORED_SKILLS = "UI.Tabs.Summary.UseColorForTradeSkills"
+local OPTION_REALMS = "CurrentRealms"
+local OPTION_ALTGROUPS = "CurrentAltGroup"
+local OPTION_FACTIONS = "CurrentFactions"
+local OPTION_LEVELS = "CurrentLevels"
+local OPTION_LEVELS_MIN = "CurrentLevelsMin"
+local OPTION_LEVELS_MAX = "CurrentLevelsMax"
+local OPTION_CLASSES = "CurrentClasses"
+local OPTION_MISC = "CurrentMisc"
+local OPTION_BANKTYPE = "CurrentBankType"
+local OPTION_TRADESKILL = "CurrentTradeSkill"
+local OPTION_COLORED_SKILLS = "UseColorForTradeSkills"
+
+local tab		-- small shortcut to easily address the frame (set in OnBind)
+local options
 
 -- ** Icon events **
 
 local function OnRealmFilterChange(frame)
-	Options.Set(OPTION_REALMS, frame.value)
+	options[OPTION_REALMS] = frame.value
 	AltoholicFrame.TabSummary:Update()
 end
 
 local function OnAltGroupChange(frame)
-	Options.Set(OPTION_ALTGROUPS, frame.value)
+	options[OPTION_ALTGROUPS] = frame.value
 	AltoholicFrame.TabSummary:Update()
 end
 
@@ -36,7 +39,7 @@ local function OnCreateAltGroup(frame)
 		-- exit if length is zero
 		if not userInput or userInput:len() == 0 then return end
 		
-		local isOk = DataStore:CreateAltGroup(userInput)
+		local isOk = DataStore.AltGroups:Create(userInput)
 		
 		if isOk then
 			addon:Print(format(L["ALT_GROUP_CREATED"], userInput))
@@ -59,7 +62,7 @@ local function OnRenameAltGroup(frame)
 		-- exit if length is zero
 		if not newGroup or newGroup:len() == 0 then return end
 		
-		local isOk = DataStore:RenameAltGroup(oldGroup, newGroup)
+		local isOk = DataStore.AltGroups:Rename(oldGroup, newGroup)
 		
 		if isOk then
 			addon:Print(format(L["ALT_GROUP_RENAMED"], oldGroup, newGroup))
@@ -78,7 +81,7 @@ local function OnDeleteAltGroup(frame)
 
 	AltoMessageBox:Ask(format("%s%s\n|r%s%s", colors.white, L["DELETE_GROUP_NAME"], colors.green, group), function()
 		
-		local isOk = DataStore:DeleteAltGroup(group)
+		local isOk = DataStore.AltGroups:Delete(group)
 		
 		if isOk then
 			addon:Print(format(L["ALT_GROUP_DELETED"], group))
@@ -87,9 +90,9 @@ local function OnDeleteAltGroup(frame)
 		end
 		
 		-- If the group being shown is the one we just deleted, reset to All
-		local groupOption = Options.Get(OPTION_ALTGROUPS)
+		local groupOption = options[OPTION_ALTGROUPS]
 		if groupOption == group then
-			Options.Set(OPTION_ALTGROUPS, 0)
+			options[OPTION_ALTGROUPS] = 0
 		end
 		
 		-- rebuild the main character table, and all the menus
@@ -98,36 +101,37 @@ local function OnDeleteAltGroup(frame)
 end
 
 local function OnFactionFilterChange(frame)
-	Options.Set(OPTION_FACTIONS, frame.value)
+	options[OPTION_FACTIONS] = frame.value
 	AltoholicFrame.TabSummary:Update()
 end
 
 local function OnLevelFilterChange(frame, minLevel, maxLevel)
-	Options.Set(OPTION_LEVELS, frame.value)
-	Options.Set(OPTION_LEVELS_MIN, minLevel)
-	Options.Set(OPTION_LEVELS_MAX, maxLevel)
+	options[OPTION_LEVELS] = frame.value
+	options[OPTION_LEVELS_MIN] = minLevel
+	options[OPTION_LEVELS_MAX] = maxLevel
 	AltoholicFrame.TabSummary:Update()
 end
 
 local function OnTradeSkillFilterChange(frame)
 	frame:GetParent():Close()
 	
-	Options.Set(OPTION_TRADESKILL, frame.value)
+	options[OPTION_TRADESKILL] = frame.value
 	AltoholicFrame.TabSummary:Update()
 end
 
 local function OnTradeSkillLevelColorChange(frame)
-	Options.Toggle(nil, OPTION_COLORED_SKILLS)
+	-- Toggle the option
+	options[OPTION_COLORED_SKILLS] = not options[OPTION_COLORED_SKILLS]
 	AltoholicFrame.TabSummary:Update()
 end
 
 local function OnClassFilterChange(frame)
-	Options.Set(OPTION_CLASSES, frame.value)
+	options[OPTION_CLASSES] = frame.value
 	AltoholicFrame.TabSummary:Update()
 end
 
 local function OnMiscFilterChange(frame)
-	Options.Set(OPTION_MISC, frame.value)
+	options[OPTION_MISC] = frame.value
 	
 	if frame.value == 1 or frame.value == 2 then
 		AltoholicFrame.TabSummary.CategoriesList:ClickCategory("profile", 9)
@@ -141,7 +145,7 @@ local function OnMiscFilterChange(frame)
 end
 
 local function OnBankTypeFilterChange(frame)
-	Options.Set(OPTION_BANKTYPE, frame.value)
+	options[OPTION_BANKTYPE] = frame.value
 	AltoholicFrame.TabSummary:Update()
 end
 
@@ -183,12 +187,12 @@ local function RealmsIcon_Initialize(frame, level)
 		
 		if subMenu == 1 then
 			-- Rename
-			DataStore:IterateAltGroups(function(groupName, groupMembers) 
+			DataStore.AltGroups:Iterate(function(groupName, groupMembers) 
 				frame:AddButton(groupName, groupName, OnRenameAltGroup, nil, nil, level)
 			end)
 			
 		elseif subMenu == 2 then
-			DataStore:IterateAltGroups(function(groupName, groupMembers)
+			DataStore.AltGroups:Iterate(function(groupName, groupMembers)
 				frame:AddButton(groupName, groupName, OnDeleteAltGroup, nil, nil, level)
 			end)		
 		end
@@ -199,7 +203,7 @@ local function RealmsIcon_Initialize(frame, level)
 	
 	-- ** Realms **
 	frame:AddTitle(L["FILTER_REALMS"])
-	local option = Options.Get(OPTION_REALMS)
+	local option = options[OPTION_REALMS]
 
 	-- add specific account/realm filters
 	for key, text in ipairs(locationLabels) do
@@ -209,16 +213,17 @@ local function RealmsIcon_Initialize(frame, level)
 	-- ** Alt Groups **
 	frame:AddTitle()
 	frame:AddTitle(L["FILTER_ALT_GROUPS"])
-	local groupOption = Options.Get(OPTION_ALTGROUPS)
+	local groupOption = options[OPTION_ALTGROUPS]
 	
 	frame:AddButton(ALL, 0, OnAltGroupChange, nil, (groupOption == 0))
 	
-	DataStore:IterateAltGroups(function(groupName, groupMembers) 
+	DataStore.AltGroups:Iterate(function(groupName, groupMembers) 
 		frame:AddButton(groupName, groupName, OnAltGroupChange, nil, (groupName == groupOption))
 	end)
 	
 	frame:AddTitle()
-	frame:AddButton(L["FILTER_GROUP_CREATE"], nil, OnCreateAltGroup, nil, (option == 1))
+	-- frame:AddButton(L["FILTER_GROUP_CREATE"], nil, OnCreateAltGroup, nil, (option == 1))
+	frame:AddButton(L["FILTER_GROUP_CREATE"], nil, OnCreateAltGroup, nil, nil)
 	
 	frame:AddCategoryButton(L["FILTER_GROUP_RENAME"], 1, level)
 	frame:AddCategoryButton(L["FILTER_GROUP_DELETE"], 2, level)
@@ -230,7 +235,7 @@ local function RealmsIcon_Initialize(frame, level)
 end
 
 local function FactionIcon_Initialize(frame, level)
-	local option = Options.Get(OPTION_FACTIONS)
+	local option = options[OPTION_FACTIONS]
 
 	frame:AddTitle(L["FILTER_FACTIONS"])
 	frame:AddButton(FACTION_ALLIANCE, 1, OnFactionFilterChange, nil, (option == 1))
@@ -241,7 +246,7 @@ local function FactionIcon_Initialize(frame, level)
 end
 
 local function LevelIcon_Initialize(frame, level)
-	local option = Options.Get(OPTION_LEVELS)
+	local option = options[OPTION_LEVELS]
 	
 	frame:AddTitle(L["FILTER_LEVELS"])
 	frame:AddButtonWithArgs(ALL, 1, OnLevelFilterChange, 1, 120, (option == 1))
@@ -266,7 +271,7 @@ local function ProfessionsIcon_Initialize(frame, level)
 	if not level then return end
 
 	local tradeskills = addon.TradeSkills.AccountSummaryFiltersSpellIDs
-	local option = Options.Get(OPTION_TRADESKILL)
+	local option = options[OPTION_TRADESKILL]
 	
 	if level == 1 then
 		frame:AddTitle(L["FILTER_PROFESSIONS"])
@@ -275,7 +280,7 @@ local function ProfessionsIcon_Initialize(frame, level)
 		frame:AddCategoryButton(PRIMARY_SKILLS, 1, level)
 		frame:AddCategoryButton(SECONDARY_SKILLS, 2, level)
 		frame:AddTitle()
-		frame:AddButton(L["COLORED_SKILL_LEVELS"], nil, OnTradeSkillLevelColorChange, nil, (Options.Get(OPTION_COLORED_SKILLS) == true))
+		frame:AddButton(L["COLORED_SKILL_LEVELS"], nil, OnTradeSkillLevelColorChange, nil, (options[OPTION_COLORED_SKILLS] == true))
 		frame:AddCloseMenu()
 	
 	elseif level == 2 then
@@ -303,7 +308,7 @@ end
 local function ClassIcon_Initialize(frame, level)
 	if not level then return end
 	
-	local option = Options.Get(OPTION_CLASSES)
+	local option = options[OPTION_CLASSES]
 	
 	if level == 1 then
 		frame:AddTitle(L["FILTER_CLASSES"])
@@ -345,7 +350,7 @@ local function ClassIcon_Initialize(frame, level)
 end
 
 local function MiscIcon_Initialize(frame, level)
-	local option = Options.Get(OPTION_MISC)
+	local option = options[OPTION_MISC]
 	
 	frame:AddTitle(L["FILTER_MISC"])
 	
@@ -366,7 +371,7 @@ end
 local function BankIcon_Initialize(frame, level)
 	local bank = DataStore.Enum.BankTypes
 	local labels = DataStore.Enum.BankTypesLabels
-	local option = Options.Get(OPTION_BANKTYPE)
+	local option = options[OPTION_BANKTYPE]
 		
 	frame:AddTitle(L["FILTER_BANKTYPE"])
 	
@@ -484,6 +489,8 @@ addon:Controller("AltoholicUI.TabSummary", {
 
 	return {
 		OnBind = function(frame)
+			tab = frame
+			
 			-- Handle resize
 			frame:SetScript("OnSizeChanged", function(self, width, height)
 				if not frame:IsVisible() then return end
@@ -492,14 +499,14 @@ addon:Controller("AltoholicUI.TabSummary", {
 				frame:Update(true)
 			end)
 			
-			frame:SetColumns(1)
-			frame.CategoriesList.Entry2:Button_OnClick("LeftButton")
-			frame:Update()
+			-- frame:SetColumns(1)
+			-- frame.CategoriesList.Entry2:Button_OnClick("LeftButton")
+			-- frame:Update()
 			
-			addon:RegisterMessage("DATASTORE_GUILD_LEFT", function() 
+			DataStore:ListenTo("DATASTORE_GUILD_LEFT", function() 
 				frame:Update()
 			end)
-			addon:RegisterMessage("DATASTORE_PROFESSION_LINKS_UPDATED", function() 
+			DataStore:ListenTo("DATASTORE_PROFESSION_LINKS_UPDATED", function() 
 				frame:Update()
 			end)
 			
@@ -542,15 +549,14 @@ addon:Controller("AltoholicUI.TabSummary", {
 
 		SortBy = function(frame, columnName)
 			-- Sort the whole view by a given column
-			local hc = frame.HeaderContainer
-			
-			Options.Toggle(nil, hc.option)		-- "UI.Tabs.Summary.SortAscending"
-			Options.Set("UI.Tabs.Summary.CurrentColumn", columnName)
+			-- Toggle the option
+			options["SortAscending"] = not options["SortAscending"]
+			options["CurrentColumn"] = columnName
 			
 			frame:Update()
 		end,
 		SetColumns = function(frame, profileIndex)
-			Options.Set("UI.Tabs.Summary.CurrentMode", profileIndex)
+			options["CurrentMode"] = profileIndex
 			
 			-- add the appropriate columns for this mode
 			local hc = frame.HeaderContainer
@@ -578,6 +584,8 @@ addon:Controller("AltoholicUI.TabSummary", {
 			hc:LimitWidth(frame.Background:GetWidth())
 		end,
 		Update = function(frame, isResizing)
+			if not options then return end
+			
 			local scrollFrame = frame.Summary.ScrollFrame
 			local numRows = scrollFrame.numRows
 			local offset = scrollFrame:GetOffset()
@@ -592,7 +600,7 @@ addon:Controller("AltoholicUI.TabSummary", {
 			-- print(format("Scroll height: %d", scrollFrame:GetHeight()))
 			-- print(format("frame height: %d, width: %d", frame:GetHeight(), frame:GetWidth()))
 			
-			local currentModeIndex = Options.Get("UI.Tabs.Summary.CurrentMode")
+			local currentModeIndex = options["CurrentMode"]
 			local currentProfile = columnProfiles.Get(currentModeIndex)
 			
 			-- rebuild and get the view, then sort it
@@ -605,8 +613,8 @@ addon:Controller("AltoholicUI.TabSummary", {
 			
 			if not isResizing then
 				local hc = frame.HeaderContainer
-				local sortOrder = Options.Get(hc.option)	-- "UI.Tabs.Summary.SortAscending"
-				local currentColumn = Options.Get("UI.Tabs.Summary.CurrentColumn")
+				local sortOrder = options["SortAscending"]
+				local currentColumn = options["CurrentColumn"]
 				local column = columnsData.Get(currentColumn)
 				
 				if column then	-- an old column name might still be in the DB.
@@ -693,7 +701,7 @@ addon:Controller("AltoholicUI.TabSummary", {
 					colors.white, L["Characters"], colors.green, numAlts,
 					colors.white, L["Realms"], colors.green, numRealms)
 					
-				local groupOption = Options.Get(OPTION_ALTGROUPS)
+				local groupOption = options[OPTION_ALTGROUPS]
 				if type(groupOption) == "string" then
 					filtersText = format("%s %s(%s)", filtersText, colors.yellow, groupOption)
 				end
@@ -817,3 +825,50 @@ addon:Controller("AltoholicUI.TabSummaryCategoriesList", {
 		frame:SetCategories(categories)
 	end,
 })
+
+DataStore:OnAddonLoaded(addonTabName, function() 
+	Altoholic_SummaryTab_Options = Altoholic_SummaryTab_Options or {
+		["ShowRestXP150pc"] = false,					-- display max rest xp in normal 100% mode or in level equivalent 150% mode ?
+		["CurrentMode"] = 1,								-- current mode (1 = account summary, 2 = bags, ...)
+		["CurrentColumn"] = "Name",					-- current column (default = "Name")
+		["CurrentRealms"] = 2,							-- selected realms (current/all in current/all accounts)
+		["CurrentAltGroup"] = 0,						-- selected alt group
+		["CurrentFactions"] = 3,						-- 1 = Alliance, 2 = Horde, 3 = Both
+		["CurrentLevels"] = 1,							-- 1 = All
+		["CurrentLevelsMin"] = 1,							
+		["CurrentLevelsMax"] = 70,					
+		["CurrentBankType"] = 0,						-- 0 = All
+		["CurrentClasses"] = 0,							-- 0 = All
+		["CurrentTradeSkill"] = 0,						-- 0 = All
+		["CurrentMisc"] = 0,								-- 
+		["UseColorForTradeSkills"] = true,			-- Use color coding for tradeskills, or neutral
+		["SortAscending"] = true,						-- ascending or descending sort order
+		["ShowLevelDecimals"] = true,					-- display character level with decimals or not
+		["ShowILevelDecimals"] = true,				-- display character level with decimals or not
+		["ShowGuildRank"] = false,						-- display the guild rank or the guild name
+	}
+	options = Altoholic_SummaryTab_Options
+		
+	--Temporary: database migration	
+	local source = AltoholicDB.global.options
+
+	for k, v in pairs(source) do
+		local arg1, arg2, arg3 = strsplit(".", k)
+		
+		if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Summary" then
+			local prefix = "UI.Tabs.Summary."
+			local optionName = k:sub(#prefix + 1)
+			
+			-- Create the new entries
+			options[optionName] = v
+			
+			-- Delete the old entries
+			source[k] = nil
+		end
+		
+	end
+	
+	-- Update only when options are ready
+	tab.CategoriesList.Entry2:Button_OnClick("LeftButton")
+	tab:Update()
+end)

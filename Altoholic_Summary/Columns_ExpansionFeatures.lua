@@ -2,7 +2,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
 local Columns = MVC:GetService("AltoholicUI.TabSummaryColumns")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
@@ -341,6 +341,24 @@ Columns.RegisterColumn("SoulbindName", {
 	GetText = function(character) 
 		return Formatter.GreyIfEmpty(DataStore:GetActiveSoulbindName(character))
 	end,
+	OnEnter = function(frame)
+		local character = frame:GetParent().character
+		if not character then return end
+		
+		-- Get the 4 levels, if their sum is higher than 0, it means we have some data and the
+		-- Sanctum Reservoir has been visited
+		local name = DataStore:GetActiveSoulbindName(character)
+		
+		if name and name ~= "" then return end
+		
+		-- If not, display a message
+		local tt = AddonFactory_Tooltip
+		tt:ClearLines()
+		tt:SetOwner(frame, "ANCHOR_RIGHT")
+		tt:AddLine(L["COLUMN_SOULBIND_NODATA"])
+		tt:Show()
+	end,
+	
 	OnClick = function(frame)
 			local character = frame:GetParent().character
 			if not character then return end
@@ -546,36 +564,44 @@ Columns.RegisterColumn("Story102", {
 
 
 -- ** Sanctum Reservoir **
-local function GetReservoirFeatureLevel(character, featureType)
-	local level = 0
-	local treeInfo = DataStore:GetReservoirTalentTreeInfo(character, featureType)
-	
-	if treeInfo then 
-		level = treeInfo.tier
-	end
-
-	return level
-end
-
 local function GetTransportNetworkLevel(self, character)
-	return GetReservoirFeatureLevel(character, Enum.GarrTalentFeatureType.TravelPortals)
+	return DataStore:GetReservoirTalentTreeInfo(character, Enum.GarrTalentFeatureType.TravelPortals)
 end
 
 local function GetAnimaConductorLevel(self, character)
-	return GetReservoirFeatureLevel(character, Enum.GarrTalentFeatureType.AnimaDiversion)
+	return DataStore:GetReservoirTalentTreeInfo(character, Enum.GarrTalentFeatureType.AnimaDiversion)
 end
 
 local function GetCommandTableLevel(self, character)
-	return GetReservoirFeatureLevel(character, Enum.GarrTalentFeatureType.Adventures)
+	return DataStore:GetReservoirTalentTreeInfo(character, Enum.GarrTalentFeatureType.Adventures)
 end
 
 local function GetSanctumUniqueLevel(self, character)
-	return GetReservoirFeatureLevel(character, Enum.GarrTalentFeatureType.SanctumUnique)
+	return DataStore:GetReservoirTalentTreeInfo(character, Enum.GarrTalentFeatureType.SanctumUnique)
 end
 
 local function GetLevelColor(level, maxLevel)
 	if level == 0 then return colors.grey end
 	return (level == maxLevel) and colors.gold or colors.white
+end
+
+local function Reservoir_OnEnter(frame)
+	local character = frame:GetParent().character
+	if not character then return end
+	
+	-- Get the 4 levels, if their sum is higher than 0, it means we have some data and the
+	-- Sanctum Reservoir has been visited
+	if (GetTransportNetworkLevel(nil, character) + 
+		GetAnimaConductorLevel(nil, character) + 
+		GetCommandTableLevel(nil, character) + 
+		GetSanctumUniqueLevel(nil, character)) ~= 0 then return end
+	
+	-- If not, display a message
+	local tt = AddonFactory_Tooltip
+	tt:ClearLines()
+	tt:SetOwner(frame, "ANCHOR_RIGHT")
+	tt:AddLine(L["COLUMN_SANCTUM_NODATA"])
+	tt:Show()
 end
 
 local function Reservoir_OnClick(frame)
@@ -606,6 +632,7 @@ Columns.RegisterColumn("TransportNetwork", {
 	
 		return format("%s%s", color, level)
 	end,
+	OnEnter = Reservoir_OnEnter,
 	OnClick = Reservoir_OnClick,
 })
 
@@ -626,6 +653,7 @@ Columns.RegisterColumn("AnimaConductor", {
 	
 		return format("%s%s", color, level)
 	end,
+	OnEnter = Reservoir_OnEnter,
 	OnClick = Reservoir_OnClick,
 })
 
@@ -646,6 +674,7 @@ Columns.RegisterColumn("CommandTable", {
 	
 		return format("%s%s", color, level)
 	end,
+	OnEnter = Reservoir_OnEnter,
 	OnClick = Reservoir_OnClick,
 })
 
@@ -666,11 +695,31 @@ Columns.RegisterColumn("SanctumUnique", {
 	
 		return format("%s%s", color, level)
 	end,
+	OnEnter = Reservoir_OnEnter,
 	OnClick = Reservoir_OnClick,
 })
 
 
 -- ** Cypher Research **
+local function Cypher_OnEnter(frame)
+	local character = frame:GetParent().character
+	if not character then return end
+	
+	-- Get the 4 levels, if their sum is higher than 0, it means we have some data and the
+	-- research console has been visited
+	if (DataStore:GetCypherMetrialLevel(character) + 
+		DataStore:GetCypherAealicLevel(character) + 
+		DataStore:GetCypherDealicLevel(character) + 
+		DataStore:GetCypherTrebalimLevel(character)) ~= 0 then return end
+	
+	-- If not, display a message
+	local tt = AddonFactory_Tooltip
+	tt:ClearLines()
+	tt:SetOwner(frame, "ANCHOR_RIGHT")
+	tt:AddLine(L["COLUMN_CYPHER_NODATA"])
+	tt:Show()
+end
+
 Columns.RegisterColumn("CypherLvl", {
 	-- Header
 	headerWidth = 70,
@@ -686,6 +735,7 @@ Columns.RegisterColumn("CypherLvl", {
 	GetText = function(character) 
 		return Formatter.Progress(DataStore:GetCypherLevel(character))
 	end,
+	OnEnter = Cypher_OnEnter,
 })
 
 Columns.RegisterColumn("Metrial", {
@@ -703,6 +753,7 @@ Columns.RegisterColumn("Metrial", {
 	GetText = function(character)
 		return Formatter.Progress(DataStore:GetCypherMetrialLevel(character), 8)
 	end,
+	OnEnter = Cypher_OnEnter,
 })
 
 Columns.RegisterColumn("Aealic", {
@@ -720,6 +771,7 @@ Columns.RegisterColumn("Aealic", {
 	GetText = function(character)
 		return Formatter.Progress(DataStore:GetCypherAealicLevel(character), 12)
 	end,
+	OnEnter = Cypher_OnEnter,
 })
 
 Columns.RegisterColumn("Dealic", {
@@ -737,6 +789,7 @@ Columns.RegisterColumn("Dealic", {
 	GetText = function(character)
 		return Formatter.Progress(DataStore:GetCypherDealicLevel(character), 12)
 	end,
+	OnEnter = Cypher_OnEnter,
 })
 
 Columns.RegisterColumn("Trebalim", {
@@ -754,4 +807,5 @@ Columns.RegisterColumn("Trebalim", {
 	GetText = function(character)
 		return Formatter.Progress(DataStore:GetCypherTrebalimLevel(character), 11)
 	end,
+	OnEnter = Cypher_OnEnter,
 })

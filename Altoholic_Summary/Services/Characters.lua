@@ -2,9 +2,8 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
 local AccountSharing = MVC:GetService("AltoholicUI.AccountSharing")
 
@@ -21,17 +20,8 @@ local characterList
 local view
 local isViewValid
 
-local OPTION_FACTIONS = "UI.Tabs.Summary.CurrentFactions"
-local OPTION_ALTGROUPS = "UI.Tabs.Summary.CurrentAltGroup"
-local OPTION_LEVELS_MIN = "UI.Tabs.Summary.CurrentLevelsMin"
-local OPTION_LEVELS_MAX = "UI.Tabs.Summary.CurrentLevelsMax"
-local OPTION_TRADESKILL = "UI.Tabs.Summary.CurrentTradeSkill"
-local OPTION_BANKTYPE = "UI.Tabs.Summary.CurrentBankType"
-local OPTION_CLASSES = "UI.Tabs.Summary.CurrentClasses"
-local OPTION_MISC = "UI.Tabs.Summary.CurrentMisc"
-
 local function ProcessRealms(func)
-	local mode = Options.Get("UI.Tabs.Summary.CurrentRealms")
+	local mode = Altoholic_SummaryTab_Options["CurrentRealms"]
 	
 	-- this account only
 	if mode == THISREALM_THISACCOUNT then
@@ -115,14 +105,15 @@ local function AddRealm(accountName, realmName)
 	local numCharacters = 0
 
 	-- let's get our filter values
-	local factions = Options.Get(OPTION_FACTIONS)
-	local altGroup = Options.Get(OPTION_ALTGROUPS)
-	local minLevel = Options.Get(OPTION_LEVELS_MIN)
-	local maxLevel = Options.Get(OPTION_LEVELS_MAX)
-	local misc = Options.Get(OPTION_MISC)
-	local class = Options.Get(OPTION_CLASSES)
-	local bankType = Options.Get(OPTION_BANKTYPE)
-	local tradeskill = Options.Get(OPTION_TRADESKILL)
+	local options = Altoholic_SummaryTab_Options
+	local factions = options["CurrentFactions"]
+	local altGroup = options["CurrentAltGroup"]
+	local minLevel = options["CurrentLevelsMin"]
+	local maxLevel = options["CurrentLevelsMax"]
+	local misc = options["CurrentMisc"]
+	local class = options["CurrentClasses"]
+	local bankType = options["CurrentBankType"]
+	local tradeskill = options["CurrentTradeSkill"]
 	local firstSecondary = addon.TradeSkills.AccountSummaryFirstSecondarySkillIndex
 	
 	if factions == 4 then
@@ -185,7 +176,7 @@ local function AddRealm(accountName, realmName)
 		end
 		
 		-- altGroup = 0 means show all
-		if type(altGroup) == "string" and not DataStore:IsInAltGroup(altGroup, character) then
+		if type(altGroup) == "string" and not DataStore.AltGroups:Contains(altGroup, character) then
 			shouldAddCharacter = false 
 		end
 		
@@ -209,16 +200,10 @@ local function AddRealm(accountName, realmName)
 				end
 				
 			elseif misc == 5 then		-- exalted with guild ?
-				local guildName = DataStore:GetGuildInfo(character)
-				local level = DataStore:GetReputationInfo(character, guildName)
-		
-				if level ~= FACTION_STANDING_LABEL8 then shouldAddCharacter = false end
+				if not DataStore:IsExaltedWithGuild(character) then shouldAddCharacter = false end
 				
 			elseif misc == 6 then		-- not exalted with guild ?
-				local guildName = DataStore:GetGuildInfo(character)
-				local level = DataStore:GetReputationInfo(character, guildName)
-		
-				if level == FACTION_STANDING_LABEL8 then shouldAddCharacter = false end
+				if DataStore:IsExaltedWithGuild(character) then shouldAddCharacter = false end
 				
 			elseif misc == 7 then		-- could upgrade their riding skill ?
 				if not addon:CanUpgradeRidingSkill(character) then
@@ -232,10 +217,10 @@ local function AddRealm(accountName, realmName)
 			-- primary profession
 			if tradeskill < addon.TradeSkills.AccountSummaryFirstSecondarySkillIndex then
 				local tradeskillID = addon.TradeSkills.AccountSummaryFiltersSpellIDs[tradeskill]
-				local _, _, _, name1 = DataStore:GetProfession1(character)
-				local _, _, _, name2 = DataStore:GetProfession2(character)
-				local prof1 = DataStore:GetProfessionSpellID(name1) or 0
-				local prof2 = DataStore:GetProfessionSpellID(name2) or 0
+				local name1 = DataStore:GetProfession1Name(character)
+				local name2 = DataStore:GetProfession2Name(character)
+				local prof1 = DataStore:GetProfessionSpellID(name1)
+				local prof2 = DataStore:GetProfessionSpellID(name2)
 				
 				if tradeskillID ~= prof1 and tradeskillID ~= prof2 then 
 					shouldAddCharacter = false 

@@ -3,9 +3,8 @@ local addon = _G[addonName]
 local colors = addon.Colors
 local icons = addon.Icons
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 local Columns = MVC:GetService("AltoholicUI.TabSummaryColumns")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
 local Characters = MVC:GetService("AltoholicUI.Characters")
@@ -66,11 +65,11 @@ Columns.RegisterColumn("BagSlots", {
 			tt:AddDoubleLine(DataStore:GetColoredCharacterName(character), L["COLUMN_BAGS_TITLE"])
 			tt:AddLine(" ")
 			
-			local _, link, size, free, bagType = DataStore:GetContainerInfo(character, 0)
+			local link, size, free, bagType = DataStore:GetContainerInfo(character, 0)
 			tt:AddDoubleLine(format("%s[%s]", colors.white, BACKPACK_TOOLTIP), FormatBagSlots(size, free))
 			
 			for i = 1, 5 do
-				_, link, size, free, bagType = DataStore:GetContainerInfo(character, i)
+				link, size, free, bagType = DataStore:GetContainerInfo(character, i)
 
 				if size ~= 0 then
 					tt:AddDoubleLine(FormatBagType(link, bagType), FormatBagSlots(size, free))
@@ -139,12 +138,12 @@ Columns.RegisterColumn("BankSlots", {
 				return UNKNOWN
 			end
 
-			if DataStore:GetNumBankSlots(character) == 0 then
+			if not DataStore:HasPlayerVisitedBank(character) then
 				return L["Bank not visited yet"]
 			end
 
 			return format("%s/%s|r/%s|r/%s|r/%s|r/%s|r/%s|r/%s",
-				DataStore:GetContainerSize(character, 100),
+				DataStore:GetContainerSize(character, -1),
 				DataStore:GetColoredContainerSize(character, 6),
 				DataStore:GetColoredContainerSize(character, 7),
 				DataStore:GetColoredContainerSize(character, 8),
@@ -166,21 +165,21 @@ Columns.RegisterColumn("BankSlots", {
 			tt:AddDoubleLine(DataStore:GetColoredCharacterName(character), L["COLUMN_BANK_TITLE"])
 			tt:AddLine(" ")
 			
-			if DataStore:GetNumBankSlots(character) == 0 then
+			if not DataStore:HasPlayerVisitedBank(character) then
 				tt:AddLine(L["Bank not visited yet"],1,1,1)
 				tt:Show()
 				return
 			end
 			
-			local _, link, size, free, bagType = DataStore:GetContainerInfo(character, 100)
+			local link, size, free, bagType
+			size, free = DataStore:GetPlayerBankInfo(character)
 			tt:AddDoubleLine(format("%s[%s]", colors.white, L["Bank"]), FormatBagSlots(size, free))
-
 			
 			local numPurchasedSlots = DataStore:GetNumPurchasedBankSlots(character)
 			
 			for i = 6, 12 do
 				local slotIndex = i - 5		-- ie: id 6 = first bag, 7 = 2nd bag ...
-				_, link, size, free, bagType = DataStore:GetContainerInfo(character, i)
+				link, size, free, bagType = DataStore:GetContainerInfo(character, i)
 
 				-- if this slot was not purchased yet..
 				if numPurchasedSlots and numPurchasedSlots < slotIndex then

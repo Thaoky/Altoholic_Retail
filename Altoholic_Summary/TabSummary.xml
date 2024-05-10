@@ -202,7 +202,6 @@
 				</Anchors>
 				<KeyValues>
 					<KeyValue key="numButtons" value="10" type="number" />
-					<KeyValue key="option" value="UI.Tabs.Summary.SortAscending" />
 				</KeyValues>
 			</Frame>	
 			

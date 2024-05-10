@@ -3,9 +3,8 @@ local addon = _G[addonName]
 local colors = addon.Colors
 local icons = addon.Icons
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 local Columns = MVC:GetService("AltoholicUI.TabSummaryColumns")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
 local Characters = MVC:GetService("AltoholicUI.Characters")
@@ -20,7 +19,7 @@ local function GetRestedXP(character)
 
 	-- display in 100% or 150% mode ?
 	local coeff = 1
-	if Options.Get("UI.Tabs.Summary.ShowRestXP150pc") then
+	if Altoholic_SummaryTab_Options["ShowRestXP150pc"] then
 		coeff = 1.5
 	end
 	
@@ -130,14 +129,14 @@ local function AddToAltGroup(self, characterLine)
 	local group = self.value
 	local character = Characters.GetKey(characterLine)
 	
-	DataStore:AddToAltGroup(group, character)
+	DataStore.AltGroups:AddCharacter(group, character)
 end
 
 local function RemoveFromAltGroup(self, characterLine)
 	local group = self.value
 	local character = Characters.GetKey(characterLine)
 	
-	DataStore:RemoveFromAltGroup(group, character)
+	DataStore.AltGroups:RemoveCharacter(group, character)
 	
 	-- rebuild the main character table, and all the menus
 	Characters.InvalidateView()
@@ -211,8 +210,8 @@ local function NameRightClickMenu_Initialize(frame, level)
 		elseif subMenu == 3 then			-- Add to group
 			local _, _, _, character = Characters.GetInfo(clickedLine)
 
-			DataStore:IterateAltGroups(function(groupName, groupMembers) 
-				if not groupMembers[character] then
+			DataStore.AltGroups:Iterate(function(groupName, groupMembers) 
+				if not DataStore.AltGroups:Contains(groupName, character) then
 					frame:AddButtonWithArgs(groupName, groupName, AddToAltGroup, clickedLine, nil, nil, level)	
 				end
 			end)
@@ -220,8 +219,8 @@ local function NameRightClickMenu_Initialize(frame, level)
 		elseif subMenu == 4 then			-- Remove from group
 			local _, _, _, character = Characters.GetInfo(clickedLine)
 
-			DataStore:IterateAltGroups(function(groupName, groupMembers) 
-				if groupMembers[character] then
+			DataStore.AltGroups:Iterate(function(groupName, groupMembers) 
+				if DataStore.AltGroups:Contains(groupName, character) then
 					frame:AddButtonWithArgs(groupName, groupName, RemoveFromAltGroup, clickedLine, nil, nil, level)	
 				end
 			end)
@@ -268,7 +267,9 @@ local function GetCharacterLevel(self, character)
 end
 
 local function GetGuildOrRank(self, character)
-	local guildName, guildRank, rankIndex = DataStore:GetGuildInfo(character)
+	local guildName = DataStore:GetGuildName(character)
+	local guildID = DataStore:GetCharacterGuildID(character)
+	local guildRank, rankIndex = DataStore:GetGuildInfo(character, guildID)
 
 	--	return the combination of guild, rank + index to ensure sort order is preserved on refresh !
 	return format("%s.%s.%s", guildName or "", rankIndex or "", guildRank or "")
@@ -309,7 +310,7 @@ Columns.RegisterColumn("Name", {
 			local zone, subZone = DataStore:GetLocation(character)
 			tt:AddLine(format("%s: %s%s |r(%s%s|r)", ZONE, colors.gold, zone, colors.gold, subZone),1,1,1)
 			
-			local guildName = DataStore:GetGuildInfo(character)
+			local guildName = DataStore:GetGuildName(character)
 			if guildName then
 				tt:AddLine(format("%s: %s%s", GUILD, colors.green, guildName),1,1,1)
 			end
@@ -365,7 +366,7 @@ Columns.RegisterColumn("Level", {
 	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = DataStore:GetCharacterLevel(character)
-		if level ~= MAX_PLAYER_LEVEL and Options.Get("UI.Tabs.Summary.ShowLevelDecimals") then
+		if level ~= MAX_PLAYER_LEVEL and Altoholic_SummaryTab_Options["ShowLevelDecimals"] then
 			local rate = DataStore:GetXPRate(character)
 			level = format("%.1f", level + (rate/100))		-- show level as 98.4 if not level cap
 		end
@@ -393,7 +394,10 @@ Columns.RegisterColumn("Level", {
 			tt:Show()
 		end,
 	OnClick = function(frame, button)
-			Options.Toggle(nil, "UI.Tabs.Summary.ShowLevelDecimals")
+			-- Toggle the option
+			local options = Altoholic_SummaryTab_Options
+			options["ShowLevelDecimals"] = not options["ShowLevelDecimals"]
+			
 			AltoholicFrame.TabSummary:Update()
 		end,
 	GetTotal = function(line) return Characters.GetField(line, "level") end,
@@ -469,7 +473,10 @@ Columns.RegisterColumn("RestXP", {
 			tt:Show()
 		end,
 	OnClick = function(frame, button)
-			Options.Toggle(nil, "UI.Tabs.Summary.ShowRestXP150pc")
+			-- Toggle the option
+			local options = Altoholic_SummaryTab_Options
+			options["ShowRestXP150pc"] = not options["ShowRestXP150pc"]
+			
 			AltoholicFrame.TabSummary:Update()
 		end,	
 })
@@ -508,7 +515,8 @@ Columns.RegisterColumn("Played", {
 		return Formatter.TimeString(DataStore:GetPlayTime(character))
 	end,
 	OnClick = function(frame, button)
-			DataStore:ToggleOption(nil, "DataStore_Characters", "HideRealPlayTime")
+			-- Toggle the option
+			DataStore_Characters_Options.HideRealPlayTime = not DataStore_Characters_Options.HideRealPlayTime
 			AltoholicFrame.TabSummary:Update()
 		end,
 	GetTotal = function(line) return Characters.GetField(line, "played") end,
@@ -528,7 +536,7 @@ Columns.RegisterColumn("AiL", {
 	JustifyH = "CENTER",
 	GetText = function(character) 
 		local AiL = DataStore:GetAverageItemLevel(character) or 0
-		if Options.Get("UI.Tabs.Summary.ShowILevelDecimals") then
+		if Altoholic_SummaryTab_Options["ShowILevelDecimals"] then
 			return format("%s%.1f", colors.yellow, AiL)
 		else
 			return format("%s%d", colors.yellow, AiL)
@@ -553,7 +561,10 @@ Columns.RegisterColumn("AiL", {
 			tt:Show()
 		end,
 	OnClick = function(frame, button)
-			Options.Toggle(nil, "UI.Tabs.Summary.ShowILevelDecimals")
+			-- Toggle the option
+			local options = Altoholic_SummaryTab_Options
+			options["ShowILevelDecimals"] = not options["ShowILevelDecimals"]
+			
 			AltoholicFrame.TabSummary:Update()
 		end,
 	GetTotal = function(line) return format("%s%.1f", colors.white, Characters.GetField(line, "realmAiL")) end,
@@ -738,9 +749,7 @@ Columns.RegisterColumn("GuildName", {
 	Width = 120,
 	JustifyH = "CENTER",
 	GetText = function(character) 
-		local guildName = DataStore:GetGuildInfo(character)
-		
-		return Formatter.GreyIfEmpty(guildName, colors.green)
+		return Formatter.GreyIfEmpty(DataStore:GetGuildName(character), colors.green)
 	end,
 })
 
@@ -757,7 +766,8 @@ Columns.RegisterColumn("GuildRank", {
 	Width = 120,
 	JustifyH = "CENTER",
 	GetText = function(character) 
-		local _, guildRank, rankIndex = DataStore:GetGuildInfo(character)
+		local guildID = DataStore:GetCharacterGuildID(character)
+		local guildRank, rankIndex = DataStore:GetGuildInfo(character, guildID)
 		local color = colors.white
 		
 		if rankIndex == 0 then
@@ -768,7 +778,10 @@ Columns.RegisterColumn("GuildRank", {
 	end,
 	OnEnter = function(frame)
 			local character = frame:GetParent().character
-			local guildName, guildRank, rankIndex = DataStore:GetGuildInfo(character)
+			local guildName = DataStore:GetGuildName(character)
+			local guildID = DataStore:GetCharacterGuildID(character)
+			local guildRank, rankIndex = DataStore:GetGuildInfo(character, guildID)			
+
 			if not guildName or not guildRank or not rankIndex then return end
 			
 			local tt = AddonFactory_Tooltip
@@ -804,7 +817,7 @@ Columns.RegisterColumn("GuildRep", {
 	Width = 140,
 	JustifyH = "CENTER",
 	GetText = function(character) 
-		local guildName = DataStore:GetGuildInfo(character)
+		local guildName = DataStore:GetGuildName(character)
 		local level = DataStore:GetReputationInfo(character, guildName)
 		local color = colors.white
 		
@@ -816,7 +829,7 @@ Columns.RegisterColumn("GuildRep", {
 	end,
 	OnEnter = function(frame)
 			local character = frame:GetParent().character
-			local guildName = DataStore:GetGuildInfo(character)
+			local guildName = DataStore:GetGuildName(character)
 			
 			-- "Revered", 15400, 21000, 73%
 			local level, numerator, denominator, ratio = DataStore:GetReputationInfo(character, guildName)
@@ -916,7 +929,8 @@ Columns.RegisterColumn("ClassAndSpec", {
 	end,
 	OnEnter = function(frame)
 			local character = frame:GetParent().character
-			if not character or not DataStore:GetModuleLastUpdateByKey("DataStore_Talents", character) then
+			-- if not character or not DataStore:GetModuleLastUpdateByKey("DataStore_Talents", character) then
+			if not character then
 				return
 			end
 			
@@ -1021,20 +1035,20 @@ Columns.RegisterColumn("AltGroup", {
 	-- tooltipSubTitle = L["COLUMN_BANK_TYPE_MARKS_SUBTITLE"],
 	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("AltGroup") end,
 	headerSort = function(self, character)
-		return DataStore:GetAltGroups(character)
+		return DataStore.AltGroups:Get(character)
 	end,
 	
 	-- Content
 	Width = 120,
 	JustifyH = "CENTER",
 	GetText = function(character)
-		local groups = DataStore:GetAltGroups(character)
+		local groups = DataStore.AltGroups:Get(character)
 		
 		return Formatter.GreyIfEmpty(groups)
 	end,
 	OnEnter = function(frame)
 			local character = frame:GetParent().character
-			local _, groups = DataStore:GetAltGroups(character)
+			local _, groups = DataStore.AltGroups:Get(character)
 			if not character or not groups or #groups == 0 then return end
 			
 			local tt = AddonFactory_Tooltip

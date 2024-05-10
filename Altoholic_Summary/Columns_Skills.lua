@@ -3,9 +3,8 @@ local addon = _G[addonName]
 local colors = addon.Colors
 local icons = addon.Icons
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 local Columns = MVC:GetService("AltoholicUI.TabSummaryColumns")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
 local Characters = MVC:GetService("AltoholicUI.Characters")
@@ -13,10 +12,11 @@ local Characters = MVC:GetService("AltoholicUI.Characters")
 local SKILL_CAP = 900
 
 -- *** Utility functions ***
+local professionIndices = DataStore:GetProfessionIndices()
 local skillColors = { colors.recipeGrey, colors.red, colors.orange, colors.yellow, colors.green }
 
 local function GetSkillRankColor(rank, skillCap)
-	if Options.Get("UI.Tabs.Summary.UseColorForTradeSkills") == false then
+	if Altoholic_SummaryTab_Options["UseColorForTradeSkills"] == false then
 		return colors.white
 	end
 
@@ -57,19 +57,36 @@ local function RidingSkillHeader_OnEnter(frame, tooltip)
 	end)
 end
 
-local function Tradeskill_OnEnter(frame, skillName, showRecipeStats)
+local function Tradeskill_OnEnter(frame, professionIndex, showRecipeStats)
 	local character = frame:GetParent().character
 	if not DataStore:GetModuleLastUpdateByKey("DataStore_Crafts", character) then return end
 	
-	local curRank, maxRank = DataStore:GetProfessionInfo(DataStore:GetProfession(character, skillName))
-	local profession = DataStore:GetProfession(character, skillName)
-
+	-- Prepare the tooltip
 	local tt = AddonFactory_Tooltip
 	
 	tt:ClearLines()
 	tt:SetOwner(frame, "ANCHOR_RIGHT")
+	
+	-- Get the profession, if it has been learned
+	local profession = DataStore:GetProfessionByIndex(character, professionIndex)
+	if not profession then 
+		tt:AddLine(L["COLUMN_SKILLS_NOT_LEARNED"])
+		tt:Show()
+		return 
+	end
+	
+	-- Get the ranks
+	local curRank, maxRank = DataStore:GetProfessionRankByIndex(character, professionIndex)
+	local skillName = profession.Name
+
 	tt:AddLine(skillName,1,1,1)
 	tt:AddLine(format("%s%s/%s", GetSkillRankColor(curRank), curRank, maxRank),1,1,1)
+	
+	-- Stop here for Archeology
+	if professionIndex == professionIndices.Archeology then
+		tt:Show()
+		return
+	end
 	
 	if showRecipeStats then	-- for primary skills + cooking & first aid
 		-- if DataStore:GetProfessionSpellID(skillName) ~= 2366 and skillName ~= GetSpellInfo(8613) then		-- no display for herbalism & skinning
@@ -77,13 +94,19 @@ local function Tradeskill_OnEnter(frame, skillName, showRecipeStats)
 			
 			if not profession then
 				tt:AddLine(L["No data"])
+				tt:AddLine(L["COLUMN_SKILLS_NODATA"])
 				tt:Show()
 				return
 			end
 
 			local numCategories = DataStore:GetNumRecipeCategories(profession)
+			
 			if numCategories == 0 then
 				tt:AddLine(format("%s: 0 %s", L["No data"], TRADESKILL_SERVICE_LEARN),1,1,1)
+				tt:AddLine(" ")
+				tt:AddLine(L["COLUMN_SKILLS_NODATA"])
+				tt:Show()
+				return
 			else
 				for i = 1, numCategories do
 					local _, name, rank, maxRank = DataStore:GetRecipeCategoryInfo(profession, i)
@@ -145,11 +168,11 @@ local function Tradeskill_OnEnter(frame, skillName, showRecipeStats)
 	tt:Show()
 end
 
-local function Tradeskill_OnClick(frame, skillName)
+local function Tradeskill_OnClick(frame, professionIndex)
 	local character = frame:GetParent().character
-	if not skillName or not DataStore:GetModuleLastUpdateByKey("DataStore_Crafts", character) then return end
+	if not professionIndex or not DataStore:GetModuleLastUpdateByKey("DataStore_Crafts", character) then return end
 
-	local profession = DataStore:GetProfession(character, skillName)
+	local profession = DataStore:GetProfessionByIndex(character, professionIndex)
 	if not profession or DataStore:GetNumRecipeCategories(profession) == 0 then		-- if profession hasn't been scanned (or scan failed), exit
 		return
 	end
@@ -159,8 +182,8 @@ local function Tradeskill_OnClick(frame, skillName)
 	
 	if chat:IsShown() and IsShiftKeyDown() and realm == DataStore.ThisRealm then
 		-- if shift-click, then display the profession link and exit
-		local link = profession.FullLink	
-		if link and link:match("trade:") then
+		local link = DataStore:GetProfessionLink(character, professionIndex)
+		if link then
 			chat:Insert(link)
 		end
 		return
@@ -191,28 +214,21 @@ Columns.RegisterColumn("Prof1", {
 	tooltipSubTitle = nil,
 	headerOnEnter = TradeskillHeader_OnEnter,
 	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Prof1") end,
-	headerSort = DataStore.GetProfession1,
+	headerSort = DataStore.GetProfession1Rank,
 	
 	-- Content
 	Width = 70,
 	JustifyH = "CENTER",
 	GetText = function(character)
-			local rank, _, _, name = DataStore:GetProfession1(character)
+			local rank = DataStore:GetProfession1Rank(character)
+			local name = DataStore:GetProfession1Name(character)
 			local spellID = DataStore:GetProfessionSpellID(name)
 			local icon = spellID and Formatter.Texture18(addon:GetSpellIcon(spellID)) .. " " or ""
 			
 			return format("%s%s%s", icon, GetSkillRankColor(rank), rank)
 		end,
-	OnEnter = function(frame)
-			local character = frame:GetParent().character
-			local _, _, _, skillName = DataStore:GetProfession1(character)
-			Tradeskill_OnEnter(frame, skillName, true)
-		end,
-	OnClick = function(frame, button)
-			local character = frame:GetParent().character
-			local _, _, _, skillName = DataStore:GetProfession1(character)
-			Tradeskill_OnClick(frame, skillName)
-		end,
+	OnEnter = function(frame) Tradeskill_OnEnter(frame, professionIndices.Profession1, true) end,
+	OnClick = function(frame, button) Tradeskill_OnClick(frame, professionIndices.Profession1) end,
 })
 
 Columns.RegisterColumn("Prof2", {
@@ -223,28 +239,21 @@ Columns.RegisterColumn("Prof2", {
 	tooltipSubTitle = nil,
 	headerOnEnter = TradeskillHeader_OnEnter,
 	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Prof2") end,
-	headerSort = DataStore.GetProfession2,
+	headerSort = DataStore.GetProfession2Rank,
 	
 	-- Content
 	Width = 70,
 	JustifyH = "CENTER",
 	GetText = function(character)
-			local rank, _, _, name = DataStore:GetProfession2(character)
+			local rank = DataStore:GetProfession2Rank(character)
+			local name = DataStore:GetProfession2Name(character)
 			local spellID = DataStore:GetProfessionSpellID(name)
 			local icon = spellID and Formatter.Texture18(addon:GetSpellIcon(spellID)) .. " " or ""
 			
 			return format("%s%s%s", icon, GetSkillRankColor(rank), rank)
 		end,
-	OnEnter = function(frame)
-			local character = frame:GetParent().character
-			local _, _, _, skillName = DataStore:GetProfession2(character)
-			Tradeskill_OnEnter(frame, skillName, true)
-		end,
-	OnClick = function(frame, button)
-			local character = frame:GetParent().character
-			local _, _, _, skillName = DataStore:GetProfession2(character)
-			Tradeskill_OnClick(frame, skillName)
-		end,
+	OnEnter = function(frame) Tradeskill_OnEnter(frame, professionIndices.Profession2, true) end,
+	OnClick = function(frame, button) Tradeskill_OnClick(frame, professionIndices.Profession2) end,
 })
 
 Columns.RegisterColumn("ProfCooking", {
@@ -264,12 +273,8 @@ Columns.RegisterColumn("ProfCooking", {
 			local rank = DataStore:GetCookingRank(character)
 			return format("%s%s", GetSkillRankColor(rank), rank)
 		end,
-	OnEnter = function(frame)
-			Tradeskill_OnEnter(frame, GetSpellInfo(2550), true)
-		end,
-	OnClick = function(frame, button)
-			Tradeskill_OnClick(frame, GetSpellInfo(2550))
-		end,
+	OnEnter = function(frame) Tradeskill_OnEnter(frame, professionIndices.Cooking, true) end,
+	OnClick = function(frame, button) Tradeskill_OnClick(frame, professionIndices.Cooking)	end,
 })
 
 Columns.RegisterColumn("ProfFishing", {
@@ -289,9 +294,7 @@ Columns.RegisterColumn("ProfFishing", {
 			local rank = DataStore:GetFishingRank(character)
 			return format("%s%s", GetSkillRankColor(rank), rank)
 		end,
-	OnEnter = function(frame)
-			Tradeskill_OnEnter(frame, GetSpellInfo(131474), true)
-		end,
+	OnEnter = function(frame) Tradeskill_OnEnter(frame, professionIndices.Fishing, true) end,
 })
 
 Columns.RegisterColumn("ProfArchaeology", {
@@ -311,9 +314,7 @@ Columns.RegisterColumn("ProfArchaeology", {
 			local rank = DataStore:GetArchaeologyRank(character)
 			return format("%s%s", GetSkillRankColor(rank), rank)
 		end,
-	OnEnter = function(frame)
-			Tradeskill_OnEnter(frame, GetSpellInfo(78670))
-		end,
+	OnEnter = function(frame) Tradeskill_OnEnter(frame, professionIndices.Archeology) end,
 })
 
 Columns.RegisterColumn("Riding", {

@@ -2,7 +2,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
 local Columns = MVC:GetService("AltoholicUI.TabSummaryColumns")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
@@ -981,7 +981,6 @@ Columns.RegisterColumn("Cur_DreamInfusion", {
 	Width = 60,
 	JustifyH = "CENTER",
 	GetText = function(character) return GetCurrencyText(character, enum.DreamInfusion) end,
-
 })
 
 Columns.RegisterColumn("Cur_MysteriousFragment", {

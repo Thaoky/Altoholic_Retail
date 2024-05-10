@@ -3,13 +3,12 @@ local addon = _G[addonName]
 local colors = addon.Colors
 local icons = addon.Icons
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 local Columns = MVC:GetService("AltoholicUI.TabSummaryColumns")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
 local Characters = MVC:GetService("AltoholicUI.Characters")
-
+local options = DataStore_Mails_Options
 
 -- *** Utility functions ***
 
@@ -38,7 +37,7 @@ Columns.RegisterColumn("Mails", {
 			if num ~= 0 then
 				color = colors.green		-- green by default, red if at least one mail is about to expire
 							
-				local threshold = DataStore:GetOption("DataStore_Mails", "MailWarningThreshold")
+				local threshold = options.MailWarningThreshold
 				if DataStore:GetNumExpiredMails(character, threshold) > 0 then
 					color = colors.red
 				end
@@ -186,7 +185,7 @@ Columns.RegisterColumn("Auctions", {
 			local num = DataStore:GetNumAuctions(character)
 			if not num or num == 0 then return end
 
-			Options.Set("UI.Tabs.Characters.ViewAuctionHouse", "Auctions")
+			Altoholic_UI_Options.ViewAuctionHouse = "Auctions"
 			addon:ShowCharacterPanel(character, "Auctions")
 		end,
 })
@@ -214,7 +213,7 @@ Columns.RegisterColumn("Bids", {
 			local num = DataStore:GetNumBids(character)
 			if not num or num == 0 then return end
 
-			Options.Set("UI.Tabs.Characters.ViewAuctionHouse", "Bids")
+			Altoholic_UI_Options.ViewAuctionHouse = "Bids"
 			addon:ShowCharacterPanel(character, "Auctions")
 		end,
 })
