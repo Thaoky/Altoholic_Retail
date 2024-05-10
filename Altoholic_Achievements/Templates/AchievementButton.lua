@@ -3,7 +3,7 @@ local addon = _G[addonName]
 local colors = addon.Colors
 local icons = addon.Icons
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 local CRITERIA_COMPLETE_ICON = "\124TInterface\\AchievementFrame\\UI-Achievement-Criteria-Check:14\124t"
 
@@ -43,8 +43,7 @@ addon:Controller("AltoholicUI.AchievementButton", { "AltoholicUI.Formatter", fun
 						_, criteriaString = GetAchievementInfo(assetID)
 					end
 					
-					local isCriteriaStarted, isCriteriaComplete, quantity = DataStore:GetCriteriaInfo(character, achievementID, criteriaIndex, isAccountBound)
-
+					local isCriteriaStarted, isCriteriaComplete, quantity,xx = DataStore:GetCriteriaInfo(character, achievementID, criteriaIndex, isAccountBound)
 					local icon = ""
 					local color = colors.grey
 

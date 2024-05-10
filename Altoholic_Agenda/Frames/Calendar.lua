@@ -48,7 +48,7 @@ local CALENDAR_FULLDATE_MONTH_NAMES = {
 	FULLDATE_MONTH_DECEMBER,
 };
 
-addon:Controller("AltoholicUI.TabAgenda.Calendar", { "AddonFactory.Options", function(Options) 
+addon:Controller("AltoholicUI.TabAgenda.Calendar", function() 
 	return {
 		OnBind = function(frame)
 			local parent = AltoholicFrame.TabAgenda
@@ -63,7 +63,7 @@ addon:Controller("AltoholicUI.TabAgenda.Calendar", { "AddonFactory.Options", fun
 			
 		
 			-- by default, the week starts on Sunday, adjust first day of the week if necessary
-			if Options.Get("UI.Calendar.WeekStartsOnMonday") then
+			if Altoholic_Calendar_Options["WeekStartsOnMonday"] then
 				addon:SetFirstDayOfWeek(2)
 			end
 			
@@ -164,5 +164,4 @@ addon:Controller("AltoholicUI.TabAgenda.Calendar", { "AddonFactory.Options", fun
 			
 			return weekdayName, monthName, day, year, month
 		end,
-	}
-end})
+}end)

@@ -1,6 +1,6 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 local tab		-- small shortcut to easily address the frame (set in OnBind)
 
@@ -8,26 +8,26 @@ addon:Controller("AltoholicUI.TabAgenda", { "AltoholicUI.Events", function(Event
 
 	local currentPanelKey = "Calendar"
 
-	local function OnCalendarDataUpdated(frame, event, itemID)
+	local function OnCalendarDataUpdated(event, itemID)
 		Events.BuildList()
 		
-		local Calendar = frame.Panels["Calendar"]
+		local Calendar = tab.Panels["Calendar"]
 		Calendar.EventList:InvalidateView()
 		Calendar:InvalidateView()
 		
-		frame:Update()
+		tab:Update()
 	end
 
 	return {
 		OnBind = function(frame)
 			tab = frame
 
-			addon:RegisterMessage("DATASTORE_PROFESSION_COOLDOWN_UPDATED", OnCalendarDataUpdated, frame)
-			addon:RegisterMessage("DATASTORE_ITEM_COOLDOWN_UPDATED", OnCalendarDataUpdated, frame)
-			addon:RegisterMessage("DATASTORE_CALENDAR_SCANNED", OnCalendarDataUpdated, frame)
-			addon:RegisterMessage("DATASTORE_DUNGEON_IDS_SCANNED", OnCalendarDataUpdated, frame)
-			addon:RegisterMessage("DATASTORE_DUNGEON_SCANNED", OnCalendarDataUpdated, frame)
-			addon:RegisterMessage("ALTOHOLIC_EVENT_EXPIRY", OnCalendarDataUpdated, frame)
+			DataStore:ListenTo("DATASTORE_PROFESSION_COOLDOWN_UPDATED", OnCalendarDataUpdated)
+			DataStore:ListenTo("DATASTORE_ITEM_COOLDOWN_UPDATED", OnCalendarDataUpdated)
+			DataStore:ListenTo("DATASTORE_CALENDAR_SCANNED", OnCalendarDataUpdated)
+			DataStore:ListenTo("DATASTORE_DUNGEON_IDS_SCANNED", OnCalendarDataUpdated)
+			DataStore:ListenTo("DATASTORE_DUNGEON_SCANNED", OnCalendarDataUpdated)
+			DataStore:ListenTo("ALTOHOLIC_EVENT_EXPIRY", OnCalendarDataUpdated)
 		end,
 		
 		-- ** Panels **

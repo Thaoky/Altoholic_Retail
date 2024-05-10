@@ -1,12 +1,16 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
-addon:Controller("AltoholicUI.AchievementRow", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.AchievementRow", { "AltoholicUI.ColumnOptions", function(Options)
 
 	local NUM_COLUMNS = 13
 	local accountWideColor = "|cFF26C6E2"
+	
+	local function IsAccountBound(flags)
+		return bit.band(flags, ACHIEVEMENT_FLAGS_ACCOUNT) == ACHIEVEMENT_FLAGS_ACCOUNT
+	end
 
 	return {
 		Update = function(frame, account, realm, page, allianceID, hordeID)
@@ -17,7 +21,7 @@ addon:Controller("AltoholicUI.AchievementRow", { "AltoholicUI.Options", function
 				-- achName = allianceID
 			-- end
 			
-			local isAccountBound = ( bit.band(flags, ACHIEVEMENT_FLAGS_ACCOUNT) == ACHIEVEMENT_FLAGS_ACCOUNT ) 
+			local isAccountBound = IsAccountBound(flags)
 			
 			-- frame.Name.Text:SetText(format("%s%s", (isAccountBound and colors.cyan or colors.white), achName))
 			frame.Name.Text:SetText(format("%s%s", (isAccountBound and accountWideColor or colors.white), achName))
@@ -34,7 +38,8 @@ addon:Controller("AltoholicUI.AchievementRow", { "AltoholicUI.Options", function
 				
 				local optionIndex = ((page - 1) * NUM_COLUMNS) + colIndex		-- Pages = 1-12, 13-24, etc..
 				
-				character = Options.Get(format("Tabs.Achievements.%s.%s.Column%d", account, realm, optionIndex))
+				character = Options.GetColumnKey(Altoholic_AchievementsTab_Columns, account, realm, optionIndex)
+
 				if character then
 					if hordeID and DataStore:GetCharacterFaction(character) ~= "Alliance" then
 						achievementID = hordeID
@@ -76,7 +81,7 @@ addon:Controller("AltoholicUI.AchievementRow", { "AltoholicUI.Options", function
 			tooltip:AddLine(" ")
 
 			-- Add the achievement ID and whether or not it is account wide
-			local isAccountBound = ( bit.band(flags, ACHIEVEMENT_FLAGS_ACCOUNT) == ACHIEVEMENT_FLAGS_ACCOUNT ) 
+			local isAccountBound = IsAccountBound(flags)
 			local idText = format("ID: %s%d", colors.green , achievementID)
 			local accountWideText = format("%s%s", colors.cyan, L["ACCOUNT_WIDE"])
 			
