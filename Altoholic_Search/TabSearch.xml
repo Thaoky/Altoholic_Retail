@@ -166,7 +166,6 @@
 				</Anchors>
 				<KeyValues>
 					<KeyValue key="numButtons" value="5" type="number" />
-					<KeyValue key="option" value="UI.Tabs.Search.SortAscending" />
 				</KeyValues>
 			</Frame>
 

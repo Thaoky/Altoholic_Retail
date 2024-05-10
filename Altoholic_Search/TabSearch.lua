@@ -1,36 +1,37 @@
+local addonTabName = ...
 local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 local Equipment = MVC:GetService("AltoholicUI.Equipment")
 
 local tab		-- small shortcut to easily address the frame (set in OnBind)
+local options
 local currentPanelKey = "Search"
 
 local searchType, searchSubType, searchedValue
 
-local OPTION_LOCATION = "UI.Tabs.Search.CurrentLocation"
-local OPTION_RARITY = "UI.Tabs.Search.CurrentRarity"
-local OPTION_EQUIPMENT = "UI.Tabs.Search.CurrentSlot"
-local OPTION_EXPANSION = "UI.Tabs.Search.CurrentExpansion"
-local OPTION_PROFESSION = "UI.Tabs.Search.CurrentProfession"
-local OPTION_NO_MIN_LEVEL = "UI.Tabs.Search.IncludeNoMinLevel"
-local OPTION_MAILBOXES = "UI.Tabs.Search.IncludeMailboxItems"
-local OPTION_GUILD_BANKS = "UI.Tabs.Search.IncludeGuildBankItems"
-local OPTION_RECIPES = "UI.Tabs.Search.IncludeKnownRecipes"
-local OPTION_COLORED_ALTS = "UI.Tabs.Search.UseColorsForAlts"
-local OPTION_COLORED_REALMS = "UI.Tabs.Search.UseColorsForRealms"
+local OPTION_LOCATION = "CurrentLocation"
+local OPTION_RARITY = "CurrentRarity"
+local OPTION_EQUIPMENT = "CurrentSlot"
+local OPTION_EXPANSION = "CurrentExpansion"
+local OPTION_PROFESSION = "CurrentProfession"
+local OPTION_NO_MIN_LEVEL = "IncludeNoMinLevel"
+local OPTION_MAILBOXES = "IncludeMailboxItems"
+local OPTION_GUILD_BANKS = "IncludeGuildBankItems"
+local OPTION_RECIPES = "IncludeKnownRecipes"
+local OPTION_COLORED_ALTS = "UseColorsForAlts"
+local OPTION_COLORED_REALMS = "UseColorsForRealms"
 
 local function OnSearchLocationChange(frame)
-	Options.Set(OPTION_LOCATION, frame.value)
+	options[OPTION_LOCATION] = frame.value
 	tab:Update()
 end
 
 local function OnSearchRarityChange(frame)
-	Options.Set(OPTION_RARITY, frame.value)
+	options[OPTION_RARITY] = frame.value
 	
 	if searchedValue then
 		tab:Find(searchedValue)
@@ -39,7 +40,7 @@ local function OnSearchRarityChange(frame)
 end
 
 local function OnSearchEquipmentSlotChange(frame, itemType, itemSubType)
-	Options.Set(OPTION_EQUIPMENT, frame.value)
+	options[OPTION_EQUIPMENT] = frame.value
 	
 	if frame.value == 0 then
 		searchType = nil
@@ -65,7 +66,7 @@ local function OnSearchEquipmentSlotChange(frame, itemType, itemSubType)
 end
 
 local function OnSearchExpansionChange(frame)
-	Options.Set(OPTION_EXPANSION, frame.value)
+	options[OPTION_EXPANSION] = frame.value
 	
 	if searchedValue then
 		tab:Find(searchedValue)
@@ -74,18 +75,21 @@ local function OnSearchExpansionChange(frame)
 end
 
 local function OnSearchProfessionChange(frame)
-	Options.Set(OPTION_PROFESSION, frame.value)
+	options[OPTION_PROFESSION] = frame.value
 	tab:Update()
 end
 
 local function OnSearchOptionsChange(frame)
-	Options.Toggle(nil, frame.value)
+	-- Toggle the option
+	local option = frame.value
+	options[option] = not options[option]
+	
 	tab:Update()
 end
 
 -- ** Menu Icons **
 local function LocationIcon_Initialize(frame, level)
-	local option = Options.Get(OPTION_LOCATION)
+	local option = options[OPTION_LOCATION]
 
 	frame:AddTitle(L["FILTER_SEARCH_LOCATION"])
 	frame:AddButton(L["This character"], 1, OnSearchLocationChange, nil, (option == 1))
@@ -97,7 +101,7 @@ local function LocationIcon_Initialize(frame, level)
 end
 
 local function RarityIcon_Initialize(frame, level)
-	local option = Options.Get(OPTION_RARITY)
+	local option = options[OPTION_RARITY]
 
 	frame:AddTitle(L["FILTER_SEARCH_RARITY"])
 	
@@ -111,7 +115,7 @@ local function RarityIcon_Initialize(frame, level)
 end
 
 local function EquipmentIcon_Initialize(frame, level)
-	local option = Options.Get(OPTION_EQUIPMENT)
+	local option = options[OPTION_EQUIPMENT]
 
 	frame:AddTitle(L["FILTER_SEARCH_SLOT"])
 	frame:AddButton(L["Any"], 0, OnSearchEquipmentSlotChange, nil, (option == 0))
@@ -150,7 +154,7 @@ local function EquipmentIcon_Initialize(frame, level)
 end
 
 local function ExpansionsIcon_Initialize(frame, level)
-	local option = Options.Get(OPTION_EXPANSION)
+	local option = options[OPTION_EXPANSION]
 
 	frame:AddTitle(L["FILTER_SEARCH_EXPANSION"])
 	frame:AddButton(L["Any"], 0, OnSearchExpansionChange, nil, (option == 0))	
@@ -165,7 +169,7 @@ local function ExpansionsIcon_Initialize(frame, level)
 end
 
 local function ProfessionsIcon_Initialize(frame, level)
-	local option = Options.Get(OPTION_PROFESSION)
+	local option = options[OPTION_PROFESSION]
 
 	-- frame:AddTitle(L["FILTER_SEARCH_SLOT"])
 	-- frame:AddButton(L["Any"], 0, OnSearchProfessionChange, nil, (option == i))
@@ -174,14 +178,14 @@ end
 
 local function SearchOptionsIcon_Initialize(frame, level)
 	frame:AddTitle(L["FILTER_SEARCH_OPTIONS"])
-	frame:AddButton(L["Include items without level requirement"], OPTION_NO_MIN_LEVEL, OnSearchOptionsChange, nil, (Options.Get(OPTION_NO_MIN_LEVEL) == true))
-	frame:AddButton(L["Include mailboxes"], OPTION_MAILBOXES, OnSearchOptionsChange, nil, (Options.Get(OPTION_MAILBOXES) == true))
-	frame:AddButton(L["Include guild banks"], OPTION_GUILD_BANKS, OnSearchOptionsChange, nil, (Options.Get(OPTION_GUILD_BANKS) == true))
-	frame:AddButton(L["Include known recipes"], OPTION_RECIPES, OnSearchOptionsChange, nil, (Options.Get(OPTION_RECIPES) == true))
+	frame:AddButton(L["Include items without level requirement"], OPTION_NO_MIN_LEVEL, OnSearchOptionsChange, nil, (options[OPTION_NO_MIN_LEVEL] == true))
+	frame:AddButton(L["Include mailboxes"], OPTION_MAILBOXES, OnSearchOptionsChange, nil, (options[OPTION_MAILBOXES] == true))
+	frame:AddButton(L["Include guild banks"], OPTION_GUILD_BANKS, OnSearchOptionsChange, nil, (options[OPTION_GUILD_BANKS] == true))
+	frame:AddButton(L["Include known recipes"], OPTION_RECIPES, OnSearchOptionsChange, nil, (options[OPTION_RECIPES] == true))
 	
 	frame:AddTitle()
-	frame:AddButton(L["USE_CLASS_COLOR"], OPTION_COLORED_ALTS, OnSearchOptionsChange, nil, (Options.Get(OPTION_COLORED_ALTS) == true))
-	frame:AddButton(L["USE_FACTION_COLOR"], OPTION_COLORED_REALMS, OnSearchOptionsChange, nil, (Options.Get(OPTION_COLORED_REALMS) == true))
+	frame:AddButton(L["USE_CLASS_COLOR"], OPTION_COLORED_ALTS, OnSearchOptionsChange, nil, (options[OPTION_COLORED_ALTS] == true))
+	frame:AddButton(L["USE_FACTION_COLOR"], OPTION_COLORED_REALMS, OnSearchOptionsChange, nil, (options[OPTION_COLORED_REALMS] == true))
 	frame:AddTitle()
 	frame:AddButtonWithArgs(HELP_LABEL, 30, addon.ShowOptionsPanel, 13)
 	
@@ -197,9 +201,8 @@ local menuIconCallbacks = {
 	SearchOptionsIcon_Initialize,
 }
 
-addon:Controller("AltoholicUI.TabSearch", { 
-	"AltoholicUI.Options", "AltoholicUI.ItemFilters", "AltoholicUI.DataBrowser", "AltoholicUI.SearchResults",
-	function(Options, ItemFilters, DataBrowser, Results)
+addon:Controller("AltoholicUI.TabSearch", { "AltoholicUI.ItemFilters", "AltoholicUI.DataBrowser", "AltoholicUI.SearchResults",
+	function(ItemFilters, DataBrowser, Results)
 
 	return {
 		OnBind = function(frame)
@@ -220,9 +223,9 @@ addon:Controller("AltoholicUI.TabSearch", {
 			searchSubType = nil
 			searchedValue = nil
 			
-			Options.Set(OPTION_RARITY, 0)
-			Options.Set(OPTION_EQUIPMENT, 0)
-			Options.Set(OPTION_EXPANSION, 0)
+			options[OPTION_RARITY] = 0
+			options[OPTION_EQUIPMENT] = 0
+			options[OPTION_EXPANSION] = 0
 			
 			-- reset also min max
 			frame.MinLevel:SetText("")
@@ -272,11 +275,12 @@ addon:Controller("AltoholicUI.TabSearch", {
 			frame.Status:SetText(text)
 		end,
 		SortBy = function(frame, columnName, buttonIndex)
-			Options.Toggle(nil, "UI.Tabs.Search.SortAscending")
+			-- Toggle the option
+			options["SortAscending"] = not options["SortAscending"]
 			
 			-- Sort the whole view by a given column
 			local hc = frame.HeaderContainer
-			local sortOrder = Options.Get("UI.Tabs.Search.SortAscending")		
+			local sortOrder = options["SortAscending"]
 			
 			hc.SortButtons[buttonIndex]:DrawArrow(sortOrder)
 			
@@ -319,7 +323,7 @@ addon:Controller("AltoholicUI.TabSearch", {
 				ItemFilters.EnableFilter("Maxlevel")
 			end	
 			
-			local itemSlot = Options.Get(OPTION_EQUIPMENT)
+			local itemSlot = options[OPTION_EQUIPMENT]
 			
 			if itemSlot then
 				if type(itemSlot) == "string" then			-- for special inventory types, like INVTYPE_HOLDABLE (off-hands)
@@ -333,13 +337,13 @@ addon:Controller("AltoholicUI.TabSearch", {
 				end
 			end
 			
-			local itemRarity = Options.Get(OPTION_RARITY)
+			local itemRarity = options[OPTION_RARITY]
 			if itemRarity and itemRarity > 0 then	-- don't apply filter if = 0, it means we take them all
 				ItemFilters.SetFilterValue("itemRarity", itemRarity)
 				ItemFilters.EnableFilter("Rarity")
 			end
 			
-			local itemExpansion = Options.Get(OPTION_EXPANSION)
+			local itemExpansion = options[OPTION_EXPANSION]
 			if itemExpansion and itemExpansion > 0 then	-- don't apply filter if = 0, it means we take them all
 				ItemFilters.SetFilterValue("itemExpansion", itemExpansion - 1)
 				ItemFilters.EnableFilter("Expansion")
@@ -361,7 +365,7 @@ local function categoriesList_OnClick(categoryData)
 
 	searchType = GetItemClassInfo(categoryData.itemType)
 	searchSubType = GetItemSubClassInfo(categoryData.itemType, categoryData.subType) 
-	Options.Set(OPTION_EQUIPMENT, categoryData.slot)
+	options[OPTION_EQUIPMENT] = categoryData.slot
 
 	tab:Find("")
 	tab:Update()
@@ -536,3 +540,38 @@ addon:Controller("AltoholicUI.TabSearchCategoriesList", {
 	end,
 
 })
+
+
+DataStore:OnAddonLoaded(addonTabName, function() 
+	Altoholic_SearchTab_Options = Altoholic_SearchTab_Options or {
+		["ItemInfoAutoQuery"] = false,
+		["IncludeNoMinLevel"] = true,				-- include items with no minimum level
+		["IncludeMailboxItems"] = true,
+		["IncludeGuildBankItems"] = true,
+		["IncludeKnownRecipes"] = true,
+		["CurrentLocation"] = 1,
+		["UseColorsForAlts"] = true,
+		["UseColorsForRealms"] = true,
+		["SortAscending"] = true,					-- ascending or descending sort order
+	}
+	options = Altoholic_SearchTab_Options
+		
+	--Temporary: database migration	
+	local source = AltoholicDB.global.options
+
+	for k, v in pairs(source) do
+		local arg1, arg2, arg3 = strsplit(".", k)
+		
+		if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Search" then
+			local prefix = "UI.Tabs.Search."
+			local optionName = k:sub(#prefix + 1)
+			
+			-- Create the new entries
+			options[optionName] = v
+			
+			-- Delete the old entries
+			source[k] = nil
+		end
+		
+	end
+end)

@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Altoholic", "enUS", true, false)
+local L = DataStore:SetDefaultLocale("Altoholic", "enUS")
 
 L["FILTER_SEARCH_LOCATION"] = "Search location"
 L["FILTER_SEARCH_RARITY"] = "Rarity filter"

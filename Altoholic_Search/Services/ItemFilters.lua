@@ -4,7 +4,7 @@ local colors = addon.Colors
 
 local LII = LibStub("LibItemInfo-1.0")
 
-addon:Service("AltoholicUI.ItemFilters", { "AltoholicUI.Options", "AltoholicUI.Equipment", function(Options, Equipment)
+addon:Service("AltoholicUI.ItemFilters", { "AltoholicUI.Equipment", function(Equipment)
 
 	local filters = {}
 	local searchedItem = {}
@@ -67,7 +67,7 @@ addon:Service("AltoholicUI.ItemFilters", { "AltoholicUI.Options", "AltoholicUI.E
 			
 			if minLevel == 0 then
 				-- include items with no minimum requirement
-				if Options.Get("UI.Tabs.Search.IncludeNoMinLevel") then return true end
+				if Altoholic_SearchTab_Options["IncludeNoMinLevel"] then return true end
 			else
 				-- include if within the right level boundaries
 				if minLevel >= filters["itemMinLevel"] then return true end

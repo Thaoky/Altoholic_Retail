@@ -2,10 +2,9 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-addon:Controller("AltoholicUI.TabSearch.Search", { "AltoholicUI.Options", "AltoholicUI.SearchResults", "AltoholicUI.ItemFilters", 
-function(Options, Results, ItemFilters)
+addon:Controller("AltoholicUI.TabSearch.Search", { "AltoholicUI.SearchResults", "AltoholicUI.ItemFilters", function(Results, ItemFilters)
 
-	local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+	local L = DataStore:GetLocale(addonName)
 
 	return {
 		OnBind = function(frame)
@@ -51,8 +50,9 @@ function(Options, Results, ItemFilters)
 				parent:SetStatus(status)
 			end
 			
-			local useClassColor = Options.Get("UI.Tabs.Search.UseColorsForAlts")
-			local useFactionColor = Options.Get("UI.Tabs.Search.UseColorsForRealms")
+			local options = Altoholic_SearchTab_Options
+			local useClassColor = options["UseColorsForAlts"]
+			local useFactionColor = options["UseColorsForRealms"]
 			
 			for rowIndex = 1, numRows do
 				local rowFrame = scrollFrame:GetRow(rowIndex)

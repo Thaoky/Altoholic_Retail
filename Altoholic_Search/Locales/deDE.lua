@@ -1,5 +1,4 @@
-﻿local L = LibStub("AceLocale-3.0"):NewLocale( "Altoholic", "deDE" )
-
+﻿local L = DataStore:SetLocale("Altoholic", "deDE")
 if not L then return end
 
 -- L["FILTER_SEARCH_LOCATION"] = "Search location"

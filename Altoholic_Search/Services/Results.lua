@@ -1,7 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Service("AltoholicUI.SearchResults", { "AltoholicUI.Options", function(Options)
+addon:Service("AltoholicUI.SearchResults", function()
 
 	local results = {}
 	
@@ -130,5 +130,4 @@ addon:Service("AltoholicUI.SearchResults", { "AltoholicUI.Options", function(Opt
 				table.sort(results, function(a, b) return SortByRealm(a, b, sortOrder) end)
 			end
 		end
-	}
-end})
+}end)

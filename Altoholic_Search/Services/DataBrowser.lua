@@ -1,13 +1,10 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Service("AltoholicUI.DataBrowser", { 
-	"AltoholicUI.Options", "AltoholicUI.SearchResults", "AltoholicUI.ItemFilters", function(Options, Results, ItemFilters)
+addon:Service("AltoholicUI.DataBrowser", { "AltoholicUI.SearchResults", "AltoholicUI.ItemFilters", function(Results, ItemFilters)
 
-	local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
-	
-	local OPTION_LOCATION = "UI.Tabs.Search.CurrentLocation"
-	local OPTION_PROFESSION = "UI.Tabs.Search.CurrentProfession"
+	local L = DataStore:GetLocale(addonName)
+	local enum = DataStore.Enum.ContainerIDs
 
 	local MYTHIC_KEYSTONE = 138019
 	
@@ -44,31 +41,31 @@ addon:Service("AltoholicUI.DataBrowser", {
 	local function BrowseCharacter(character)
 		
 		-- Bags / Bank
-		DataStore:IterateContainerSlots(character, function(containerName, itemID, itemLink, itemCount, isBattlePet) 
+		DataStore:IterateContainerSlots(character, function(containerID, itemID, itemLink, itemCount, isBattlePet) 
 			local location
-			
-			if string.sub(containerName, 1, string.len("VoidStorage")) == "VoidStorage" then
-				location = VOID_STORAGE
-			elseif containerName == "Bag100" then
-				location = L["Bank"]
-			elseif (containerName == "Bag-2") then
+
+			if containerID == enum.Keyring then
 				location = KEYRING
-			elseif containerName == "Bag5" then
+			elseif containerID == enum.ReagentBag then
 				location = L["Reagent Bag"]
+			elseif containerID <= 4 then
+				location = L["Bags"]
 			else
-				local bagNum = tonumber(string.sub(containerName, 4))
-				
-				if (bagNum >= 0) and (bagNum <= 4) then
-					location = L["Bags"]
-				elseif bagNum == 5 then
-					location = L["Reagent Bag"]
-				else
-					location = L["Bank"]
-				end			
+				location = L["Bank"]
 			end
 		
 			VerifyItem(location, itemID, itemLink, itemCount, character, isBattlePet)
 		end)
+		
+		-- Player Bank (main slots)
+		DataStore:IteratePlayerBankSlots(character, function(itemID, itemLink, itemCount, isBattlePet) 
+			VerifyItem(L["Bank"], itemID, itemLink, itemCount, character, isBattlePet)
+		end)
+		
+		-- Void Storage
+		DataStore:IterateVoidStorage(character, function(item) 
+			VerifyItem(VOID_STORAGE, item, item, 1, character)
+		end)		
 
 		-- Equipment
 		DataStore:IterateInventory(character, function(item) 
@@ -76,7 +73,7 @@ addon:Service("AltoholicUI.DataBrowser", {
 		end)
 		
 		-- Mails
-		if Options.Get("UI.Tabs.Search.IncludeMailboxItems") then			
+		if Altoholic_SearchTab_Options["IncludeMailboxItems"] then			
 			
 			DataStore:IterateMails(character, function(icon, count, itemLink) 
 				if itemLink then
@@ -86,7 +83,7 @@ addon:Service("AltoholicUI.DataBrowser", {
 		end
 		
 		-- Check known recipes ?
-		if not Options.Get("UI.Tabs.Search.IncludeKnownRecipes") then return end
+		if not Altoholic_SearchTab_Options["IncludeKnownRecipes"] then return end
 		
 		-- Get the text we are looking for
 		local searchValue = ItemFilters.GetFilterValue("itemName")
@@ -116,7 +113,7 @@ addon:Service("AltoholicUI.DataBrowser", {
 			end
 		end
 		
-		if Options.Get("UI.Tabs.Search.IncludeGuildBankItems") then	-- Check guild bank(s) ?
+		if Altoholic_SearchTab_Options["IncludeGuildBankItems"] then	-- Check guild bank(s) ?
 			for guildName, guildKey in pairs(DataStore:GetGuilds(realm, account)) do
 
 				if bothFactions or DataStore:GetGuildBankFaction(guildKey) == playerFaction then
@@ -140,7 +137,7 @@ addon:Service("AltoholicUI.DataBrowser", {
 			-- Start the search
 			Results.Clear()
 			
-			local searchLocation = Options.Get(OPTION_LOCATION)
+			local searchLocation = Altoholic_SearchTab_Options["CurrentLocation"]
 
 			-- This character
 			if searchLocation == 1 then
