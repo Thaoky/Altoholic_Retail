@@ -1,5 +1,4 @@
-local addonName = ...
-local addon = _G[addonName]
+local addonName, addon = ...
 local colors = addon.Colors
 
 addon:Service("AltoholicUI.Equipment", function() 

@@ -1,8 +1,7 @@
-local addonName = ...
-local addon = _G[addonName]
+local addonName, addon = ...
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local LibDeflate = LibStub:GetLibrary("LibDeflate")
 local LibSerialize = LibStub:GetLibrary("LibSerialize")
 
@@ -46,12 +45,11 @@ Client						Server
 --]]
 
 addon:Service("AltoholicUI.AccountSharing", { 
-	"AltoholicUI.Options", 
 	"AltoholicUI.Authorization", 
 	"AltoholicUI.SharedContent", 
 	"AltoholicUI.AvailableContent", 
 	"AltoholicUI.SharedTableOfContent",
-	function(Options, Authorization, SharedContent, AvailableContent, TableOfContent)
+	function(Authorization, SharedContent, AvailableContent, TableOfContent)
 
 	local sharingDomains				-- reference to the domains in the DB
 	local messageHandler
@@ -374,7 +372,7 @@ addon:Service("AltoholicUI.AccountSharing", {
 		
 	local function SetMessageHandler()
 		-- Set the appropriate communication handler according to user settings.
-		messageHandler = Options.Get("UI.AccountSharing.IsEnabled") and ActiveHandler or EmptyHandler
+		messageHandler = Altoholic_Sharing_Options.IsEnabled and ActiveHandler or EmptyHandler
 	end
 	
 	local function SharingHandler(prefix, message, distribution, sender)
@@ -385,10 +383,10 @@ addon:Service("AltoholicUI.AccountSharing", {
 	
 	return {
 		Initialize = function()
-			sharingDomains = addon.db.global.Sharing.Domains
+			sharingDomains = Altoholic_Sharing_Options.Domains
 			
 			SetMessageHandler()
-			addon:RegisterComm(COMM_PREFIX, SharingHandler)
+			-- addon:RegisterComm(COMM_PREFIX, SharingHandler)	temporarily disabled
 		end,
 		
 		GetLastAccountSharingInfo = function(realm, account)
@@ -423,7 +421,7 @@ addon:Service("AltoholicUI.AccountSharing", {
 		end,
 		
 		Request = function(player, account)
-			if not Options.Get("UI.AccountSharing.IsEnabled") then
+			if not Altoholic_Sharing_Options.IsEnabled then
 				addon:Print(L["SHARING_OPTION_DISABLED"])
 				return
 			end

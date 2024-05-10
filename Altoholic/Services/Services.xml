@@ -1,6 +1,6 @@
 <Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="Equipment.lua"></Script>
-	<Script file="Options.lua"></Script>
+	<Script file="ColumnOptions.lua"></Script>
 	<Script file="Formatter.lua"></Script>
 	<Script file="Events.lua"></Script>
 	<Script file="Authorization.lua"></Script>

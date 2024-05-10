@@ -1,11 +1,9 @@
-local addonName = ...
-local addon = _G[addonName]
+local addonName, addon = ...
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local LCI = LibStub("LibCraftInfo-1.0")
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
 
 -- *** Hooks ***
 local Orig_ChatEdit_InsertLink = ChatEdit_InsertLink
@@ -24,7 +22,7 @@ end
 local Orig_SendMailNameEditBox_OnChar = SendMailNameEditBox:GetScript("OnChar")
 
 SendMailNameEditBox:SetScript("OnChar", function(self, ...)
-	if Options.Get("UI.Mail.AutoCompleteRecipient") then
+	if Altoholic_UI_Options.Mail.AutoCompleteRecipient then
 		local text = self:GetText()
 		
 		local textLength = strlen(text)
@@ -47,7 +45,7 @@ SendMailNameEditBox:SetScript("OnChar", function(self, ...)
 		end
 		
 		if #matches > 0 then					-- if we have at least a match..
-			local currentPriority = Options.Get("UI.Mail.AutoCompletePriority")
+			local currentPriority = Altoholic_UI_Options.Mail.AutoCompletePriority
 
 			if currentPriority == 3 then
 				table.sort(matches, function(a, b) return a.lastLogout > b.lastLogout end)
@@ -111,7 +109,7 @@ local function MerchantFrame_UpdateMerchantInfoHook()
 	
 	-- Orig_MerchantFrame_UpdateMerchantInfo()		-- Let default stuff happen first ..
 	
-	if Options.Get("UI.VendorColorCoding") == false then return end
+	if Altoholic_UI_Options.VendorColorCoding == false then return end
 	
    local numItems = GetMerchantNumItems()
 	local index, link
@@ -162,8 +160,7 @@ local function MerchantFrame_UpdateMerchantInfoHook()
 end
 
 
-function addon:OnEnable()
-	Options.Initialize()
+DataStore:OnPlayerLogin(function() 
 	MVC:GetService("AltoholicUI.Authorization"):Initialize()
 	MVC:GetService("AltoholicUI.SharedContent"):Initialize()
 	MVC:GetService("AltoholicUI.AccountSharing"):Initialize()
@@ -172,11 +169,12 @@ function addon:OnEnable()
 	local Tooltip = MVC:GetService("AltoholicUI.Tooltip")
 	Tooltip:Initialize()
 
-	AltoholicFrame:SetScale(Options.Get("UI.Scale"))
+	AltoholicFrame:SetScale(Altoholic_UI_Options.Scale)
 	AltoholicFrame:LimitFrameSize()
 	
 	local minimap = AltoholicMinimapButton
-	if Options.Get("UI.Minimap.ShowIcon") then
+	
+	if Altoholic_UI_Options.Minimap.ShowIcon then
 		minimap:Move()
 		minimap:Show()
 	else
@@ -184,7 +182,7 @@ function addon:OnEnable()
 	end
 	
 	-- any loot message should cause a refresh
-	addon:RegisterEvent("CHAT_MSG_LOOT", Tooltip.RefreshTooltip)
+	addon:ListenTo("CHAT_MSG_LOOT", Tooltip.RefreshTooltip)
 	
 	-- hook the Merchant update function
 	-- Orig_MerchantFrame_UpdateMerchantInfo = MerchantFrame_UpdateMerchantInfo
@@ -198,11 +196,7 @@ function addon:OnEnable()
 			MerchantFrame_UpdateMerchantInfoHook();
 		end)
 	end)	
-	
-end
-
-function addon:OnDisable()
-end
+end)
 
 addon:Controller("AltoholicUI.MainFrame", { 
 	OnBind = function(frame)

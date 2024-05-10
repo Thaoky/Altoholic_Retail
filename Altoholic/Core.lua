@@ -1,206 +1,19 @@
-local addonName = ...
+local addonName, addon = ...
+_G[addonName] = addon
 
-_G[addonName] = LibStub("AceAddon-3.0"):NewAddon(addonName, "AceConsole-3.0", "AceEvent-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceTimer-3.0", "LibMVC-1.0")
-
-local addon = _G[addonName]
-
-addon.Version = "v10.2.011"
+addon.Version = "v10.2.012b"
 -- addon.VersionNum = 902006
-addon.VersionNum = 1002011
+addon.VersionNum = 1002012
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+LibStub("LibMVC-1.0"):Embed(addon)
+
+local L = DataStore:GetLocale(addonName)
+local LibSerialize = LibStub:GetLibrary("LibSerialize")
 local commPrefix = addonName
 
 -- Reminder: binding is done in bindings.xml
 BINDING_HEADER_ALTOHOLIC = addonName
 BINDING_NAME_ALTOHOLIC_TOGGLE = "Altoholic - Toggle UI"
-
-local options = { 
-	type = "group",
-	args = {
-		search = {
-			type = "input",
-			name = SEARCH,
-			usage = "<item name>",
-			desc = L["Search in bags"],
-			get = false,
-			set = "CmdSearchBags",
-		},
-		show = {
-			type = "execute",
-			name = SHOW,
-			desc = L["Shows the UI"],
-			func = function() AltoholicFrame:Show() end
-		},
-		hide = {
-			type = "execute",
-			name = HIDE,
-			desc = L["Hides the UI"],
-			func = function() AltoholicFrame:Hide() end
-		},
-		toggle = {
-			type = "execute",
-			name = "toggle",
-			desc = L["Toggles the UI"],
-			func = function() AltoholicFrame:ToggleUI() end
-		},
-	},
-}
- 
-local AddonDB_Defaults = {
-	global = {
-		Guilds = {
-			['*'] = {			-- ["Account.Realm.Name"] 
-				hideInTooltip = nil,		-- true if this guild should not be shown in the tooltip counters
-			},
-		},
-		Characters = {
-			['*'] = {					-- ["Account.Realm.Name"] 
-			},
-		},
-		Sharing = {
-			Clients = {},
-			SharedContent = {			-- lists the shared content
-				--	["Account.Realm.Name"]  = true means the char is shared,
-				--	["Account.Realm.Name.Module"]  = true means the module is shared for that char
-			},
-			Domains = {
-				['*'] = {			-- ["Account.Realm"] 
-					lastSharingTimestamp = nil,	-- a date, the last time information from this realm/account was queried and successfully saved.
-					lastUpdatedWith = nil,		-- last player with whom the account sharing took place
-				},
-			},
-		},
-		unsafeItems = {},
-		moreRecentVersion = nil,
-		options = {
-			-- ** Summary tab options **
-			["UI.Tabs.Summary.ShowRestXP150pc"] = false,						-- display max rest xp in normal 100% mode or in level equivalent 150% mode ?
-			["UI.Tabs.Summary.CurrentMode"] = 1,								-- current mode (1 = account summary, 2 = bags, ...)
-			["UI.Tabs.Summary.CurrentColumn"] = "Name",						-- current column (default = "Name")
-			["UI.Tabs.Summary.CurrentRealms"] = 2,								-- selected realms (current/all in current/all accounts)
-			["UI.Tabs.Summary.CurrentAltGroup"] = 0,							-- selected alt group
-			["UI.Tabs.Summary.CurrentFactions"] = 3,							-- 1 = Alliance, 2 = Horde, 3 = Both
-			["UI.Tabs.Summary.CurrentLevels"] = 1,								-- 1 = All
-			["UI.Tabs.Summary.CurrentLevelsMin"] = 1,							
-			["UI.Tabs.Summary.CurrentLevelsMax"] = 70,					
-			["UI.Tabs.Summary.CurrentBankType"] = 0,							-- 0 = All
-			["UI.Tabs.Summary.CurrentClasses"] = 0,							-- 0 = All
-			["UI.Tabs.Summary.CurrentTradeSkill"] = 0,						-- 0 = All
-			["UI.Tabs.Summary.CurrentMisc"] = 0,								-- 
-			["UI.Tabs.Summary.UseColorForTradeSkills"] = true,				-- Use color coding for tradeskills, or neutral
-			["UI.Tabs.Summary.SortAscending"] = true,							-- ascending or descending sort order
-			["UI.Tabs.Summary.ShowLevelDecimals"] = true,					-- display character level with decimals or not
-			["UI.Tabs.Summary.ShowILevelDecimals"] = true,					-- display character level with decimals or not
-			["UI.Tabs.Summary.ShowGuildRank"] = false,						-- display the guild rank or the guild name
-			
-			-- ** Character tab options **
-			["UI.Tabs.Characters.ViewBags"] = true,
-			["UI.Tabs.Characters.ViewBank"] = true,
-			["UI.Tabs.Characters.ViewBagsAllInOne"] = false,
-			["UI.Tabs.Characters.ViewVoidStorage"] = true,
-			["UI.Tabs.Characters.ViewReagentBank"] = true,
-			["UI.Tabs.Characters.ViewBagsRarity"] = 0,						-- rarity level of items (not a boolean !)
-			["UI.Tabs.Characters.GarrisonMissions"] = 1,						-- available missions = 1, active missions = 2
-			["UI.Tabs.Characters.SortAscending"] = true,						-- ascending or descending sort order
-			["UI.Tabs.Characters.ViewLearnedRecipes"] = true,				-- View learned recipes ?
-			["UI.Tabs.Characters.ViewUnlearnedRecipes"] = false,			-- View unlearned recipes ?
-			["UI.Tabs.Characters.ViewQuestLogCategory"] = 0,				-- Quest log category to show
-			["UI.Tabs.Characters.ViewSpellTab"] = 1,							-- Spellbook tab to show
-						
-			-- ** Search tab options **
-			["UI.Tabs.Search.ItemInfoAutoQuery"] = false,
-			["UI.Tabs.Search.IncludeNoMinLevel"] = true,				-- include items with no minimum level
-			["UI.Tabs.Search.IncludeMailboxItems"] = true,
-			["UI.Tabs.Search.IncludeGuildBankItems"] = true,
-			["UI.Tabs.Search.IncludeKnownRecipes"] = true,
-			["UI.Tabs.Search.CurrentLocation"] = 1,
-			["UI.Tabs.Search.UseColorsForAlts"] = true,
-			["UI.Tabs.Search.UseColorsForRealms"] = true,
-			["UI.Tabs.Search.SortAscending"] = true,							-- ascending or descending sort order
-			TotalLoots = 0,					-- make at least one search in the loot tables to initialize these values
-			UnknownLoots = 0,
-			
-			-- ** Guild Bank tab options **
-			["UI.Tabs.Guild.BankItemsRarity"] = 0,								-- rarity filter in the guild bank tab
-			["UI.Tabs.Guild.BankAutoUpdate"] = false,							-- can the guild bank tabs update requests be answered automatically or not.
-			["UI.Tabs.Guild.SortAscending"] = true,							-- ascending or descending sort order
-			
-			-- ** Grids tab options **
-			["UI.Tabs.Grids.Reputations.CurrentXPack"] = 1,					-- Current expansion pack 
-			["UI.Tabs.Grids.Reputations.CurrentFactionGroup"] = 1,		-- Current faction group in that xpack
-			["UI.Tabs.Grids.Currencies.CurrentTokenType"] = nil,			-- Current token type (default to nil = all-in-one)
-			["UI.Tabs.Grids.Companions.CurrentXPack"] = 1,					-- Current expansion pack 
-			["UI.Tabs.Grids.Mounts.CurrentFaction"] = 1,						-- Current faction 
-			["UI.Tabs.Grids.Tradeskills.CurrentXPack"] = 1,					-- Current expansion pack 
-			["UI.Tabs.Grids.Tradeskills.CurrentTradeSkill"] = 1,			-- Current tradeskill index
-			["UI.Tabs.Grids.Archaeology.CurrentRace"] = 1,					-- Current race index
-			["UI.Tabs.Grids.Dungeons.CurrentXPack"] = 1,						-- Current expansion pack 
-			["UI.Tabs.Grids.Dungeons.CurrentRaids"] = 1,						-- Current raid index
-			["UI.Tabs.Grids.Garrisons.CurrentBuildings"] = 1,				-- Current building type
-			["UI.Tabs.Grids.Garrisons.CurrentFollowers"] = 1,				-- Current follower type
-			["UI.Tabs.Grids.Garrisons.CurrentStats"] = 1,					-- Current stats (abilities = 1, traits = 2, counters = 3)
-			["UI.Tabs.Grids.Sets.IncludePVE"] = true,							-- Include PVE Sets
-			["UI.Tabs.Grids.Sets.IncludePVP"] = true,							-- Include PVP Sets
-			["UI.Tabs.Grids.Sets.CurrentXPack"] = 1,							-- Current expansion pack 
-			["UI.Tabs.Grids.Emissaries.ShowXPack6"] = true,					-- Show Legion Emissaries
-			["UI.Tabs.Grids.Emissaries.ShowXPack7"] = true,					-- Show BfA Emissaries
-			["UI.Tabs.Grids.Emissaries.ShowXPack8"] = true,					-- Show Shadowlands Emissaries
-
-			-- ** Tooltip options **
-			["UI.Tooltip.ShowItemSource"] = true,
-			["UI.Tooltip.ShowItemXPack"] = true,
-			["UI.Tooltip.ShowItemCount"] = true,
-			["UI.Tooltip.ShowSimpleCount"] = false,				-- display just the counter, without details (like AH, equipped, etc..)
-			["UI.Tooltip.ShowTotalItemCount"] = true,
-			["UI.Tooltip.ShowKnownRecipes"] = true,
-			["UI.Tooltip.ShowItemID"] = false,						-- display item id & item level in the tooltip (default: off)
-			["UI.Tooltip.ShowGatheringNodesCount"] = true,		-- display counters when mousing over a gathering node (default:  on)
-			["UI.Tooltip.ShowCrossFactionCount"] = true,			-- display counters for both factions on a pve server
-			["UI.Tooltip.ShowMergedRealmsCount"] = true,			-- display counters for characters on connected realms
-			["UI.Tooltip.ShowAllRealmsCount"] = true,				-- display counters for all realms (for BoA items)
-			["UI.Tooltip.ShowAllAccountsCount"] = true,			-- display counters for all accounts on the same realm
-			["UI.Tooltip.ShowGuildBankCount"] = true,				-- display guild bank counters
-			["UI.Tooltip.ShowGuildBankRealm"] = false,			-- display the realm of the guild bank
-			["UI.Tooltip.ShowHearthstoneCount"] = true,			-- display hearthstone counters
-			["UI.Tooltip.IncludeGuildBankInTotal"] = true,		-- total count = alts + guildbank (1) or alts only (0)
-			["UI.Tooltip.ShowGuildBankCountPerTab"] = false,	-- guild count = guild:count or guild (tab 1: x, tab2: y ..)
-			["UI.Tooltip.ShowCouldBeStoredOn"] = false,			-- display "could be stored on" information
-			
-			-- ** Mail options **
-			["UI.Mail.GuildMailWarning"] = true,					-- be informed when a guildie sends a mail to one of my alts
-			["UI.Mail.AutoCompleteRecipient"] = true,				-- Auto complete recipient name when sending a mail
-			["UI.Mail.AutoCompletePriority"] = 1,					-- Auto complete priority (1 = alphabetical, 2 = most played, 3 = most recent)
-			["UI.Mail.LastExpiryWarning"] = 0,						-- Last time a mail expiry warning was triggered
-			["UI.Mail.TimeToNextWarning"] = 3,						-- Time before the warning is repeated ('3' = no warning for 3 hours)
-			
-			-- ** Minimap options **
-			["UI.Minimap.ShowIcon"] = true,
-			["UI.Minimap.IconAngle"] = 180,
-			["UI.Minimap.IconRadius"] = 102,
-			
-			-- ** Calendar options **
-			["UI.Calendar.WarningsEnabled"] = true,
-			["UI.Calendar.UseDialogBoxForWarnings"] = false,	-- use a dialog box for warnings (true), or default chat frame (false)
-			["UI.Calendar.WeekStartsOnMonday"] = false,
-
-			WarningType1 = "30,15,10,5,4,3,2,1",		-- for profession cooldowns
-			WarningType2 = "30,15,10,5,4,3,2,1",		-- for dungeon resets
-			WarningType3 = "30,15,10,5,4,3,2,1",		-- for calendar events
-			WarningType4 = "30,15,10,5,4,3,2,1",		-- for item timers (like mysterious egg)
-			
-			-- ** Global options **
-			["UI.AHColorCoding"] = true,					-- color coded recipes at the AH
-			["UI.VendorColorCoding"] = true,				-- color coded recipes at vendors
-			["UI.AccountSharing.IsEnabled"] = false,	-- account sharing communication handler is disabled by default
-			
-			["UI.Scale"] = 1.0,
-			["UI.Transparency"] = 1.0,
-			["UI.ClampWindowToScreen"] = false,
-
-		},
-	}
-}
 
 addon.Colors = {
 	white	= "|cFFFFFFFF",
@@ -236,6 +49,8 @@ addon.Colors = {
 	Alliance = "|cFF2459FF",
 	Horde = "|cFFFF0000"
 }
+
+local colors = addon.Colors
 
 addon.Icons = {
 	ready = "\124TInterface\\RaidFrame\\ReadyCheck-Ready:14\124t",
@@ -310,14 +125,14 @@ local MSG_VERSION_REPLY							= 2	-- Reply
 
 -- *** Utility functions ***
 local function GuildBroadcast(messageType, ...)
-	local serializedData = addon:Serialize(messageType, ...)
-	addon:SendCommMessage(commPrefix, serializedData, "GUILD")
+	local data = LibSerialize:Serialize(messageType, ...)
+	DataStore:SendChatMessage(commPrefix, data, "GUILD")
 end
 
 local function GuildWhisper(player, messageType, ...)
 	if DataStore:IsGuildMemberOnline(player) then
-		local serializedData = addon:Serialize(messageType, ...)
-		addon:SendCommMessage(commPrefix, serializedData, "WHISPER", player)
+		local data = LibSerialize:Serialize(messageType, ...)
+		DataStore:SendChatMessage(commPrefix, data, "WHISPER", player)
 	end
 end
 
@@ -325,45 +140,162 @@ local function SaveVersion(sender, version)
 	guildMembersVersion[sender] = version
 end
 
-function addon:OnInitialize()
-	addon.db = LibStub("AceDB-3.0"):New(addonName .. "DB", AddonDB_Defaults)
-	LibStub("AceConfig-3.0"):RegisterOptionsTable(addonName, options)
+local function SearchBags(searchText)
+	if not searchText or string.len(searchText) == 0 then
+		addon:Print("Usage = /altoholic search <item name>")
+		return
+	end
+	
+	if not AltoholicFrame:IsVisible() then
+		AltoholicFrame:Show()
+	end
+	
+	searchText = strlower(searchText)
+	
+	AltoholicFrame.SearchBox:SetText(searchText)
+	AltoholicFrame:SwitchToTab("Search")
+	AltoholicFrame.TabSearch:Find(searchText)
+end
 
-	addon:RegisterChatCommand("Altoholic", "ChatCommand")
-	addon:RegisterChatCommand("Alto", "ChatCommand")
+local commandLineCommands = {
+	["show"] = function() AltoholicFrame:Show() end,
+	["hide"] = function() AltoholicFrame:Hide() end,
+	["toggle"] = function() AltoholicFrame:ToggleUI() end,
+	["search"] = SearchBags,
+}
+
+local function CommandLineCallback(args)
+	-- No arguments ? show the options
+	if not args or args == "" then
+		local yellow = addon.Colors.yellow
 	
-	DataStore:SetGuildCommCallbacks(commPrefix, {
-		[MSG_SEND_VERSION] = function(sender, version, versionNum)
-			if sender ~= UnitName("player") then								-- don't send back to self
-				GuildWhisper(sender, MSG_VERSION_REPLY, addon.Version)		-- reply by sending my own version
-			end
-			SaveVersion(sender, version)											-- .. and save it
-			
-			if versionNum and versionNum > addon.VersionNum and not addon.db.global.moreRecentVersion then
-				addon:Print(L["NEW_VERSION_AVAILABLE"])
-				addon:Print(L["OFFICIAL_SOURCES"])
-				
-				addon.db.global.moreRecentVersion = addon.VersionNum
-			end
-		end,
-		[MSG_VERSION_REPLY] = function(sender, version)
-			SaveVersion(sender, version)
-		end,
-	})
+		addon:Print(format("Arguments to %s/Alto :", yellow))
+		print(format("  %sshow|r - %s", yellow, L["Shows the UI"]))
+		print(format("  %shide|r - %s", yellow, L["Hides the UI"]))
+		print(format("  %stoggle|r - %s", yellow, L["Toggles the UI"]))
+		print(format("  %ssearch <item name>|r - %s", yellow, L["Search in bags"]))
+		return
+	end
+
+	-- Get the command name and its argument
+	local name, arg1 = strsplit(" ", args)
 	
-	addon:RegisterMessage("DATASTORE_ANNOUNCELOGIN", function(self, guildName)
+	if name and commandLineCommands[name] then
+		commandLineCommands[name](arg1)
+	end
+end
+
+local function RegisterChatCommand(command, callback)
+	_G[ format("SLASH_%s1", command)] = format("/%s", command:lower())
+	SlashCmdList[command] = callback
+end
+
+local function OnSendVersion(sender, version)
+	if sender ~= UnitName("player") then								-- don't send back to self
+		GuildWhisper(sender, MSG_VERSION_REPLY, addon.Version)		-- reply by sending my own version
+	end
+	SaveVersion(sender, version)											-- .. and save it
+	
+	if versionNum and versionNum > addon.VersionNum and not Altoholic_UI_Options.moreRecentVersion then
+		addon:Print(L["NEW_VERSION_AVAILABLE"])
+		addon:Print(L["OFFICIAL_SOURCES"])
+		
+		Altoholic_UI_Options.moreRecentVersion = addon.VersionNum
+	end
+end
+
+local function OnVersionReply(sender, version)
+	SaveVersion(sender, version)
+end
+
+local GuildCommCallbacks = {
+	[MSG_SEND_VERSION] = OnSendVersion,
+	[MSG_VERSION_REPLY] = OnVersionReply,
+}
+
+
+DataStore:OnAddonLoaded(addonName, function() 
+	addon.ListenTo = function(self, ...) DataStore:ListenToEvent(self, ...)	end
+	
+	Altoholic_UI_Options = Altoholic_UI_Options or {
+		Mail = {
+			GuildMailWarning = true,					-- be informed when a guildie sends a mail to one of my alts
+			AutoCompleteRecipient = true,				-- Auto complete recipient name when sending a mail
+			AutoCompletePriority = 1,					-- Auto complete priority (1 = alphabetical, 2 = most played, 3 = most recent)
+			LastExpiryWarning = 0,						-- Last time a mail expiry warning was triggered
+			TimeToNextWarning = 3,						-- Time before the warning is repeated ('3' = no warning for 3 hours)
+		},
+		Minimap = { 
+			ShowIcon = true, 
+			IconAngle = 180, 
+			IconRadius = 102
+		},
+		Scale = 1.0,
+		Transparency = 1.0,
+		ClampWindowToScreen = false,
+		
+		-- ** Global options **
+		AHColorCoding = true,							-- color coded recipes at the AH
+		VendorColorCoding = true,						-- color coded recipes at vendors
+	}
+	
+	Altoholic_Tooltip_Options = Altoholic_Tooltip_Options or {
+		ShowItemSource = true,
+		ShowItemXPack = true,
+		ShowItemCount = true,
+		ShowSimpleCount = false,				-- display just the counter, without details (like AH, equipped, etc..)
+		ShowTotalItemCount = true,
+		ShowKnownRecipes = true,
+		ShowItemID = false,						-- display item id & item level in the tooltip (default: off)
+		ShowGatheringNodesCount = true,		-- display counters when mousing over a gathering node (default:  on)
+		ShowCrossFactionCount = true,		-- display counters for both factions on a pve server
+		ShowMergedRealmsCount = true,		-- display counters for characters on connected realms
+		ShowAllRealmsCount = true,			-- display counters for all realms (for BoA items)
+		ShowAllAccountsCount = true,			-- display counters for all accounts on the same realm
+		ShowGuildBankCount = true,			-- display guild bank counters
+		ShowGuildBankRealm = false,			-- display the realm of the guild bank
+		ShowHearthstoneCount = true,			-- display hearthstone counters
+		IncludeGuildBankInTotal = true,		-- total count = alts + guildbank (1) or alts only (0)
+		ShowGuildBankCountPerTab = false,	-- guild count = guild:count or guild (tab 1: x, tab2: y ..)
+		ShowCouldBeStoredOn = false,			-- display "could be stored on" information
+		
+		HiddenGuilds = {}						-- Guilds that should not be shown in the tooltip
+	}
+	
+	Altoholic_Sharing_Options = Altoholic_Sharing_Options or {
+		IsEnabled = false,						-- account sharing communication handler is disabled by default
+		GuildBankAutoUpdate = false,			-- can the guild bank tabs update requests be answered automatically or not.
+		Clients = {},
+		Domains = {},								-- ["Account.Realm"] 
+		SharedContent = {							-- lists the shared content
+			--	["Account.Realm.Name"]  = true means the char is shared,
+			--	["Account.Realm.Name.Module"]  = true means the module is shared for that char
+		},
+	}
+	
+	Altoholic_Calendar_Options = Altoholic_Calendar_Options or {
+		WarningsEnabled = true,
+		WeekStartsOnMonday = false,
+		UseDialogBoxForWarnings = false,				-- use a dialog box for warnings (true), or default chat frame (false)
+		WarningType1 = "30,15,10,5,4,3,2,1",		-- for profession cooldowns
+		WarningType2 = "30,15,10,5,4,3,2,1",		-- for dungeon resets
+		WarningType3 = "30,15,10,5,4,3,2,1",		-- for calendar events
+		WarningType4 = "30,15,10,5,4,3,2,1",		-- for item timers (like mysterious egg)
+	}
+
+	RegisterChatCommand("Altoholic", CommandLineCallback)
+	RegisterChatCommand("Alto", CommandLineCallback)
+	
+	DataStore:SetGuildCommCallbacks(commPrefix, GuildCommCallbacks)
+	DataStore:OnGuildComm(commPrefix, DataStore:GetGuildCommHandler())
+	
+	addon:ListenTo("DATASTORE_ANNOUNCELOGIN", function(self, guildName)
 		GuildBroadcast(MSG_SEND_VERSION, addon.Version, addon.VersionNum)
 	end)
-
-	addon:RegisterComm(commPrefix, DataStore:GetGuildCommHandler())
-	
-	local MVC = LibStub("LibMVC-1.0")
-	local Options = MVC:GetService("AltoholicUI.Options")
-	local colors = addon.Colors
 	
 	-- this event MUST stay here, we have to be able to respond to a request event if the guild tab is not loaded
-	addon:RegisterMessage("DATASTORE_BANKTAB_REQUESTED", function(event, sender, tabName)
-		if Options.Get("UI.Tabs.Guild.BankAutoUpdate") then
+	addon:ListenTo("DATASTORE_BANKTAB_REQUESTED", function(event, sender, tabName)
+		if Altoholic_Sharing_Options.GuildBankAutoUpdate then
 			DataStore:SendBankTabToGuildMember(sender, tabName)
 			return
 		end
@@ -382,17 +314,17 @@ function addon:OnInitialize()
 
 	end)
 	
-	addon:RegisterMessage("DATASTORE_GUILD_MAIL_RECEIVED", function(event, sender, recipient)
-		if Options.Get("UI.Mail.GuildMailWarning") then
+	addon:ListenTo("DATASTORE_GUILD_MAIL_RECEIVED", function(event, sender, recipient)
+		if Altoholic_UI_Options.Mail.GuildMailWarning then
 			addon:Print(format(L["%s|r has received a mail from %s"], format("%s%s", colors.green, recipient), format("%s%s", colors.green, sender)))
 		end
 	end)
 
-	addon:RegisterMessage("DATASTORE_GLOBAL_MAIL_EXPIRY", function(event, threshold) 
+	addon:ListenTo("DATASTORE_GLOBAL_MAIL_EXPIRY", function(event, threshold) 
 		-- at least one mail has expired
 		
-		local lastWarning = Options.Get("UI.Mail.LastExpiryWarning")
-		local timeToNext = Options.Get("UI.Mail.TimeToNextWarning")
+		local lastWarning = Altoholic_UI_Options.Mail.LastExpiryWarning
+		local timeToNext = Altoholic_UI_Options.Mail.TimeToNextWarning
 		local now = time()
 		
 		if (now - lastWarning) < (timeToNext * 3600) then	-- has enough time passed ?
@@ -417,20 +349,126 @@ function addon:OnInitialize()
 				tab:Update()
 			end)
 		
-		Options.Set("UI.Mail.LastExpiryWarning", now)
+		Altoholic_UI_Options.Mail.LastExpiryWarning = now
 	end)
 	
-	addon:RegisterMessage("DATASTORE_AUCTIONS_NOT_CHECKED_SINCE", function(event, character, key, days, threshold)
+	addon:ListenTo("DATASTORE_AUCTIONS_NOT_CHECKED_SINCE", function(event, character, charID, days, threshold)
 		if days >= threshold then
+			local key = DataStore:GetCharacterKey(charID)
 			addon:Print(format(L["AUCTION_HOUSE_NOT_VISITED_WARNING"], DataStore:GetColoredCharacterName(key), days))
 		end
 	end)
 	
-	local global = addon.db.global
-	if global.moreRecentVersion and addon.VersionNum >= global.moreRecentVersion then
-		global.moreRecentVersion = nil
+	-- if we knew of a more recent version, and we now use an update, then reset the value
+	if Altoholic_UI_Options.moreRecentVersion and addon.VersionNum >= Altoholic_UI_Options.moreRecentVersion then
+		Altoholic_UI_Options.moreRecentVersion = nil
 	end
-end
+		
+	--Temporary: database migration	
+	local source = AltoholicDB.global.options
+	
+	local dest = Altoholic_UI_Options
+	dest.Scale = source["UI.Scale"] or dest.Scale
+	dest.Transparency = source["UI.Transparency"] or dest.Transparency
+	dest.ClampWindowToScreen = source["UI.ClampWindowToScreen"] or dest.ClampWindowToScreen
+	source["UI.Scale"] = nil
+	source["UI.Transparency"] = nil
+	source["UI.ClampWindowToScreen"] = nil
+	
+	dest.Mail.GuildMailWarning = source["UI.Mail.GuildMailWarning"] or dest.Mail.GuildMailWarning
+	dest.Mail.AutoCompleteRecipient = source["UI.Mail.AutoCompleteRecipient"] or dest.Mail.AutoCompleteRecipient
+	dest.Mail.AutoCompletePriority = source["UI.Mail.AutoCompletePriority"] or dest.Mail.AutoCompletePriority
+	dest.Mail.LastExpiryWarning = source["UI.Mail.LastExpiryWarning"] or dest.Mail.LastExpiryWarning
+	dest.Mail.TimeToNextWarning = source["UI.Mail.TimeToNextWarning"] or dest.Mail.TimeToNextWarning
+	
+	source["UI.Mail.GuildMailWarning"] = nil
+	source["UI.Mail.AutoCompleteRecipient"] = nil
+	source["UI.Mail.AutoCompletePriority"] = nil
+	source["UI.Mail.LastExpiryWarning"] = nil
+	source["UI.Mail.TimeToNextWarning"] = nil
+	
+	-- not yet, requires update of AddonFactory -> MinimapButton
+	-- dest.Minimap.ShowIcon = source["UI.Minimap.ShowIcon"] or dest.Minimap.ShowIcon
+	-- dest.Minimap.IconAngle = source["UI.Minimap.IconAngle"] or dest.Minimap.IconAngle
+	-- dest.Minimap.IconRadius = source["UI.Minimap.IconRadius"] or dest.Minimap.IconRadius
+	-- source["UI.Minimap.ShowIcon"] = nil
+	-- source["UI.Minimap.IconAngle"] = nil
+	-- source["UI.Minimap.IconRadius"] = nil
+	
+	dest = Altoholic_Calendar_Options
+	dest.WarningsEnabled = source["UI.Calendar.WarningsEnabled"] or dest.WarningsEnabled
+	dest.WeekStartsOnMonday = source["UI.Calendar.WeekStartsOnMonday"] or dest.WeekStartsOnMonday
+	dest.UseDialogBoxForWarnings = source["UI.Calendar.UseDialogBoxForWarnings"] or dest.UseDialogBoxForWarnings
+	dest.WarningType1 = source.WarningType1 or dest.WarningType1
+	dest.WarningType2 = source.WarningType2 or dest.WarningType2
+	dest.WarningType3 = source.WarningType3 or dest.WarningType3
+	dest.WarningType4 = source.WarningType4 or dest.WarningType4
+	
+	source["UI.Calendar.WarningsEnabled"] = nil
+	source["UI.Calendar.WeekStartsOnMonday"] = nil
+	source["UI.Calendar.UseDialogBoxForWarnings"] = nil
+	source.WarningType1 = nil
+	source.WarningType2 = nil
+	source.WarningType3 = nil
+	source.WarningType4 = nil
+	
+	dest = Altoholic_Tooltip_Options
+
+	for k, v in pairs(source) do
+		local arg1, arg2, arg3, arg4 = strsplit(".", k)
+		
+		if arg1 == "UI" and arg2 == "Tooltip" then
+			local prefix = "UI.Tooltip."
+			local optionName = k:sub(#prefix + 1)
+			
+			-- Create the new entries
+			dest[optionName] = v
+			
+			-- Delete the old entries
+			source[k] = nil
+		end
+		
+		if arg4 and arg4 == "HideInTooltip" then
+			local guildKey = format("%s.%s.%s", arg1, arg2, arg3)
+			
+			-- Create the new entries
+			dest.HiddenGuilds[guildKey] = v
+			
+			-- Delete the old entries
+			source[k] = nil
+		end
+	end
+	
+	-- move account sharing options
+	dest = Altoholic_Sharing_Options
+	dest.IsEnabled = source["UI.AccountSharing.IsEnabled"] or dest.IsEnabled
+	source["UI.AccountSharing.IsEnabled"] = nil
+	
+	-- guild bank tab auto update not really part of the guild tab options, it's a sharing option.
+	dest.GuildBankAutoUpdate = source["UI.Tabs.Guild.BankAutoUpdate"] or dest.GuildBankAutoUpdate
+	source["UI.Tabs.Guild.BankAutoUpdate"] = nil
+	
+	if not AltoholicDB.global.Sharing then return end
+	
+	local function MoveData(source, dest)
+		for k, v in pairs(source) do
+			dest[k] = v
+			source[k] = nil
+		end
+	end
+	
+	MoveData(AltoholicDB.global.Sharing.SharedContent, dest.SharedContent)
+	MoveData(AltoholicDB.global.Sharing.Clients, dest.Clients)
+
+	for k, v in pairs(AltoholicDB.global.Sharing.Domains) do
+		dest.Domains[k] = dest.Domains[k] or {}
+		MoveData(AltoholicDB.global.Sharing.Domains[k], dest.Domains[k])
+		
+	end
+	wipe(AltoholicDB.global.Sharing)
+	AltoholicDB.global.Sharing = nil
+	
+end)
 
 function addon:GetGuildMemberVersion(member)
 	if guildMembersVersion[member] then			-- version number of a main ?
@@ -444,28 +482,6 @@ function addon:GetGuildMemberVersion(member)
 	end
 end
 
-function addon:ChatCommand(input)
-	if not input then
-		LibStub("AceConfigDialog-3.0"):Open(addonName)
-	else
-		LibStub("AceConfigCmd-3.0").HandleCommand(addon, "Alto", addonName, input)
-	end
+function addon:Print(text)	
+	DEFAULT_CHAT_FRAME:AddMessage(format("|cff33ff99%s|r: %s", addonName, text))
 end
-
-function addon:CmdSearchBags(arg1, searchText)
-
-	if not searchText or string.len(searchText) == 0 then
-		addon:Print("Usage = /altoholic search <item name>")
-		return
-	end
-	
-	if not (AltoholicFrame:IsVisible()) then
-		AltoholicFrame:Show()
-	end
-	
-	searchText = strlower(searchText)
-	
-	AltoholicFrame.SearchBox:SetText(searchText)
-	AltoholicFrame:SwitchToTab("Search")
-	AltoholicFrame.TabSearch:Find(searchText)
-end	

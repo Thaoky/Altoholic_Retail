@@ -1,10 +1,8 @@
-local addonName = "Altoholic"
-local addon = _G[addonName]
+local addonName, addon = ...
 
-addon:Controller("AltoholicUI.ClassIconsContainer", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.ClassIconsContainer", { "AltoholicUI.ColumnOptions", function(Options)
 	
 	local NUM_COLUMNS = 13
-	local OPTION_FORMAT = "Tabs.%s.%s.%s.Column%d"
 
 	return {
 		OnBind = function(frame)
@@ -32,25 +30,23 @@ addon:Controller("AltoholicUI.ClassIconsContainer", { "AltoholicUI.Options", fun
 				frame[format("%s%d", frame.iconPrefix, i)]:SetID(index)
 			end		
 		end,
+		
 		Update = function(frame, account, realm, page)
 			frame:SetIDs(page)
 		
-			local tabName = frame.tabName
 			local numIcons = frame.numIcons
+			local storage = _G[frame.storage]
+			local key = Options.GetColumnKey(storage, account, realm, 1)
 			
-			local key = Options.Get(format(OPTION_FORMAT, tabName, account, realm, 1))
 			if not key then	-- first time this realm is displayed, or reset by player
-			
 				local index = 1
 
 				-- Clear all options for this tab, for all pages
-				Options.Clear(format("Tabs.%s.%s.%s.Column", tabName, account, realm))
+				Options.ClearRealm(storage, account, realm)
 				
 				-- add the first 11 keys found on this realm
 				for characterName, characterKey in pairs(DataStore:GetCharacters(realm, account)) do	
-					-- ex: : ["Tabs.Grids.Default.MyRealm.Column4"] = "Account.realm.alt7"
-
-					Options.Set(format(OPTION_FORMAT, tabName, account, realm, index), characterKey)
+					Options.SetColumnKey(storage, account, realm, index, characterName)
 					
 					index = index + 1
 					if index > numIcons then
@@ -64,8 +60,8 @@ addon:Controller("AltoholicUI.ClassIconsContainer", { "AltoholicUI.Options", fun
 				local class, faction, _
 				
 				local index = ((page - 1) * NUM_COLUMNS) + i		-- Pages = 1-12, 13-24, etc..
+				key = Options.GetColumnKey(storage, account, realm, index)
 				
-				key = Options.Get(format(OPTION_FORMAT, tabName, account, realm, index))
 				if key then
 					_, class = DataStore:GetCharacterClass(key)
 					faction = DataStore:GetCharacterFaction(key)

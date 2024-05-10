@@ -1,0 +1,12 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Include file="Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml"/>
+	<Include file="Libs\LibCraftInfo-1.0\LibCraftInfo-1.0.xml"/>
+	<Include file="Libs\LibCraftLevels-1.0\LibCraftLevels-1.0.xml"/>
+	<Include file="Libs\LibItemInfo-1.0\LibItemInfo-1.0.xml"/>
+	<Include file="Libs\LibObjectInfo-1.0\LibObjectInfo-1.0.xml"/>
+	
+	<Script file="Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
+	<Script file="Libs\LibDeflate\LibDeflate.lua"/>
+	<Script file="Libs\LibSerialize\LibSerialize.lua"/>
+</Ui>

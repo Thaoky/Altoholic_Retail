@@ -1,5 +1,5 @@
-local L = LibStub("AceLocale-3.0"):NewLocale( "Altoholic", "koKR" )
-
+local addonName = ...
+local L = DataStore:SetLocale(addonName,  "koKR")
 if not L then return end
 
 L["TAB_SUMMARY"] = "요약"

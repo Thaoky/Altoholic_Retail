@@ -1,8 +1,7 @@
-local addonName = ...
-local addon = _G[addonName]
+local addonName, addon = ...
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 local function OnRealmChange(frame, dropDownFrame)
 	local oldAccount, oldRealm = dropDownFrame:GetCurrentRealm()

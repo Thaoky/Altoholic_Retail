@@ -1,5 +1,5 @@
-local L = LibStub("AceLocale-3.0"):NewLocale( "Altoholic", "frFR" )
-
+local addonName = ...
+local L = DataStore:SetLocale(addonName,  "frFR")
 if not L then return end
 
 L["TAB_SUMMARY"] = "Résumé"

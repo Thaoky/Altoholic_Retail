@@ -3,8 +3,8 @@
 -- Перевод выполнен Хэлла и Интерим @ Азурегос 
 --
 
-local L = LibStub("AceLocale-3.0"):NewLocale( "Altoholic", "ruRU" )
-
+local addonName = ...
+local L = DataStore:SetLocale(addonName, "ruRU")
 if not L then return end
 
 L["TAB_SUMMARY"] = "Сводная информация"

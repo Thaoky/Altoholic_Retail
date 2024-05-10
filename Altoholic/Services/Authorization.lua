@@ -1,5 +1,4 @@
-local addonName = ...
-local addon = _G[addonName]
+local addonName, addon = ...
 
 addon:Service("AltoholicUI.Authorization", function() 
 
@@ -9,7 +8,7 @@ addon:Service("AltoholicUI.Authorization", function()
 	
 	return {
 		Initialize = function()
-			clients = Altoholic.db.global.Sharing.Clients
+			clients = Altoholic_Sharing_Options.Clients
 		end,
 		
 		GetNumClients = function()

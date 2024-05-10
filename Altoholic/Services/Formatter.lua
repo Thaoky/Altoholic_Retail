@@ -1,8 +1,7 @@
-local addonName = ...
-local addon = _G[addonName]
+local addonName, addon = ...
 local colors = addon.Colors
 
-addon:Service("AltoholicUI.Formatter",  function() 
+addon:Service("AltoholicUI.Formatter", function() 
 	return {
 		MoneyString = function(copper, color, noTexture)
 			copper = copper or 0
@@ -110,7 +109,7 @@ addon:Service("AltoholicUI.Formatter",  function()
 		end,
 		Texture18 = function(texture)
 			-- Many textures are formatted to be 18x18 in the add-on
-			return format("|T%s:18:18|t", texture)
+			return texture and format("|T%s:18:18|t", texture) or ""
 		end,
 		Texture = function(texture, size)
 			return format("|T%s:%d:%d|t", texture, size, size)

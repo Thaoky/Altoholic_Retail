@@ -1,6 +1,4 @@
-local addonName = ...
-local addon = _G[addonName]
-
+local addonName, addon = ...
 
 addon:Service("AltoholicUI.SharedTableOfContent", function() 
 	-- Warning : this service is used for both sides of the account sharing process.
@@ -55,7 +53,7 @@ addon:Service("AltoholicUI.SharedContentView", { "AltoholicUI.Formatter", functi
 	-- This service manages the view
 	local view
 
-	local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+	local L = DataStore:GetLocale(addonName)
 
 	local colors = addon.Colors
 	local icons = addon.Icons
@@ -188,7 +186,7 @@ addon:Service("AltoholicUI.SharedContent", { "AltoholicUI.SharedContentView", "A
 	
 	return {
 		Initialize = function()
-			content = Altoholic.db.global.Sharing.SharedContent
+			content = Altoholic_Sharing_Options.SharedContent
 		end,
 		
 		BuildView = function()

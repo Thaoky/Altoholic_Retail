@@ -17,11 +17,10 @@
 				self:Initialize({
 					addonName = addonName,
 					icon = "Interface\\Icons\\INV_Drink_13",
-					iconAngleOption = "UI.Minimap.IconAngle",
-					iconRadiusOption = "UI.Minimap.IconRadius",
+					options = "Altoholic_UI_Options"
 				})
 				
-				local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+				local L = DataStore:GetLocale(addonName)
 				local white = "|cFFFFFFFF"
 				local green = "|cFF00FF00"
 	
@@ -50,7 +49,7 @@
 				})
 				
 				local addonName = "Altoholic"
-				local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+				local L = DataStore:GetLocale(addonName)
 				
 				self:SetTabs("AltoholicFrame", {
 					{ id = "Summary", name = L["TAB_SUMMARY"], loadOnDemand = "Altoholic_Summary" },

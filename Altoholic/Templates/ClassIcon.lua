@@ -1,21 +1,20 @@
-local addonName = "Altoholic"
-local addon = _G[addonName]
+local addonName, addon = ...
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
-local Options = MVC:GetService("AltoholicUI.Options")
+local Options = MVC:GetService("AltoholicUI.ColumnOptions")
 
 local ICON_PARTIAL = "Interface\\RaidFrame\\ReadyCheck-Waiting"
 
-local function OnCharacterChange(frame, option, classIcons)
-	local key = frame.value		-- key is either a datastore character key, or nil (if "None" is selected by the player for this column)
-	if key == "empty" then		-- if the keyword "empty" is passed, save a nil value in the options
-		key = nil
-	end
+local function OnCharacterChange(frame, owner)
+	local id = owner.menuID
+	local parent = owner:GetParent()
+	local classIcons = parent.ClassIcons
+	local account, realm = parent.SelectRealm:GetCurrentRealm()
 
-	Options.Set(option, key)
-
+	Options.SetColumnKey(_G[owner.storage], account, realm, id, frame.value)
+	
 	if classIcons.OnCharacterChanged then
 		classIcons:OnCharacterChanged()		-- callback method in the container
 	end
@@ -34,19 +33,17 @@ local function ClassIcon_Initialize(frame, level)
 	table.sort(nameList)
 	
 	-- get the key associated with this button
-	-- ex: "Tabs.Grids.<account>.<realm>.Column5"
-	local option = format(frame.optionFormat, account, realm, id)
-	local key = Options.Get(option) or ""
+	local key = Options.GetColumnKey(_G[frame.storage], account, realm, id)
 	
 	for _, character in ipairs(nameList) do
+		local _, _, characterName = strsplit(".", character)
+	
 		local info = frame:CreateInfo()
-		
 		info.text		= DataStore:GetColoredCharacterName(character)
-		info.value		= character
+		info.value		= characterName
 		info.func		= OnCharacterChange
 		info.checked	= (key == character)
-		info.arg1		= option
-		info.arg2		= parent.ClassIcons
+		info.arg1		= frame
 		frame:AddButtonInfo(info, 1)
 	end
 	
@@ -54,11 +51,10 @@ local function ClassIcon_Initialize(frame, level)
 	
 	local info = frame:CreateInfo()
 	info.text		= (id == 1) and RESET or NONE
-	info.value		= "empty"
+	info.value		= nil
 	info.func		= OnCharacterChange
 	info.checked	= (key == "")
-	info.arg1		= option
-	info.arg2		= parent.ClassIcons
+	info.arg1		= frame
 	frame:AddButtonInfo(info, 1)
 
 	frame:AddCloseMenu()
@@ -71,15 +67,15 @@ addon:Controller("AltoholicUI.ClassIcon", {
 		local menu = parent.ContextualMenu
 
 		menu.menuID = currentMenuID
-		menu.optionFormat = frame.optionFormat
+		menu.storage = frame.storage
 		menu:Initialize(ClassIcon_Initialize, "MENU")
 		menu:Close()
 		menu:Toggle(frame, 0, 0)
 
 		-- get the key associated with this button
-		-- ex: "Tabs.Grids.<account>.<realm>.Column5"
 		local account, realm = parent.SelectRealm:GetCurrentRealm()
-		local key = Options.Get(format(frame.optionFormat, account, realm, currentMenuID))
+		local key = Options.GetColumnKey(_G[frame.storage], account, realm, currentMenuID)
+		
 		if key then
 			frame:DrawTooltip(key)
 		end
@@ -144,7 +140,8 @@ addon:Controller("AltoholicUI.ClassIcon", {
 			tt:AddLine(format("%s: %s%s", L["Rest XP"], colors.green, restXP),1,1,1)
 		end
 		
-		tt:AddLine(format("Average iLevel: %s%.1f", colors.green, DataStore:GetAverageItemLevel(character)),1,1,1)
+		local AiL = DataStore:GetAverageItemLevel(character)
+		tt:AddLine(format("Average iLevel: %s%.1f", colors.green, AiL or 0),1,1,1)
 
 		if IsAddOnLoaded("DataStore_Achievements") then
 			local numAchievements = DataStore:GetNumCompletedAchievements(character) or 0

@@ -1,12 +1,11 @@
-local addonName = ...
-local addon = _G[addonName]
+local addonName, addon = ...
 
 addon:Service("AltoholicUI.AvailableContentView", { "AltoholicUI.Formatter", function(Formatter)
 	
 	-- This service manages the view
 	local view
 
-	local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+	local L = DataStore:GetLocale(addonName)
 
 	local colors = addon.Colors
 	

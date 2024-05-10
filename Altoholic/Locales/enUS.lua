@@ -1,9 +1,5 @@
-local debug = false
---[===[@debug@
-debug = true
---@end-debug@]===]
-
-local L = LibStub("AceLocale-3.0"):NewLocale("Altoholic", "enUS", true, debug)
+local addonName = ...
+local L = DataStore:SetDefaultLocale(addonName, "enUS")
 
 L["TAB_SUMMARY"] = "Summary"
 L["TAB_CHARACTERS"] = "Characters"
