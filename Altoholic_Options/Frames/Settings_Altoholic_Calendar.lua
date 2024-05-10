@@ -1,9 +1,9 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
-addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicCalendar", { "AltoholicUI.Options", "AltoholicUI.Events", function(Options, Events)
+addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicCalendar", { "AltoholicUI.Events", function(Events)
 
 	local warningTypes = {
 		L["Profession Cooldowns"],
@@ -23,7 +23,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicCalendar", { "Altoholi
 	
 	local function ToggleWarningThreshold(self)
 		local id = self.arg1
-		local warnings = Options.Get(format("WarningType%d", id))		-- Gets something like "15,5,1"
+		local warnings = Altoholic_Calendar_Options[format("WarningType%d", id)]		-- Gets something like "15,5,1"
 
 		local t = {}		-- create a temporary table to store checked values
 		for v in warnings:gmatch("(%d+)") do
@@ -37,13 +37,13 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicCalendar", { "Altoholi
 			table.insert(t, self.value)
 		end
 		
-		Options.Set(format("WarningType%d", id), table.concat(t, ","))		-- Sets something like "15,5,10,1"
+		Altoholic_Calendar_Options[format("WarningType%d", id)] = table.concat(t, ",")		-- Sets something like "15,5,10,1"
 	end
 
 	local function WarningType_Initialize(self)
 		local info = self:CreateInfo()
 		local id = self:GetID()
-		local warnings = Options.Get(format("WarningType%d", id))		-- Gets something like "15,5,1"
+		local warnings = Altoholic_Calendar_Options[format("WarningType%d", id)]		-- Gets something like "15,5,1"
 		
 		for _, threshold in pairs(Events.GetTimerThresholds()) do
 			info.text = format(D_MINUTES, threshold)
@@ -93,19 +93,19 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicCalendar", { "Altoholi
 			
 		end,
 		Update = function(frame, isResizing)
-			frame.WeekStartsOnMonday:SetChecked(Options.Get("UI.Calendar.WeekStartsOnMonday"))
-			frame.UseDialogBoxForWarnings:SetChecked(Options.Get("UI.Calendar.UseDialogBoxForWarnings"))
-			frame.WarningsEnabled:SetChecked(Options.Get("UI.Calendar.WarningsEnabled"))
+			frame.WeekStartsOnMonday:SetChecked(Altoholic_Calendar_Options["WeekStartsOnMonday"])
+			frame.UseDialogBoxForWarnings:SetChecked(Altoholic_Calendar_Options["UseDialogBoxForWarnings"])
+			frame.WarningsEnabled:SetChecked(Altoholic_Calendar_Options["WarningsEnabled"])
 			
 			frame:Show()
 		end,
 		
 		ToggleWeekStart = function(frame, isChecked)
 			if isChecked then 
-				Options.Set("UI.Calendar.WeekStartsOnMonday", true)
+				Altoholic_Calendar_Options["WeekStartsOnMonday"] = true
 				addon:SetFirstDayOfWeek(2)
 			else
-				Options.Set("UI.Calendar.WeekStartsOnMonday", false)
+				Altoholic_Calendar_Options["WeekStartsOnMonday"] = false
 				addon:SetFirstDayOfWeek(1)
 			end
 						

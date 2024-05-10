@@ -2,15 +2,10 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
-local OPTION_MINIMAP_SHOW_ICON = "UI.Minimap.ShowIcon"
-local OPTION_MINIMAP_ICON_ANGLE = "UI.Minimap.IconAngle"
-local OPTION_MINIMAP_ICON_RADIUS = "UI.Minimap.IconRadius"
-local OPTION_UI_SCALE = "UI.Scale"
-local OPTION_UI_TRANSPARENCY = "UI.Transparency"
-local OPTION_UI_CLAMP_TO_SCREEN = "UI.ClampWindowToScreen"
+local L = DataStore:GetLocale(addonName)
+local options = Altoholic_UI_Options
 
-addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.MinimapIconAngle", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.MinimapIconAngle", function()
 	return {
 		OnBind = function(frame)
 			frame:SetMinMaxValues(1, 360)
@@ -24,7 +19,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.MinimapIconAng
 				local value = self:GetValue()
 
 				self:Update(value)
-				Options.Set(OPTION_MINIMAP_ICON_ANGLE, value)
+				options.Minimap.IconAngle = value
 				AltoholicMinimapButton:Move()
 			end)
 		end,
@@ -32,9 +27,9 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.MinimapIconAng
 			frame.Text:SetText(format("%s (%d)", L["Minimap Icon Angle"], value))
 		end,
 	}
-end})
+end)
 
-addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.MinimapIconRadius", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.MinimapIconRadius", function()
 	return {
 		OnBind = function(frame)
 			frame:SetMinMaxValues(1, 200)
@@ -48,7 +43,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.MinimapIconRad
 				local value = self:GetValue()
 
 				self:Update(value)
-				Options.Set(OPTION_MINIMAP_ICON_RADIUS, value)
+				options.Minimap.IconRadius = value
 				AltoholicMinimapButton:Move()
 			end)
 		end,
@@ -56,9 +51,9 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.MinimapIconRad
 			frame.Text:SetText(format("%s (%d)", L["Minimap Icon Radius"], value))
 		end,
 	}
-end})
+end)
 
-addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.UIScale", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.UIScale", function()
 	return {
 		OnBind = function(frame)
 			frame:SetMinMaxValues(0.5, 4.0)
@@ -86,13 +81,12 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.UIScale", { "A
 		Apply = function(frame)
 			local value = frame:GetValue()
 			
-			Options.Set(OPTION_UI_SCALE, value)
+			options.Scale = value
 			AltoholicFrame:SetScale(value)
 		end,
-	}
-end})
+}end)
 
-addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.Transparency", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.Transparency", function()
 	return {
 		OnBind = function(frame)
 			frame:SetMinMaxValues(0.1, 1.0)
@@ -106,17 +100,16 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral.Transparency",
 				local value = self:GetValue()
 
 				self:Update(value)
-				Options.Set(OPTION_UI_TRANSPARENCY, value)
+				options.Transparency = value
 				AltoholicFrame:SetAlpha(value)
 			end)
 		end,
 		Update = function(frame, value)
 			frame.Text:SetText(format("%s (%1.2f)", L["Transparency"], value))
 		end,
-	}
-end})
+}end)
 
-addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral", function()
 	return {
 		OnBind = function(frame)
 			-- Attach to the parent
@@ -131,24 +124,24 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral", { "Altoholic
 			frame.Title:SetText(format("%s%s", colors.white, L["General Options"]))
 			L["General Options"] = nil
 			
-			frame.UIScale:SetValue(Options.Get(OPTION_UI_SCALE))
-			frame.Transparency:SetValue(Options.Get(OPTION_UI_TRANSPARENCY))
-			frame.MinimapIconAngle:SetValue(Options.Get(OPTION_MINIMAP_ICON_ANGLE))
-			frame.MinimapIconRadius:SetValue(Options.Get(OPTION_MINIMAP_ICON_RADIUS))
+			frame.UIScale:SetValue(options.Scale)
+			frame.Transparency:SetValue(options.Transparency)
+			frame.MinimapIconAngle:SetValue(options.Minimap.IconAngle)
+			frame.MinimapIconRadius:SetValue(options.Minimap.IconRadius)
 			
 			-- Make sur this panel is shown by default, it must happen here, in TabOption's OnBind, not everything is loaded yet.
 			parent.CategoriesList:ClickCategory("panel", 1)
 			parent:ShowPanel(1)
 		end,
 		Update = function(frame, isResizing)
-			frame.BankAutoUpdate:SetChecked(Options.Get("UI.Tabs.Guild.BankAutoUpdate"))
-			frame.ClampWindowToScreen:SetChecked(Options.Get(OPTION_UI_CLAMP_TO_SCREEN))
-			frame.ShowMinimapIcon:SetChecked(Options.Get(OPTION_MINIMAP_SHOW_ICON))
+			frame.BankAutoUpdate:SetChecked(Altoholic_Sharing_Options.GuildBankAutoUpdate)
+			frame.ClampWindowToScreen:SetChecked(options.ClampWindowToScreen)
+			frame.ShowMinimapIcon:SetChecked(options.Minimap.ShowIcon)
 			
-			frame.UIScale:Update(Options.Get(OPTION_UI_SCALE))
-			frame.Transparency:Update(Options.Get(OPTION_UI_TRANSPARENCY))
-			frame.MinimapIconAngle:Update(Options.Get(OPTION_MINIMAP_ICON_ANGLE))
-			frame.MinimapIconRadius:Update(Options.Get(OPTION_MINIMAP_ICON_RADIUS))
+			frame.UIScale:Update(options.Scale)
+			frame.Transparency:Update(options.Transparency)
+			frame.MinimapIconAngle:Update(options.Minimap.IconAngle)
+			frame.MinimapIconRadius:Update(options.Minimap.IconRadius)
 			
 			frame:Show()
 		end,
@@ -156,19 +149,20 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicGeneral", { "Altoholic
 			AltoholicFrame:SetClampedToScreen(isChecked)
 			
 			if isChecked then 
-				Options.Set(OPTION_UI_CLAMP_TO_SCREEN, true)
+				options.ClampWindowToScreen = true
 			else
-				Options.Set(OPTION_UI_CLAMP_TO_SCREEN, false)
+				options.ClampWindowToScreen = false
 			end
+			
 		end,
 		ToggleMinimapIcon = function(frame, isChecked)
 			if isChecked then 
-				Options.Set(OPTION_MINIMAP_SHOW_ICON, true)
+				options.Minimap.ShowIcon = true
 				AltoholicMinimapButton:Show()
 			else
-				Options.Set(OPTION_MINIMAP_SHOW_ICON, false)
+				options.Minimap.ShowIcon = false
 				AltoholicMinimapButton:Hide()
 			end
 		end,
 	}
-end})
+end)

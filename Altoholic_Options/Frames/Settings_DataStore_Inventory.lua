@@ -1,9 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
-
-addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreInventory", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreInventory", function()
 	return {
 		OnBind = function(frame)
 			-- Attach to the parent
@@ -17,15 +15,16 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreInventory", { "Altohol
 			-- Setup localization & clear localized value after use (no longer needed)
 			local colors = addon.Colors
 			
+			local L = DataStore:GetLocale(addonName)
 			frame.Title:SetText(format("%s%s", colors.white, L["DataStore_Inventory's Options"]))
 			L["DataStore_Inventory's Options"] = nil
 		end,
 		Update = function(frame, isResizing)
 		
-			local module = "DataStore_Inventory"
-			frame.AutoClearGuildInventory:SetChecked(DataStore:GetOption(module, "AutoClearGuildInventory"))
-			frame.BroadcastAiL:SetChecked(DataStore:GetOption(module, "BroadcastAiL"))
-			frame.EquipmentRequestNotification:SetChecked(DataStore:GetOption(module, "EquipmentRequestNotification"))
+			local options = DataStore_Inventory_Options
+			frame.AutoClearGuildInventory:SetChecked(options.AutoClearGuildInventory)
+			frame.BroadcastAiL:SetChecked(options.BroadcastAiL)
+			frame.EquipmentRequestNotification:SetChecked(options.EquipmentRequestNotification)
 			
 			frame.AutoClearGuildInventory.Text:SetWidth(400)
 			frame.BroadcastAiL.Text:SetWidth(400)
@@ -33,5 +32,4 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreInventory", { "Altohol
 			
 			frame:Show()
 		end,
-	}
-end})
+}end)

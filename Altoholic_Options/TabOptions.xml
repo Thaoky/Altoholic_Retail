@@ -4,7 +4,7 @@
 	<Button name="AltoURLButtonTemplate" inherits="AddonFactory_ButtonTemplate" virtual="true">
 		<Scripts>
 			<OnEnter>
-				local L = LibStub("AceLocale-3.0"):GetLocale("Altoholic")
+				local L = DataStore:GetLocale("Altoholic")
 				AddonFactory_Tooltip:ShowInfo(self, L[self.locLabel])
 			</OnEnter>
 			<OnLeave>

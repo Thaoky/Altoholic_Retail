@@ -1,9 +1,9 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
-addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreCharacters", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreCharacters", function()
 	return {
 		OnBind = function(frame)
 			-- Attach to the parent
@@ -22,11 +22,10 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreCharacters", { "Altoho
 		end,
 		Update = function(frame, isResizing)
 		
-			local module = "DataStore_Characters"
-			frame.RequestPlayTime:SetChecked(DataStore:GetOption(module, "RequestPlayTime"))
-			frame.HideRealPlayTime:SetChecked(DataStore:GetOption(module, "HideRealPlayTime"))
+			local options = DataStore_Characters_Options
+			frame.RequestPlayTime:SetChecked(options.RequestPlayTime)
+			frame.HideRealPlayTime:SetChecked(options.HideRealPlayTime)
 			
 			frame:Show()
 		end,
-	}
-end})
+}end)

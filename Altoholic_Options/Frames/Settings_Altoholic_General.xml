@@ -28,12 +28,17 @@
 					<Anchor point="TOPLEFT" x="40" y="-80" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tabs.Guild.BankAutoUpdate" />
 					<KeyValue key="locLabel" value="BANK_AUTO_UPDATE_TEXT" />
 					<KeyValue key="locTitle" value="BANK_AUTO_UPDATE_TITLE" />
 					<KeyValue key="locEnabled" value="BANK_AUTO_UPDATE_ENABLED" />
 					<KeyValue key="locDisabled" value="BANK_AUTO_UPDATE_DISABLED" />
 				</KeyValues>
+				<Scripts>
+					<OnClick>
+						-- Toggle the option
+						Altoholic_Sharing_Options.GuildBankAutoUpdate = not Altoholic_Sharing_Options.GuildBankAutoUpdate
+					</OnClick>
+				</Scripts>
 			</CheckButton>
 			<CheckButton parentKey="ClampWindowToScreen" inherits="AltoToggleableOptionTemplate" >
 				<Anchors> 

@@ -1,7 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
 addon:Controller("AltoholicUI.TabOptions.AuthorizedClientsRow", { "AltoholicUI.Authorization", function(Authorization)
 	return {

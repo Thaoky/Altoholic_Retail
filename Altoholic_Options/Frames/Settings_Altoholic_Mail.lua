@@ -1,10 +1,9 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
-local OPTION_TIME_TO_NEXT = "UI.Mail.TimeToNextWarning"
+local L = DataStore:GetLocale(addonName)
 
-addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicMail.TimeToNextWarning", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicMail.TimeToNextWarning", function()
 	return {
 		OnBind = function(frame)
 			frame:SetMinMaxValues(1, 12)
@@ -18,16 +17,15 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicMail.TimeToNextWarning
 				local timeToNext = self:GetValue()
 
 				self:Update(timeToNext)
-				Options.Set(OPTION_TIME_TO_NEXT, timeToNext)
+				Altoholic_UI_Options.Mail.TimeToNextWarning = timeToNext
 			end)
 		end,
 		Update = function(frame, value)
 			frame.Text:SetText(format("%s (%s)", L["TIME_TO_NEXT_WARNING_TEXT"], format(D_HOURS, value)))
 		end,
-	}
-end})
+}end)
 
-addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicMail", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicMail", function()
 
 	local priorityTypes = {
 		L["AUTO_COMPLETE_BY_NAME"],
@@ -36,12 +34,12 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicMail", { "AltoholicUI.
 	}
 
 	local function TogglePriority(self)
-		Options.Set("UI.Mail.AutoCompletePriority", self.value)
+		Altoholic_UI_Options.Mail.AutoCompletePriority = self.value
 	end
 	
 	local function AutoCompletePriority_Initialize(self)
 		local info = self:CreateInfo()
-		local currentPriority = Options.Get("UI.Mail.AutoCompletePriority")
+		local currentPriority = Altoholic_UI_Options.Mail.AutoCompletePriority
 		
 		for i, priority in ipairs(priorityTypes) do
 			info.text = priority
@@ -75,15 +73,15 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicMail", { "AltoholicUI.
 			f:SetText(L["AUTO_COMPLETE_PRIORITY"])
 			f:Initialize(AutoCompletePriority_Initialize)
 			
-			frame.TimeToNextWarning:SetValue(Options.Get(OPTION_TIME_TO_NEXT))
+			frame.TimeToNextWarning:SetValue(Altoholic_UI_Options.Mail.TimeToNextWarning)
 		end,
 		Update = function(frame, isResizing)
-			frame.TimeToNextWarning:Update(Options.Get(OPTION_TIME_TO_NEXT))
+			local options = Altoholic_UI_Options.Mail
+			frame.TimeToNextWarning:Update(options.TimeToNextWarning)
 		
-			frame.GuildMailWarning:SetChecked(Options.Get("UI.Mail.GuildMailWarning"))
-			frame.AutoCompleteRecipient:SetChecked(Options.Get("UI.Mail.AutoCompleteRecipient"))
+			frame.GuildMailWarning:SetChecked(options.GuildMailWarning)
+			frame.AutoCompleteRecipient:SetChecked(options.AutoCompleteRecipient)
 			
 			frame:Show()
 		end,
-	}
-end})
+}end)

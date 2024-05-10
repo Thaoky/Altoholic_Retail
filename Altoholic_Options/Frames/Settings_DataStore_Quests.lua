@@ -2,10 +2,10 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
-local module = "DataStore_Quests"
+local L = DataStore:GetLocale(addonName)
+local options = DataStore_Quests_Options
 
-addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreQuests", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreQuests", function()
 
 	local dailyResetDDM
 
@@ -13,13 +13,13 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreQuests", { "AltoholicU
 		-- set the new reset hour
 		local newHour = self.value
 		
-		DataStore:SetOption(module, "DailyResetHour", newHour)
+		options.DailyResetHour = newHour
 		dailyResetDDM:SetSelectedValue(newHour)
 	end
 
 	local function DailyResetDropDown_Initialize(self)
 		local info = self:CreateInfo()
-		local selectedHour = DataStore:GetOption(module, "DailyResetHour")
+		local selectedHour = options.DailyResetHour
 		
 		for hour = 0, 23 do
 			info.value = hour
@@ -50,7 +50,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreQuests", { "AltoholicU
 			frame.DailyResetDropDownLabel:SetText(format("%s%s:", colors.white, L["DAILY_QUESTS_RESET_LABEL"]))
 			
 			-- Setup the drop down for the reset hour
-			local hour = DataStore:GetOption(module, "DailyResetHour")
+			local hour = options.DailyResetHour
 			
 			dailyResetDDM = frame.DailyResetDropDown
 			dailyResetDDM:SetMenuWidth(100) 
@@ -60,10 +60,9 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreQuests", { "AltoholicU
 			dailyResetDDM:Initialize(DailyResetDropDown_Initialize)
 		end,
 		Update = function(frame, isResizing)
-			frame.TrackTurnIns:SetChecked(DataStore:GetOption(module, "TrackTurnIns"))
-			frame.AutoUpdateHistory:SetChecked(DataStore:GetOption(module, "AutoUpdateHistory"))
+			frame.TrackTurnIns:SetChecked(options.TrackTurnIns)
+			frame.AutoUpdateHistory:SetChecked(options.AutoUpdateHistory)
 			
 			frame:Show()
 		end,
-	}
-end})
+}end)

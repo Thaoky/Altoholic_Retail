@@ -28,24 +28,36 @@
 					<Anchor point="TOPLEFT" x="40" y="-80" />
 				</Anchors>     
 				<KeyValues>
-					<KeyValue key="option" value="UI.Mail.GuildMailWarning" />
 					<KeyValue key="locLabel" value="GUILD_WARNING_TEXT" />
 					<KeyValue key="locTitle" value="GUILD_WARNING_TITLE" />
 					<KeyValue key="locEnabled" value="GUILD_WARNING_ENABLED" />
 					<KeyValue key="locDisabled" value="GUILD_WARNING_DISABLED" />
 				</KeyValues>
+				<Scripts>
+					<OnClick>
+						-- Toggle the option
+						local options = Altoholic_UI_Options.Mail
+						options.GuildMailWarning = not options.GuildMailWarning
+					</OnClick>
+				</Scripts>
 			</CheckButton>
 			<CheckButton parentKey="AutoCompleteRecipient" inherits="AltoToggleableOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOP" relativeKey="$parent.GuildMailWarning" relativePoint="BOTTOM" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Mail.AutoCompleteRecipient" />
 					<KeyValue key="locLabel" value="AUTO_COMPLETE_TEXT" />
 					<KeyValue key="locTitle" value="AUTO_COMPLETE_TITLE" />
 					<KeyValue key="locEnabled" value="AUTO_COMPLETE_ENABLED" />
 					<KeyValue key="locDisabled" value="AUTO_COMPLETE_DISABLED" />
 				</KeyValues>
+				<Scripts>
+					<OnClick>
+						-- Toggle the option
+						local options = Altoholic_UI_Options.Mail
+						options.AutoCompleteRecipient = not options.AutoCompleteRecipient
+					</OnClick>
+				</Scripts>
 			</CheckButton>
 			<Frame parentKey="AutoCompletePriority" inherits="AddonFactory_DropDownMenuTemplate">
 				<Anchors>

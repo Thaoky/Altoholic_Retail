@@ -1,10 +1,10 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
-local module = "DataStore_Mails"
+local L = DataStore:GetLocale(addonName)
+local options = DataStore_Mails_Options
 
-addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreMails.SliderMailExpiry", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreMails.SliderMailExpiry", function()
 	return {
 		OnBind = function(frame)
 			frame:SetMinMaxValues(1, 15)
@@ -18,16 +18,15 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreMails.SliderMailExpiry
 				local value = math.floor(self:GetValue())
 
 				self:Update(value)
-				DataStore:SetOption(module, "MailWarningThreshold", value)
+				options.MailWarningThreshold = value
 			end)
 		end,
 		Update = function(frame, value)
 			frame.Text:SetText(format("%s (%d)", L["SLIDER_EXPIRY_TITLE"], value))
 		end,
-	}
-end})
+}end)
 
-addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreMails", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreMails", function()
 	return {
 		OnBind = function(frame)
 			-- Attach to the parent
@@ -44,18 +43,17 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreMails", { "AltoholicUI
 			frame.Title:SetText(format("%s%s", colors.white, L["DataStore_Mails' Options"]))
 			L["DataStore_Mails' Options"] = nil
 			
-			frame.SliderMailExpiry:SetValue(DataStore:GetOption(module, "MailWarningThreshold"))
+			frame.SliderMailExpiry:SetValue(options.MailWarningThreshold)
 		end,
 		Update = function(frame, isResizing)
-			frame.SliderMailExpiry:Update(DataStore:GetOption(module, "MailWarningThreshold"))
+			frame.SliderMailExpiry:Update(options.MailWarningThreshold)
 
-			frame.CheckMailExpiry:SetChecked(DataStore:GetOption(module, "CheckMailExpiry"))
-			frame.ScanMailBody:SetChecked(DataStore:GetOption(module, "ScanMailBody"))
-			frame.CheckMailExpiryAllAccounts:SetChecked(DataStore:GetOption(module, "CheckMailExpiryAllAccounts"))
-			frame.CheckMailExpiryAllRealms:SetChecked(DataStore:GetOption(module, "CheckMailExpiryAllRealms"))
-			frame.ReportExpiredMailsToChat:SetChecked(DataStore:GetOption(module, "ReportExpiredMailsToChat"))
+			frame.CheckMailExpiry:SetChecked(options.CheckMailExpiry)
+			frame.ScanMailBody:SetChecked(options.ScanMailBody)
+			frame.CheckMailExpiryAllAccounts:SetChecked(options.CheckMailExpiryAllAccounts)
+			frame.CheckMailExpiryAllRealms:SetChecked(options.CheckMailExpiryAllRealms)
+			frame.ReportExpiredMailsToChat:SetChecked(options.ReportExpiredMailsToChat)
 			
 			frame:Show()
 		end,
-	}
-end})
+}end)

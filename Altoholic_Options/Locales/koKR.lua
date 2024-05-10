@@ -1,5 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale( "Altoholic", "koKR" )
-
+local L = DataStore:SetLocale("Altoholic", "koKR")
 if not L then return end
 
 -- ** Menu **

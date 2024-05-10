@@ -1,9 +1,10 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
+local options = DataStore_Auctions_Options
 
-addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreAuctions.SliderLastVisit", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreAuctions.SliderLastVisit", function()
 	return {
 		OnBind = function(frame)
 			frame:SetMinMaxValues(10, 30)
@@ -17,17 +18,16 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreAuctions.SliderLastVis
 				local value = math.floor(self:GetValue())
 
 				self:Update(value)
-				DataStore:SetOption("DataStore_Auctions", "CheckLastVisitThreshold", value)
+				options.CheckLastVisitThreshold = value
 			end)
 		end,
 		Update = function(frame, value)
 			frame.Text:SetText(format("%s (%d)", L["LAST_VISIT_SLIDER_LABEL"], value))
 		end,
-	}
-end})
+}end)
 
-addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreAuctions", { "AltoholicUI.Options", function(Options)
-	local module = "DataStore_Auctions"
+addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreAuctions", function()
+
 	
 	return {
 		OnBind = function(frame)
@@ -45,14 +45,13 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreAuctions", { "Altoholi
 			frame.Title:SetText(format("%s%s", colors.white, L["DataStore_Auctions' Options"]))
 			L["DataStore_Auctions' Options"] = nil
 			
-			frame.SliderLastVisit:SetValue(DataStore:GetOption(module, "CheckLastVisitThreshold"))
+			frame.SliderLastVisit:SetValue(options.CheckLastVisitThreshold)
 		end,
 		Update = function(frame, isResizing)
-			frame.SliderLastVisit:Update(DataStore:GetOption(module, "CheckLastVisitThreshold"))
-			frame.CheckLastVisit:SetChecked(DataStore:GetOption(module, "CheckLastVisit"))
-			frame.AutoClearExpiredItems:SetChecked(DataStore:GetOption(module, "AutoClearExpiredItems"))
+			frame.SliderLastVisit:Update(options.CheckLastVisitThreshold)
+			frame.CheckLastVisit:SetChecked(options.CheckLastVisit)
+			frame.AutoClearExpiredItems:SetChecked(options.AutoClearExpiredItems)
 			
 			frame:Show()
 		end,
-	}
-end})
+}end)

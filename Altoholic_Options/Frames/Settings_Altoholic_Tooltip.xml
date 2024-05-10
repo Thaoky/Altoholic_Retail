@@ -1,6 +1,14 @@
 <Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="Settings_Altoholic_Tooltip.lua"></Script>
 	
+	<CheckButton name="AltoTooltipOptionTemplate" inherits="AltoToggleableOptionTemplate" virtual="true">
+		<Scripts>
+			<OnClick>
+				Altoholic_Tooltip_Options[self.option] = not Altoholic_Tooltip_Options[self.option]
+			</OnClick>
+		</Scripts>
+	</CheckButton>		
+	
 	<Frame parentKey="SettingsAltoholicTooltip" hidden="true">
 		<Layers>
 			<Layer level="ARTWORK">
@@ -23,108 +31,108 @@
 			</Layer>
 		</Layers>
 		<Frames>
-			<CheckButton parentKey="ShowItemSource" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowItemSource" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" x="40" y="-80" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowItemSource" />
+					<KeyValue key="option" value="ShowItemSource" />
 					<KeyValue key="locLabel" value="TT_SHOW_ITEMSOURCE_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_ITEMSOURCE_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_ITEMSOURCE_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_ITEMSOURCE_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowItemCount" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowItemCount" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowItemSource" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowItemCount" />
+					<KeyValue key="option" value="ShowItemCount" />
 					<KeyValue key="locLabel" value="TT_SHOW_ITEMCOUNT_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_ITEMCOUNT_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_ITEMCOUNT_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_ITEMCOUNT_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowSimpleCount" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowSimpleCount" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowItemCount" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowSimpleCount" />
+					<KeyValue key="option" value="ShowSimpleCount" />
 					<KeyValue key="locLabel" value="TT_SHOW_SIMPLECOUNT_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_SIMPLECOUNT_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_SIMPLECOUNT_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_SIMPLECOUNT_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowTotalItemCount" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowTotalItemCount" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowSimpleCount" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowTotalItemCount" />
+					<KeyValue key="option" value="ShowTotalItemCount" />
 					<KeyValue key="locLabel" value="TT_SHOW_TOTALCOUNT_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_TOTALCOUNT_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_TOTALCOUNT_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_TOTALCOUNT_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowKnownRecipes" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowKnownRecipes" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowTotalItemCount" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowKnownRecipes" />
+					<KeyValue key="option" value="ShowKnownRecipes" />
 					<KeyValue key="locLabel" value="TT_SHOW_RECIPES_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_RECIPES_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_RECIPES_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_RECIPES_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowGuildBankCount" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowGuildBankCount" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowKnownRecipes" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowGuildBankCount" />
+					<KeyValue key="option" value="ShowGuildBankCount" />
 					<KeyValue key="locLabel" value="TT_SHOW_GUILDBANKCOUNT_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_GUILDBANKCOUNT_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_GUILDBANKCOUNT_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_GUILDBANKCOUNT_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="IncludeGuildBankInTotal" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="IncludeGuildBankInTotal" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowGuildBankCount" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.IncludeGuildBankInTotal" />
+					<KeyValue key="option" value="IncludeGuildBankInTotal" />
 					<KeyValue key="locLabel" value="TT_INCLUDE_GUILDBANKCOUNT_TEXT" />
 					<KeyValue key="locTitle" value="TT_INCLUDE_GUILDBANKCOUNT_TITLE" />
 					<KeyValue key="locEnabled" value="TT_INCLUDE_GUILDBANKCOUNT_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_INCLUDE_GUILDBANKCOUNT_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowGuildBankCountPerTab" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowGuildBankCountPerTab" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.IncludeGuildBankInTotal" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowGuildBankCountPerTab" />
+					<KeyValue key="option" value="ShowGuildBankCountPerTab" />
 					<KeyValue key="locLabel" value="TT_DETAILED_BANKCOUNT_TEXT" />
 					<KeyValue key="locTitle" value="TT_DETAILED_BANKCOUNT_TITLE" />
 					<KeyValue key="locEnabled" value="TT_DETAILED_BANKCOUNT_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_DETAILED_BANKCOUNT_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowGuildBankRealm" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowGuildBankRealm" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowGuildBankCountPerTab" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowGuildBankRealm" />
+					<KeyValue key="option" value="ShowGuildBankRealm" />
 					<KeyValue key="locLabel" value="TT_SHOW_GUILDBANKREALM_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_GUILDBANKREALM_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_GUILDBANKREALM_ENABLED" />
@@ -132,108 +140,108 @@
 				</KeyValues>
 			</CheckButton>
 
-			<CheckButton parentKey="ShowItemID" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowItemID" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowItemSource" relativePoint="TOPRIGHT" x="300" y="0" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowItemID" />
+					<KeyValue key="option" value="ShowItemID" />
 					<KeyValue key="locLabel" value="TT_SHOW_ITEMID_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_ITEMID_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_ITEMID_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_ITEMID_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowItemXPack" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowItemXPack" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowItemID" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowItemXPack" />
+					<KeyValue key="option" value="ShowItemXPack" />
 					<KeyValue key="locLabel" value="TT_SHOW_ITEMXPACK_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_ITEMXPACK_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_ITEMXPACK_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_ITEMXPACK_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowCouldBeStoredOn" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowCouldBeStoredOn" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowItemXPack" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowCouldBeStoredOn" />
+					<KeyValue key="option" value="ShowCouldBeStoredOn" />
 					<KeyValue key="locLabel" value="TT_SHOW_COULDBESTORED_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_COULDBESTORED_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_COULDBESTORED_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_COULDBESTORED_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowGatheringNodesCount" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowGatheringNodesCount" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowCouldBeStoredOn" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowGatheringNodesCount" />
+					<KeyValue key="option" value="ShowGatheringNodesCount" />
 					<KeyValue key="locLabel" value="TT_SHOW_NODES_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_NODES_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_NODES_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_NODES_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowCrossFactionCount" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowCrossFactionCount" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowGatheringNodesCount" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowCrossFactionCount" />
+					<KeyValue key="option" value="ShowCrossFactionCount" />
 					<KeyValue key="locLabel" value="TT_SHOW_BOTHFACTIONS_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_BOTHFACTIONS_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_BOTHFACTIONS_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_BOTHFACTIONS_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowMergedRealmsCount" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowMergedRealmsCount" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowCrossFactionCount" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowMergedRealmsCount" />
+					<KeyValue key="option" value="ShowMergedRealmsCount" />
 					<KeyValue key="locLabel" value="TT_SHOW_MERGEDREALMS_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_MERGEDREALMS_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_MERGEDREALMS_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_MERGEDREALMS_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowAllRealmsCount" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowAllRealmsCount" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowMergedRealmsCount" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowAllRealmsCount" />
+					<KeyValue key="option" value="ShowAllRealmsCount" />
 					<KeyValue key="locLabel" value="TT_SHOW_ALLREALMS_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_ALLREALMS_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_ALLREALMS_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_ALLREALMS_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowAllAccountsCount" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowAllAccountsCount" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowAllRealmsCount" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowAllAccountsCount" />
+					<KeyValue key="option" value="ShowAllAccountsCount" />
 					<KeyValue key="locLabel" value="TT_SHOW_ALLACCOUNTS_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_ALLACCOUNTS_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_ALLACCOUNTS_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_ALLACCOUNTS_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="ShowHearthstoneCount" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="ShowHearthstoneCount" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowAllAccountsCount" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Tooltip.ShowHearthstoneCount" />
+					<KeyValue key="option" value="ShowHearthstoneCount" />
 					<KeyValue key="locLabel" value="TT_SHOW_HEARTHSTONE_TEXT" />
 					<KeyValue key="locTitle" value="TT_SHOW_HEARTHSTONE_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_HEARTHSTONE_ENABLED" />

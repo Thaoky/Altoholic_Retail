@@ -60,7 +60,6 @@
 					<Anchor point="TOPLEFT" x="40" y="-80" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.AccountSharing.IsEnabled" />
 					<KeyValue key="locLabel" value="ACCOUNT_SHARING_ACTIVE_LABEL" />
 					<KeyValue key="locTitle" value="ACCOUNT_SHARING_ACTIVE_TITLE" />
 					<KeyValue key="locEnabled" value="ACCOUNT_SHARING_ACTIVE_ENABLED" />
@@ -68,7 +67,8 @@
 				</KeyValues>
 				<Scripts>
 					<OnClick>
-						self:Button_OnClick()
+						-- Toggle the option
+						Altoholic_Sharing_Options.IsEnabled = not Altoholic_Sharing_Options.IsEnabled
 						
 						local sharing = LibStub("LibMVC-1.0"):GetService("AltoholicUI.AccountSharing")
 						sharing.UpdateMessageHandler()

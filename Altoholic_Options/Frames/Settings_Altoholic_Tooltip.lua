@@ -1,7 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicTooltip", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicTooltip", function()
 
 	return {
 		OnBind = function(frame)
@@ -14,7 +14,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicTooltip", { "Altoholic
 			parent:RegisterPanel(3, frame)
 
 			-- Setup localization & clear localized value after use (no longer needed)
-			local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+			local L = DataStore:GetLocale(addonName)
 			local colors = addon.Colors
 			
 			frame.Title:SetText(format("%s%s", colors.white, L["Tooltip Options"]))
@@ -22,28 +22,29 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicTooltip", { "Altoholic
 
 		end,
 		Update = function(frame, isResizing)
-			frame.ShowItemSource:SetChecked(Options.Get("UI.Tooltip.ShowItemSource"))
-			frame.ShowItemCount:SetChecked(Options.Get("UI.Tooltip.ShowItemCount"))
-			frame.ShowSimpleCount:SetChecked(Options.Get("UI.Tooltip.ShowSimpleCount"))
-			frame.ShowTotalItemCount:SetChecked(Options.Get("UI.Tooltip.ShowTotalItemCount"))
-			frame.ShowKnownRecipes:SetChecked(Options.Get("UI.Tooltip.ShowKnownRecipes"))
+			local options = Altoholic_Tooltip_Options
 			
-			frame.ShowItemID:SetChecked(Options.Get("UI.Tooltip.ShowItemID"))
-			frame.ShowGatheringNodesCount:SetChecked(Options.Get("UI.Tooltip.ShowGatheringNodesCount"))
-			frame.ShowCrossFactionCount:SetChecked(Options.Get("UI.Tooltip.ShowCrossFactionCount"))
-			frame.ShowMergedRealmsCount:SetChecked(Options.Get("UI.Tooltip.ShowMergedRealmsCount"))
-			frame.ShowAllRealmsCount:SetChecked(Options.Get("UI.Tooltip.ShowAllRealmsCount"))
-			frame.ShowAllAccountsCount:SetChecked(Options.Get("UI.Tooltip.ShowAllAccountsCount"))
+			frame.ShowItemSource:SetChecked(options.ShowItemSource)
+			frame.ShowItemCount:SetChecked(options.ShowItemCount)
+			frame.ShowSimpleCount:SetChecked(options.ShowSimpleCount)
+			frame.ShowTotalItemCount:SetChecked(options.ShowTotalItemCount)
+			frame.ShowKnownRecipes:SetChecked(options.ShowKnownRecipes)
 			
-			frame.ShowGuildBankCount:SetChecked(Options.Get("UI.Tooltip.ShowGuildBankCount"))
-			frame.ShowGuildBankRealm:SetChecked(Options.Get("UI.Tooltip.ShowGuildBankRealm"))
-			frame.IncludeGuildBankInTotal:SetChecked(Options.Get("UI.Tooltip.IncludeGuildBankInTotal"))
-			frame.ShowGuildBankCountPerTab:SetChecked(Options.Get("UI.Tooltip.ShowGuildBankCountPerTab"))
-			frame.ShowHearthstoneCount:SetChecked(Options.Get("UI.Tooltip.ShowHearthstoneCount"))
-			frame.ShowItemXPack:SetChecked(Options.Get("UI.Tooltip.ShowItemXPack"))
-			frame.ShowCouldBeStoredOn:SetChecked(Options.Get("UI.Tooltip.ShowCouldBeStoredOn"))
+			frame.ShowItemID:SetChecked(options.ShowItemID)
+			frame.ShowGatheringNodesCount:SetChecked(options.ShowGatheringNodesCount)
+			frame.ShowCrossFactionCount:SetChecked(options.ShowCrossFactionCount)
+			frame.ShowMergedRealmsCount:SetChecked(options.ShowMergedRealmsCount)
+			frame.ShowAllRealmsCount:SetChecked(options.ShowAllRealmsCount)
+			frame.ShowAllAccountsCount:SetChecked(options.ShowAllAccountsCount)
+			
+			frame.ShowGuildBankCount:SetChecked(options.ShowGuildBankCount)
+			frame.ShowGuildBankRealm:SetChecked(options.ShowGuildBankRealm)
+			frame.IncludeGuildBankInTotal:SetChecked(options.IncludeGuildBankInTotal)
+			frame.ShowGuildBankCountPerTab:SetChecked(options.ShowGuildBankCountPerTab)
+			frame.ShowHearthstoneCount:SetChecked(options.ShowHearthstoneCount)
+			frame.ShowItemXPack:SetChecked(options.ShowItemXPack)
+			frame.ShowCouldBeStoredOn:SetChecked(options.ShowCouldBeStoredOn)
 			
 			frame:Show()
 		end,
-	}
-end})
+}end)

@@ -1,6 +1,14 @@
 <Ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.blizzard.com/wow/ui/">
 	<Script file="Settings_Altoholic_Calendar.lua"></Script>
 	
+	<CheckButton name="AltoCalendarOptionTemplate" inherits="AltoToggleableOptionTemplate" virtual="true">
+		<Scripts>
+			<OnClick>
+				Altoholic_Calendar_Options[self.option] = not Altoholic_Calendar_Options[self.option]
+			</OnClick>
+		</Scripts>
+	</CheckButton>		
+	
 	<Frame parentKey="SettingsAltoholicCalendar" hidden="true">
 		<Layers>
 			<Layer level="ARTWORK">
@@ -40,24 +48,24 @@
 					<KeyValue key="locDisabled" value="CALENDAR_WEEKSTART_MONDAY_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="UseDialogBoxForWarnings" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="UseDialogBoxForWarnings" inherits="AltoCalendarOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.WeekStartsOnMonday" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Calendar.UseDialogBoxForWarnings" />
+					<KeyValue key="option" value="UseDialogBoxForWarnings" />
 					<KeyValue key="locLabel" value="CALENDAR_WARNINGS_DIALOG_TEXT" />
 					<KeyValue key="locTitle" value="CALENDAR_WARNINGS_DIALOG_TITLE" />
 					<KeyValue key="locEnabled" value="CALENDAR_WARNINGS_DIALOG_ENABLED" />
 					<KeyValue key="locDisabled" value="CALENDAR_WARNINGS_DIALOG_DISABLED" />
 				</KeyValues>
 			</CheckButton>
-			<CheckButton parentKey="WarningsEnabled" inherits="AltoToggleableOptionTemplate">
+			<CheckButton parentKey="WarningsEnabled" inherits="AltoCalendarOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOPLEFT" relativeKey="$parent.UseDialogBoxForWarnings" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
-					<KeyValue key="option" value="UI.Calendar.WarningsEnabled" />
+					<KeyValue key="option" value="WarningsEnabled" />
 					<KeyValue key="locLabel" value="CALENDAR_WARNINGS_ENABLED_TEXT" />
 					<KeyValue key="locTitle" value="CALENDAR_WARNINGS_ENABLED_TITLE" />
 					<KeyValue key="locEnabled" value="CALENDAR_WARNINGS_ENABLED_ENABLED" />

@@ -3,9 +3,9 @@ local addon = _G[addonName]
 local colors = addon.Colors
 local icons = addon.Icons
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
-addon:Controller("AltoholicUI.TabOptions.SharingAuthorizations", { "AltoholicUI.Options", "AltoholicUI.Authorization", function(Options, Authorization)
+addon:Controller("AltoholicUI.TabOptions.SharingAuthorizations", { "AltoholicUI.Authorization", function(Authorization)
 	
 	local AUTH_AUTO	= 1
 	local AUTH_ASK		= 2
@@ -44,7 +44,7 @@ addon:Controller("AltoholicUI.TabOptions.SharingAuthorizations", { "AltoholicUI.
 		end,
 		
 		Update = function(frame, isResizing)
-			frame.IsEnabled:SetChecked(Options.Get("UI.AccountSharing.IsEnabled"))
+			frame.IsEnabled:SetChecked(Altoholic_Sharing_Options.IsEnabled)
 
 			local scrollFrame = frame.CharactersContainer.ScrollFrame
 			local numRows = scrollFrame.numRows

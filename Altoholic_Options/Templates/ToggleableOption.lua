@@ -2,9 +2,9 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
-local L = LibStub("AceLocale-3.0"):GetLocale(addonName)
+local L = DataStore:GetLocale(addonName)
 
-addon:Controller("AltoholicUI.ToggleableOption", { "AltoholicUI.Options", function(Options)
+addon:Controller("AltoholicUI.ToggleableOption", function()
 	return {
 		OnBind = function(frame)
 			-- Set Label
@@ -24,11 +24,13 @@ addon:Controller("AltoholicUI.ToggleableOption", { "AltoholicUI.Options", functi
 			end
 		end,
 		Button_OnClick = function(frame)
-			if frame.module and _G[frame.module] then
-				DataStore:ToggleOption(frame, frame.module, frame.option)
-			else
-				Options.Toggle(frame, frame.option)
+			if frame.module then
+				local optionsTable = format("%s_Options", frame.module)
+
+				if _G[optionsTable] then
+					DataStore:ToggleOption(frame, optionsTable, frame.option)
+				end
 			end
 		end,
 	}
-end})
+end)

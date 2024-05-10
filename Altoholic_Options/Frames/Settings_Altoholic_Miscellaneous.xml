@@ -27,17 +27,25 @@
 				<Anchors> 
 					<Anchor point="TOPLEFT" x="40" y="-80" />
 				</Anchors>      
-				<KeyValues>
-					<KeyValue key="option" value="UI.AHColorCoding" />
-				</KeyValues>
+				<Scripts>
+					<OnClick>
+						-- Toggle the option
+						local options = Altoholic_UI_Options
+						options.AHColorCoding = not options.AHColorCoding
+					</OnClick>
+				</Scripts>
 			</CheckButton>
 			<CheckButton parentKey="VendorColorCoding" inherits="AltoToggleableOptionTemplate">
 				<Anchors> 
 					<Anchor point="TOP" relativeKey="$parent.AHColorCoding" relativePoint="BOTTOM" x="0" y="-10" />
 				</Anchors>
-				<KeyValues>
-					<KeyValue key="option" value="UI.VendorColorCoding" />
-				</KeyValues>
+				<Scripts>
+					<OnClick>
+						-- Toggle the option
+						local options = Altoholic_UI_Options
+						options.VendorColorCoding = not options.VendorColorCoding
+					</OnClick>
+				</Scripts>
 			</CheckButton>
 		</Frames>
 		<Scripts>
