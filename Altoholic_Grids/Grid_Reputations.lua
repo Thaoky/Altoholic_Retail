@@ -300,18 +300,18 @@ local Factions = {
 		{	-- [1]
 			name = OTHER,
 			{ name = DataStore:GetFactionName(2507), icon = "ui_majorfaction_expedition" },     		-- Dragonscale Expedition
-			{ name = DataStore:GetFactionName(2503), icon = "ui_majorfaction_centaur" },      			-- Maruuk Centaur
-			{ name = DataStore:GetFactionName(2511), icon = "ui_majorfaction_tuskarr" },      			-- Iskaara Tuskarr
+			{ name = DataStore:GetFactionName(2503), icon = "ui_majorfaction_centaur" },      		-- Maruuk Centaur
+			{ name = DataStore:GetFactionName(2511), icon = "ui_majorfaction_tuskarr" },      		-- Iskaara Tuskarr
 			{ name = DataStore:GetFactionName(2510), icon = "ui_majorfaction_valdrakken" },      		-- Valdrakken Accord
+			{ name = DataStore:GetFactionName(2564), icon = "ui_majorfaction_niffen" },      		-- Loamm Niffen
+			{ name = DataStore:GetFactionName(2574), icon = "ui_majorfaction_denizens" }, 			-- Dream Wardens 10.2
+			{ name = DataStore:GetFactionName(2544), icon = "inv_misc_statue_04" },      			-- Artisan's Consortium - Dragon Isles Branch
+			{ name = DataStore:GetFactionName(2550), icon = "inv_artifact_stolenpower" },      		-- Cobalt Assembly
+			{ name = DataStore:GetFactionName(2517), icon = "inv_crown_02" },      				-- Wrathion
+			{ name = DataStore:GetFactionName(2518), icon = "inv_10_dungeonjewelry_dragon_ring_3_blue" },   -- Sabellian
 			{ name = DataStore:GetFactionName(2526), icon = "ui_majorfaction_valdrakken" },      		-- Winterpelt Furbolg
-			{ name = DataStore:GetFactionName(2544), icon = "inv_misc_statue_04" },      					-- Artisan's Consortium - Dragon Isles Branch
-			{ name = DataStore:GetFactionName(2550), icon = "inv_artifact_stolenpower" },      			-- Cobalt Assembly
-			{ name = DataStore:GetFactionName(2517), icon = "inv_crown_02" },      							-- Sabellian
-			{ name = DataStore:GetFactionName(2518), icon = "ui_majorfaction_valdrakken" },      		-- inv_crown_02
+			{ name = DataStore:GetFactionName(2568), icon = "inv_snailrockmount_pink" }, 			-- Glimmerogg Racer Unknown icon
 			{ name = DataStore:GetFactionName(2553), icon = "ability_essence_reapingflames" },      	-- Soridormi
-			{ name = DataStore:GetFactionName(2564), icon = "ui_majorfaction_niffen" },      			-- Loamm Niffen
-			{ name = DataStore:GetFactionName(2568), icon = "inv_snailrockmount_pink" }, 					-- Glimmerogg Racer Unknown icon
-			{ name = DataStore:GetFactionName(2574), icon = "ui_majorfaction_denizens" }, 				-- Dream Wardens 10.2
 		},
 	},
 	{	-- [11]
@@ -326,15 +326,15 @@ local CAT_GUILD = #Factions
 local CAT_ALLINONE = CAT_GUILD + 1
 
 local VertexColors = {
-	[FACTION_STANDING_LABEL1] = { r = 0.4, g = 0.13, b = 0.13 },	-- hated
-	[FACTION_STANDING_LABEL2] = { r = 0.5, g = 0.0, b = 0.0 },		-- hostile
-	[FACTION_STANDING_LABEL3] = { r = 0.6, g = 0.4, b = 0.13 },		-- unfriendly
-	[FACTION_STANDING_LABEL4] = { r = 0.6, g = 0.6, b = 0.0 },		-- neutral
-	[FACTION_STANDING_LABEL5] = { r = 0.0, g = 0.6, b = 0.0 },		-- friendly
-	[FACTION_STANDING_LABEL6] = { r = 0.0, g = 0.6, b = 0.6 },		-- honored
-	[FACTION_STANDING_LABEL7] = { r = 0.9, g = 0.3, b = 0.9 },		-- revered
-	[FACTION_STANDING_LABEL8] = { r = 1.0, g = 1.0, b = 1.0 },		-- exalted
-	[PARAGON_LABEL] = { r = 1.0, g = 1.0, b = 1.0 },					-- Paragon
+	[FACTION_STANDING_LABEL1] = { r = 0.4, g = 0.13, b = 0.13 },		-- hated (dark red)
+	[FACTION_STANDING_LABEL2] = { r = 0.5, g = 0.0, b = 0.0 },		-- hostile (red)
+	[FACTION_STANDING_LABEL3] = { r = 0.6, g = 0.4, b = 0.13 },		-- unfriendly (dark orange)
+	[FACTION_STANDING_LABEL4] = { r = 0.6, g = 0.6, b = 0.0 },		-- neutral (yellow)
+	[FACTION_STANDING_LABEL5] = { r = 0.0, g = 0.6, b = 0.0 },		-- friendly (green)
+	[FACTION_STANDING_LABEL6] = { r = 0.0, g = 0.6, b = 0.6 },		-- honored (teal)
+	[FACTION_STANDING_LABEL7] = { r = 0.9, g = 0.3, b = 0.9 },		-- revered (magenta)
+	[FACTION_STANDING_LABEL8] = { r = 1.0, g = 1.0, b = 1.0 },		-- exalted (white)
+	[PARAGON_LABEL] = { r = 1.0, g = 1.0, b = 1.0 },			-- Paragon (white)
 }
 
 local view
@@ -456,19 +456,19 @@ tab:RegisterGrid(2, {
 			button.Name:SetPoint("BOTTOMRIGHT", 5, 0)
 			button.Background:SetDesaturated(false)
 			
-			local status, _, _, rate, isMajorFaction, isFrienshipFaction = DataStore:GetReputationInfo(character, faction.name)
+			local status, repEarned, _, rate, isMajorFaction, isFriendshipFaction, factionID = DataStore:GetReputationInfo(character, faction.name)
 			
 			if status and rate then 
 				local text
 				
-				if isMajorFaction then									-- If we are dealing with a major faction ..
-					text = format("Lv %d", status)					-- .. status will contain the renown level
+				if isMajorFaction then							-- If we are dealing with a major faction ..
+					text = format("%d", status)					-- .. status will contain the renown level
 					button.Name:SetFontObject("NumberFontNormalSmall")
 					button.Name:SetJustifyH("RIGHT")
 					button.Name:SetPoint("BOTTOMRIGHT", -2, 0)
 				
 				elseif status == FACTION_STANDING_LABEL8 then	-- If exalted .. 
-					text = icons.ready									-- .. just show the green check
+					text = icons.ready						-- .. just show the green check
 				elseif status == PARAGON_LABEL then					-- Else if paragon levels..
 					if rate >= 100 then
 						text = icons.waiting
@@ -479,14 +479,47 @@ tab:RegisterGrid(2, {
 						text = format("%2d%%", floor(rate))
 					end
 				else
-					button.Background:SetDesaturated(true)
-					button.Name:SetFontObject("NumberFontNormalSmall")
-					button.Name:SetJustifyH("RIGHT")
-					button.Name:SetPoint("BOTTOMRIGHT", 0, 0)
-					text = format("%2d%%", floor(rate))
+					if rate >= 100 then
+						text = icons.ready					-- show the green check on max friendships too
+					else
+						button.Background:SetDesaturated(true)
+						button.Name:SetFontObject("NumberFontNormalSmall")
+						button.Name:SetJustifyH("RIGHT")
+						button.Name:SetPoint("BOTTOMRIGHT", 0, 0)
+						text = format("%2d%%", floor(rate))
+					end
 				end
 
-				local vc = (isMajorFaction or isFrienshipFaction) and VertexColors[FACTION_STANDING_LABEL4] or VertexColors[status]
+				-- local vc = (isMajorFaction or isFriendshipFaction) and VertexColors[FACTION_STANDING_LABEL4] or VertexColors[status]
+
+				local vcIndex = FACTION_STANDING_LABEL4
+
+				if (isMajorFaction or isFriendshipFaction) then                           -- do something better than just all neutral
+				    local totalRate = 1							-- or fallback to neutral
+				    local maxStanding = 0
+				    local standings = { FACTION_STANDING_LABEL4
+						      , FACTION_STANDING_LABEL5
+						      , FACTION_STANDING_LABEL6
+						      , FACTION_STANDING_LABEL7
+						      , FACTION_STANDING_LABEL8
+						      }
+
+				    if isMajorFaction then
+				      maxStanding = #(C_MajorFactions.GetRenownLevels(factionID))
+				    else
+				      maxStanding = C_GossipInfo.GetFriendshipReputationRanks(factionID).maxLevel
+				    end
+
+				    if maxStanding > 0 then
+				        totalRate = 1 + floor(4 * status / maxStanding)
+				    end
+
+				    vcIndex = standings[totalRate]
+				else
+				    vcIndex = status
+				end
+
+				local vc = VertexColors[vcIndex]
 				button.Background:SetVertexColor(vc.r, vc.g, vc.b);
 				
 				local color = colors.white
@@ -512,7 +545,7 @@ tab:RegisterGrid(2, {
 			if not character then return end
 
 			local faction = view[ frame:GetID() ].name
-			local status, currentLevel, maxLevel, rate, isMajorFaction, isFrienshipFaction, factionID = DataStore:GetReputationInfo(character, faction)
+			local status, currentLevel, maxLevel, rate, isMajorFaction, isFriendshipFaction, factionID = DataStore:GetReputationInfo(character, faction)
 			if not status then return end
 
 			local tooltip = AddonFactory_Tooltip
@@ -526,7 +559,7 @@ tab:RegisterGrid(2, {
 			
 			if isMajorFaction then
 				tooltip:AddLine(format("%s: %d/%d (%s)", format(LEVEL_GAINED, status), currentLevel, maxLevel, rate),1,1,1 )
-			elseif isFrienshipFaction then
+			elseif isFriendshipFaction then
 				local ranks = C_GossipInfo.GetFriendshipReputationRanks(factionID)
 
 				tooltip:AddLine(format("%s %s/%s", RANK, status, ranks.maxLevel), 1,1,1)
@@ -557,7 +590,7 @@ tab:RegisterGrid(2, {
 			if not character then return end
 
 			local faction = view[ frame:GetParent():GetID() ].name
-			local status, currentLevel, maxLevel, rate, isMajorFaction, isFrienshipFaction = DataStore:GetReputationInfo(character, faction)
+			local status, currentLevel, maxLevel, rate, isMajorFaction, isFriendshipFaction = DataStore:GetReputationInfo(character, faction)
 			if not status then return end
 			
 			if button == "LeftButton" and IsShiftKeyDown() then
