@@ -11,7 +11,7 @@ local Orig_ChatEdit_InsertLink = ChatEdit_InsertLink
 function ChatEdit_InsertLink(text, ...)
 	local editBox = AltoholicFrame.SearchBox
 
-	if text and editBox:IsVisible() and not DataStore_Crafts:IsTradeSkillWindowOpen() then
+	if text and editBox:IsVisible() and not DataStore:IsTradeSkillWindowOpen() then
 		editBox:Insert(GetItemInfo(text))
 		return true
 	end
