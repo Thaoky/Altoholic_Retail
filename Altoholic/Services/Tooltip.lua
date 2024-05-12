@@ -213,9 +213,9 @@ local function GetItemCount(searchedID, itemLink)
 		count = GetAccountItemCount(DataStore.ThisAccount, searchedID, isAccountBound)
 	end
 	
-	local showCrossFaction = options["ShowCrossFactionCount"]
+	local showCrossFaction = options.ShowCrossFactionCount
 	
-	if options["ShowGuildBankCount"] then
+	if options.ShowGuildBankCount then
 		for _, realm in pairs(GetRealmsList(isAccountBound)) do
 			for guildName, guildKey in pairs(DataStore:GetGuilds(realm)) do
 				local hideInTooltip = options.HiddenGuilds[guildKey] or false
@@ -226,14 +226,13 @@ local function GetItemCount(searchedID, itemLink)
 					and not hideInTooltip
 				then
 					local guildCount = 0
-					
 					local guildLabel = format("%s%s|r", colors.green, guildName)
 					
-					if options["ShowGuildBankRealm"] then
+					if options.ShowGuildBankRealm then
 						guildLabel = format("%s %s(%s)|r", guildLabel, colors.yellow, realm)
 					end
 					
-					if options["ShowGuildBankCountPerTab"] then
+					if options.ShowGuildBankCountPerTab then
 						local tabCounters = {}
 						
 						local tabCount
