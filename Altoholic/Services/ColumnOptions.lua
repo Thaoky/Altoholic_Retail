@@ -7,10 +7,9 @@ addon:Service("AltoholicUI.ColumnOptions", function()
 			
 			local realmKey = format("%s.%s", account, realm)
 			
-			if storage[realmKey] then
-				-- value could be nil, when removing an alt from a column
-				storage[realmKey][id] = value
-			end
+			storage[realmKey] = storage[realmKey] or {}
+			-- value could be nil, when removing an alt from a column
+			storage[realmKey][id] = value
 		end,
 		
 		GetColumnKey = function(storage, account, realm, id)

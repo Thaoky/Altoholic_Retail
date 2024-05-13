@@ -555,23 +555,24 @@ DataStore:OnAddonLoaded(addonTabName, function()
 		["SortAscending"] = true,					-- ascending or descending sort order
 	}
 	options = Altoholic_SearchTab_Options
-		
-	--Temporary: database migration	
-	local source = AltoholicDB.global.options
+	
+	--Temporary: database migration
+	if AltoholicDB then
+		local source = AltoholicDB.global.options
 
-	for k, v in pairs(source) do
-		local arg1, arg2, arg3 = strsplit(".", k)
-		
-		if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Search" then
-			local prefix = "UI.Tabs.Search."
-			local optionName = k:sub(#prefix + 1)
+		for k, v in pairs(source) do
+			local arg1, arg2, arg3 = strsplit(".", k)
 			
-			-- Create the new entries
-			options[optionName] = v
-			
-			-- Delete the old entries
-			source[k] = nil
+			if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Search" then
+				local prefix = "UI.Tabs.Search."
+				local optionName = k:sub(#prefix + 1)
+				
+				-- Create the new entries
+				options[optionName] = v
+				
+				-- Delete the old entries
+				source[k] = nil
+			end
 		end
-		
 	end
 end)

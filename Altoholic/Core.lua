@@ -1,7 +1,7 @@
 local addonName, addon = ...
 _G[addonName] = addon
 
-addon.Version = "v10.2.012b"
+addon.Version = "v10.2.012c"
 -- addon.VersionNum = 902006
 addon.VersionNum = 1002012
 
@@ -365,6 +365,8 @@ DataStore:OnAddonLoaded(addonName, function()
 	end
 		
 	--Temporary: database migration	
+	if not AltoholicDB then return end
+	
 	local source = AltoholicDB.global.options
 	
 	local dest = Altoholic_UI_Options
