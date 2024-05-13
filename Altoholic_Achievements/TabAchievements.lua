@@ -494,24 +494,26 @@ addon:Controller("AltoholicUI.TabAchievementsCategoriesList", {
 DataStore:OnAddonLoaded(addonTabName, function() 
 	Altoholic_AchievementsTab_Columns = Altoholic_AchievementsTab_Columns or {}
 		
-	--Temporary: database migration	
-	local source = AltoholicDB.global.options
-	local dest = Altoholic_AchievementsTab_Columns
+	--Temporary: database migration
+	if AltoholicDB then
+		local source = AltoholicDB.global.options
+		local dest = Altoholic_AchievementsTab_Columns
 
-	for k, v in pairs(source) do
-		local arg1, arg2, account, realm, column = strsplit(".", k)
-		
-		if arg1 == "Tabs" and arg2 == "Achievements" then
-			local realmKey = format("%s.%s", account, realm)	-- ex: "Default.Dalaran"
-			local columnIndex = tonumber(column:match("%d+$"))
-			local _, _, characterName = strsplit(".", v)
+		for k, v in pairs(source) do
+			local arg1, arg2, account, realm, column = strsplit(".", k)
 			
-			-- Create the new entries
-			dest[realmKey] = dest[realmKey] or {}
-			dest[realmKey][columnIndex] = characterName
-			
-			-- Delete the old entries
-			source[k] = nil
+			if arg1 == "Tabs" and arg2 == "Achievements" then
+				local realmKey = format("%s.%s", account, realm)	-- ex: "Default.Dalaran"
+				local columnIndex = tonumber(column:match("%d+$"))
+				local _, _, characterName = strsplit(".", v)
+				
+				-- Create the new entries
+				dest[realmKey] = dest[realmKey] or {}
+				dest[realmKey][columnIndex] = characterName
+				
+				-- Delete the old entries
+				source[k] = nil
+			end
 		end
 	end
 
