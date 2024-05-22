@@ -491,32 +491,49 @@ addon:Controller("AltoholicUI.TabAchievementsCategoriesList", {
 	end,
 })
 
-DataStore:OnAddonLoaded(addonTabName, function() 
-	Altoholic_AchievementsTab_Columns = Altoholic_AchievementsTab_Columns or {}
-		
-	--Temporary: database migration
-	if AltoholicDB then
-		local source = AltoholicDB.global.options
-		local dest = Altoholic_AchievementsTab_Columns
+-- File: Altoholic_Achievements/TabAchievements.lua
 
-		for k, v in pairs(source) do
-			local arg1, arg2, account, realm, column = strsplit(".", k)
-			
-			if arg1 == "Tabs" and arg2 == "Achievements" then
-				local realmKey = format("%s.%s", account, realm)	-- ex: "Default.Dalaran"
-				local columnIndex = tonumber(column:match("%d+$"))
-				local _, _, characterName = strsplit(".", v)
-				
-				-- Create the new entries
-				dest[realmKey] = dest[realmKey] or {}
-				dest[realmKey][columnIndex] = characterName
-				
-				-- Delete the old entries
-				source[k] = nil
-			end
-		end
-	end
+DataStore:OnAddonLoaded(addonTabName, function()
+    Altoholic_AchievementsTab_Columns = Altoholic_AchievementsTab_Columns or {}
+    
+    -- Temporary: database migration
+    if AltoholicDB then
+        local source = AltoholicDB.global.options
+        local dest = Altoholic_AchievementsTab_Columns
 
-	local account, realm = tab.SelectRealm:GetCurrentRealm()
-	tab.ClassIcons:Update(account, realm, currentPage)	
+        for k, v in pairs(source) do
+            local arg1, arg2, account, realm, column = strsplit(".", k)
+            
+            -- Debugging statements to check the values
+            print("Debug: arg1 =", arg1, "arg2 =", arg2, "account =", account, "realm =", realm, "column =", column)
+            
+            if arg1 == "Tabs" and arg2 == "Achievements" then
+                if column then
+                    local columnIndex = tonumber(column:match("%d+$"))
+                    
+                    -- Additional check for valid columnIndex
+                    if columnIndex then
+                        local realmKey = format("%s.%s", account, realm)    -- ex: "Default.Dalaran"
+                        local _, _, characterName = strsplit(".", v)
+                        
+                        -- Create the new entries
+                        dest[realmKey] = dest[realmKey] or {}
+                        dest[realmKey][columnIndex] = characterName
+                        
+                        -- Delete the old entries
+                        source[k] = nil
+                    else
+                        print("Error: column does not contain a valid number, column =", column)
+                    end
+                else
+                    print("Error: column is nil for key", k)
+                end
+            end
+        end
+    end
+
+    local account, realm = tab.SelectRealm:GetCurrentRealm()
+    tab.ClassIcons:Update(account, realm, currentPage)
 end)
+
+

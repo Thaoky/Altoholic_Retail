@@ -516,40 +516,53 @@ DataStore:OnAddonLoaded(addonTabName, function()
 	}
 	options = Altoholic_GridsTab_Options
 		
-	--Temporary: database migration
+--Temporary: database migration
 	if AltoholicDB then
-		local source = AltoholicDB.global.options
-		local dest = Altoholic_GridsTab_Columns
+	    local source = AltoholicDB.global.options
+	    local dest = Altoholic_GridsTab_Columns
+	    local options = {}  -- Assuming options is defined somewhere accessible
 
-		for k, v in pairs(source) do
-			local arg1, arg2, arg3, realm, column = strsplit(".", k)
-			
-			if arg1 == "Tabs" and arg2 == "Grids" then
-				local realmKey = format("%s.%s", arg3, realm)	-- ex: "Default.Dalaran"
-				local columnIndex = tonumber(column:match("%d+$"))
-				local _, _, characterName = strsplit(".", v)
-				
-				-- Create the new entries
-				dest[realmKey] = dest[realmKey] or {}
-				dest[realmKey][columnIndex] = characterName
-				
-				-- Delete the old entries
-				source[k] = nil
-			end
-			
-			if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Grids" then
-				local prefix = "UI.Tabs.Grids."
-				local optionName = k:sub(#prefix + 1)
-				
-				-- Create the new entries
-				options[optionName] = v
-				
-				-- Delete the old entries
-				source[k] = nil
-			end
-			
-		end
+    	for k, v in pairs(source) do
+    	    local arg1, arg2, arg3, realm, column = strsplit(".", k)
+
+        	if arg1 == "Tabs" and arg2 == "Grids" then
+        	    if realm and column then
+        	        local realmKey = format("%s.%s", arg3, realm)  -- ex: "Default.Dalaran"
+        	        local columnIndex = tonumber(column:match("%d+$"))
+            	    local _, _, characterName = strsplit(".", v)
+					
+                	if realmKey and columnIndex and characterName then
+            	        -- Create the new entries
+               	    	dest[realmKey] = dest[realmKey] or {}
+            	        dest[realmKey][columnIndex] = characterName
+             		else
+            	        print("Warning: Invalid data format in source entry: " .. k)
+            	    end
+                
+	               -- Delete the old entries
+        	        source[k] = nil
+            	else
+            	    print("Warning: Missing realm or column in source key: " .. k)
+            	end
+        	end
+
+        	if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Grids" then
+        	    local prefix = "UI.Tabs.Grids."
+        	    local optionName = k:sub(#prefix + 1)
+
+        	    if optionName then
+        	        -- Create the new entries
+        	        options[optionName] = v
+                
+            	    -- Delete the old entries
+                	source[k] = nil
+            	else
+                	print("Warning: Invalid option name in source key: " .. k)
+            	end
+        	end
+    	end
 	end
+
 
 	-- Update only when options are ready
 	local account, realm = tab.SelectRealm:GetCurrentRealm()
