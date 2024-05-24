@@ -1,9 +1,9 @@
 local addonName, addon = ...
 _G[addonName] = addon
 
-addon.Version = "v10.2.013"
+addon.Version = "v10.2.014"
 -- addon.VersionNum = 902006
-addon.VersionNum = 1002013
+addon.VersionNum = 1002014
 
 LibStub("LibMVC-1.0"):Embed(addon)
 
@@ -449,26 +449,6 @@ DataStore:OnAddonLoaded(addonName, function()
 	-- guild bank tab auto update not really part of the guild tab options, it's a sharing option.
 	dest.GuildBankAutoUpdate = source["UI.Tabs.Guild.BankAutoUpdate"] or dest.GuildBankAutoUpdate
 	source["UI.Tabs.Guild.BankAutoUpdate"] = nil
-	
-	if not AltoholicDB.global.Sharing then return end
-	
-	local function MoveData(source, dest)
-		for k, v in pairs(source) do
-			dest[k] = v
-			source[k] = nil
-		end
-	end
-	
-	MoveData(AltoholicDB.global.Sharing.SharedContent, dest.SharedContent)
-	MoveData(AltoholicDB.global.Sharing.Clients, dest.Clients)
-
-	for k, v in pairs(AltoholicDB.global.Sharing.Domains) do
-		dest.Domains[k] = dest.Domains[k] or {}
-		MoveData(AltoholicDB.global.Sharing.Domains[k], dest.Domains[k])
-		
-	end
-	wipe(AltoholicDB.global.Sharing)
-	AltoholicDB.global.Sharing = nil
 	
 end)
 
