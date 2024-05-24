@@ -426,6 +426,40 @@ local sortedAchievements = {
 	[cat.FeatsOfStrengthPromotionsCollector] = { 662, 663, 664, 665, 683, 5377, 6848, 6849, 8916, 8917, 10320, 10321, 12229,
 		12230, 12232, 7412, 8795, 4824, 7842, 10309, 11064 },
 
+	[cat.PandariaRemix] = { 20593, 40223, 19871, 20527, 20528, 20529, 20530, 20531, 20532, 20533, 20534, 20535, 20536, 20537, 20538,
+		19872, 19873, 19874, 19875, 19876, 19877, 19878, 19879, 19880, 19881, 20003, 	-- Zones
+		20004, 20005, 20006, 20007, 								-- Scenarios, Dungeons, Raids
+		20008, 20009, 20011, 20012, 20014, 20015, 20016,	-- Looking for Group
+	},
+	[cat.PandariaRemixQuests] = { "19882:19883", 19884, "19885:19886", "19887:19888", 19889, 19890, 19891, 19892 },
+	[cat.PandariaRemixReputation] = { 19912, 19913, 19914, 19915, 19916, 19917, 19918, 19919, 19920, 19921, 19922 },
+	[cat.PandariaRemixExploration] = { 
+		20026, 19993, 19977, 19962,	-- Jade Forest
+		20027, 19994, 19978, 19963,	-- Valley of the four winds
+		20028, 19995, 19979, 19964,	-- Krasarang Wilds
+		20029, 19996, 19980, 19965,	-- Kun-Lai Summit
+		20030, 19997, 19981, 19966,	-- Townlong Steppes
+		20031, 19998, 19967,				-- Dread Wastes
+		20069,								-- Valley of Eternal Blossoms
+		19999,								-- Landfall
+		20000,								-- Isle of Thunder
+		20001, 19982, 20002, 19970		-- Timeless Isle
+	},
+	[cat.PandariaRemixScenarios] = { 19893, 19924, 19931, 19927, 19930, "19934:19936", "19935:19937", 19940, 19941, 19926, 19928, 19928, 19933, 19942, 19943, 19932, 19923, 20500, 19944, 19945, "19938:19939", 19925 },
+	[cat.PandariaRemixDungeons] = { 19894, 19895, 19896, 19897, 19898, 19899, 19904, 19905, 19902, 19903, 19906, 19907, 19908, 19909, 19910, 19911, 19900, 19901 },
+	[cat.PandariaRemixRaids] = {
+		19946, 19947, 19948,		-- Mogu'Shan Vaults
+		19949, 19950, 19951,		-- Heart of Fear
+		19952, 19953, 19954,		-- Terrace of Endless Spring
+		19955, 19956, 19957,		-- Throne of Thunder
+		19958, 19959, 19960,		-- Siege of Orgrimmar
+		20017,						-- Salyis
+		20018,						-- Sha of Anger
+		20019,						-- Nalak
+		20020,						-- Oondasta	
+		20021, 20022, 20023, 20024, 20025	-- Timeless Isle 
+	},
+
 	-- [cat.] = {},
 	-- [cat.] = {},
 
