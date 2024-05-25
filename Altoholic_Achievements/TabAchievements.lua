@@ -437,6 +437,14 @@ addon:Controller("AltoholicUI.TabAchievementsCategoriesList", {
 				{ text = GetCategoryInfo(cat.ExpansionFeaturesDragonriderRacing), id = cat.ExpansionFeaturesDragonriderRacing },
 				{ text = "Primal Storms", id = cat.ExpansionFeaturesPrimalStorms },
 			}},
+			{ id = cat.PandariaRemix, subMenu = {
+				{ id = cat.PandariaRemixQuests },
+				{ id = cat.PandariaRemixReputation },
+				{ id = cat.PandariaRemixExploration },
+				{ id = cat.PandariaRemixScenarios },
+				{ id = cat.PandariaRemixDungeons },
+				{ id = cat.PandariaRemixRaids },
+			}},
 			{ id = cat.FeatsOfStrength, subMenu = {
 				{ id = cat.FeatsOfStrengthMounts, subMenu = {
 					{ text = GetCategoryInfo(cat.PvPArena), id = cat.FeatsOfStrengthMountsArena },
