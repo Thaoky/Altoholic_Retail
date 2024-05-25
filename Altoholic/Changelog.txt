@@ -15,6 +15,14 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+10.2.014 (24/05/2024)
+
+- Added the Pandaria Remix achievements.
+- Fixed an error when scanning AH Bids
+- Fixed a guild communication error.
+
+
+
 10.2.013 (20/05/2024)
 
 Hi !
