@@ -10,7 +10,7 @@ This library contains various information about crafts, namely:
 
 --]]
 
-local LIB_VERSION_MAJOR, LIB_VERSION_MINOR = "LibCraftInfo-1.0", 3
+local LIB_VERSION_MAJOR, LIB_VERSION_MINOR = "LibCraftInfo-1.0", 4
 local lib = LibStub:NewLibrary(LIB_VERSION_MAJOR, LIB_VERSION_MINOR)
 
 if not lib then return end -- No upgrade needed
@@ -55,6 +55,7 @@ local professionToInternalID = {
 	-- Secondary
 	["Cooking"] = 9,
 	["First Aid"] = 10,
+	["Fishing"] = 11,
 }
 
 local internalIDToProfession = {
@@ -68,7 +69,8 @@ local internalIDToProfession = {
 	[7] = 2656,		-- Mining
 	[8] = 3908,		-- Tailoring
 	[9] = 2550,		-- Cooking
-	[10] = 3273,	-- First Aid
+	[10] = 3273,	-- First Aid 
+	[11] = 7732,	-- Fishing (cataclysm)
 }
 
 for internalID, spellID in pairs(internalIDToProfession) do
