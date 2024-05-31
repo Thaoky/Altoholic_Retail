@@ -37,6 +37,7 @@ L["FILTER_FACTIONS"] = "Fraktionsfilter"
 L["FILTER_LEVELS"] = "Stufenfilter"
 L["FILTER_PROFESSIONS"] = "Berufsfilter"
 L["FILTER_CLASSES"] = "Klassenfilter"
+-- L["FILTER_RACES"] = "Race filter"
 -- L["FILTER_MISC"] = "Miscellaneous filters"
 -- L["FILTER_BANKTYPE"] = "Bank characters filters"
 L["This realm"] = "Dieser Realm"
@@ -46,6 +47,7 @@ L["All accounts"] = "Alle Accounts"
 L["Both factions"] = "Beide Fraktionen"
 L["This faction"] = "Diese Fraktion"
 L["Any"] = "Beliebige"
+-- L["Allied Races"] = true
 L["ACCOUNT_SHARING_BUTTON_TITLE"] = "Anfrage zum Austausch zwischen Accounts"
 L["ACCOUNT_SHARING_BUTTON_INFO"] = [[Diese Schaltfläche anklicken, um einen Spieler zu bitten,
 seine komplette Altoholic-Datenbank zur Übermittlung

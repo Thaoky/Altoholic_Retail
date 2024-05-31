@@ -111,6 +111,7 @@ local function AddRealm(accountName, realmName)
 	local minLevel = options["CurrentLevelsMin"]
 	local maxLevel = options["CurrentLevelsMax"]
 	local misc = options["CurrentMisc"]
+	local race = options["CurrentRaces"]
 	local class = options["CurrentClasses"]
 	local bankType = options["CurrentBankType"]
 	local tradeskill = options["CurrentTradeSkill"]
@@ -141,6 +142,22 @@ local function AddRealm(accountName, realmName)
 			shouldAddCharacter = false
 		elseif (factions == 2) and (characterFaction ~= "Horde") then
 			shouldAddCharacter = false
+		end
+		
+		-- Race filter
+		local characterRace = select(3, DataStore:GetCharacterRace(character))
+		
+		if race > 0 and characterRace ~= race then
+			-- https://wowpedia.fandom.com/wiki/RaceId
+			-- if the race is 24, it's a special case for neutral pandarens, so let it pass
+			
+			-- if it's already a pandaren with a proper faction, it's handled by the previous test.
+			-- if it's a neutral pandaren (24), then the filtered race should be 25 or 26 to let it pass
+			if characterRace == 24 and not (race == 25 or race == 26) then
+				shouldAddCharacter = false
+			else
+				shouldAddCharacter = false
+			end
 		end
 		
 		-- If we are filtering by armor type..
