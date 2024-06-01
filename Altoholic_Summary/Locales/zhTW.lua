@@ -37,6 +37,7 @@ L["FILTER_FACTIONS"] = "陣營過濾"
 L["FILTER_LEVELS"] = "等級過濾"
 L["FILTER_PROFESSIONS"] = "專業技能過濾"
 L["FILTER_REALMS"] = "伺服器過濾"
+-- L["FILTER_RACES"] = "Race filter"
 -- L["FILTER_MISC"] = "Miscellaneous filters"
 -- L["FILTER_BANKTYPE"] = "Bank characters filters"
 L["This realm"] = "搜索這伺服器"
@@ -46,6 +47,7 @@ L["All accounts"] = "所有帳戶"
 L["This faction"] = "這陣營聲望"
 L["Both factions"] = "這兩個陣營聲望"
 L["Any"] = "任何"
+-- L["Allied Races"] = true
 L["ACCOUNT_SHARING_BUTTON_TITLE"] = "要求帳戶共享資料"
 L["ACCOUNT_SHARING_BUTTON_INFO"] = [[按一下這個按鈕來詢問玩家
 要求分享Altoholic的數據庫

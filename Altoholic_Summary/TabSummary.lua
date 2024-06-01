@@ -14,6 +14,7 @@ local OPTION_LEVELS = "CurrentLevels"
 local OPTION_LEVELS_MIN = "CurrentLevelsMin"
 local OPTION_LEVELS_MAX = "CurrentLevelsMax"
 local OPTION_CLASSES = "CurrentClasses"
+local OPTION_RACES = "CurrentRaces"
 local OPTION_MISC = "CurrentMisc"
 local OPTION_BANKTYPE = "CurrentBankType"
 local OPTION_TRADESKILL = "CurrentTradeSkill"
@@ -127,6 +128,11 @@ end
 
 local function OnClassFilterChange(frame)
 	options[OPTION_CLASSES] = frame.value
+	AltoholicFrame.TabSummary:Update()
+end
+
+local function OnRaceFilterChange(frame)
+	options[OPTION_RACES] = frame.value
 	AltoholicFrame.TabSummary:Update()
 end
 
@@ -349,6 +355,53 @@ local function ClassIcon_Initialize(frame, level)
 	end
 end
 
+-- https://wowpedia.fandom.com/wiki/RaceId
+local allianceRaces = { 1, 3, 4, 7, 11, 22, 25, 52 }
+local allianceAlliedRaces = { 29, 30, 34, 32, 37 }
+local hordeRaces = { 2, 5, 6, 8, 10, 9, 26, 70 }
+local hordeAlliedRaces = { 27, 28, 36, 31, 35 }
+
+local function RaceIcon_Initialize(frame, level)
+	if not level then return end
+	
+	local option = options[OPTION_RACES]
+	
+	local function AddRaces(races)
+		for _, raceID in ipairs(races) do
+			local info = C_CreatureInfo.GetRaceInfo(raceID)
+			
+			frame:AddButton(info.raceName, raceID, OnRaceFilterChange, nil, (option == raceID), level)
+		end
+	end
+	
+	if level == 1 then
+		frame:AddTitle(L["FILTER_RACES"])
+		frame:AddButton(ALL, 0, OnRaceFilterChange, nil, (option == 0))
+		frame:AddTitle()
+		frame:AddCategoryButton(FACTION_ALLIANCE, 1, level)
+		frame:AddCategoryButton(FACTION_HORDE, 2, level)
+		frame:AddTitle()
+		frame:AddTitle(L["Allied Races"])
+		frame:AddCategoryButton(FACTION_ALLIANCE, 3, level)
+		frame:AddCategoryButton(FACTION_HORDE, 4, level)
+		frame:AddTitle()
+		frame:AddCloseMenu()
+		
+	elseif level == 2 then
+		local subMenu = frame:GetCurrentOpenMenuValue()
+	
+		if subMenu == 1 then
+			AddRaces(allianceRaces)
+		elseif subMenu == 2 then
+			AddRaces(hordeRaces)
+		elseif subMenu == 3 then
+			AddRaces(allianceAlliedRaces)
+		elseif subMenu == 4 then
+			AddRaces(hordeAlliedRaces)
+		end
+	end
+end
+
 local function MiscIcon_Initialize(frame, level)
 	local option = options[OPTION_MISC]
 	
@@ -450,6 +503,7 @@ local menuIconCallbacks = {
 	LevelIcon_Initialize,
 	ProfessionsIcon_Initialize,
 	ClassIcon_Initialize,
+	RaceIcon_Initialize,
 	MiscIcon_Initialize,
 	BankIcon_Initialize,
 	AltoholicOptionsIcon_Initialize,
@@ -839,6 +893,7 @@ DataStore:OnAddonLoaded(addonTabName, function()
 		["CurrentLevelsMax"] = 70,					
 		["CurrentBankType"] = 0,						-- 0 = All
 		["CurrentClasses"] = 0,							-- 0 = All
+		["CurrentRaces"] = 0,							-- 0 = All
 		["CurrentTradeSkill"] = 0,						-- 0 = All
 		["CurrentMisc"] = 0,								-- 
 		["UseColorForTradeSkills"] = true,			-- Use color coding for tradeskills, or neutral
@@ -848,6 +903,7 @@ DataStore:OnAddonLoaded(addonTabName, function()
 		["ShowGuildRank"] = false,						-- display the guild rank or the guild name
 	}
 	options = Altoholic_SummaryTab_Options
+	options.CurrentRaces = options.CurrentRaces or 0
 	
 	--Temporary: database migration
 	if AltoholicDB then

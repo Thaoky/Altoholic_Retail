@@ -122,9 +122,22 @@
 					</OnEnter>
 				</Scripts>
 			</Button>
-			<Button parentKey="MiscIcon" inherits="AddonFactory_ButtonTemplate" id="6">
+			<Button parentKey="RaceIcon" inherits="AddonFactory_ButtonTemplate" id="6">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.ClassIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\achievement_general_stayclassy" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="MiscIcon" inherits="AddonFactory_ButtonTemplate" id="7">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.RaceIcon" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 				<KeyValues>
 					<KeyValue key="iconFile" value="Interface\Icons\achievement_bg_captureflag_wsg" />
@@ -135,7 +148,7 @@
 					</OnEnter>
 				</Scripts>
 			</Button>
-			<Button parentKey="BankIcon" inherits="AddonFactory_ButtonTemplate" id="7">
+			<Button parentKey="BankIcon" inherits="AddonFactory_ButtonTemplate" id="8">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.MiscIcon" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
@@ -168,7 +181,7 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button parentKey="AltoholicOptionsIcon" inherits="AddonFactory_ButtonTemplate" id="8">
+			<Button parentKey="AltoholicOptionsIcon" inherits="AddonFactory_ButtonTemplate" id="9">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.RequestSharing" relativePoint="TOPRIGHT" x="20" y="0" />
 				</Anchors>
@@ -181,7 +194,7 @@
 					</OnEnter>
 				</Scripts>
 			</Button>			
-			<Button parentKey="DataStoreOptionsIcon" inherits="AddonFactory_ButtonTemplate" id="9">
+			<Button parentKey="DataStoreOptionsIcon" inherits="AddonFactory_ButtonTemplate" id="10">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.AltoholicOptionsIcon" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>

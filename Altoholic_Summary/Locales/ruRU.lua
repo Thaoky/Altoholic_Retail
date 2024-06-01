@@ -42,6 +42,7 @@ L["FILTER_FACTIONS"] = "Фильтр фракций"
 L["FILTER_LEVELS"] = "Фильтр уровней"
 L["FILTER_PROFESSIONS"] = "Фильтр профессий"
 L["FILTER_REALMS"] = "Фильтр миров"
+-- L["FILTER_RACES"] = "Race filter"
 -- L["FILTER_MISC"] = "Miscellaneous filters"
 -- L["FILTER_BANKTYPE"] = "Bank characters filters"
 L["This realm"] = "Этот мир"
@@ -51,6 +52,7 @@ L["All accounts"] = "Все уч.записи"
 L["This faction"] = "Эта фракция"
 L["Both factions"] = "Обе фракции"
 L["Any"] = "Любое"
+-- L["Allied Races"] = true
 L["ACCOUNT_SHARING_BUTTON_TITLE"] = "Запрос совместного использования данных"
 L["ACCOUNT_SHARING_BUTTON_INFO"] = [[Нажмите эту кнопку, чтобы спросить игрока,
 не желает ли он поделиться всей своей
