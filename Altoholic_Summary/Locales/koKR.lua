@@ -37,6 +37,7 @@ L["FILTER_FACTIONS"] = "평판 필터"
 L["FILTER_LEVELS"] = "레벨 필터"
 L["FILTER_PROFESSIONS"] = "전문기술 필터"
 L["FILTER_REALMS"] = "서버 필터"
+-- L["FILTER_RACES"] = "Race filter"
 -- L["FILTER_MISC"] = "Miscellaneous filters"
 -- L["FILTER_BANKTYPE"] = "Bank characters filters"
 L["This realm"] = "이 서버"
@@ -46,6 +47,7 @@ L["All accounts"] = "모든 계정"
 L["This faction"] = "이 평판"
 L["Both factions"] = "양쪽 진영"
 L["Any"] = "모두"
+-- L["Allied Races"] = true
 L["ACCOUNT_SHARING_BUTTON_TITLE"] = "계정 공유 요청"
 L["ACCOUNT_SHARING_BUTTON_INFO"] =  [[사용자에게 그 사람의 Altoholic 데이터베이스
 전부를 공유하고 당신의 데이터베이스에 추가할

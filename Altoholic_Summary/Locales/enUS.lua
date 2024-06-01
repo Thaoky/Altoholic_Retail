@@ -37,6 +37,7 @@ L["FILTER_FACTIONS"] = "Faction filter"
 L["FILTER_LEVELS"] = "Level filter"
 L["FILTER_PROFESSIONS"] = "Profession filter"
 L["FILTER_CLASSES"] = "Class filter"
+L["FILTER_RACES"] = "Race filter"
 L["FILTER_MISC"] = "Miscellaneous filters"
 L["FILTER_BANKTYPE"] = "Bank characters filters"
 L["This realm"] = true
@@ -46,6 +47,7 @@ L["All accounts"] = true
 L["Both factions"] = true
 L["This faction"] = true
 L["Any"] = true
+L["Allied Races"] = true
 L["ACCOUNT_SHARING_BUTTON_TITLE"] = "Account Sharing Request"
 L["ACCOUNT_SHARING_BUTTON_INFO"] = "Click this button to ask a player\nto share their entire Altoholic Database\nand add it to your own"
 

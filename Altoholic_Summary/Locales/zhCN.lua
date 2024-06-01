@@ -37,6 +37,7 @@ L["Activity"] = "活跃度"
 -- L["FILTER_LEVELS"] = "Level filter"
 -- L["FILTER_PROFESSIONS"] = "Profession filter"
 -- L["FILTER_CLASSES"] = "Class filter"
+-- L["FILTER_RACES"] = "Race filter"
 -- L["FILTER_MISC"] = "Miscellaneous filters"
 -- L["FILTER_BANKTYPE"] = "Bank characters filters"
 L["This realm"] = "仅搜索该服务器"
@@ -46,6 +47,7 @@ L["All accounts"] = "所有账户"
 L["This faction"] = "此阵营"
 L["Both factions"] = "双方阵营"
 L["Any"] = "所有"
+-- L["Allied Races"] = true
 L["ACCOUNT_SHARING_BUTTON_TITLE"] = "账户共享请求"
 L["ACCOUNT_SHARING_BUTTON_INFO"] = [[点击此按钮来询问玩家
 是否共享整个Altoholic数据库

@@ -37,6 +37,7 @@ L["PATCH_10.2"] = "Guardians of the Dream"
 -- L["FILTER_LEVELS"] = "Level filter"
 -- L["FILTER_PROFESSIONS"] = "Profession filter"
 -- L["FILTER_CLASSES"] = "Class filter"
+-- L["FILTER_RACES"] = "Race filter"
 -- L["FILTER_MISC"] = "Miscellaneous filters"
 -- L["FILTER_BANKTYPE"] = "Bank characters filters"
 L["This realm"] = "Este reino"
@@ -46,6 +47,7 @@ L["All accounts"] = "Todas las cuentas"
 L["This faction"] = "Esta facción"
 L["Both factions"] = "Ambas facciones"
 L["Any"] = "Todos"
+-- L["Allied Races"] = true
 L["ACCOUNT_SHARING_BUTTON_TITLE"] = "Petición de compartir cuenta"
 L["ACCOUNT_SHARING_BUTTON_INFO"] = [[Click en este botón para pedir a un jugador
 que comparta su base de datos de Altoholic entera
