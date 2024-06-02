@@ -82,7 +82,7 @@ addon:Controller("AltoholicUI.CalendarDay", { "AltoholicUI.EventsList", function
 			local month = frame.month
 			local day = frame.day
 			
-			if EventsList:GetDayCount(year, month, day) == 0 then	
+			if EventsList:GetDayCount(year, month, day) == 0 then
 				return	-- no events on that day ? exit
 			end	
 			

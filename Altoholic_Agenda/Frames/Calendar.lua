@@ -48,7 +48,7 @@ local CALENDAR_FULLDATE_MONTH_NAMES = {
 	FULLDATE_MONTH_DECEMBER,
 };
 
-addon:Controller("AltoholicUI.TabAgenda.Calendar", function() 
+addon:Controller("AltoholicUI.TabAgenda.Calendar", function()
 	return {
 		OnBind = function(frame)
 			local parent = AltoholicFrame.TabAgenda

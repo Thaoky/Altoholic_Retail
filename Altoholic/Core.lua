@@ -1,9 +1,9 @@
 local addonName, addon = ...
 _G[addonName] = addon
 
-addon.Version = "v10.2.015"
+addon.Version = "v10.2.016"
 -- addon.VersionNum = 902006
-addon.VersionNum = 1002015
+addon.VersionNum = 1002016
 
 LibStub("LibMVC-1.0"):Embed(addon)
 
@@ -140,6 +140,10 @@ local function SaveVersion(sender, version)
 	guildMembersVersion[sender] = version
 end
 
+local function ToggleUI()
+	AltoholicFrame:ToggleUI()
+end
+
 local function SearchBags(searchText)
 	if not searchText or string.len(searchText) == 0 then
 		addon:Print("Usage = /altoholic search <item name>")
@@ -160,7 +164,7 @@ end
 local commandLineCommands = {
 	["show"] = function() AltoholicFrame:Show() end,
 	["hide"] = function() AltoholicFrame:Hide() end,
-	["toggle"] = function() AltoholicFrame:ToggleUI() end,
+	["toggle"] = ToggleUI,
 	["search"] = SearchBags,
 }
 
@@ -365,7 +369,7 @@ DataStore:OnAddonLoaded(addonName, function()
 	end
 		
 	--Temporary: database migration	
-	if not AltoholicDB then return end
+	if not AltoholicDB or not AltoholicDB.global or not AltoholicDB.global.options then return end		-- just being extra safe here ..
 	
 	local source = AltoholicDB.global.options
 	
@@ -466,4 +470,17 @@ end
 
 function addon:Print(text)	
 	DEFAULT_CHAT_FRAME:AddMessage(format("|cff33ff99%s|r: %s", addonName, text))
+end
+
+-- https://wowpedia.fandom.com/wiki/Addon_compartment
+function Altoholic_OnAddonCompartmentClick(addonName, buttonName, menuButtonFrame)
+	ToggleUI()
+end
+ 
+function Altoholic_OnAddonCompartmentEnter(addonName, menuButtonFrame)
+	AddonFactory_Tooltip:ShowInfo(menuButtonFrame, format("%s\n%s%s", addonName, colors.white, format(L["Left-click to %sopen"], colors.green)))
+end
+
+function Altoholic_OnAddonCompartmentLeave(addonName, menuButtonFrame)
+	AddonFactory_Tooltip:Hide()
 end

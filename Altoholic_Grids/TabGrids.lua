@@ -517,7 +517,7 @@ DataStore:OnAddonLoaded(addonTabName, function()
 	options = Altoholic_GridsTab_Options
 		
 	--Temporary: database migration
-	if AltoholicDB then
+	if AltoholicDB and AltoholicDB.global and AltoholicDB.global.options then
 		local source = AltoholicDB.global.options
 		local dest = Altoholic_GridsTab_Columns
 
