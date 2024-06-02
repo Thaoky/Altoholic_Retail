@@ -503,7 +503,7 @@ DataStore:OnAddonLoaded(addonTabName, function()
 	Altoholic_AchievementsTab_Columns = Altoholic_AchievementsTab_Columns or {}
 		
 	--Temporary: database migration
-	if AltoholicDB then
+	if AltoholicDB and AltoholicDB.global and AltoholicDB.global.options then
 		local source = AltoholicDB.global.options
 		local dest = Altoholic_AchievementsTab_Columns
 

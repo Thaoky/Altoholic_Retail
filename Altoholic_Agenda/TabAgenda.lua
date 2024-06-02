@@ -2,10 +2,9 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local L = DataStore:GetLocale(addonName)
 
-local tab		-- small shortcut to easily address the frame (set in OnBind)
-
 addon:Controller("AltoholicUI.TabAgenda", { "AltoholicUI.Events", function(Events)
 
+	local tab		-- small shortcut to easily address the frame (set in OnBind)
 	local currentPanelKey = "Calendar"
 
 	local function OnCalendarDataUpdated(event, itemID)
