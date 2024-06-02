@@ -192,7 +192,7 @@ DataStore:OnAddonLoaded(addonTabName, function()
 	local options = Altoholic_GuildTab_Options
 	
 	--Temporary: database migration	
-	if AltoholicDB then
+	if AltoholicDB and AltoholicDB.global and AltoholicDB.global.options then
 		local source = AltoholicDB.global.options
 
 		for k, v in pairs(source) do

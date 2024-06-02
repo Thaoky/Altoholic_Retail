@@ -15,6 +15,12 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+10.2.016 (02/06/2024)
+
+- Summary tab -> Properly implemented the deletion of a character in the new datase format.
+- Added a shortcut to open the add-on's UI in the Blizzard's add-on compartment at the top right of the screen.
+
+
 10.2.015 (31/05/2024)
 
 - Summary tab -> Added a race filter. Races are listed in the same order as on the character creation screen.
