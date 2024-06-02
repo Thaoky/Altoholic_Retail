@@ -2,6 +2,8 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = addon.Colors
 
+local DataStore, TableInsert = DataStore, table.insert
+
 local L = DataStore:GetLocale(addonName)
 
 local enum = DataStore.Enum.ContainerIDs
@@ -61,7 +63,7 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 		local lowerLimit = 1
 
 		while size > 0 do					-- as long as there are slots to process ..
-			table.insert(bagIndices, { bagID = bag, from = lowerLimit} )
+			TableInsert(bagIndices, { bagID = bag, from = lowerLimit} )
 		
 			if size <= 12 then			-- no more lines ? leave
 				return
@@ -259,24 +261,24 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 
 			if options[OPTION_VIEW_BAGS] then
 				for i = FIRST_BAG, LAST_BAG do
-					table.insert(containerList, i)
+					TableInsert(containerList, i)
 				end
 			end
 			
 			if options[OPTION_VIEW_BANK] then
 				for i = FIRST_BANK_BAG, LAST_BANK_BAG do
-					table.insert(containerList, i)
+					TableInsert(containerList, i)
 				end
-				table.insert(containerList, enum.MainBankSlots)
+				TableInsert(containerList, enum.MainBankSlots)
 			end
 			
 			if options[OPTION_VIEW_VOID_STORAGE] then
-				table.insert(containerList, enum.VoidStorageTab1)
-				table.insert(containerList, enum.VoidStorageTab2)
+				TableInsert(containerList, enum.VoidStorageTab1)
+				TableInsert(containerList, enum.VoidStorageTab2)
 			end
 			
 			if options[OPTION_VIEW_REAGENT_BANK] then
-				table.insert(containerList, enum.ReagentBank)
+				TableInsert(containerList, enum.ReagentBank)
 			end
 			
 			local rowIndex = 1
@@ -379,24 +381,24 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 
 			if options[OPTION_VIEW_BAGS] then
 				for i = FIRST_BAG, LAST_BAG do
-					table.insert(containerList, i)
+					TableInsert(containerList, i)
 				end
 			end
 			
 			if options[OPTION_VIEW_BANK] then
 				for i = FIRST_BANK_BAG, LAST_BANK_BAG do
-					table.insert(containerList, i)
+					TableInsert(containerList, i)
 				end
-				table.insert(containerList, enum.MainBankSlots)
+				TableInsert(containerList, enum.MainBankSlots)
 			end
 			
 			if options[OPTION_VIEW_VOID_STORAGE] then
-				table.insert(containerList, enum.VoidStorageTab1)
-				table.insert(containerList, enum.VoidStorageTab2)
+				TableInsert(containerList, enum.VoidStorageTab1)
+				TableInsert(containerList, enum.VoidStorageTab2)
 			end
 			
 			if options[OPTION_VIEW_REAGENT_BANK] then
-				table.insert(containerList, enum.ReagentBank)
+				TableInsert(containerList, enum.ReagentBank)
 			end
 			
 			local itemButton
