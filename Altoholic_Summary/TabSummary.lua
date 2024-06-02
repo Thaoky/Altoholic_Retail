@@ -906,7 +906,7 @@ DataStore:OnAddonLoaded(addonTabName, function()
 	options.CurrentRaces = options.CurrentRaces or 0
 	
 	--Temporary: database migration
-	if AltoholicDB then
+	if AltoholicDB and AltoholicDB.global and AltoholicDB.global.options then
 		local source = AltoholicDB.global.options
 
 		for k, v in pairs(source) do
