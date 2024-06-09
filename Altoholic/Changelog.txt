@@ -15,6 +15,18 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+10.2.017 (09/06/2024)
+
+- DataStore_Agenda : Fixed scanning of raid instances.
+- DataStore_Crafts : Fixed an issue when opening NPC profession panels.
+- DataStore_Containers : Fixed the count of items which can be stacked by more than 1023 (such as the Polished Pet Charm).
+Note: the maximum stack is now coded on 16 bits instead of 10, and to prevent asking all of you to logon all of your alts again, I implemented a non-breaking fix.
+I support both the old (10 bits) and new (16 bits) format, and logging on with an alt will automatically convert the bag/bank contents to the new format.
+In a few months, I will remove support for the old formats, so that leaves you time :)
+
+It is however necessary to log on with an alt to fix the counters of stacks higher than 1000.
+
+
 10.2.016 (02/06/2024)
 
 - Summary tab -> Properly implemented the deletion of a character in the new datase format.
