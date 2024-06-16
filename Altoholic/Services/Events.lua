@@ -350,7 +350,11 @@ addon:Service("AltoholicUI.Events", { "AltoholicUI.EventsList", function(EventsL
 			
 			if expiresIn < 0 then							-- if the event has expired
 				EventsList.MarkForDeletion(index)		-- .. mark it for deletion (no table.remove in this pass, to avoid messing up indexes)
-				ShowExpiryWarning(index, 0)		-- .. and do the appropriate warning
+				
+				-- only report if warnings are enabled
+				if Altoholic_Calendar_Options["WarningsEnabled"] == true then
+					ShowExpiryWarning(index, 0)		-- .. and do the appropriate warning
+				end
 			end
 		end
 		
@@ -481,11 +485,56 @@ addon:Service("AltoholicUI.Events", { "AltoholicUI.EventsList", function(EventsL
 		EventsList.SortByTime()
 	end
 	
+	local function CheckExpiries()
+		-- warning here, check the value of self, the elapsed parameter seems wrong, double check this !
+		C_Timer.After(60, CheckExpiries)	-- repeating timer
+		if Altoholic_Calendar_Options["WarningsEnabled"] == false then	-- warnings disabled ? do nothing
+			return
+		end
+
+		-- called every 60 seconds
+		local hasExpired
+		
+		for index, event in pairs(EventsList.GetEvents()) do
+			local minutes = floor(EventsList.GetExpiry(index) / 60)
+
+			if minutes > -1440 and minutes < 0 then		-- expiry older than 1 day is ignored
+				hasExpired = true		-- at least one event has expired
+				
+			elseif minutes == 0 then
+				ShowExpiryWarning(index, 0)
+				hasExpired = true		-- at least one event has expired
+				
+			elseif minutes > 0 and minutes <= 30 then
+				for _, threshold in pairs(timerThresholds) do
+					if threshold == minutes then			-- if snooze is allowed for this value
+						if IsNumberInString(threshold, EventsList.GetWarnings(index)) then
+							ShowExpiryWarning(index, minutes)
+						end
+						break
+						
+					-- save some cpu cycles, exit if threshold too low
+					elseif threshold < minutes then
+						break
+					end
+				end
+			end
+		end
+		
+		-- if at least one event has expired, rebuild the list & Update
+		if hasExpired then
+			ClearExpiredEvents()
+			BuildList()
+			
+			DataStore:Broadcast("ALTOHOLIC_EVENT_EXPIRY")
+		end
+	end
+	
 	return {
 		Initialize = function(self)
 			DataStore:ListenTo("DATASTORE_CS_TIMEGAP_FOUND", function() 
 				-- once the Client-Server time gap is known, check for expiries every 60 seconds
-				C_Timer.After(60, self.CheckExpiries)
+				C_Timer.After(60, CheckExpiries)
 			end)
 		
 			-- Sequence of operations : 
@@ -495,51 +544,6 @@ addon:Service("AltoholicUI.Events", { "AltoholicUI.EventsList", function(EventsL
 			BuildList()									-- 4. Rebuild the list of events
 		end,
 		BuildList = BuildList,
-	
-		CheckExpiries = function(elapsed)
-			-- warning here, check the value of self, the elapsed parameter seems wrong, double check this !
-			-- C_Timer.After(60, self.CheckExpiries)	-- repeating timer
-			if Altoholic_Calendar_Options["WarningsEnabled"] == false then	-- warnings disabled ? do nothing
-				return
-			end
-
-			-- called every 60 seconds
-			local hasExpired
-			
-			for index, event in pairs(EventsList.GetEvents()) do
-				local minutes = floor(EventsList.GetExpiry(index) / 60)
-
-				if minutes > -1440 and minutes < 0 then		-- expiry older than 1 day is ignored
-					hasExpired = true		-- at least one event has expired
-					
-				elseif minutes == 0 then
-					ShowExpiryWarning(index, 0)
-					hasExpired = true		-- at least one event has expired
-					
-				elseif minutes > 0 and minutes <= 30 then
-					for _, threshold in pairs(timerThresholds) do
-						if threshold == minutes then			-- if snooze is allowed for this value
-							if IsNumberInString(threshold, EventsList.GetWarnings(index)) then
-								ShowExpiryWarning(index, minutes)
-							end
-							break
-							
-						-- save some cpu cycles, exit if threshold too low
-						elseif threshold < minutes then
-							break
-						end
-					end
-				end
-			end
-			
-			-- if at least one event has expired, rebuild the list & Update
-			if hasExpired then
-				ClearExpiredEvents()
-				BuildList()
-				
-				DataStore:Broadcast("ALTOHOLIC_EVENT_EXPIRY")
-			end
-		end,
 	
 		GetTimerThresholds = function() return timerThresholds end,
 		
