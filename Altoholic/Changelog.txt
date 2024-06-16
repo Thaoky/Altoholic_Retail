@@ -15,6 +15,16 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+10.2.018 (16/06/2024)
+
+
+- DataStore_Crafts : Fixed a Lua error related to cooldowns when scanning a profession (Thanks Stormspark!).
+- DataStore_Containers : Fixed the count of items which can be stacked by more than 2047 (such as the Polished Pet Charm ! ..which I thought could stack up to 2000, but it's 5000).
+- DataStore_Agenda : Fixed the detection of the client-server time gap, which messed up the reporting of expired events.
+- Warnings are now properly sent for expired events (issue with repeated timer).
+- Saved instances reset warnings are now only displayed if warnings are enabled in the options.
+
+
 10.2.017 (09/06/2024)
 
 - DataStore_Agenda : Fixed scanning of raid instances.
