@@ -69,7 +69,7 @@ end
 local function OnRarityChange(frame, guildBank)
 	local rarity = frame.value
 
-	Altoholic_GuildTab_Options["BankItemsRarity"] = rarity
+	Altoholic_GuildTab_Options.BankItemsRarity = rarity
 	
 	guildBank.MenuIcons.RarityIcon:SetRarity(rarity)
 	guildBank:Update()
@@ -189,7 +189,7 @@ local function UpdateIcon_Initialize(frame, level)
 end
 
 local function RarityIcon_Initialize(frame, level)
-	local rarity = Altoholic_GuildTab_Options["BankItemsRarity"]
+	local rarity = Altoholic_GuildTab_Options.BankItemsRarity
 	
 	local guildBank = frame:GetParent()
 	

@@ -4,7 +4,6 @@ local addon = _G[addonName]
 local colors = addon.Colors
 
 local L = DataStore:GetLocale(addonName)
-local MVC = LibStub("LibMVC-1.0")
 
 local tab		-- small shortcut to easily address the frame (set in OnBind)
 local currentPanelKey
