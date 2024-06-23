@@ -24,7 +24,7 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 	
 	local item_OnEnter
 	
-	local function bag_OnEnter(self)
+	local function Bag_OnEnter(self)
 		local id = self:GetID()
 		GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 		
@@ -187,7 +187,7 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 							
 							itemButton.Icon:SetDesaturated(false)
 							itemButton.Icon:SetTexture(containerIcon)
-							itemButton:SetScript("OnEnter", bag_OnEnter)						
+							itemButton:SetScript("OnEnter", Bag_OnEnter)
 							itemButton.Count:Hide()
 							itemButton:Show()
 						else

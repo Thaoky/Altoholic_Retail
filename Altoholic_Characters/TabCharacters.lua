@@ -261,16 +261,18 @@ local function AuctionIcon_Initialize(frame, level)
 	
 	frame:AddTitle(format("%s / %s", BUTTON_LAG_AUCTIONHOUSE, DataStore:GetColoredCharacterName(character)))
 	
-	local last = DataStore:GetModuleLastUpdateByKey("DataStore_Auctions", character)
-	if DataStore_Auctions and last then
-		local numAuctions = DataStore:GetNumAuctions(character) or 0
-		local numBids = DataStore:GetNumBids(character) or 0
-		
-		frame:AddButtonWithArgs(format("%s %s(%d)", AUCTIONS, colors.green, numAuctions), "Auctions", OnAuctionsChange, "Auctions")
-		frame:AddButtonWithArgs(format("%s %s(%d)", BIDS, colors.green, numBids), "Auctions", OnAuctionsChange, "Bids")
-	else
+	local numAuctions = DataStore:GetNumAuctions(character) or 0
+	if numAuctions == 0 then
 		frame:AddButton(format("%s %s(%d)", AUCTIONS, colors.grey, 0))
+	else
+		frame:AddButtonWithArgs(format("%s %s(%d)", AUCTIONS, colors.green, numAuctions), "Auctions", OnAuctionsChange, "Auctions")
+	end
+	
+	local numBids = DataStore:GetNumBids(character) or 0
+	if numBids == 0 then
 		frame:AddButton(format("%s %s(%d)", BIDS, colors.grey, 0))
+	else
+		frame:AddButtonWithArgs(format("%s %s(%d)", BIDS, colors.green, numBids), "Auctions", OnAuctionsChange, "Bids")
 	end
 	
 	-- actions
@@ -293,12 +295,11 @@ local function MailIcon_Initialize(frame, level)
 		
 	frame:AddTitle(format("%s / %s", MINIMAP_TRACKING_MAILBOX, DataStore:GetColoredCharacterName(character)))
 
-	local last = DataStore:GetModuleLastUpdateByKey("DataStore_Mails", character)
-	if DataStore_Mails and last then
-		local numMails = DataStore:GetNumMails(character) or 0
-		frame:AddButton(format("%s %s(%d)", L["Mails"], colors.green, numMails), "Mails", OnMenuChange)
-	else
+	local numMails = DataStore:GetNumMails(character) or 0
+	if numMails == 0 then
 		frame:AddButton(format("%s %s(%d)", L["Mails"], colors.grey, 0))
+	else
+		frame:AddButton(format("%s %s(%d)", L["Mails"], colors.green, numMails), "Mails", OnMenuChange)
 	end
 
 	frame:AddButton(format("%s%s", colors.white, L["Clear all entries"]), character, OnClearMailboxEntries)
@@ -366,7 +367,7 @@ local function ProfessionsIcon_Initialize(frame, level)
 			frame:AddButtonInfo(info, level)
 			
 		elseif professionName then
-			frame:AddButton(colors.grey..professionName, nil, nil)
+			frame:AddButton(format("%s%s", colors.grey, professionName), nil, nil)
 		end
 		
 		-- Profession 2
