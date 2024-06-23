@@ -15,8 +15,13 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
-10.2.018 (16/06/2024)
+10.2.019 (23/06/2024)
 
+- Fixed an issue where the mailbox was properly scanned, but not properly reflected in the UI.
+- Fixed another UI issue related to auctions.
+- DataStore_Auctions : Fixed compatibility with the Cataclysm version.
+
+10.2.018 (16/06/2024)
 
 - DataStore_Crafts : Fixed a Lua error related to cooldowns when scanning a profession (Thanks Stormspark!).
 - DataStore_Containers : Fixed the count of items which can be stacked by more than 2047 (such as the Polished Pet Charm ! ..which I thought could stack up to 2000, but it's 5000).

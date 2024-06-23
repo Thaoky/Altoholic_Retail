@@ -169,6 +169,7 @@ DataStore:OnPlayerLogin(function()
 	local Tooltip = MVC:GetService("AltoholicUI.Tooltip")
 	Tooltip:Initialize()
 
+	AltoholicFrame:SetClampedToScreen(Altoholic_UI_Options.ClampWindowToScreen)
 	AltoholicFrame:SetScale(Altoholic_UI_Options.Scale)
 	AltoholicFrame:LimitFrameSize()
 	
