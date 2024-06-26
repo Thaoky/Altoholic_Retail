@@ -15,6 +15,11 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+10.2.020 (26/06/2024)
+
+- Aligned DataStore with recent fixes for Cataclysm.
+- Fixed invalid item counters after leaving the bank (identified in Cataclysm, but applies also to Retail).
+
 10.2.019 (23/06/2024)
 
 - Fixed an issue where the mailbox was properly scanned, but not properly reflected in the UI.
