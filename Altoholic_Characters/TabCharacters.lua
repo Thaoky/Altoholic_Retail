@@ -335,57 +335,63 @@ local function ProfessionsIcon_Initialize(frame, level)
 		frame:AddTitle(format("%s / %s", TRADE_SKILLS, DataStore:GetColoredCharacterName(character)))
 
 		local last = DataStore:GetModuleLastUpdateByKey("DataStore_Crafts", character)
-		local rank, professionName, _
+		local rank, maxRank, professionName, _
 
 		-- Cooking
-		rank = DataStore:GetCookingRank(character)
-		if last and rank then
-			local info = frame:CreateInfo()
-			
-			info.text = format("%s %s(%s)", PROFESSIONS_COOKING, colors.green, rank )
-			info.hasArrow = 1
-			info.checked = (PROFESSIONS_COOKING == (currentProfession or ""))
-			info.value = PROFESSIONS_COOKING
-			info.func = OnProfessionChange
-			frame:AddButtonInfo(info, level)
-		else
-			frame:AddButton(colors.grey..PROFESSIONS_COOKING, nil, nil)
+		rank, maxRank = DataStore:GetCookingRank(character)
+		if maxRank > 0 then
+			if last and rank then
+				local info = frame:CreateInfo()
+				
+				info.text = format("%s %s(%s)", PROFESSIONS_COOKING, colors.green, rank )
+				info.hasArrow = 1
+				info.checked = (PROFESSIONS_COOKING == (currentProfession or ""))
+				info.value = PROFESSIONS_COOKING
+				info.func = OnProfessionChange
+				frame:AddButtonInfo(info, level)
+			else
+				frame:AddButton(colors.grey..PROFESSIONS_COOKING, nil, nil)
+			end
 		end
 		
 		-- Profession 1
-		rank = DataStore:GetProfession1Rank(character)
-		professionName = DataStore:GetProfession1Name(character)
+		rank, maxRank = DataStore:GetProfession1Rank(character)
+		if maxRank > 0 then
+			professionName = DataStore:GetProfession1Name(character)
 		
-		if last and rank and professionName then
-			local info = frame:CreateInfo()
-			
-			info.text = format("%s %s(%s)", professionName, colors.green, rank )
-			info.hasArrow = 1
-			info.checked = (professionName == (currentProfession or ""))
-			info.value = professionName
-			info.func = OnProfessionChange
-			frame:AddButtonInfo(info, level)
-			
-		elseif professionName then
-			frame:AddButton(format("%s%s", colors.grey, professionName), nil, nil)
+			if last and rank and professionName then
+				local info = frame:CreateInfo()
+				
+				info.text = format("%s %s(%s)", professionName, colors.green, rank )
+				info.hasArrow = 1
+				info.checked = (professionName == (currentProfession or ""))
+				info.value = professionName
+				info.func = OnProfessionChange
+				frame:AddButtonInfo(info, level)
+				
+			elseif professionName then
+				frame:AddButton(format("%s%s", colors.grey, professionName), nil, nil)
+			end
 		end
 		
 		-- Profession 2
-		rank = DataStore:GetProfession2Rank(character)
-		professionName = DataStore:GetProfession2Name(character)
-			
-		if last and rank and professionName then
-			local info = frame:CreateInfo()
-			
-			info.text = format("%s %s(%s)", professionName, colors.green, rank )
-			info.hasArrow = 1
-			info.checked = (professionName == (currentProfession or ""))
-			info.value = professionName
-			info.func = OnProfessionChange
-			frame:AddButtonInfo(info, level)
-			
-		elseif professionName then
-			frame:AddButton(format("%s%s", colors.grey, professionName), nil, nil)
+		rank, maxRank = DataStore:GetProfession2Rank(character)
+		if maxRank > 0 then
+			professionName = DataStore:GetProfession2Name(character)
+				
+			if last and rank and professionName then
+				local info = frame:CreateInfo()
+				
+				info.text = format("%s %s(%s)", professionName, colors.green, rank )
+				info.hasArrow = 1
+				info.checked = (professionName == (currentProfession or ""))
+				info.value = professionName
+				info.func = OnProfessionChange
+				frame:AddButtonInfo(info, level)
+				
+			elseif professionName then
+				frame:AddButton(format("%s%s", colors.grey, professionName), nil, nil)
+			end
 		end
 		
 		frame:AddTitle(" ")
