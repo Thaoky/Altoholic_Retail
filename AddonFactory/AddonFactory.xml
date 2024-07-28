@@ -4,6 +4,7 @@
 	<Script file="Services\SimpleHTML.lua"/>
 	<Script file="Templates\Frame.lua"/>
 	
+	<Include file="Templates\AutoCastShine.xml"/>
 	<Include file="Templates\Button.xml"/>
 	<Include file="Templates\Tooltip.xml"/>
 	<Include file="Templates\DropDownMenu.xml"/>
