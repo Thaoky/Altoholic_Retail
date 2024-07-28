@@ -15,6 +15,18 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.0.001 (28/07/2024)
+
+- DataStore_Spells : fixed TWW compatibility.
+- DataStore_Reputations : fixed TWW compatibility.
+- DataStore_Currencies : I prepared the code to support the transfer of currencies, but Blizzard does not properly provide the GUID's yet, so the code is commented until they fix it.
+Until then, if you transfer a currency, the receiving alt will be updated with the proper new count, but the sender will not, you will have to log them on to update it.
+Do not complain to me, there is nothing I can do about it. It's Blizzard's job to fix it.
+- A few minor fixes in the UI.
+
+Please note : I will be off until August 9th, so no updates in that period.
+
+
 10.2.020 (26/06/2024)
 
 - Aligned DataStore with recent fixes for Cataclysm.
