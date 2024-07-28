@@ -312,6 +312,8 @@ local Factions = {
 			{ name = DataStore:GetFactionName(2564), icon = "ui_majorfaction_niffen" },      			-- Loamm Niffen
 			{ name = DataStore:GetFactionName(2568), icon = "inv_snailrockmount_pink" }, 					-- Glimmerogg Racer Unknown icon
 			{ name = DataStore:GetFactionName(2574), icon = "ui_majorfaction_denizens" }, 				-- Dream Wardens 10.2
+			{ name = DataStore:GetFactionName(2523), icon = "inv_dracthyrhead03" }, 				-- Dark Talons Dracthyrs
+			{ name = DataStore:GetFactionName(2524), icon = "inv_dracthyrhead03" }, 				-- Obsidian Warders Dracthyrs
 		},
 	},
 	{	-- [11]
