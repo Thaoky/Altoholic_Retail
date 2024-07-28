@@ -237,7 +237,8 @@ local itemSources = {
 			local factionID = GetBits(attrib, 10, 16)		-- Bits 10-25 : faction id
 			local instanceID = GetBits(attrib, 26, 18)	-- Bits 26+ : instance id
 			
-			local factionName = GetFactionInfoByID(factionID)
+			local info = C_Reputation.GetFactionDataByID(factionID)
+			local factionName = info and info.name
 			local instanceName = (instanceID ~= 0) and GetRealZoneText(instanceID) or nil
 			
 			return factionName, instanceName
