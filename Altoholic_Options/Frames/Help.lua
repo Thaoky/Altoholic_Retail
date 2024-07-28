@@ -58,6 +58,7 @@ local dataStoreModules = {
 }
 
 local altoholicModules = {
+	"AddonFactory",
 	"Altoholic",
 	"Altoholic_Summary",
 	"Altoholic_Characters",

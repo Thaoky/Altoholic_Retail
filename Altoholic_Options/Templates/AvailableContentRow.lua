@@ -71,7 +71,7 @@ addon:Controller("AltoholicUI.TabOptions.AvailableContentRow", { "AltoholicUI.Av
 				frame.Size:Hide()
 			end
 		end,
-		DrawDate = function(frame, lastUpdate, key, module)
+		DrawDate = function(frame, lastUpdate, character, module)
 		
 			if not lastUpdate then
 				frame.Date:Hide()
@@ -86,10 +86,12 @@ addon:Controller("AltoholicUI.TabOptions.AvailableContentRow", { "AltoholicUI.Av
 			
 			else
 				-- if we have a key, it is a datastore module or character line
-				if key then
+				if character then
 					
-					local account, realm, name = strsplit(".", key)
-					local last = DataStore:GetModuleLastUpdate(module, name, realm, account)
+					-- local account, realm, name = strsplit(".", key)
+					-- local last = DataStore:GetModuleLastUpdate(module, name, realm, account)
+					
+					local last = DataStore:GetModuleLastUpdateByKey(module, character)
 					
 					if last == lastUpdate then
 						text = format("%s%s", colors.green, L["Up-to-date"])
