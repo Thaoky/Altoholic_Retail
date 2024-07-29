@@ -545,7 +545,8 @@ local function ProcessTooltip(tooltip, link)
 		local bankType = reagentTypeToBankType[arg3]
 		
 		-- Only for trade goods, and not soulbound
-		if classID == Enum.ItemClass.Tradegoods and bindType == LE_ITEM_BIND_NONE and bankType then
+		-- if classID == Enum.ItemClass.Tradegoods and bindType == LE_ITEM_BIND_NONE and bankType then
+		if classID == Enum.ItemClass.Tradegoods and bindType == 0 and bankType then
 			if not cachedAltStorage then
 				local charList = {}
 			
