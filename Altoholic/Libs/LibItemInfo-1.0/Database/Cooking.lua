@@ -230,6 +230,7 @@ lib:RegisterItems({
 	[197754] = SetReagent(9, e.Cooking), -- Salt Deposit
 	[197755] = SetReagent(9, e.Cooking), -- Lava Beetle
 	[197756] = SetReagent(9, e.Cooking), -- Pebbled Rock Salts
+	[197757] = SetReagent(9, e.Cooking), -- Assorted Exotic Spices
 	
 	[197764] = SetReagent(9, e.Cooking), -- Salad on the Side
 	[197765] = SetReagent(9, e.Cooking), -- Impossibly Sharp Cutting Knife

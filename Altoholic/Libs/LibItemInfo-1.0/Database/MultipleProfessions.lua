@@ -54,6 +54,7 @@ lib:RegisterItems({
 	[76061] = SetReagent(4, e.Multi), -- Spirit of Harmony
 	
 	-- 6.0 Warlords of Draenor
+	[120945] = SetReagent(4, e.Multi), -- Primal Spirit
 	[127759] = SetReagent(4, e.Multi), -- Felblight
 	
 	-- 7.0 Legion
@@ -102,7 +103,8 @@ lib:RegisterItems({
 	[190331] = SetReagent(9, e.Multi), -- Awakened Decay
 	[190450] = SetReagent(9, e.Multi), -- Awakened Ire
 	[190451] = SetReagent(9, e.Multi), -- Rousing Ire
-		
+	[190456] = SetReagent(9, e.Multi), -- Artisan's Mettle
+
 	[192887] = SetReagent(9, e.Multi), -- Elemental Harmony 1
 	[193378] = SetReagent(9, e.Multi), -- Elemental Harmony 2
 	[193379] = SetReagent(9, e.Multi), -- Elemental Harmony 3
@@ -112,5 +114,19 @@ lib:RegisterItems({
 	[191517] = SetReagent(9, e.Multi), -- Writhefire Oil 1
 	[191518] = SetReagent(9, e.Multi), -- Writhefire Oil 2
 	[191519] = SetReagent(9, e.Multi), -- Writhefire Oil 3
+	
+	[191529] = SetReagent(9, e.Multi), -- Illustrious Insight
+	[198048] = SetReagent(9, e.Multi), -- Titan Training Matrix 1
+	[198056] = SetReagent(9, e.Multi), -- Titan Training Matrix 2
+	[198058] = SetReagent(9, e.Multi), -- Titan Training Matrix 3
+	[198059] = SetReagent(9, e.Multi), -- Titan Training Matrix 4
+	[204673] = SetReagent(9, e.Multi), -- Titan Training Matrix 5
+	
+	[201399] = SetReagent(9, e.Multi), -- Primal Bear Spine
+	[201400] = SetReagent(9, e.Multi), -- Aquatic Maw
+	[201401] = SetReagent(9, e.Multi), -- Iridescent Plume
+	[201402] = SetReagent(9, e.Multi), -- Large Sturdy Femur
+	[201403] = SetReagent(9, e.Multi), -- Mastodon Tusk
+	[201404] = SetReagent(9, e.Multi), -- Tallstrider Sinew
 	
 })
