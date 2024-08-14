@@ -1,8 +1,8 @@
 local MVC = LibStub("LibMVC-1.0")
 
 local function SafeLoadAddOn(name)
-	if not IsAddOnLoaded(name) then
-		LoadAddOn(name)
+	if not C_AddOns.IsAddOnLoaded(name) then
+		C_AddOns.LoadAddOn(name)
 	end
 end
 
