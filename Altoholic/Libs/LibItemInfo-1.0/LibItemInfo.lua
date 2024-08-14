@@ -17,7 +17,7 @@ is only valid for BfA & Shadowlands. Older items are mostly invalid.
 
 --]]
 
-local LIB_VERSION_MAJOR, LIB_VERSION_MINOR = "LibItemInfo-1.0", 3
+local LIB_VERSION_MAJOR, LIB_VERSION_MINOR = "LibItemInfo-1.0", 4
 local lib = LibStub:NewLibrary(LIB_VERSION_MAJOR, LIB_VERSION_MINOR)
 
 if not lib then return end -- No upgrade needed
@@ -88,7 +88,7 @@ lib.Enum = {
 		Multi = 15,
 	},
 	BagTypes = {
-		-- These id's match GetItemSubClassInfo(Enum.ItemClass.Container, id)
+		-- These id's match C_Item.GetItemSubClassInfo(Enum.ItemClass.Container, id)
 		SoulBag = 1,
 		HerbBag = 2,
 		EnchantingBag = 3,
@@ -112,27 +112,27 @@ local TYPE_ZONE_ITEM = 6
 local TYPE_QUEST_ITEM = 7	-- Quest items that are safe to delete after quest completion.
 
 local reagentTypes = {
-	[1] = GetSpellInfo(2259),		-- Alchemy
-	[2] = GetSpellInfo(3100),		-- Blacksmithing
-	[3] = GetSpellInfo(7411),		-- Enchanting
-	[4] = GetSpellInfo(4036),		-- Engineering
-	[5] = GetSpellInfo(2366),		-- Herbalism
-	[6] = GetSpellInfo(45357),		-- Inscription
-	[7] = GetSpellInfo(25229),		-- Jewelcrafting
-	[8] = GetSpellInfo(2108),		-- Leatherworking
-	[9] = GetSpellInfo(2575),		-- Mining
-	[10] = GetSpellInfo(8613),		-- Skinning
-	[11] = GetSpellInfo(3908),		-- Tailoring
-	[12] = GetSpellInfo(2550),		-- Cooking
-	[13] = GetSpellInfo(78670),	-- Archaeology
-	[14] = GetSpellInfo(131474),	-- Fishing
+	[1] = C_Spell.GetSpellName(2259),		-- Alchemy
+	[2] = C_Spell.GetSpellName(3100),		-- Blacksmithing
+	[3] = C_Spell.GetSpellName(7411),		-- Enchanting
+	[4] = C_Spell.GetSpellName(4036),		-- Engineering
+	[5] = C_Spell.GetSpellName(2366),		-- Herbalism
+	[6] = C_Spell.GetSpellName(45357),		-- Inscription
+	[7] = C_Spell.GetSpellName(25229),		-- Jewelcrafting
+	[8] = C_Spell.GetSpellName(2108),		-- Leatherworking
+	[9] = C_Spell.GetSpellName(2575),		-- Mining
+	[10] = C_Spell.GetSpellName(8613),		-- Skinning
+	[11] = C_Spell.GetSpellName(3908),		-- Tailoring
+	[12] = C_Spell.GetSpellName(2550),		-- Cooking
+	[13] = C_Spell.GetSpellName(78670),	-- Archaeology
+	[14] = C_Spell.GetSpellName(131474),	-- Fishing
 	[15] = L["Multiple Professions"],	-- For items used in multiple professions
 }
 
 local bagTypes = {}
 
 for i = 1, 11 do
-	bagTypes[i] = GetItemSubClassInfo(Enum.ItemClass.Container, i)
+	bagTypes[i] = C_Item.GetItemSubClassInfo(Enum.ItemClass.Container, i)
 end
 
 --	*** API ***

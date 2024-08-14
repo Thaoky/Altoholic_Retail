@@ -10,7 +10,7 @@ This library contains various information about crafts, namely:
 
 --]]
 
-local LIB_VERSION_MAJOR, LIB_VERSION_MINOR = "LibCraftInfo-1.0", 4
+local LIB_VERSION_MAJOR, LIB_VERSION_MINOR = "LibCraftInfo-1.0", 5
 local lib = LibStub:NewLibrary(LIB_VERSION_MAJOR, LIB_VERSION_MINOR)
 
 if not lib then return end -- No upgrade needed
@@ -76,7 +76,7 @@ local internalIDToProfession = {
 for internalID, spellID in pairs(internalIDToProfession) do
 	professionToInternalID[spellID] = internalID		-- add the spellID's as indexes, for reverse lookup
 	
-	local spellName = GetSpellInfo(spellID)			-- Get the localized name of this profession
+	local spellName = C_Spell.GetSpellName(spellID)			-- Get the localized name of this profession
 	if spellName then
 		professionToInternalID[spellName] = internalID		-- if found, add it too
 	end	
@@ -93,7 +93,7 @@ function lib:GetCraftProfession(spellID)
 	local attrib = lib.dataSource[spellID]
 	
 	if attrib then		-- get the internal profession id, then the associated spell id, and return the localized name with GetSpellInfo
-		return GetSpellInfo(internalIDToProfession[bAnd(attrib, 15)])
+		return C_Spell.GetSpellName(internalIDToProfession[bAnd(attrib, 15)])
 	end
 end
 
