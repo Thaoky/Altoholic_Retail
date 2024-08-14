@@ -139,6 +139,18 @@
 					<KeyValue key="locDisabled" value="TT_SHOW_GUILDBANKREALM_DISABLED" />
 				</KeyValues>
 			</CheckButton>
+			<CheckButton parentKey="ShowAccountBankCount" inherits="AltoTooltipOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOPLEFT" relativeKey="$parent.ShowGuildBankRealm" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="ShowAccountBankCount" />
+					<KeyValue key="locLabel" value="TT_SHOW_ACCOUNTBANKCOUNT_TEXT" />
+					<KeyValue key="locTitle" value="TT_SHOW_ACCOUNTBANKCOUNT_TITLE" />
+					<KeyValue key="locEnabled" value="TT_SHOW_ACCOUNTBANKCOUNT_ENABLED" />
+					<KeyValue key="locDisabled" value="TT_SHOW_ACCOUNTBANKCOUNT_DISABLED" />
+				</KeyValues>
+			</CheckButton>
 
 			<CheckButton parentKey="ShowItemID" inherits="AltoTooltipOptionTemplate">
 				<Anchors> 

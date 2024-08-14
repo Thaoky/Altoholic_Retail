@@ -14,7 +14,7 @@ local function GetMemoryUsage(addons)
 	for _, module in ipairs(addons) do
 		local text
 		
-		if IsAddOnLoaded(module) then	-- module is enabled
+		if C_AddOns.IsAddOnLoaded(module) then	-- module is enabled
 			local memInKb = GetAddOnMemoryUsage(module)
 			totalMem = totalMem + memInKb
 			

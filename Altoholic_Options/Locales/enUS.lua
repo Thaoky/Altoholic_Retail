@@ -167,6 +167,16 @@ E.g.
     |cFF00FF00Odysseüs|r |cFFFFFF00(Marécages de Zangar)|r    |cFFFF7F0084|r |cFFFFFFFF(Guild Bank: |cFF00FF9A84|r)|r]]
 L["TT_SHOW_GUILDBANKREALM_DISABLED"] = "Display only the guild name"
 
+L["TT_SHOW_ACCOUNTBANKCOUNT_TEXT"] = "Show account bank count"
+L["TT_SHOW_ACCOUNTBANKCOUNT_TITLE"] = "Account bank count"
+L["TT_SHOW_ACCOUNTBANKCOUNT_ENABLED"] = [[Display the total amount of items stored in the account bank.
+
+E.g. 
+
+    |cFF00FF00Account Bank|r     |cFFFF7F0084|r |cFFFFFFFF(Warbank 1: |cFF00FF9A84|r)|r]]
+L["TT_SHOW_ACCOUNTBANKCOUNT_DISABLED"] = "No information is displayed."
+
+
 L["TT_SHOW_ITEMID_TEXT"] = "Show item ID and item level"
 L["TT_SHOW_ITEMID_TITLE"] = "Item ID and item level"
 L["TT_SHOW_ITEMID_ENABLED"] = [[Display the item ID and item level at the bottom of the tooltip.

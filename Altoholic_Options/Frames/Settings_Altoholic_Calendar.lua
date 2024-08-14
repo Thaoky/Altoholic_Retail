@@ -109,7 +109,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicCalendar", { "Altoholi
 				addon:SetFirstDayOfWeek(1)
 			end
 						
-			if IsAddOnLoaded("Altoholic_Agenda") then
+			if C_AddOns.IsAddOnLoaded("Altoholic_Agenda") then
 				--Altoholic.Calendar:Update()
 			end
 		end,
