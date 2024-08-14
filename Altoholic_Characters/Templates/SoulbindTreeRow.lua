@@ -28,7 +28,7 @@ addon:Controller("AltoholicUI.TabCharacters.SoulbindTreeRow", {
 					local icon
 					
 					if node.spellID ~= 0 then		-- it's a spell
-						icon = select(3, GetSpellInfo(button.spellID or 0))
+						icon = C_Spell.GetSpellTexture(button.spellID or 0)
 					
 					elseif conduitID ~= 0 then		-- it's an item
 						local itemID = select(2, DataStore:GetConduitInfo(character, conduitID))

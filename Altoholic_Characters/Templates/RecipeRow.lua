@@ -78,6 +78,10 @@ addon:Controller("AltoholicUI.TabCharacters.RecipeRow", {
 			local reagentID = reagent.reagents[1].itemID
 			local reagentIcon = frame[format("Reagent%d", index)]
 			
+			if not reagentIcon then
+				print(reagentIndex)
+			end
+			
 			if reagentID then
 				local reagentCount = reagent.quantityRequired
 									
@@ -94,7 +98,7 @@ addon:Controller("AltoholicUI.TabCharacters.RecipeRow", {
 		end
 		
 		-- hide unused reagent icons
-		while index <= 11 do
+		while index <= 12 do
 			frame[format("Reagent%d", index)]:Hide()
 			index = index + 1
 		end

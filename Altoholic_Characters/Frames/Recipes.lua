@@ -62,7 +62,7 @@ addon:Controller("AltoholicUI.TabCharacters.Recipes", function()
 			if itemID then
 				local _, _, _, _, _, itemType, _, _, itemEquipLoc = GetItemInfo(itemID)
 				
-				if itemType == GetItemClassInfo(Enum.ItemClass.Armor) or itemType == GetItemClassInfo(Enum.ItemClass.Weapon) then
+				if itemType == C_Item.GetItemClassInfo(Enum.ItemClass.Armor) or itemType == C_Item.GetItemClassInfo(Enum.ItemClass.Weapon) then
 					if itemEquipLoc and strlen(itemEquipLoc) > 0 then
 						if currentSlots == itemEquipLoc then
 							return true
@@ -87,7 +87,7 @@ addon:Controller("AltoholicUI.TabCharacters.Recipes", function()
 		-- no search filter ? ok
 		if currentSearch == "" then return true end
 		
-		local name = GetSpellInfo(recipeID)
+		local name = C_Spell.GetSpellName(recipeID)
 		if name and string.find(strlower(name), currentSearch, 1, true) then
 			return true
 		end

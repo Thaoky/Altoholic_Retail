@@ -142,6 +142,11 @@
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent10" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
+			<Button parentKey="Reagent12" inherits="AltoItemIconTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent11" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+			</Button>
 		</Frames>
 		<Scripts>
 			<OnLoad>
