@@ -25,7 +25,7 @@ tab:RegisterGrid(8, {
 			
 			if currentItemID then
 				local _, _, _, hexColor = GetItemQualityColor(artifact.rarity)
-				local itemName = GetSpellInfo(artifact.spellID)
+				local itemName = C_Spell.GetSpellName(artifact.spellID)
 				
 				rowFrame.Name.Text:SetText(format("|c%s%s", hexColor, itemName))
 				rowFrame.Name.Text:SetJustifyH("LEFT")

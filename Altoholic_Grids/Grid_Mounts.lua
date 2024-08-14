@@ -10,11 +10,10 @@ local tab = AltoholicFrame.TabGrids
 
 local spellList
 local currentSpellID
-local currentPetTexture
 
 local function SortPets(a, b)
-	local textA = GetSpellInfo(a) or ""
-	local textB = GetSpellInfo(b) or ""
+	local textA = C_Spell.GetSpellName(a) or ""
+	local textB = C_Spell.GetSpellName(b) or ""
 	return textA < textB
 end
 
@@ -105,8 +104,7 @@ tab:RegisterGrid(5, {
 	GetSize = function() return #spellList end,
 	RowSetup = function(self, rowFrame, dataRowID)
 			currentSpellID = spellList[dataRowID]
-			local petName, _
-			petName, _, currentPetTexture = GetSpellInfo(currentSpellID)
+			local petName = C_Spell.GetSpellName(currentSpellID)
 			
 			if petName then
 				rowFrame.Name.Text:SetText(format("%s%s", colors.white, petName))
@@ -119,7 +117,7 @@ tab:RegisterGrid(5, {
 			button.Name:SetPoint("BOTTOMRIGHT", 5, 0)
 			button.Background:SetDesaturated(false)
 			button.Background:SetTexCoord(0, 1, 0, 1)
-			button.Background:SetTexture(currentPetTexture)
+			button.Background:SetTexture(C_Spell.GetSpellTexture(currentSpellID))
 			
 			if DataStore:IsPetKnown(currentSpellID) then
 				button.Background:SetVertexColor(1.0, 1.0, 1.0)

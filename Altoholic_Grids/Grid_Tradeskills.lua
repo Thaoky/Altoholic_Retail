@@ -85,7 +85,7 @@ local function BuildView()
 		view.isSorted = true
 	end
 	
-	currentProfession = GetSpellInfo(tradeskills[currentTradeSkill])
+	currentProfession = C_Spell.GetSpellName(tradeskills[currentTradeSkill])
 	isViewValid = true
 end
 
@@ -108,7 +108,7 @@ tab:RegisterGrid(7, {
 	GetSize = function() return #view end,
 	RowSetup = function(self, rowFrame, dataRowID)
 			local spellID = view[dataRowID]
-			local itemName = GetSpellInfo(spellID)
+			local itemName = C_Spell.GetSpellName(spellID)
 			local text
 			
 			if not itemName then

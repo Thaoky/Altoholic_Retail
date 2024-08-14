@@ -199,7 +199,7 @@ local function archaeology_OnClick(categoryData)
 	options["Archaeology.CurrentRace"] = categoryData.raceID
 	
 	tab:SetStatus(format("%s%s|r / %s%s", 
-		colors.white, GetSpellInfo(78670), 
+		colors.white, C_Spell.GetSpellName(78670), 
 		colors.green, categoryData.text))
 	tab:InitializeGrid(8)
 	tab:Update()
@@ -351,7 +351,7 @@ addon:Controller("AltoholicUI.TabGridsCategoriesList", {
 			{ text = LOOKING_FOR_DUNGEON, subMenu = {} },
 			{ text = TRADESKILLS, subMenu = {} },
 			-- Archaeology
-			{ text = GetSpellInfo(78670), subMenu = {} },
+			{ text = C_Spell.GetSpellName(78670), subMenu = {} },
 			
 			-- Garrisons
 			{ text = SPLASH_NEW_FEATURE1_TITLE, subMenu = {
@@ -441,10 +441,10 @@ addon:Controller("AltoholicUI.TabGridsCategoriesList", {
 			local tradeskillsSubMenu = tradeskillsMenu[#tradeskillsMenu].subMenu
 			
 			for tradeskillIndex = 1, #tradeskills do
-				local spell, _, icon = GetSpellInfo(tradeskills[tradeskillIndex])
+				local spellID = tradeskills[tradeskillIndex]
 				
 				table.insert(tradeskillsSubMenu, { 
-					text = format("%s %s", Formatter.Texture18(icon), spell),
+					text = format("%s %s", Formatter.Texture18(C_Spell.GetSpellTexture(spellID)), C_Spell.GetSpellName(spellID)),
 					callback = tradeskill_OnClick,
 					xPackID = xpackIndex + 1,
 					tradeskillIndex = tradeskillIndex
