@@ -262,10 +262,6 @@ function addon:DrawFollowerTooltip(frame)
 	FloatingGarrisonFollower_Toggle(tonumber(garrisonFollowerID), tonumber(quality), tonumber(level), tonumber(itemLevel), tonumber(ability1), tonumber(ability2), tonumber(ability3), tonumber(ability4), tonumber(trait1), tonumber(trait2), tonumber(trait3), tonumber(trait4))
 end
 
-function addon:GetSpellIcon(spellID)
-	return select(3, GetSpellInfo(spellID))
-end
-
 function addon:GetIDFromLink(link)
 	if link then
 		local linktype, id = string.match(link, "|H([^:]+):(%d+)")
@@ -283,7 +279,7 @@ end
 
 function addon:GetRecipeLink(spellID, profession, color)
 	color = color or "|cffffd000"
-	local name = GetSpellInfo(spellID) or ""
+	local name = C_Spell.GetSpellName(spellID) or ""
 	
 	return format("%s|Henchant:%s|h[%s: %s]|h|r", color, spellID, profession, name)
 end

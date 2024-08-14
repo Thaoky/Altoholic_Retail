@@ -239,7 +239,7 @@ local function GetItemCount(searchedID, itemLink)
 						for tabID = 1, 8 do 
 							tabCount = DataStore:GetGuildBankTabItemCount(guildKey, tabID, searchedID)
 							if tabCount and tabCount > 0 then
-								table.insert(tabCounters,  format("%s%s: %s%d", colors.white, DataStore:GetGuildBankTabName(guildKey, tabID), colors.teal, tabCount))
+								table.insert(tabCounters, format("%s%s: %s%d", colors.white, DataStore:GetGuildBankTabName(guildKey, tabID), colors.teal, tabCount))
 							end
 						end
 						
@@ -261,6 +261,28 @@ local function GetItemCount(searchedID, itemLink)
 			end
 		end
 	end
+
+	if options.ShowAccountBankCount then
+		local accountBankCount = 0
+		local tabCounters = {}
+		local tabCount
+		
+		for index, tabID in pairs(C_Bank.FetchPurchasedBankTabIDs(Enum.BankType.Account)) do
+			tabCount = DataStore:GetAccountBankTabItemCount(tabID, searchedID)
+			
+			if tabCount and tabCount > 0 then
+				table.insert(tabCounters, format("%s%s: %s%d", colors.white, DataStore:GetAccountBankTabName(tabID), colors.teal, tabCount))
+				accountBankCount = accountBankCount + tabCount
+			end
+		end
+
+		if #tabCounters > 0 then
+			AddCounterLine(L["Account Bank"], format("%s%d %s(%s%s)", colors.orange, accountBankCount, colors.white, table.concat(tabCounters, ","), colors.white))
+		end
+
+		count = count + accountBankCount
+	end
+
 
 	return count
 end
@@ -304,7 +326,7 @@ function addon:GetRecipeOwners(professionName, link, recipeLevel)
 			else
 				DataStore:IterateRecipes(profession, 0, 0, function(recipeData)
 					local _, recipeID, isLearned = DataStore:GetRecipeInfo(recipeData)
-					local skillName = GetSpellInfo(recipeID) or ""
+					local skillName = C_Spell.GetSpellName(recipeID) or ""
 
 					-- this is silly. There's a typo in the Blizz spell list
 					skillName = string.gsub(skillName, "Proto Drake", "Proto-Drake")
@@ -616,7 +638,7 @@ addon:Service("AltoholicUI.Tooltip", { function()
 		if not index then return end
 
 		local currency = C_CurrencyInfo.GetCurrencyListInfo(index)
-		if not currency then return end
+		if not currency or not currency.name or DataStore:IsCurrencyAccountWide(currency.name) then return end
 
 		GameTooltip:AddLine(" ",1,1,1)
 

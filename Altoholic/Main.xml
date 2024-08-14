@@ -63,8 +63,8 @@
 				})
 			</OnLoad>
 			<OnShow>
-				if not IsAddOnLoaded("Altoholic_Summary") then
-					LoadAddOn("Altoholic_Summary")
+				if not C_AddOns.IsAddOnLoaded("Altoholic_Summary") then
+					C_AddOns.LoadAddOn("Altoholic_Summary")
 					self.TabSummary:Show()
 				end
 			</OnShow>

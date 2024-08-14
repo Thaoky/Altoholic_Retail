@@ -1,9 +1,9 @@
 local addonName, addon = ...
 _G[addonName] = addon
 
-addon.Version = "v11.0.001"
+addon.Version = "v11.0.002"
 -- addon.VersionNum = 11 00 006
-addon.VersionNum = 1100001
+addon.VersionNum = 1100002
 
 LibStub("LibMVC-1.0"):Embed(addon)
 
@@ -66,10 +66,10 @@ addon.Icons = {
 -- Place Enums in a separate file when there are enough to justify it
 addon.Enum = {
 	ArmorTypes = {
-		[1] = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Cloth), -- "Cloth"
-		[2] = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Leather), -- "Leather"
-		[3] = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Mail), -- "Mail"
-		[4] = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Plate) -- "Plate"
+		[1] = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Cloth), -- "Cloth"
+		[2] = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Leather), -- "Leather"
+		[3] = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Mail), -- "Mail"
+		[4] = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Plate) -- "Plate"
 	},
 }
 
@@ -83,21 +83,21 @@ addon.TradeSkills = {
 	AccountSummaryFirstSecondarySkillIndex = 12, -- index of the first secondary profession in the table
 		
 	Names = {
-		ALCHEMY = GetSpellInfo(2259),
-		ARCHAEOLOGY = GetSpellInfo(78670),
-		BLACKSMITHING = GetSpellInfo(3100),
-		COOKING = GetSpellInfo(2550),
-		ENCHANTING = GetSpellInfo(7411),
-		ENGINEERING = GetSpellInfo(4036),
-		FISHING = GetSpellInfo(131474),
-		HERBALISM = GetSpellInfo(2366),
-		INSCRIPTION = GetSpellInfo(45357),
-		JEWELCRAFTING = GetSpellInfo(25229),
-		LEATHERWORKING = GetSpellInfo(2108),
-		MINING = GetSpellInfo(2575),
-		SKINNING = GetSpellInfo(8613),
-		SMELTING = GetSpellInfo(2656),
-		TAILORING = GetSpellInfo(3908),
+		ALCHEMY = C_Spell.GetSpellName(2259),
+		ARCHAEOLOGY = C_Spell.GetSpellName(78670),
+		BLACKSMITHING = C_Spell.GetSpellName(3100),
+		COOKING = C_Spell.GetSpellName(2550),
+		ENCHANTING = C_Spell.GetSpellName(7411),
+		ENGINEERING = C_Spell.GetSpellName(4036),
+		FISHING = C_Spell.GetSpellName(131474),
+		HERBALISM = C_Spell.GetSpellName(2366),
+		INSCRIPTION = C_Spell.GetSpellName(45357),
+		JEWELCRAFTING = C_Spell.GetSpellName(25229),
+		LEATHERWORKING = C_Spell.GetSpellName(2108),
+		MINING = C_Spell.GetSpellName(2575),
+		SKINNING = C_Spell.GetSpellName(8613),
+		SMELTING = C_Spell.GetSpellName(2656),
+		TAILORING = C_Spell.GetSpellName(3908),
 	},
 }
 
@@ -262,6 +262,7 @@ DataStore:OnAddonLoaded(addonName, function()
 		IncludeGuildBankInTotal = true,		-- total count = alts + guildbank (1) or alts only (0)
 		ShowGuildBankCountPerTab = false,	-- guild count = guild:count or guild (tab 1: x, tab2: y ..)
 		ShowCouldBeStoredOn = false,			-- display "could be stored on" information
+		ShowAccountBankCount = true,			-- display account bank counters
 		
 		HiddenGuilds = {}						-- Guilds that should not be shown in the tooltip
 	}

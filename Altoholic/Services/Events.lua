@@ -419,9 +419,9 @@ addon:Service("AltoholicUI.Events", { "AltoholicUI.EventsList", function(EventsL
 					if professions then
 						for professionName, profession in pairs(professions) do
 							local supportsSharedCD
-							if professionName == GetSpellInfo(2259) or			-- alchemy
-								professionName == GetSpellInfo(3908) or 			-- tailoring
-								professionName == GetSpellInfo(2575) then			-- mining
+							if professionName == C_Spell.GetSpellName(2259) or			-- alchemy
+								professionName == C_Spell.GetSpellName(3908) or 			-- tailoring
+								professionName == C_Spell.GetSpellName(2575) then			-- mining
 								supportsSharedCD = true		-- current profession supports shared cooldowns
 							end
 							

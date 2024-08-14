@@ -15,6 +15,19 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.0.002 (14/08/2024)
+
+- Updated GetSpellInfo to use the new C_Spell API everywhere it was used (and that's a lot..).
+- Updated GetItemSubClassInfo to use the new C_Item API everywhere it was used.
+- Fixed a tooltip issue that prevented "Could be stored on" message to be displayed when mousing over reagents.
+- Summary tab: updated the level filter to support levels up to 80.
+- Trader's Tender is now recognized as an account-wide currency, and no additional data is listed in its currency tooltip.
+- Added early support for TWW currencies.
+- DataStore_Currencies : Transfer of currencies is now properly supported.
+- DataStore_Containers : Added support for the warband bank.
+- Added the warband bank item count in the tooltip.
+- Options tab: Added an option to show/hide the warband bank item count.
+
 11.0.001 (28/07/2024)
 
 - DataStore_Spells : fixed TWW compatibility.
