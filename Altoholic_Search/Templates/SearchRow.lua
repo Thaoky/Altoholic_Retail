@@ -31,7 +31,7 @@ addon:Controller("AltoholicUI.SearchRow", { "AltoholicUI.SearchResults", functio
 			end
 		end,
 		DrawCraftInfo = function(frame, spellID, professionName, line, hex)	
-			local name = GetSpellInfo(spellID)
+			local name = C_Spell.GetSpellName(spellID)
 		
 			if name then
 				frame.Name:SetText(format("%s%s", hex, name))

@@ -49,10 +49,10 @@ local function OnSearchEquipmentSlotChange(frame, itemType, itemSubType)
 	
 	-- Only overwrite existing filters if values are actually passed as argument
 	if itemType then 
-		searchType = GetItemClassInfo(itemType)
+		searchType = C_Item.GetItemClassInfo(itemType)
 		
 		if itemSubType then
-			searchSubType = GetItemSubClassInfo(itemType, itemSubType) 	
+			searchSubType = C_Item.GetItemSubClassInfo(itemType, itemSubType) 	
 		end
 	else
 		searchType = nil
@@ -142,7 +142,7 @@ local function EquipmentIcon_Initialize(frame, level)
 	frame:AddButton(INVTYPE_TRINKET, e.IndexTrinketType, OnSearchEquipmentSlotChange, nil, (option == e.IndexTrinketType))
 	
 	-- Note, use negative values for special cases, to avoid filtering on item slot (for shields, only type & subtype are needed)
-	frame:AddButtonWithArgs(GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Shield), -1,
+	frame:AddButtonWithArgs(C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Shield), -1,
 		OnSearchEquipmentSlotChange, Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Shield, (option == -1))
 	frame:AddButtonWithArgs(INVTYPE_HOLDABLE, "INVTYPE_HOLDABLE",
 		OnSearchEquipmentSlotChange, Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Generic, (option == "INVTYPE_HOLDABLE"))
@@ -363,8 +363,8 @@ local function categoriesList_OnClick(categoryData)
 	-- If we filter by category, the search box will be deleted
 	AltoholicFrame.SearchBox:SetText("")
 
-	searchType = GetItemClassInfo(categoryData.itemType)
-	searchSubType = GetItemSubClassInfo(categoryData.itemType, categoryData.subType) 
+	searchType = C_Item.GetItemClassInfo(categoryData.itemType)
+	searchSubType = C_Item.GetItemSubClassInfo(categoryData.itemType, categoryData.subType) 
 	options[OPTION_EQUIPMENT] = categoryData.slot
 
 	tab:Find("")
@@ -420,7 +420,7 @@ addon:Controller("AltoholicUI.TabSearchCategoriesList", {
 				} },
 			} },
 			{ text = GetCategoryName(AUCTION_CATEGORY_ARMOR), subMenu = {
-				{ text = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Plate), subMenu = {
+				{ text = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Plate), subMenu = {
 
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Plate, slot = Enum.InventoryType.IndexHeadType },
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Plate,
@@ -432,7 +432,7 @@ addon:Controller("AltoholicUI.TabSearchCategoriesList", {
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Plate, slot = Enum.InventoryType.IndexWristType },
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Plate, slot = Enum.InventoryType.IndexHandType },
 				} },
-				{ text = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Mail), subMenu = {
+				{ text = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Mail), subMenu = {
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Mail, slot = Enum.InventoryType.IndexHeadType },
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Mail,
 						slot = Enum.InventoryType.IndexShoulderType },
@@ -443,7 +443,7 @@ addon:Controller("AltoholicUI.TabSearchCategoriesList", {
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Mail, slot = Enum.InventoryType.IndexWristType },
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Mail, slot = Enum.InventoryType.IndexHandType },
 				} },
-				{ text = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Leather), subMenu = {
+				{ text = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Leather), subMenu = {
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Leather, slot = Enum.InventoryType.IndexHeadType },
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Leather,
 						slot = Enum.InventoryType.IndexShoulderType },
@@ -457,7 +457,7 @@ addon:Controller("AltoholicUI.TabSearchCategoriesList", {
 						slot = Enum.InventoryType.IndexWristType },
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Leather, slot = Enum.InventoryType.IndexHandType },
 				} },
-				{ text = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Cloth), subMenu = {
+				{ text = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Cloth), subMenu = {
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Cloth, slot = Enum.InventoryType.IndexHeadType },
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Cloth,
 						slot = Enum.InventoryType.IndexShoulderType },
@@ -468,7 +468,7 @@ addon:Controller("AltoholicUI.TabSearchCategoriesList", {
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Cloth, slot = Enum.InventoryType.IndexWristType },
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Cloth, slot = Enum.InventoryType.IndexHandType },
 				} },
-				{ text = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Generic), subMenu = {
+				{ text = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Generic), subMenu = {
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Generic, slot = Enum.InventoryType.IndexNeckType },
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Cloth, slot = Enum.InventoryType.IndexCloakType },
 					{ itemType = Enum.ItemClass.Armor, subType = Enum.ItemArmorSubclass.Generic,
@@ -508,7 +508,7 @@ addon:Controller("AltoholicUI.TabSearchCategoriesList", {
 			
 			for _, subClassID in ipairs(C_AuctionHouse.GetAuctionItemSubClasses(classID)) do
 				table.insert(menu, { 
-					text = GetItemSubClassInfo(classID, subClassID),
+					text = C_Item.GetItemSubClassInfo(classID, subClassID),
 					itemType = classID,
 					subType = subClassID
 				})
@@ -523,10 +523,10 @@ addon:Controller("AltoholicUI.TabSearchCategoriesList", {
 					if type(category.slot) == "string" then
 						category.text = _G[category.slot]		-- "INVTYPE_HOLDABLE" => "Held In Off-hand"
 					else
-						category.text = GetItemInventorySlotInfo(category.slot)
+						category.text = C_Item.GetItemInventorySlotInfo(category.slot)
 					end
 				elseif category.itemType and category.subType then
-					category.text = GetItemSubClassInfo(category.itemType, category.subType)
+					category.text = C_Item.GetItemSubClassInfo(category.itemType, category.subType)
 				end
 			end
 			

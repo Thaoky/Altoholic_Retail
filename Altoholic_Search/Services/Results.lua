@@ -15,7 +15,7 @@ addon:Service("AltoholicUI.SearchResults", function()
 		local c = addon:GetCharacterTableByLine(char)
 		local _, _, spellID = strsplit("^", c.recipes[profession].list[num])
 		
-		return GetSpellInfo(tonumber(spellID))
+		return C_Spell.GetSpellName(tonumber(spellID))
 	end	
 	
 	-- ** Sort functions **

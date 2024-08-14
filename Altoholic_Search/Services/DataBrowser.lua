@@ -31,7 +31,7 @@ addon:Service("AltoholicUI.DataBrowser", { "AltoholicUI.SearchResults", "Altohol
 	end
 
 	local function CraftMatchFound(spellID, value)
-		local name = GetSpellInfo(spellID)
+		local name = C_Spell.GetSpellName(spellID)
 		
 		if name and string.find(strlower(name), value, 1, true) then
 			return true
