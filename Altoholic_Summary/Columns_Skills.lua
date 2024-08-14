@@ -89,7 +89,7 @@ local function Tradeskill_OnEnter(frame, professionIndex, showRecipeStats)
 	end
 	
 	if showRecipeStats then	-- for primary skills + cooking & first aid
-		-- if DataStore:GetProfessionSpellID(skillName) ~= 2366 and skillName ~= GetSpellInfo(8613) then		-- no display for herbalism & skinning
+		-- if DataStore:GetProfessionSpellID(skillName) ~= 2366 and skillName ~= C_Spell.GetSpellName(8613) then		-- no display for herbalism & skinning
 			tt:AddLine(" ")
 			
 			if not profession then
@@ -213,17 +213,15 @@ Columns.RegisterColumn("Prof1", {
 	tooltipTitle = L["COLUMN_PROFESSION_1_TITLE"],
 	tooltipSubTitle = nil,
 	headerOnEnter = TradeskillHeader_OnEnter,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Prof1") end,
 	headerSort = DataStore.GetProfession1Rank,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local rank = DataStore:GetProfession1Rank(character)
 			local name = DataStore:GetProfession1Name(character)
 			local spellID = DataStore:GetProfessionSpellID(name)
-			local icon = spellID and Formatter.Texture18(addon:GetSpellIcon(spellID)) .. " " or ""
+			local icon = spellID and Formatter.Texture18(C_Spell.GetSpellTexture(spellID)) .. " " or ""
 			
 			return format("%s%s%s", icon, GetSkillRankColor(rank), rank)
 		end,
@@ -238,17 +236,15 @@ Columns.RegisterColumn("Prof2", {
 	tooltipTitle = L["COLUMN_PROFESSION_2_TITLE"],
 	tooltipSubTitle = nil,
 	headerOnEnter = TradeskillHeader_OnEnter,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Prof2") end,
 	headerSort = DataStore.GetProfession2Rank,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local rank = DataStore:GetProfession2Rank(character)
 			local name = DataStore:GetProfession2Name(character)
 			local spellID = DataStore:GetProfessionSpellID(name)
-			local icon = spellID and Formatter.Texture18(addon:GetSpellIcon(spellID)) .. " " or ""
+			local icon = spellID and Formatter.Texture18(C_Spell.GetSpellTexture(spellID)) .. " " or ""
 			
 			return format("%s%s%s", icon, GetSkillRankColor(rank), rank)
 		end,
@@ -259,16 +255,14 @@ Columns.RegisterColumn("Prof2", {
 Columns.RegisterColumn("ProfCooking", {
 	-- Header
 	headerWidth = 60,
-	headerLabel = format("   %s", Formatter.Texture18(addon:GetSpellIcon(2550))),
-	tooltipTitle = GetSpellInfo(2550),
+	headerLabel = format("   %s", Formatter.Texture18(C_Spell.GetSpellTexture(2550))),
+	tooltipTitle = C_Spell.GetSpellName(2550),
 	tooltipSubTitle = nil,
 	headerOnEnter = TradeskillHeader_OnEnter,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("ProfCooking") end,
 	headerSort = DataStore.GetCookingRank,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local rank = DataStore:GetCookingRank(character)
 			return format("%s%s", GetSkillRankColor(rank), rank)
@@ -280,16 +274,14 @@ Columns.RegisterColumn("ProfCooking", {
 Columns.RegisterColumn("ProfFishing", {
 	-- Header
 	headerWidth = 60,
-	headerLabel = format("   %s", Formatter.Texture18(addon:GetSpellIcon(131474))),
-	tooltipTitle = GetSpellInfo(131474),
+	headerLabel = format("   %s", Formatter.Texture18(C_Spell.GetSpellTexture(131474))),
+	tooltipTitle = C_Spell.GetSpellName(131474),
 	tooltipSubTitle = nil,
 	headerOnEnter = TradeskillHeader_OnEnter,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("ProfFishing") end,
 	headerSort = DataStore.GetFishingRank,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local rank = DataStore:GetFishingRank(character)
 			return format("%s%s", GetSkillRankColor(rank), rank)
@@ -300,16 +292,14 @@ Columns.RegisterColumn("ProfFishing", {
 Columns.RegisterColumn("ProfArchaeology", {
 	-- Header
 	headerWidth = 60,
-	headerLabel = format("   %s", Formatter.Texture18(addon:GetSpellIcon(78670))),
-	tooltipTitle = GetSpellInfo(78670),
+	headerLabel = format("   %s", Formatter.Texture18(C_Spell.GetSpellTexture(78670))),
+	tooltipTitle = C_Spell.GetSpellName(78670),
 	tooltipSubTitle = nil,
 	headerOnEnter = TradeskillHeader_OnEnter,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("ProfArchaeology") end,
 	headerSort = DataStore.GetArchaeologyRank,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local rank = DataStore:GetArchaeologyRank(character)
 			return format("%s%s", GetSkillRankColor(rank), rank)
@@ -324,12 +314,10 @@ Columns.RegisterColumn("Riding", {
 	tooltipTitle = L["Riding"],
 	tooltipSubTitle = nil,
 	headerOnEnter = RidingSkillHeader_OnEnter,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Riding") end,
 	headerSort = DataStore.GetRidingSkill,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local speed, _, _, equipmentID = DataStore:GetRidingSkill(character)
 		local color = colors.white
@@ -375,7 +363,7 @@ Columns.RegisterColumn("Riding", {
 
 			else
 				tt:AddLine(spellName, 1, 1, 1)
-				tt:AddLine(GetSpellDescription(spellID), nil, nil, nil, true)
+				tt:AddLine(C_Spell.GetSpellDescription(spellID), nil, nil, nil, true)
 			end
 			
 			-- Add the mount equipment

@@ -344,7 +344,7 @@ local function BuildView()
 	isViewValid = true
 end
 
-local function SortByFunction(a, b, func, ascending)
+local function SortByFunction(a, b, func, ascending, column)
 	if (a.linetype ~= b.linetype) then			-- sort by linetype first ..
 		return a.linetype < b.linetype
 	else													-- and when they're identical, sort  by func xx
@@ -352,8 +352,8 @@ local function SortByFunction(a, b, func, ascending)
 			return false		-- don't swap lines if they're not INFO_CHARACTER_LINE
 		end
 
-		local retA = func(self, a.key) or 0		-- set to zero if a return value is nil, so that they can be compared
-		local retB = func(self, b.key) or 0
+		local retA = func(self, a.key, column) or 0		-- set to zero if a return value is nil, so that they can be compared
+		local retB = func(self, b.key, column) or 0
 
 		-- 2021/02/15
 		-- It may happen that an alt's key is not known at all in a DataStore module (ex: talents on low level alts)
@@ -377,8 +377,8 @@ end
 
 addon:Service("AltoholicUI.Characters",  function() 
 	return {
-		Sort = function(ascending, func)
-			table.sort(characterList, function(a, b) return SortByFunction(a, b, func, ascending) end)
+		Sort = function(ascending, func, column)
+			table.sort(characterList, function(a, b) return SortByFunction(a, b, func, ascending, column) end)
 		end,
 		Get = function(index)
 			return characterList[index]

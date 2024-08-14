@@ -102,12 +102,10 @@ Columns.RegisterColumn("FollowersLV40", {
 	headerLabel = L["COLUMN_FOLLOWERS_LV40_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_FOLLOWERS_LV40_TITLE"],
 	tooltipSubTitle = L["COLUMN_FOLLOWERS_LV40_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("FollowersLV40") end,
 	headerSort = DataStore.GetNumFollowersAtLevel40,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local amount = DataStore:GetNumFollowers(character) or 0
 			local color = (amount == 0) and colors.grey or colors.white
@@ -123,12 +121,10 @@ Columns.RegisterColumn("FollowersEpic", {
 	headerLabel = L["COLUMN_FOLLOWERS_RARITY_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_FOLLOWERS_RARITY_TITLE"],
 	tooltipSubTitle = L["COLUMN_FOLLOWERS_RARITY_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("FollowersEpic") end,
 	headerSort = GetRarityLevel,
 	
 	-- Content
 	Width = 55,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local numRare = DataStore:GetNumRareFollowers(character) or 0
 			local colorRare = (numRare == 0) and colors.grey or colors.rare
@@ -146,12 +142,10 @@ Columns.RegisterColumn("FollowersLV630", {
 	headerLabel = "615/630",
 	tooltipTitle = format(L["COLUMN_FOLLOWERS_ILEVEL_TITLE"], "615/630"),
 	tooltipSubTitle = format(L["COLUMN_FOLLOWERS_ILEVEL_SUBTITLE"], "615 vs 630"),
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("FollowersLV630") end,
 	headerSort = GetFollowersLevel615To630,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local num615 = DataStore:GetNumFollowersAtiLevel615(character) or 0
 			local color615 = (num615 == 0) and colors.grey or colors.green
@@ -168,12 +162,10 @@ Columns.RegisterColumn("FollowersLV660", {
 	headerLabel = "645/660",
 	tooltipTitle = format(L["COLUMN_FOLLOWERS_ILEVEL_TITLE"], "645/660"),
 	tooltipSubTitle = format(L["COLUMN_FOLLOWERS_ILEVEL_SUBTITLE"], "645 vs 660"),
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("FollowersLV660") end,
 	headerSort = GetFollowersLevel645To660,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local num645 = DataStore:GetNumFollowersAtiLevel645(character) or 0
 			local color645 = (num645 == 0) and colors.grey or colors.epic
@@ -190,12 +182,10 @@ Columns.RegisterColumn("FollowersLV675", {
 	headerLabel = "675",
 	tooltipTitle = format(L["COLUMN_FOLLOWERS_ILEVEL_TITLE"], "675"),
 	tooltipSubTitle = format(L["COLUMN_FOLLOWERS_ILEVEL_SUBTITLE"], "675"),
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("FollowersLV675") end,
 	headerSort = DataStore.GetNumFollowersAtiLevel675,
 	
 	-- Content
 	Width = 50,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local amount = DataStore:GetNumFollowersAtiLevel675(character) or 0
 			local color = (amount == 0) and colors.grey or colors.epic
@@ -210,12 +200,10 @@ Columns.RegisterColumn("FollowersItems", {
 	headerLabel = L["COLUMN_FOLLOWERS_AIL_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_FOLLOWERS_AIL_TITLE"],
 	tooltipSubTitle = L["COLUMN_FOLLOWERS_AIL_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("FollowersItems") end,
 	headerSort = GetFollowersItemLevel,
 	
 	-- Content
 	Width = 75,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local avgWeapon = DataStore:GetAvgWeaponiLevel(character) or 0
 			local colorW = GetColorFromAIL(avgWeapon)
@@ -266,12 +254,10 @@ Columns.RegisterColumn("CovenantName", {
 	headerLabel = L["COLUMN_COVENANT_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_COVENANT_TITLE"],
 	tooltipSubTitle = L["COLUMN_COVENANT_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("CovenantName") end,
 	headerSort = DataStore.GetCovenantName,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		return Formatter.GreyIfEmpty(DataStore:GetCovenantName(character))
 	end,
@@ -290,7 +276,6 @@ Columns.RegisterColumn("CovenantName", {
 			
 			for i = 1, GetNumSpecializationsForClassID(classID) do
 				local _, specName, _, iconID = GetSpecializationInfoForClassID(classID, i)
-				-- local icon = addon:GetSpellIcon(iconID)
 				
 				tt:AddLine(" ")
 				tt:AddLine(format("%s%s", colors.gold, specName))
@@ -332,12 +317,10 @@ Columns.RegisterColumn("SoulbindName", {
 	headerLabel = L["COLUMN_SOULBIND_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_SOULBIND_TITLE"],
 	tooltipSubTitle = L["COLUMN_SOULBIND_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("SoulbindName") end,
 	headerSort = DataStore.GetActiveSoulbindName,
 	
 	-- Content
 	Width = 120,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		return Formatter.GreyIfEmpty(DataStore:GetActiveSoulbindName(character))
 	end,
@@ -376,12 +359,10 @@ Columns.RegisterColumn("Renown", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\inv_misc_covenant_renown"), COVENANT_SANCTUM_TAB_RENOWN),
 	tooltipTitle = L["COLUMN_RENOWN_TITLE"],
 	tooltipSubTitle = L["COLUMN_RENOWN_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Renown") end,
 	headerSort = GetRenownLevel,
 	
 	-- Content
 	Width = 90,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = select(3, DataStore:GetCovenantInfo(character))
 		local color = (level == 80) and colors.gold or colors.white
@@ -405,12 +386,10 @@ Columns.RegisterColumn("Story90", {
 	headerLabel = format("%s %s9.0", L["COLUMN_CAMPAIGNPROGRESS_TITLE_SHORT"], colors.green),
 	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
 	tooltipSubTitle = L["COLUMN_CAMPAIGNPROGRESS_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story90") end,
 	headerSort = DataStore.GetCovenantCampaignProgress,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local numCompleted = DataStore:GetCovenantCampaignProgress(character)
 		local numQuests = DataStore:GetCovenantCampaignLength(character)
@@ -456,12 +435,10 @@ Columns.RegisterColumn("StoryTorghast", {
 	headerLabel = L["Torghast"],
 	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
 	tooltipSubTitle = L["Torghast"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("StoryTorghast") end,
 	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "Torghast") end,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character) return Storyline_GetText(character, "Torghast") end,
 	OnEnter = function(frame) Storyline_OnEnter(frame, nil, "Torghast") end,
 })
@@ -472,12 +449,10 @@ Columns.RegisterColumn("Story91", {
 	headerLabel = format("%s %s9.1", L["COLUMN_CAMPAIGNPROGRESS_TITLE_SHORT"], colors.green),
 	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
 	tooltipSubTitle = C_CampaignInfo.GetCampaignInfo(138).name,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story91") end,
 	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "9.1") end,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character) return Storyline_GetText(character, "9.1") end,
 	OnEnter = function(frame) Storyline_OnEnter(frame, 138, "9.1") end,
 })
@@ -488,12 +463,10 @@ Columns.RegisterColumn("Story92", {
 	headerLabel = format("%s %s9.2", L["COLUMN_CAMPAIGNPROGRESS_TITLE_SHORT"], colors.green),
 	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
 	tooltipSubTitle = C_CampaignInfo.GetCampaignInfo(158).name,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story92") end,
 	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "9.2") end,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character) return Storyline_GetText(character, "9.2") end,
 	OnEnter = function(frame) Storyline_OnEnter(frame, 158, "9.2") end,
 })
@@ -504,12 +477,10 @@ Columns.RegisterColumn("Story100", {
 	headerLabel = format("%s %s10.0", L["COLUMN_CAMPAIGNPROGRESS_TITLE_SHORT"], colors.green),
 	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
 	tooltipSubTitle = C_CampaignInfo.GetCampaignInfo(190).name,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story100") end,
 	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "10.0") end,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
 	GetText = function(character) return Storyline_GetText(character, "10.0") end,
 	OnEnter = function(frame) Storyline_OnEnter(frame, nil, "10.0") end,
 })
@@ -520,12 +491,10 @@ Columns.RegisterColumn("Story101", {
 	headerLabel = format("%s %s10.1", L["COLUMN_CAMPAIGNPROGRESS_TITLE_SHORT"], colors.green),
 	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
 	tooltipSubTitle = C_CampaignInfo.GetCampaignInfo(203).name,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story101") end,
 	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "10.1") end,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
 	GetText = function(character) return Storyline_GetText(character, "10.1") end,
 	OnEnter = function(frame) Storyline_OnEnter(frame, 203, "10.1") end,
 })
@@ -536,12 +505,10 @@ Columns.RegisterColumn("Story1015", {
 	headerLabel = format("%s %s10.1.5", L["COLUMN_CAMPAIGNPROGRESS_TITLE_SHORT"], colors.green),
 	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
 	tooltipSubTitle = "Dawn of the Infinites",
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story1015") end,
 	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "10.1.5") end,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
 	GetText = function(character) return Storyline_GetText(character, "10.1.5") end,
 	OnEnter = function(frame) Storyline_OnEnter(frame, nil, "10.1.5") end,
 })
@@ -552,12 +519,10 @@ Columns.RegisterColumn("Story102", {
 	headerLabel = format("%s %s10.2", L["COLUMN_CAMPAIGNPROGRESS_TITLE_SHORT"], colors.green),
 	tooltipTitle = L["COLUMN_CAMPAIGNPROGRESS_TITLE"],
 	tooltipSubTitle = C_CampaignInfo.GetCampaignInfo(231).name,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Story102") end,
 	headerSort = function(self, character) return DataStore:GetStorylineProgress(character, "10.2") end,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
 	GetText = function(character) return Storyline_GetText(character, "10.2") end,
 	OnEnter = function(frame) Storyline_OnEnter(frame, 231, "10.2") end,
 })
@@ -620,12 +585,10 @@ Columns.RegisterColumn("TransportNetwork", {
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\sanctum_features_transportationnetwork")),
 	tooltipTitle = L["COLUMN_TRANSPORT_NETWORK_TITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("TransportNetwork") end,
 	headerSort = GetTransportNetworkLevel,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = GetTransportNetworkLevel(nil, character)
 		local color = GetLevelColor(level, 3)
@@ -641,12 +604,10 @@ Columns.RegisterColumn("AnimaConductor", {
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\sanctum_features_animadiversion")),
 	tooltipTitle = L["COLUMN_ANIMA_TITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("AnimaConductor") end,
 	headerSort = GetAnimaConductorLevel,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = GetAnimaConductorLevel(nil, character)
 		local color = GetLevelColor(level, 3)
@@ -662,12 +623,10 @@ Columns.RegisterColumn("CommandTable", {
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\sanctum_features_missiontable")),
 	tooltipTitle = L["COLUMN_COMMAND_TABLE_TITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("CommandTable") end,
 	headerSort = GetCommandTableLevel,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = GetCommandTableLevel(nil, character)
 		local color = GetLevelColor(level, 3)
@@ -683,12 +642,10 @@ Columns.RegisterColumn("SanctumUnique", {
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\spell_animaardenweald_buff")),
 	tooltipTitle = L["COLUMN_SANCTUM_UNIQUE_TITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("SanctumUnique") end,
 	headerSort = GetSanctumUniqueLevel,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = GetSanctumUniqueLevel(nil, character)
 		local color = GetLevelColor(level, 5)
@@ -726,12 +683,10 @@ Columns.RegisterColumn("CypherLvl", {
 	headerLabel = CYPHER,
 	tooltipTitle = CYPHER_EQUIPMENT_LEVEL ,
 	-- tooltipSubTitle = ,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("CypherLvl") end,
 	headerSort = DataStore.GetCypherLevel,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		return Formatter.Progress(DataStore:GetCypherLevel(character))
 	end,
@@ -744,12 +699,10 @@ Columns.RegisterColumn("Metrial", {
 	headerLabel = METRIAL,
 	tooltipTitle = METRIAL ,
 	-- tooltipSubTitle = ,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Metrial") end,
 	headerSort = DataStore.GetCypherMetrialLevel,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 		return Formatter.Progress(DataStore:GetCypherMetrialLevel(character), 8)
 	end,
@@ -762,12 +715,10 @@ Columns.RegisterColumn("Aealic", {
 	headerLabel = AEALIC,
 	tooltipTitle = AEALIC ,
 	-- tooltipSubTitle = ,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Aealic") end,
 	headerSort = DataStore.GetCypherAealicLevel,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 		return Formatter.Progress(DataStore:GetCypherAealicLevel(character), 12)
 	end,
@@ -780,12 +731,10 @@ Columns.RegisterColumn("Dealic", {
 	headerLabel = DEALIC,
 	tooltipTitle = DEALIC ,
 	-- tooltipSubTitle = ,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Dealic") end,
 	headerSort = DataStore.GetCypherDealicLevel,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 		return Formatter.Progress(DataStore:GetCypherDealicLevel(character), 12)
 	end,
@@ -798,12 +747,10 @@ Columns.RegisterColumn("Trebalim", {
 	headerLabel = TREBALIM,
 	tooltipTitle = TREBALIM ,
 	-- tooltipSubTitle = ,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Trebalim") end,
 	headerSort = DataStore.GetCypherTrebalimLevel,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 		return Formatter.Progress(DataStore:GetCypherTrebalimLevel(character), 11)
 	end,

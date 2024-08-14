@@ -95,6 +95,10 @@ addon:Service("AltoholicUI.TabSummaryColumnProfiles",  function()
 		
 		-- Expansion Features / Dragonflight / Campaign Progress
 		[31] = { "Name", "Level", "Story100", "Story101", "Story1015", "Story102" },
+		
+		-- Currencies / War Within 11.0
+		[32] = { "Name", "Level", "Cur_ResidualMemories" },
+
 	}
 
 	return {

@@ -10,13 +10,11 @@ local Formatter = MVC:GetService("AltoholicUI.Formatter")
 local enum = DataStore.Enum.CurrencyIDs
 
 -- *** Utility functions ***
-local function CurrencyHeader_OnEnter(frame, currencyID)
-	local tt = AddonFactory_Tooltip
-	
-	tt:ClearLines()
-	tt:SetOwner(frame, "ANCHOR_BOTTOM")
-	tt:SetHyperlink(C_CurrencyInfo.GetCurrencyLink(currencyID, 0))
-	tt:Show()
+local function CurrencyHeader_OnEnter(frame, tooltip, column)
+	tooltip:ClearLines()
+	tooltip:SetOwner(frame, "ANCHOR_BOTTOM")
+	tooltip:SetHyperlink(C_CurrencyInfo.GetCurrencyLink(column.currencyID, 0))
+	tooltip:Show()
 end
 
 local function GetTotals(character, currencyID)
@@ -28,16 +26,19 @@ local function GetTotals(character, currencyID)
 	return amount or 0, totalMax or 0
 end
 
+local function SortByTotal(frame, character, column)
+	return GetTotals(character, column.currencyID)
+end
 
-local function GetCurrencyText(character, currencyID)
-	local amount, totalMax = GetTotals(character, currencyID)
+local function GetCurrencyText(character, column)
+	local amount, totalMax = GetTotals(character, column.currencyID)
 	local color = (amount == 0) and colors.grey or colors.white
 	
 	return format("%s%s", color, amount)
 end
 
-local function GetCurrencyTextWithMax(character, currencyID)
-	local amount, totalMax = GetTotals(character, currencyID)
+local function GetCurrencyTextWithMax(character, column)
+	local amount, totalMax = GetTotals(character, column.currencyID)
 	local color = (amount == 0) and colors.grey or colors.white
 	
 	return format("%s%s%s/%s%s", color, amount, colors.white, colors.yellow, totalMax)
@@ -45,246 +46,245 @@ end
 
 -- ** Miscellaneous **
 Columns.RegisterColumn("Cur_TimewarpedBadge", {
+	currencyID = enum.TimewarpedBadge,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\pvecurrency-justice")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.TimewarpedBadge)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_TimewarpedBadge") end,
-	headerSort = function(self, character) return GetTotals(character, enum.TimewarpedBadge) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.TimewarpedBadge) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_Darkmoon", {
+	currencyID = enum.DarkmoonPrize,
+	
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_ticket_darkmoon_01")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.DarkmoonPrize)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Darkmoon") end,
-	headerSort = function(self, character) return GetTotals(character, enum.DarkmoonPrize) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.DarkmoonPrize) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_Epicurean", {
+	currencyID = enum.EpicureansAward,
+	
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_ribbon_01")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.EpicureansAward)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Epicurean") end,
-	headerSort = function(self, character) return GetTotals(character, enum.EpicureansAward) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.EpicureansAward) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_Ironpaw", {
+	currencyID = enum.IronpawToken,
+	
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_relics_idolofferocity")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.IronpawToken)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Ironpaw") end,
-	headerSort = function(self, character) return GetTotals(character, enum.IronpawToken) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.IronpawToken) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_SpiritShard", {
+	currencyID = enum.SpiritShard,
 	-- Header
 	headerWidth = 80,
 	headerLabel = format("%s[2.0]  %s", colors.green, Formatter.Texture18("Interface\\Icons\\inv_jewelry_frostwolftrinket_04")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.SpiritShard)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_SpiritShard") end,
-	headerSort = function(self, character) return GetTotals(character, enum.SpiritShard) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.SpiritShard) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_ChampionsSeal", {
+	currencyID = enum.ChampionsSeal,
+
 	-- Header
 	headerWidth = 80,
 	headerLabel = format("%s[3.0]  %s", colors.green, Formatter.Texture18("Interface\\Icons\\ability_paladin_artofwar")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.ChampionsSeal)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_ChampionsSeal") end,
-	headerSort = function(self, character) return GetTotals(character, enum.ChampionsSeal) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.ChampionsSeal) end,
+	GetText = GetCurrencyText,
 })
 
 -- ** Cataclysm **
 Columns.RegisterColumn("Cur_Deathwing", {
+	currencyID = enum.EssenceOfCorruptedDeathwing,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_elemental_primal_shadow")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.EssenceOfCorruptedDeathwing)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Deathwing") end,
-	headerSort = function(self, character) return GetTotals(character, enum.EssenceOfCorruptedDeathwing) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.EssenceOfCorruptedDeathwing) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_MoteDarkness", {
+	currencyID = enum.MoteOfDarkness,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\spell_shadow_sealofkings")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.MoteOfDarkness)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_MoteDarkness") end,
-	headerSort = function(self, character) return GetTotals(character, enum.MoteOfDarkness) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.MoteOfDarkness) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_MarkWorldTree", {
+	currencyID = enum.MarkOfTheWorldTree,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_markoftheworldtree")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.MarkOfTheWorldTree)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_MarkWorldTree") end,
-	headerSort = function(self, character) return GetTotals(character, enum.MarkOfTheWorldTree) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.MarkOfTheWorldTree) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_IllustrJC", {
+	currencyID = enum.IllustriousJewelcrafter,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_token_argentdawn3")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.IllustriousJewelcrafter)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_IllustrJC") end,
-	headerSort = function(self, character) return GetTotals(character, enum.IllustriousJewelcrafter) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.IllustriousJewelcrafter) end,
+	GetText = GetCurrencyText,
 })
 
 -- ** Mists of Pandaria **
 Columns.RegisterColumn("Cur_Bloody", {
+	currencyID = enum.BloodyCoin,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\timelesscoin-bloody")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.BloodyCoin)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Bloody") end,
-	headerSort = function(self, character) return GetTotals(character, enum.BloodyCoin) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.BloodyCoin) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_ElderCharm", {
+	currencyID = enum.ElderCharm,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_coin_17")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.ElderCharm)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_ElderCharm") end,
-	headerSort = function(self, character) return GetTotals(character, enum.ElderCharm) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.ElderCharm) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_LesserCharm", {
+	currencyID = enum.LesserCharm,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_coin_18")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.LesserCharm)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_LesserCharm") end,
-	headerSort = function(self, character) return GetTotals(character, enum.LesserCharm) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.LesserCharm) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_MoguRune", {
+	currencyID = enum.MoguRuneOfFate,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\archaeology_5_0_mogucoin")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.MoguRuneOfFate)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_MoguRune") end,
-	headerSort = function(self, character) return GetTotals(character, enum.MoguRuneOfFate) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.MoguRuneOfFate) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_TimelessCoin", {
+	currencyID = enum.TimelessCoin,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\timelesscoin")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.TimelessCoin)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_TimelessCoin") end,
-	headerSort = function(self, character) return GetTotals(character, enum.TimelessCoin) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.TimelessCoin) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_WarforgedSeal", {
+	currencyID = enum.WarforgedSeal,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_arcane_orb")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.WarforgedSeal)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_WarforgedSeal") end,
-	headerSort = function(self, character) return GetTotals(character, enum.WarforgedSeal) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.WarforgedSeal) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 -- ** Warlords of Draenor **
 Columns.RegisterColumn("Cur_Garrison", {
+	currencyID = enum.GarrisonResources,
+
 	-- Header
 	headerWidth = 80,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_garrison_resource")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.GarrisonResources)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Garrison") end,
-	headerSort = function(self, character) return GetTotals(character, enum.GarrisonResources) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
-	GetText = function(character)
+	GetText = function(character, column)
 			local uncollected = DataStore:GetUncollectedResources(character) or 0
-			local amount = GetTotals(character, enum.GarrisonResources) or 0
+			local amount = GetTotals(character, column.currencyID) or 0
 			local color = (amount == 0) and colors.grey or colors.white
 			local colorUncollected
 			
@@ -331,18 +331,18 @@ Columns.RegisterColumn("Cur_Garrison", {
 })
 
 Columns.RegisterColumn("Cur_Oil", {
+	currencyID = enum.Oil,
+
 	-- Header
 	headerWidth = 90,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\garrison_oil")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.Oil)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Oil") end,
-	headerSort = function(self, character) return GetTotals(character, enum.Oil) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 90,
-	JustifyH = "CENTER",
-	GetText = function(character)	
-		local amount, totalMax = GetTotals(character, enum.Oil)
+	GetText = function(character, column)
+		local amount, totalMax = GetTotals(character, column.currencyID)
 		local color = (amount == 0) and colors.grey or colors.white
 		
 		if totalMax > 0 then
@@ -354,267 +354,259 @@ Columns.RegisterColumn("Cur_Oil", {
 })
 
 Columns.RegisterColumn("Cur_Apexis", {
+	currencyID = enum.ApexisCrystal,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_apexis_draenor")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.ApexisCrystal)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Apexis") end,
-	headerSort = function(self, character) return GetTotals(character, enum.ApexisCrystal) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.ApexisCrystal) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_InevitableFate", {
+	currencyID = enum.SealOfInevitableFate,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\achievement_battleground_templeofkotmogu_02_green")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.SealOfInevitableFate)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_InevitableFate") end,
-	headerSort = function(self, character) return GetTotals(character, enum.SealOfInevitableFate) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.SealOfInevitableFate) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_TemperedFate", {
+	currencyID = enum.SealOfTemperedFate,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\ability_animusorbs")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.SealOfTemperedFate)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_TemperedFate") end,
-	headerSort = function(self, character) return GetTotals(character, enum.SealOfTemperedFate) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.SealOfTemperedFate) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_ArtifactFragment", {
+	currencyID = enum.ArtifactFragment,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_ashran_artifact")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.ArtifactFragment)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_ArtifactFragment") end,
-	headerSort = function(self, character) return GetTotals(character, enum.ArtifactFragment) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.ArtifactFragment) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 -- ** Legion **
 Columns.RegisterColumn("Cur_OrderHall", {
+	currencyID = enum.OrderHall,
+
 	-- Header
 	headerWidth = 80,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_garrison_resource")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.OrderHall)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_OrderHall") end,
-	headerSort = function(self, character) return GetTotals(character, enum.OrderHall) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.OrderHall) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_WarSupplies", {
+	currencyID = enum.LegionfallWarSupplies,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_summonable_boss_token")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.LegionfallWarSupplies)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_WarSupplies") end,
-	headerSort = function(self, character) return GetTotals(character, enum.LegionfallWarSupplies) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.LegionfallWarSupplies) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_Nethershard", {
+	currencyID = enum.Nethershard,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_datacrystal01")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.Nethershard)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Nethershard") end,
-	headerSort = function(self, character) return GetTotals(character, enum.Nethershard) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.Nethershard) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_BrokenFate", {
+	currencyID = enum.SealOfBrokenFate,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_azsharacoin")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.SealOfBrokenFate)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_BrokenFate") end,
-	headerSort = function(self, character) return GetTotals(character, enum.SealOfBrokenFate) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.SealOfBrokenFate) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_SightlessEye", {
+	currencyID = enum.SightlessEye,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\achievement_reputation_kirintor_offensive")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.SightlessEye)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_SightlessEye") end,
-	headerSort = function(self, character) return GetTotals(character, enum.SightlessEye) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.SightlessEye) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_AncientMana", {
+	currencyID = enum.AncientMana,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_ancient_mana")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.AncientMana)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_AncientMana") end,
-	headerSort = function(self, character) return GetTotals(character, enum.AncientMana) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.AncientMana) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_VeiledArgunite", {
+	currencyID = enum.VeiledArgunite,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\oshugun_crystalfragments")),
-	headerOnEnter = function(frame, tooltip)
-		CurrencyHeader_OnEnter(frame, enum.VeiledArgunite)
-	end,
-	headerOnClick = function()
-		AltoholicFrame.TabSummary:SortBy("Cur_VeiledArgunite")
-	end,
-	headerSort = function(self, character)
-		return GetTotals(character, enum.VeiledArgunite)
-	end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)
-		return GetCurrencyTextWithMax(character, enum.VeiledArgunite)
-	end
+	GetText = GetCurrencyTextWithMax,
 })
 
 -- ** Battle for Azeroth **
 Columns.RegisterColumn("Cur_WarResources", {
+	currencyID = enum.WarResources,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv__faction_warresources")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.WarResources)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_WarResources") end,
-	headerSort = function(self, character) return GetTotals(character, enum.WarResources) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.WarResources) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_WartornFate", {
+	currencyID = enum.SealsOfWartornFate,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\timelesscoin_yellow")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.SealsOfWartornFate)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_WartornFate") end,
-	headerSort = function(self, character) return GetTotals(character, enum.SealsOfWartornFate) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.SealsOfWartornFate) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_BfADubloons", {
+	currencyID = enum.SeafarersDubloon,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_azsharacoin")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.SeafarersDubloon)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_BfADubloons") end,
-	headerSort = function(self, character) return GetTotals(character, enum.SeafarersDubloon) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.SeafarersDubloon) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_BfAWarSupplies", {
+	currencyID = enum.BfAWarSupplies,
+
 	-- Header
 	headerWidth = 80,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\pvpcurrency-conquest-horde")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.BfAWarSupplies)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_BfAWarSupplies") end,
-	headerSort = function(self, character) return GetTotals(character, enum.BfAWarSupplies) end,	
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.BfAWarSupplies) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_BfARichAzerite", {
+	currencyID = enum.RichAzeriteFragment,
+
 	-- Header
 	headerWidth = 80,
 	headerLabel = format("      %s", Formatter.Texture18("Interface\\Icons\\inv_smallazeriteshard")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.RichAzeriteFragment)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_BfARichAzerite") end,
-	headerSort = function(self, character) return GetTotals(character, enum.RichAzeriteFragment) end,	
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.RichAzeriteFragment) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 -- ** Shadowlands / 9.0 **
 Columns.RegisterColumn("Cur_Stygia", {
+	currencyID = enum.Stygia,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_stygia")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.Stygia)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Stygia") end,
-	headerSort = function(self, character) return GetTotals(character, enum.Stygia) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.Stygia) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_Anima", {
+	currencyID = enum.ReservoirAnima,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\spell_animabastion_orb")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.ReservoirAnima)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Anima") end,
-	headerSort = function(self, character) return GetTotals(character, enum.ReservoirAnima) end,	
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)
-			local amount, totalMax = GetTotals(character, enum.ReservoirAnima)
+	GetText = function(character, column)
+			local amount, totalMax = GetTotals(character, column.currencyID)
 			local color = (amount == 0) and colors.grey or colors.white
 			
 			-- save some space by shortening the label
@@ -627,134 +619,138 @@ Columns.RegisterColumn("Cur_Anima", {
 })
 
 Columns.RegisterColumn("Cur_RedeemedSoul", {
+	currencyID = enum.RedeemedSoul,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\sha_spell_warlock_demonsoul_nightborne")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.RedeemedSoul)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_RedeemedSoul") end,
-	headerSort = function(self, character) return GetTotals(character, enum.RedeemedSoul) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.RedeemedSoul) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_Valor", {
+	currencyID = enum.ValorPoints,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\pvecurrency-valor")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.ValorPoints)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Valor") end,
-	headerSort = function(self, character) return GetTotals(character, enum.ValorPoints) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.ValorPoints) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_Conquest", {
+	currencyID = enum.Conquest,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\achievement_legionpvp2tier3")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.Conquest)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Conquest") end,
-	headerSort = function(self, character) return GetTotals(character, enum.Conquest) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.Conquest) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_SoulAsh", {
+	currencyID = enum.SoulAsh,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_soulash")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.SoulAsh)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_SoulAsh") end,
-	headerSort = function(self, character) return GetTotals(character, enum.SoulAsh) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.SoulAsh) end,
+	GetText = GetCurrencyText,
 })
 
 -- ** Shadowlands / 9.1 Chains of Domination **
 
 Columns.RegisterColumn("Cur_CatalogedResearch", {
+	currencyID = enum.CatalogedResearch,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_paperbundle04a")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.CatalogedResearch)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_CatalogedResearch") end,
-	headerSort = function(self, character) return GetTotals(character, enum.CatalogedResearch) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.CatalogedResearch) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_TowerKnowledge", {
+	currencyID = enum.TowerKnowledge,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\spell_broker_orb")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.TowerKnowledge)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_TowerKnowledge") end,
-	headerSort = function(self, character) return GetTotals(character, enum.TowerKnowledge) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyTextWithMax(character, enum.TowerKnowledge) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_StygianEmber", {
+	currencyID = enum.StygianEmber,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\ability_deathknight_soulreaper")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.StygianEmber)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_StygianEmber") end,
-	headerSort = function(self, character) return GetTotals(character, enum.StygianEmber) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.StygianEmber) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_SoulCinders", {
+	currencyID = enum.SoulCinders,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_supersoulash")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.SoulCinders)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_SoulCinders") end,
-	headerSort = function(self, character) return GetTotals(character, enum.SoulCinders) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.SoulCinders) end,
+	GetText = GetCurrencyText,
 })
 
 -- ** Shadowlands / 9.2 Eternity's End **
 
 Columns.RegisterColumn("Cur_Cyphers", {
+	currencyID = enum.CyphersOfTheFirstOnes,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_trinket_progenitorraid_02_blue")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.CyphersOfTheFirstOnes)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Cyphers") end,
-	headerSort = function(self, character) return GetTotals(character, enum.CyphersOfTheFirstOnes) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	
-		local text = GetCurrencyText(character, enum.CyphersOfTheFirstOnes) 
+	GetText = function(character, column)
+		local amount, totalMax = GetTotals(character, column.currencyID)
+		local color = (amount == 0) and colors.grey or colors.white
+		
+		local text = format("%s%s", color, amount)
+		
 		
 		-- has this character already used the "Improvised Cypher Analysis Tool" ? 
 		if DataStore:IsQuestCompletedBy(character, 65282) then
@@ -770,229 +766,244 @@ Columns.RegisterColumn("Cur_Cyphers", {
 })
 
 Columns.RegisterColumn("Cur_CosmicFlux", {
+	currencyID = enum.CosmicFlux,
+
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_currency_cosmicflux")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.CosmicFlux)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_CosmicFlux") end,
-	headerSort = function(self, character) return GetTotals(character, enum.CosmicFlux) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.CosmicFlux) end,
+	GetText = GetCurrencyText,
 })
 
 -- ** Dragonflight / 10.0 **
 
 Columns.RegisterColumn("Cur_DragonIslesSupplies", {
+	currencyID = enum.DragonIslesSupplies,
+
 	-- Header
 	headerWidth = 100,
 	headerLabel = format("             %s", Formatter.Texture18("Interface\\Icons\\inv_faction_warresources")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.DragonIslesSupplies)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_DragonIslesSupplies") end,
-	headerSort = function(self, character) return GetTotals(character, enum.DragonIslesSupplies) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 100,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.DragonIslesSupplies) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_ElementalOverflow", {
+	currencyID = enum.ElementalOverflow,
+
 	-- Header
 	headerWidth = 75,
 	headerLabel = format("        %s", Formatter.Texture18("Interface\\Icons\\inv_misc_powder_thorium")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.ElementalOverflow)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_ElementalOverflow") end,
-	headerSort = function(self, character) return GetTotals(character, enum.ElementalOverflow) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 75,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.ElementalOverflow) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_StormSigil", {
+	currencyID = enum.StormSigil,
+
 	-- Header
 	headerWidth = 75,
 	headerLabel = format("        %s", Formatter.Texture18("Interface\\Icons\\inv_cloudserpent_egg_yellow")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.StormSigil)	end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_StormSigil") end,
-	headerSort = function(self, character) return GetTotals(character, enum.StormSigil) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 75,
-	JustifyH = "CENTER",
-	GetText = function(character)	return GetCurrencyText(character, enum.StormSigil) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_ConquestPoints", {
+	currencyID = enum.Conquest,
+
 	-- Header
 	headerWidth = 75,
 	headerLabel = format("        %s", Formatter.Texture18("Interface\\Icons\\achievement_legionpvp2tier3")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.Conquest) end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_ConquestPoints") end,
-	headerSort = function(self, character) return GetTotals(character, enum.Conquest) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 75,
-	JustifyH = "CENTER",
-	GetText = function(character) return GetCurrencyText(character, enum.Conquest) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_Honor", {
+	currencyID = enum.Honor,
+
 	-- Header
 	headerWidth = 75,
 	headerLabel = format("        %s", Formatter.Texture18("Interface\\Icons\\achievement_legionpvptier4")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.Honor) end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Honor") end,
-	headerSort = function(self, character) return GetTotals(character, enum.Honor) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 75,
-	JustifyH = "CENTER",
-	GetText = function(character) return GetCurrencyText(character, enum.Honor) end,
+	GetText = GetCurrencyText,
 })
 
 -- ** Dragonflight / 10.1 **
 Columns.RegisterColumn("Cur_Flightstones", {
+	currencyID = enum.Flightstones,
+
 	-- Header
 	headerWidth = 100,
 	headerLabel = format("             %s", Formatter.Texture18("Interface\\Icons\\flightstone-dragonflight")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.Flightstones) end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_Flightstones") end,
-	headerSort = function(self, character) return GetTotals(character, enum.Flightstones) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 	
 	-- Content
 	Width = 100,
-	JustifyH = "CENTER",
-	GetText = function(character) return GetCurrencyTextWithMax(character, enum.Flightstones) end,
+	GetText = GetCurrencyTextWithMax,
 })
 
 Columns.RegisterColumn("Cur_ParacausalFlakes", {
+	currencyID = enum.ParacausalFlakes,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("     %s", Formatter.Texture18("Interface\\Icons\\ability_essence_reapingflames")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.ParacausalFlakes) end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_ParacausalFlakes") end,
-	headerSort = function(self, character) return GetTotals(character, enum.ParacausalFlakes) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character) return GetCurrencyText(character, enum.ParacausalFlakes) end
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_RidersofAzerothBadge", {
+	currencyID = enum.RidersofAzerothBadge,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("     %s", Formatter.Texture18("Interface\\Icons\\inv_10_fishing_dragonislescoins_bronze")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.RidersofAzerothBadge) end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_RidersofAzerothBadge") end,
-	headerSort = function(self, character) return GetTotals(character, enum.RidersofAzerothBadge) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character) return GetCurrencyText(character, enum.RidersofAzerothBadge) end
+	GetText = GetCurrencyText,
 })
 
 -- ** Dragonflight / 10.2 **
 Columns.RegisterColumn("Cur_WhelplingsDreamingCrest", {
+	currencyID = enum.WhelplingsDreamingCrest,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("     %s", Formatter.Texture18("Interface\\Icons\\inv_10_gearupgrade_whelplingsdreamingcrest")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.WhelplingsDreamingCrest) end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_WhelplingsDreamingCrest") end,
-	headerSort = function(self, character) return GetTotals(character, enum.WhelplingsDreamingCrest) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character) return GetCurrencyText(character, enum.WhelplingsDreamingCrest) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_DrakesDreamingCrest", {
+	currencyID = enum.DrakesDreamingCrest,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("     %s", Formatter.Texture18("Interface\\Icons\\inv_10_gearupgrade_drakesdreamingcrest")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.DrakesDreamingCrest) end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_DrakesDreamingCrest") end,
-	headerSort = function(self, character) return GetTotals(character, enum.DrakesDreamingCrest) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character) return GetCurrencyText(character, enum.DrakesDreamingCrest) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_WyrmsDreamingCrest", {
+	currencyID = enum.WyrmsDreamingCrest,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("     %s", Formatter.Texture18("Interface\\Icons\\inv_10_gearupgrade_wyrmsdreamingcrest")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.WyrmsDreamingCrest) end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_WyrmsDreamingCrest") end,
-	headerSort = function(self, character) return GetTotals(character, enum.WyrmsDreamingCrest) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character) return GetCurrencyText(character, enum.WyrmsDreamingCrest) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_AspectsDreamingCrest", {
+	currencyID = enum.AspectsDreamingCrest,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("     %s", Formatter.Texture18("Interface\\Icons\\inv_10_gearupgrade_aspectsdreamingcrest")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.AspectsDreamingCrest) end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_AspectsDreamingCrest") end,
-	headerSort = function(self, character) return GetTotals(character, enum.AspectsDreamingCrest) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character) return GetCurrencyText(character, enum.AspectsDreamingCrest) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_EmeraldDewdrop", {
+	currencyID = enum.EmeraldDewdrop,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("     %s", Formatter.Texture18("Interface\\Icons\\inv_misc_shadowdew")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.EmeraldDewdrop) end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_EmeraldDewdrop") end,
-	headerSort = function(self, character) return GetTotals(character, enum.EmeraldDewdrop) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character) return GetCurrencyText(character, enum.EmeraldDewdrop) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_DreamInfusion", {
+	currencyID = enum.DreamInfusion,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("     %s", Formatter.Texture18("Interface\\Icons\\inv_legion_faction_dreamweavers")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.DreamInfusion) end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_DreamInfusion") end,
-	headerSort = function(self, character) return GetTotals(character, enum.DreamInfusion) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character) return GetCurrencyText(character, enum.DreamInfusion) end,
+	GetText = GetCurrencyText,
 })
 
 Columns.RegisterColumn("Cur_MysteriousFragment", {
+	currencyID = enum.MysteriousFragment,
+
 	-- Header
 	headerWidth = 60,
 	headerLabel = format("     %s", Formatter.Texture18("Interface\\Icons\\inv_7_0raid_trinket_05a")),
-	headerOnEnter = function(frame, tooltip) CurrencyHeader_OnEnter(frame, enum.MysteriousFragment) end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Cur_MysteriousFragment") end,
-	headerSort = function(self, character) return GetTotals(character, enum.MysteriousFragment) end,
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
 
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
-	GetText = function(character) return GetCurrencyText(character, enum.MysteriousFragment) end,
+	GetText = GetCurrencyText,
+})
+
+-- ** War Within / 11.0 **
+Columns.RegisterColumn("Cur_ResidualMemories", {
+	currencyID = enum.ResidualMemories,
+
+	-- Header
+	headerWidth = 100,
+	headerLabel = format("             %s", Formatter.Texture18("Interface\\Icons\\spell_azerite_essence_15")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 100,
+	GetText = GetCurrencyText,
 })

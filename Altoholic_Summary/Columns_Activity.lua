@@ -24,12 +24,10 @@ Columns.RegisterColumn("Mails", {
 			tooltip:AddLine(L["COLUMN_MAILS_DETAIL_1"], 1,1,1)
 			tooltip:AddLine(L["COLUMN_MAILS_DETAIL_2"], 1,1,1)
 		end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Mails") end,
 	headerSort = DataStore.GetNumMails,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local color = colors.grey
 			local num = DataStore:GetNumMails(character) or 0
@@ -134,12 +132,10 @@ Columns.RegisterColumn("LastMailCheck", {
 	headerLabel = L["COLUMN_MAILBOX_VISITED_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_MAILBOX_VISITED_TITLE"],
 	tooltipSubTitle = L["COLUMN_MAILBOX_VISITED_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("LastMailCheck") end,
 	headerSort = DataStore.GetMailboxLastVisit,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			return format("%s%s", colors.white, Formatter.Delay(DataStore:GetMailboxLastVisit(character)))
 		end,
@@ -168,12 +164,10 @@ Columns.RegisterColumn("Auctions", {
 	headerLabel = L["COLUMN_AUCTIONS_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_AUCTIONS_TITLE"],
 	tooltipSubTitle = L["COLUMN_AUCTIONS_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Auctions") end,
 	headerSort = DataStore.GetNumAuctions,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local num = DataStore:GetNumAuctions(character) or 0
 			return format("%s%s", ((num == 0) and colors.grey or colors.green), num)
@@ -196,12 +190,10 @@ Columns.RegisterColumn("Bids", {
 	headerLabel = L["COLUMN_BIDS_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_BIDS_TITLE"],
 	tooltipSubTitle = L["COLUMN_BIDS_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Bids") end,
 	headerSort = DataStore.GetNumBids,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			local num = DataStore:GetNumBids(character) or 0
 			return format("%s%s", ((num == 0) and colors.grey or colors.green), num)
@@ -224,12 +216,10 @@ Columns.RegisterColumn("AHLastVisit", {
 	headerLabel = L["COLUMN_AUCTIONHOUSE_VISITED_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_AUCTIONHOUSE_VISITED_TITLE"],
 	tooltipSubTitle = L["COLUMN_AUCTIONHOUSE_VISITED_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("AHLastVisit") end,
 	headerSort = DataStore.GetAuctionHouseLastVisit,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			return format("%s%s", colors.white, Formatter.Delay(DataStore:GetAuctionHouseLastVisit(character)))
 		end,
@@ -264,7 +254,6 @@ Columns.RegisterColumn("MissionTableLastVisit", {
 			tooltip:AddLine(format("%s* %s= %s", colors.red, colors.white, L["COLUMN_GARRISON_MISSIONS_DETAIL_2"]))
 			tooltip:AddLine(format("%s! %s= %s", colors.gold, colors.white, L["COLUMN_GARRISON_MISSIONS_DETAIL_3"]))
 		end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("MissionTableLastVisit") end,
 	headerSort = DataStore.GetMissionTableLastVisit,
 	
 	-- Content

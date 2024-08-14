@@ -16,12 +16,10 @@ Columns.RegisterColumn("KeyName", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\inv_relics_hourglass"), L["COLUMN_KEYNAME_TITLE_SHORT"]),
 	tooltipTitle = L["COLUMN_KEYNAME_TITLE"],
 	tooltipSubTitle = L["COLUMN_KEYNAME_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("KeyName") end,
 	headerSort = DataStore.GetKeystoneName,
 	
 	-- Content
 	Width = 180,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		return Formatter.GreyIfEmpty(DataStore:GetKeystoneName(character))
 	end,
@@ -33,12 +31,10 @@ Columns.RegisterColumn("KeyLevel", {
 	headerLabel = L["COLUMN_LEVEL_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_KEYLEVEL_TITLE"],
 	tooltipSubTitle = L["COLUMN_KEYLEVEL_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("KeyLevel") end,
 	headerSort = DataStore.GetKeystoneLevel,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = DataStore:GetKeystoneLevel(character) or 0
 		local color = (level == 0) and colors.grey or colors.yellow
@@ -52,12 +48,10 @@ Columns.RegisterColumn("DungeonScore", {
 	headerWidth = 120,
 	headerLabel = DUNGEON_SCORE,
 	tooltipTitle = DUNGEON_SCORE,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("DungeonScore") end,
 	headerSort = DataStore.GetDungeonScore,
 	
 	-- Content
 	Width = 120,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = DataStore:GetDungeonScore(character) or 0
 		local color = (level == 0) and colors.grey or colors.yellow
@@ -72,12 +66,10 @@ Columns.RegisterColumn("WeeklyBestKeyName", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\achievement_challengemode_gold"), CHALLENGE_MODE_WEEKLY_BEST),
 	tooltipTitle = L["COLUMN_WEEKLYBEST_KEYNAME_TITLE"],
 	tooltipSubTitle = L["COLUMN_WEEKLYBEST_KEYNAME_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("WeeklyBestKeyName") end,
 	headerSort = DataStore.GetWeeklyBestKeystoneName,
 	
 	-- Content
 	Width = 110,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		return Formatter.GreyIfEmpty(DataStore:GetWeeklyBestKeystoneName(character))
 	end,
@@ -121,12 +113,10 @@ Columns.RegisterColumn("WeeklyBestKeyLevel", {
 	headerLabel = L["COLUMN_LEVEL_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_WEEKLYBEST_KEYLEVEL_TITLE"],
 	tooltipSubTitle = L["COLUMN_WEEKLYBEST_KEYLEVEL_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("WeeklyBestKeyLevel") end,
 	headerSort = DataStore.GetWeeklyBestKeystoneLevel,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = DataStore:GetWeeklyBestKeystoneLevel(character) or 0
 		local color = (level == 0) and colors.grey or colors.yellow
@@ -141,12 +131,10 @@ Columns.RegisterColumn("WeeklyBestKeyTime", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\spell_holy_borrowedtime"), BEST),
 	tooltipTitle = L["COLUMN_WEEKLYBEST_KEYTIME_TITLE"],
 	tooltipSubTitle = L["COLUMN_WEEKLYBEST_KEYTIME_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("WeeklyBestKeyTime") end,
 	headerSort = DataStore.GetWeeklyBestKeystoneTime,
 
 	-- Content
 	Width = 90,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local seconds = DataStore:GetWeeklyBestKeystoneTime(character) or 0
 		return Formatter.Duration(seconds)
@@ -224,12 +212,10 @@ Columns.RegisterColumn("RewardMythic", {
 	headerWidth = 120,
 	headerLabel = CHALLENGES,
 	tooltipTitle = CHALLENGES,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("RewardMythic") end,
 	headerSort = DataStore.GetWeeklyMythicPlusReward,
 	
 	-- Content
 	Width = 120,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = DataStore:GetWeeklyMythicPlusReward(character) or 0
 		local color = (level == 0) and colors.grey or colors.white
@@ -307,12 +293,10 @@ Columns.RegisterColumn("RewardRaid", {
 	headerWidth = 80,
 	headerLabel = RAIDS,
 	tooltipTitle = RAIDS,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("RewardRaid") end,
 	headerSort = DataStore.GetWeeklyRaidReward,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = DataStore:GetWeeklyRaidReward(character) or 0
 		local color = (level == 0) and colors.grey or colors.white
@@ -328,12 +312,10 @@ Columns.RegisterColumn("RewardPvP", {
 	headerWidth = 120,
 	headerLabel = PLAYER_V_PLAYER,
 	tooltipTitle = PLAYER_V_PLAYER,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("RewardPvP") end,
 	headerSort = DataStore.GetWeeklyRankedPvPReward,
 	
 	-- Content
 	Width = 120,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = DataStore:GetWeeklyRankedPvPReward(character) or 0
 		local color = (level == 0) and colors.grey or colors.white
@@ -372,14 +354,12 @@ for mapIndex = 1, 8 do
 		tooltipTitle = GetMapName(mapIndex),
 		tooltipSubTitle = L["COLUMN_WEEKLYBEST_DUNGEON_SUBTITLE"],
 		
-		headerOnClick = function() AltoholicFrame.TabSummary:SortBy("MPlus" .. mapIndex) end,
 		headerSort = function(self, character) 
 			return GetWeeklyBestByDungeon(character, maps[mapIndex])
 		end,
 		
 		-- Content
 		Width = 60,
-		JustifyH = "CENTER",
 		GetText = function(character) 
 			local level = GetWeeklyBestByDungeon(character, maps[mapIndex])
 			local color = (level == 0) and colors.grey or colors.green

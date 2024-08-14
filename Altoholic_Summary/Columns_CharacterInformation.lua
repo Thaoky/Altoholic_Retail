@@ -281,7 +281,6 @@ Columns.RegisterColumn("Name", {
 	-- Header
 	headerWidth = 150,
 	headerLabel = NAME,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Name") end,
 	headerSort = DataStore.GetCharacterName,
 	
 	-- Content
@@ -358,12 +357,10 @@ Columns.RegisterColumn("Level", {
 	headerLabel = L["COLUMN_LEVEL_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_LEVEL_TITLE"],
 	tooltipSubTitle = L["COLUMN_LEVEL_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Level") end,
 	headerSort = GetCharacterLevel,
 	
 	-- Content
 	Width = 50,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = DataStore:GetCharacterLevel(character)
 		if level ~= MAX_PLAYER_LEVEL and Altoholic_SummaryTab_Options["ShowLevelDecimals"] then
@@ -418,12 +415,10 @@ Columns.RegisterColumn("RestXP", {
 			tooltip:AddLine(format(L["COLUMN_RESTXP_DETAIL_4"], 100, 100))
 			tooltip:AddLine(format(L["COLUMN_RESTXP_DETAIL_4"], 150, 150))
 		end,
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("RestXP") end,
 	headerSort = DataStore.GetRestXPRate,
 	
 	-- Content
 	Width = 65,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		if DataStore:GetCharacterLevel(character) == MAX_PLAYER_LEVEL then
 			return format("%s0%%", colors.white)	-- show 0% at max level
@@ -487,7 +482,6 @@ Columns.RegisterColumn("Money", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\inv_misc_coin_01"), L["COLUMN_MONEY_TITLE_SHORT"]),
 	tooltipTitle = L["COLUMN_MONEY_TITLE"],
 	tooltipSubTitle = L["COLUMN_MONEY_SUBTITLE_"..random(5)],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Money") end,
 	headerSort = DataStore.GetMoney,
 	
 	-- Content
@@ -505,7 +499,6 @@ Columns.RegisterColumn("Played", {
 	headerLabel = L["COLUMN_PLAYED_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_PLAYED_TITLE"],
 	tooltipSubTitle = L["COLUMN_PLAYED_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Played") end,
 	headerSort = DataStore.GetPlayTime,
 	
 	-- Content
@@ -528,12 +521,10 @@ Columns.RegisterColumn("AiL", {
 	headerLabel = L["COLUMN_ILEVEL_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_ILEVEL_TITLE"],
 	tooltipSubTitle = L["COLUMN_ILEVEL_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("AiL") end,
 	headerSort = DataStore.GetAverageItemLevel,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local AiL = DataStore:GetAverageItemLevel(character) or 0
 		if Altoholic_SummaryTab_Options["ShowILevelDecimals"] then
@@ -576,12 +567,10 @@ Columns.RegisterColumn("LastOnline", {
 	headerLabel = L["COLUMN_LASTONLINE_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_LASTONLINE_TITLE"],
 	tooltipSubTitle = L["COLUMN_LASTONLINE_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("LastOnline") end,
 	headerSort = DataStore.GetLastLogout,
 	
 	-- Content
 	Width = 60,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		if DataStore:IsCurrentPlayerKey(character) then
 			return format("%s%s", colors.green, GUILD_ONLINE_LABEL)
@@ -634,14 +623,12 @@ Columns.RegisterColumn("MaxRestXP", {
 	headerLabel = L["COLUMN_MAXRESTXP_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_MAXRESTXP_TITLE"],
 	tooltipSubTitle = L["COLUMN_MAXRESTXP_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("MaxRestXP") end,
 	headerSort = function(self, character)
 		return select(6, DataStore:GetRestXPRate(character)) 
 	end,
 	
 	-- Content
 	Width = 80,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local level = DataStore:GetCharacterLevel(character)
 		if level == MAX_PLAYER_LEVEL then
@@ -658,14 +645,12 @@ Columns.RegisterColumn("SavedRestXP", {
 	headerLabel = L["COLUMN_SAVEDRESTXP_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_SAVEDRESTXP_TITLE"],
 	tooltipSubTitle = L["COLUMN_SAVEDRESTXP_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("SavedRestXP") end,
 	headerSort = function(self, character)
 		return select(2, DataStore:GetRestXPRate(character)) 
 	end,
 	
 	-- Content
 	Width = 100,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local _, _, savedXP, savedRate = GetRestedXP(character)
 		return format("%d %s(%2.1f%%)", savedXP, colors.white, savedRate)
@@ -678,14 +663,12 @@ Columns.RegisterColumn("EarnedRestXP", {
 	headerLabel = L["COLUMN_EARNEDRESTXP_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_EARNEDRESTXP_TITLE"],
 	tooltipSubTitle = L["COLUMN_EARNEDRESTXP_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("EarnedRestXP") end,
 	headerSort = function(self, character)
 		return select(5, DataStore:GetRestXPRate(character)) 
 	end,
 	
 	-- Content
 	Width = 100,
-	JustifyH = "CENTER",
 	GetText = function(character)
 		local level = DataStore:GetCharacterLevel(character)
 		if level == MAX_PLAYER_LEVEL then
@@ -701,7 +684,6 @@ Columns.RegisterColumn("FullyRestedIn", {
 	-- Header
 	headerWidth = 110,
 	headerLabel = L["Fully rested in"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("FullyRestedIn") end,
 	headerSort = function(self, character)
 		local _, _, _, _, _, _, isFullyRested, timeUntilFullyRested = DataStore:GetRestXPRate(character)
 		local level = DataStore:GetCharacterLevel(character)
@@ -717,7 +699,6 @@ Columns.RegisterColumn("FullyRestedIn", {
 	
 	-- Content
 	Width = 110,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local _, _, _, _, _, _, _, isFullyRested, timeUntilFullyRested = GetRestedXP(character)
 		local level = DataStore:GetCharacterLevel(character)
@@ -742,12 +723,10 @@ Columns.RegisterColumn("GuildName", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\inv_shirt_guildtabard_01"), GUILD),
 	tooltipTitle = L["COLUMN_GUILD_TITLE"],
 	-- tooltipSubTitle = L["COLUMN_GUILD_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("GuildName") end,
 	headerSort = GetGuildOrRank,
 	
 	-- Content
 	Width = 120,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		return Formatter.GreyIfEmpty(DataStore:GetGuildName(character), colors.green)
 	end,
@@ -759,12 +738,10 @@ Columns.RegisterColumn("GuildRank", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\inv_helm_crown_c_01_gold"), L["COLUMN_GUILDRANK_TITLE_SHORT"]),
 	tooltipTitle = L["COLUMN_GUILDRANK_TITLE"],
 	tooltipSubTitle = L["COLUMN_GUILDRANK_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("GuildRank") end,
 	headerSort = GetGuildOrRank,
 	
 	-- Content
 	Width = 120,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local guildID = DataStore:GetCharacterGuildID(character)
 		local guildRank, rankIndex = DataStore:GetGuildInfo(character, guildID)
@@ -810,12 +787,10 @@ Columns.RegisterColumn("GuildRep", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\inv_misc_tournaments_tabard_human"), L["COLUMN_GUILDREP_TITLE"]),
 	tooltipTitle = L["COLUMN_GUILDREP_TITLE"],
 	tooltipSubTitle = L["COLUMN_GUILDREP_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("GuildRep") end,
 	headerSort = DataStore.GetGuildReputation,
 	
 	-- Content
 	Width = 140,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		local guildName = DataStore:GetGuildName(character)
 		local level = DataStore:GetReputationInfo(character, guildName)
@@ -859,12 +834,10 @@ Columns.RegisterColumn("Hearthstone", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\inv_misc_rune_01"), L["COLUMN_HEARTHSTONE_TITLE"]),
 	tooltipTitle = L["COLUMN_HEARTHSTONE_TITLE"],
 	tooltipSubTitle = L["COLUMN_HEARTHSTONE_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Hearthstone") end,
 	headerSort = DataStore.GetBindLocation,
 	
 	-- Content
 	Width = 120,
-	JustifyH = "CENTER",
 	GetText = function(character) 
 		return Formatter.GreyIfEmpty(DataStore:GetBindLocation(character))
 	end,
@@ -874,14 +847,12 @@ Columns.RegisterColumn("Zone", {
 	-- Header
 	headerWidth = 140,
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\achievement_zone_easternkingdoms_01"), ZONE),
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("Zone") end,
 	headerSort = function(self, character)
 		return select(1, DataStore:GetLocation(character)) 
 	end,
 	
 	-- Content
 	Width = 140,
-	JustifyH = "CENTER",
 	GetText = function(character)
 		local zone = DataStore:GetLocation(character)
 		return Formatter.GreyIfEmpty(zone)
@@ -892,14 +863,12 @@ Columns.RegisterColumn("SubZone", {
 	-- Header
 	headerWidth = 150,
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\achievement_zone_arathihighlands_01"), L["COLUMN_SUBZONE_TITLE"]),
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("SubZone") end,
 	headerSort = function(self, character)
 		return select(2, DataStore:GetLocation(character)) 
 	end,
 	
 	-- Content
 	Width = 150,
-	JustifyH = "CENTER",
 	GetText = function(character)
 		local _, subZone = DataStore:GetLocation(character)
 		return Formatter.GreyIfEmpty(subZone)
@@ -913,12 +882,10 @@ Columns.RegisterColumn("ClassAndSpec", {
 	headerLabel = format("%s   %s / %s", Formatter.Texture18("Interface\\Icons\\Spell_Nature_NatureGuardian"), CLASS, SPECIALIZATION),
 	tooltipTitle = format("%s / %s", CLASS, SPECIALIZATION),
 	tooltipSubTitle = L["COLUMN_CLASS_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("ClassAndSpec") end,
 	headerSort = DataStore.GetCharacterClass,
 	
 	-- Content
 	Width = 170,
-	JustifyH = "CENTER",
 	GetText = function(character)
 	
 		local class = DataStore:GetCharacterClass(character)
@@ -994,14 +961,12 @@ Columns.RegisterColumn("BankType", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\trade_archaeology_chestoftinyglassanimals"), L["COLUMN_BANK_TYPE_MARKS"]),
 	tooltipTitle = L["COLUMN_BANK_TYPE_MARKS"],
 	tooltipSubTitle = L["COLUMN_BANK_TYPE_MARKS_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("BankType") end,
 	headerSort = function(self, character)
 		return DataStore:GetBankTypes(character)
 	end,
 	
 	-- Content
 	Width = 150,
-	JustifyH = "CENTER",
 	GetText = function(character)
 		local types = DataStore:GetBankTypes(character)
 		
@@ -1033,14 +998,12 @@ Columns.RegisterColumn("AltGroup", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\Achievement_GuildPerk_Everyones a Hero_rank2"), L["FILTER_ALT_GROUPS"]),
 	-- tooltipTitle = L["COLUMN_BANK_TYPE_MARKS"],
 	-- tooltipSubTitle = L["COLUMN_BANK_TYPE_MARKS_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("AltGroup") end,
 	headerSort = function(self, character)
 		return DataStore.AltGroups:Get(character)
 	end,
 	
 	-- Content
 	Width = 120,
-	JustifyH = "CENTER",
 	GetText = function(character)
 		local groups = DataStore.AltGroups:Get(character)
 		

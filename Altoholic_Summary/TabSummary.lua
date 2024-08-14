@@ -176,10 +176,10 @@ local locationLabels = {
 }
 
 local armorTypeLabels = {
-	[1] = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Cloth),
-	[2] = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Leather),
-	[3] = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Mail),
-	[4] = GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Plate)
+	[1] = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Cloth),
+	[2] = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Leather),
+	[3] = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Mail),
+	[4] = C_Item.GetItemSubClassInfo(Enum.ItemClass.Armor, Enum.ItemArmorSubclass.Plate)
 }
 
 local roleTypeLabels = { TANK, HEALER, DAMAGER}
@@ -264,12 +264,14 @@ local function LevelIcon_Initialize(frame, level)
 	frame:AddButtonWithArgs("40-49", 6, OnLevelFilterChange, 40, 49, (option == 6))
 	frame:AddButtonWithArgs("50-59", 7, OnLevelFilterChange, 50, 59, (option == 7))
 	frame:AddButtonWithArgs("60-69", 8, OnLevelFilterChange, 60, 69, (option == 8))
-	frame:AddButtonWithArgs("70", 9, OnLevelFilterChange, 70, 70, (option == 9))
+	frame:AddButtonWithArgs("70-79", 9, OnLevelFilterChange, 70, 79, (option == 9))
+	frame:AddButtonWithArgs("80", 10, OnLevelFilterChange, 80, 80, (option == 10))
 	frame:AddTitle()
-	frame:AddButtonWithArgs("1-44", 10, OnLevelFilterChange, 1, 44, (option == 10))
-	frame:AddButtonWithArgs(format("45+ %s(%s)", colors.green, EXPANSION_NAME7), 11, OnLevelFilterChange, 45, 70, (option == 11))
-	frame:AddButtonWithArgs(format("50+ %s(%s)", colors.green, EXPANSION_NAME8), 12, OnLevelFilterChange, 50, 70, (option == 12))
-	frame:AddButtonWithArgs(format("60+ %s(%s)", colors.green, EXPANSION_NAME9), 13, OnLevelFilterChange, 60, 70, (option == 13))
+	frame:AddButtonWithArgs("1-44", 11, OnLevelFilterChange, 1, 44, (option == 11))
+	frame:AddButtonWithArgs(format("45+ %s(%s)", colors.green, EXPANSION_NAME7), 12, OnLevelFilterChange, 45, 80, (option == 12))
+	frame:AddButtonWithArgs(format("50+ %s(%s)", colors.green, EXPANSION_NAME8), 13, OnLevelFilterChange, 50, 80, (option == 13))
+	frame:AddButtonWithArgs(format("60+ %s(%s)", colors.green, EXPANSION_NAME9), 14, OnLevelFilterChange, 60, 80, (option == 14))
+	frame:AddButtonWithArgs(format("70+ %s(%s)", colors.green, EXPANSION_NAME10), 15, OnLevelFilterChange, 70, 80, (option == 15))
 	frame:AddCloseMenu()
 end
 
@@ -297,15 +299,16 @@ local function ProfessionsIcon_Initialize(frame, level)
 	
 		if subMenu == 1 then				-- Primary professions
 			for i = 1, (firstSecondarySkill - 1) do
-				spell, _, icon = GetSpellInfo(tradeskills[i])
-				frame:AddButton(spell, i, OnTradeSkillFilterChange, icon, (option == i), level)
+				local spellID = tradeskills[i]
+
+				frame:AddButton(C_Spell.GetSpellName(spellID), i, OnTradeSkillFilterChange, C_Spell.GetSpellTexture(spellID), (option == i), level)
 			end
 		
 		elseif subMenu == 2 then		-- Secondary professions
 			for i = firstSecondarySkill, #tradeskills do
-				spell, _, icon = GetSpellInfo(tradeskills[i])
+				local spellID = tradeskills[i]
 				
-				frame:AddButton(spell, i, OnTradeSkillFilterChange, icon, (option == i), level)
+				frame:AddButton(C_Spell.GetSpellName(spellID), i, OnTradeSkillFilterChange, C_Spell.GetSpellTexture(spellID), (option == i), level)
 			end
 		end
 	end
@@ -535,7 +538,7 @@ addon:Controller("AltoholicUI.TabSummary", {
 
 		-- Add the extra tooltip content, if any
 		if column.headerOnEnter then
-			column.headerOnEnter(frame, tt)
+			column.headerOnEnter(frame, tt, column)
 		end
 		
 		tt:Show()
@@ -620,7 +623,9 @@ addon:Controller("AltoholicUI.TabSummary", {
 			for i, columnName in ipairs(profiles) do
 				local column = columnsData.Get(columnName)
 				
-				hc:SetButton(i, column.headerLabel, column.headerWidth, column.headerOnClick)
+				hc:SetButton(i, column.headerLabel, column.headerWidth, function(frame) 
+					tab:SortBy(columnName)
+				end)
 				
 				local button = hc.SortButtons[i]
 				button.column = column
@@ -672,7 +677,7 @@ addon:Controller("AltoholicUI.TabSummary", {
 				local column = columnsData.Get(currentColumn)
 				
 				if column then	-- an old column name might still be in the DB.
-					characters.Sort(sortOrder, column.headerSort)
+					characters.Sort(sortOrder, column.headerSort, column)
 				end
 
 				-- attempt to restore the arrow to the right sort button
@@ -817,6 +822,11 @@ addon:Controller("AltoholicUI.TabSummaryCategoriesList", {
 					{ text = format("%s10.0|r %s", colors.green, L["PATCH_X.0"]), profile = 27 },
 					{ text = format("%s10.1|r %s", colors.green, L["PATCH_10.1"]), profile = 28 },
 					{ text = format("%s10.2|r %s", colors.green, L["PATCH_10.2"]), profile = 29 },
+				}},				
+				{ text = EXPANSION_NAME10, subMenu = {
+					{ text = format("%s11.0|r %s", colors.green, L["PATCH_X.0"]), profile = 32 },
+					-- { text = format("%s11.1|r %s", colors.green, L["PATCH_11.1"]), profile = 28 },
+					-- { text = format("%s11.2|r %s", colors.green, L["PATCH_11.2"]), profile = 29 },
 				}},				
 			}},
 			-- Expansion Features

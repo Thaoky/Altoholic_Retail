@@ -33,7 +33,6 @@ Columns.RegisterColumn("BagSlots", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\inv_misc_bag_08"), L["COLUMN_BAGS_TITLE_SHORT"]),
 	tooltipTitle = L["COLUMN_BAGS_TITLE"],
 	tooltipSubTitle = L[format("COLUMN_BAGS_SUBTITLE_%d", random(2))],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("BagSlots") end,
 	headerSort = DataStore.GetNumBagSlots,
 	
 	-- Content
@@ -87,12 +86,10 @@ Columns.RegisterColumn("FreeBagSlots", {
 	headerLabel = L["COLUMN_FREEBAGSLOTS_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_FREEBAGSLOTS_TITLE"],
 	tooltipSubTitle = L["COLUMN_FREEBAGSLOTS_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("FreeBagSlots") end,
 	headerSort = DataStore.GetNumFreeBagSlots,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			if not DataStore:GetModuleLastUpdateByKey("DataStore_Containers", character) then
 				return 0
@@ -127,7 +124,6 @@ Columns.RegisterColumn("BankSlots", {
 	headerLabel = format("%s  %s", Formatter.Texture18("Interface\\Icons\\achievement_guildperk_mobilebanking"), L["COLUMN_BANK_TITLE_SHORT"]),
 	tooltipTitle = L["COLUMN_BANK_TITLE"],
 	tooltipSubTitle = L[format("COLUMN_BANK_SUBTITLE_%d", random(2))],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("BankSlots") end,
 	headerSort = DataStore.GetNumBankSlots,
 	
 	-- Content
@@ -200,12 +196,10 @@ Columns.RegisterColumn("FreeBankSlots", {
 	headerLabel = L["COLUMN_FREEBANKLOTS_TITLE_SHORT"],
 	tooltipTitle = L["COLUMN_FREEBANKLOTS_TITLE"],
 	tooltipSubTitle = L["COLUMN_FREEBANKLOTS_SUBTITLE"],
-	headerOnClick = function() AltoholicFrame.TabSummary:SortBy("FreeBankSlots") end,
 	headerSort = DataStore.GetNumFreeBankSlots,
 	
 	-- Content
 	Width = 70,
-	JustifyH = "CENTER",
 	GetText = function(character)
 			if not DataStore:GetModuleLastUpdateByKey("DataStore_Containers", character) then
 				return 0
