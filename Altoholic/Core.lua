@@ -1,9 +1,9 @@
 local addonName, addon = ...
 _G[addonName] = addon
 
-addon.Version = "v11.0.002"
+addon.Version = "v11.0.003"
 -- addon.VersionNum = 11 00 006
-addon.VersionNum = 1100002
+addon.VersionNum = 1100003
 
 LibStub("LibMVC-1.0"):Embed(addon)
 
@@ -11,9 +11,7 @@ local L = DataStore:GetLocale(addonName)
 local LibSerialize = LibStub:GetLibrary("LibSerialize")
 local commPrefix = addonName
 
--- Reminder: binding is done in bindings.xml
-BINDING_HEADER_ALTOHOLIC = addonName
-BINDING_NAME_ALTOHOLIC_TOGGLE = "Altoholic - Toggle UI"
+AddonFactory:AddKeyBinding("ALTOHOLIC", addonName, "Altoholic - Toggle UI")
 
 addon.Colors = {
 	white	= "|cFFFFFFFF",
@@ -189,11 +187,6 @@ local function CommandLineCallback(args)
 	end
 end
 
-local function RegisterChatCommand(command, callback)
-	_G[ format("SLASH_%s1", command)] = format("/%s", command:lower())
-	SlashCmdList[command] = callback
-end
-
 local function OnSendVersion(sender, version)
 	if sender ~= UnitName("player") then								-- don't send back to self
 		GuildWhisper(sender, MSG_VERSION_REPLY, addon.Version)		-- reply by sending my own version
@@ -221,7 +214,7 @@ local GuildCommCallbacks = {
 DataStore:OnAddonLoaded(addonName, function() 
 	addon.ListenTo = function(self, ...) DataStore:ListenToEvent(self, ...)	end
 	
-	Altoholic_UI_Options = Altoholic_UI_Options or {
+	AddonFactory:SetOptionsTable("Altoholic_UI_Options", {
 		Mail = {
 			GuildMailWarning = true,					-- be informed when a guildie sends a mail to one of my alts
 			AutoCompleteRecipient = true,				-- Auto complete recipient name when sending a mail
@@ -241,9 +234,9 @@ DataStore:OnAddonLoaded(addonName, function()
 		-- ** Global options **
 		AHColorCoding = true,							-- color coded recipes at the AH
 		VendorColorCoding = true,						-- color coded recipes at vendors
-	}
+	})
 	
-	Altoholic_Tooltip_Options = Altoholic_Tooltip_Options or {
+	AddonFactory:SetOptionsTable("Altoholic_Tooltip_Options", {
 		ShowItemSource = true,
 		ShowItemXPack = true,
 		ShowItemCount = true,
@@ -265,9 +258,9 @@ DataStore:OnAddonLoaded(addonName, function()
 		ShowAccountBankCount = true,			-- display account bank counters
 		
 		HiddenGuilds = {}						-- Guilds that should not be shown in the tooltip
-	}
+	})	
 	
-	Altoholic_Sharing_Options = Altoholic_Sharing_Options or {
+	AddonFactory:SetOptionsTable("Altoholic_Sharing_Options", {
 		IsEnabled = false,						-- account sharing communication handler is disabled by default
 		GuildBankAutoUpdate = false,			-- can the guild bank tabs update requests be answered automatically or not.
 		Clients = {},
@@ -276,9 +269,9 @@ DataStore:OnAddonLoaded(addonName, function()
 			--	["Account.Realm.Name"]  = true means the char is shared,
 			--	["Account.Realm.Name.Module"]  = true means the module is shared for that char
 		},
-	}
+	})
 	
-	Altoholic_Calendar_Options = Altoholic_Calendar_Options or {
+	AddonFactory:SetOptionsTable("Altoholic_Calendar_Options", {
 		WarningsEnabled = true,
 		WeekStartsOnMonday = false,
 		UseDialogBoxForWarnings = false,				-- use a dialog box for warnings (true), or default chat frame (false)
@@ -286,10 +279,10 @@ DataStore:OnAddonLoaded(addonName, function()
 		WarningType2 = "30,15,10,5,4,3,2,1",		-- for dungeon resets
 		WarningType3 = "30,15,10,5,4,3,2,1",		-- for calendar events
 		WarningType4 = "30,15,10,5,4,3,2,1",		-- for item timers (like mysterious egg)
-	}
+	})
 
-	RegisterChatCommand("Altoholic", CommandLineCallback)
-	RegisterChatCommand("Alto", CommandLineCallback)
+	AddonFactory:RegisterChatCommand("Altoholic", CommandLineCallback)
+	AddonFactory:RegisterChatCommand("Alto", CommandLineCallback)
 	
 	DataStore:SetGuildCommCallbacks(commPrefix, GuildCommCallbacks)
 	DataStore:OnGuildComm(commPrefix, DataStore:GetGuildCommHandler())
@@ -473,15 +466,14 @@ function addon:Print(text)
 	DEFAULT_CHAT_FRAME:AddMessage(format("|cff33ff99%s|r: %s", addonName, text))
 end
 
--- https://wowpedia.fandom.com/wiki/Addon_compartment
-function Altoholic_OnAddonCompartmentClick(addonName, buttonName, menuButtonFrame)
-	ToggleUI()
-end
- 
-function Altoholic_OnAddonCompartmentEnter(addonName, menuButtonFrame)
-	AddonFactory_Tooltip:ShowInfo(menuButtonFrame, format("%s\n%s%s", addonName, colors.white, format(L["Left-click to %sopen"], colors.green)))
-end
-
-function Altoholic_OnAddonCompartmentLeave(addonName, menuButtonFrame)
-	AddonFactory_Tooltip:Hide()
-end
+AddonFactory:AddToAddonCompartment(addonName, {
+	["Click"] = function(addonName, buttonName, menuButtonFrame)
+		ToggleUI() 
+	end,
+	["Enter"] = function(addonName, menuButtonFrame)
+		AddonFactory_Tooltip:ShowInfo(menuButtonFrame, format("%s\n%s%s", addonName, colors.white, format(L["Left-click to %sopen"], colors.green)))
+	end,
+	["Leave"] = function(addonName, menuButtonFrame)
+		AddonFactory_Tooltip:Hide()
+	end
+})

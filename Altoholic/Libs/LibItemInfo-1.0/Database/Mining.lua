@@ -150,22 +150,25 @@ lib:RegisterItems({
 	[188658] = SetReagent(9, e.Mining), -- Draconium Ore 1
 	[189143] = SetReagent(9, e.Mining), -- Draconium Ore 2
 	[190311] = SetReagent(9, e.Mining), -- Draconium Ore 3
-	[189541] = SetReagent(9, e.Mining), -- Primal Molten Alloy 1
-	[189542] = SetReagent(9, e.Mining), -- Primal Molten Alloy 2
-	[189543] = SetReagent(9, e.Mining), -- Primal Molten Alloy 3
 	[190312] = SetReagent(9, e.Mining), -- Khaz'gorite Ore 1
 	[190313] = SetReagent(9, e.Mining), -- Khaz'gorite Ore 2
 	[190314] = SetReagent(9, e.Mining), -- Khaz'gorite Ore 3
 	[190394] = SetReagent(9, e.Mining), -- Serevite Ore 3
 	[190395] = SetReagent(9, e.Mining), -- Serevite Ore 1
 	[190396] = SetReagent(9, e.Mining), -- Serevite Ore 2
-	[190530] = SetReagent(9, e.Mining), -- Frostfire Alloy 1
-	[190531] = SetReagent(9, e.Mining), -- Frostfire Alloy 2
-	[190532] = SetReagent(9, e.Mining), -- Frostfire Alloy 3
-	[190533] = SetReagent(9, e.Mining), -- Obsidian Seared Alloy 1
-	[190534] = SetReagent(9, e.Mining), -- Obsidian Seared Alloy 2
-	[190535] = SetReagent(9, e.Mining), -- Obsidian Seared Alloy 3
-	[190536] = SetReagent(9, e.Mining), -- Infurious Alloy 1
-	[190537] = SetReagent(9, e.Mining), -- Infurious Alloy 2
-	[190538] = SetReagent(9, e.Mining), -- Infurious Alloy 3
+	
+	-- 11.0 The War Within
+	[210930] = SetReagent(10, e.Mining), -- Bismuth 1
+	[210931] = SetReagent(10, e.Mining), -- Bismuth 2
+	[210932] = SetReagent(10, e.Mining), -- Bismuth 3
+	[210933] = SetReagent(10, e.Mining), -- Aqirite 1
+	[210934] = SetReagent(10, e.Mining), -- Aqirite 2
+	[210935] = SetReagent(10, e.Mining), -- Aqirite 3
+	[210936] = SetReagent(10, e.Mining), -- Ironclaw Ore 1
+	[210937] = SetReagent(10, e.Mining), -- Ironclaw Ore 2
+	[210938] = SetReagent(10, e.Mining), -- Ironclaw Ore 3
+	[210939] = SetReagent(10, e.Mining), -- Null Stone
+	[217707] = SetReagent(10, e.Mining), -- Imperfect Null Stone
+	[226202] = SetReagent(10, e.Mining), -- Echoing Flux
+	
 })

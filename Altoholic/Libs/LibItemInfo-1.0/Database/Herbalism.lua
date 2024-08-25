@@ -194,4 +194,22 @@ lib:RegisterItems({
 	[191471] = SetReagent(9, e.Herbalism), -- Writhebark 2
 	[191472] = SetReagent(9, e.Herbalism), -- Writhebark 3
 
+	-- 11.0 The War Within
+	[210796] = SetReagent(10, e.Herbalism), -- Mycobloom 1
+	[210797] = SetReagent(10, e.Herbalism), -- Mycobloom 2
+	[210798] = SetReagent(10, e.Herbalism), -- Mycobloom 3
+	[210799] = SetReagent(10, e.Herbalism), -- Luredrop 1
+	[210800] = SetReagent(10, e.Herbalism), -- Luredrop 2
+	[210801] = SetReagent(10, e.Herbalism), -- Luredrop 3
+	[210802] = SetReagent(10, e.Herbalism), -- Orbinid 1
+	[210803] = SetReagent(10, e.Herbalism), -- Orbinid 2
+	[210804] = SetReagent(10, e.Herbalism), -- Orbinid 3
+	[210805] = SetReagent(10, e.Herbalism), -- Blessing Blossom 1
+	[210806] = SetReagent(10, e.Herbalism), -- Blessing Blossom 2
+	[210807] = SetReagent(10, e.Herbalism), -- Blessing Blossom 3
+	[210808] = SetReagent(10, e.Herbalism), -- Arathor's Spear 1
+	[210809] = SetReagent(10, e.Herbalism), -- Arathor's Spear 2
+	[210810] = SetReagent(10, e.Herbalism), -- Arathor's Spear 3
+	[213197] = SetReagent(10, e.Herbalism), -- Null Lotus
+	
 })

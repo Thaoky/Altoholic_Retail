@@ -22,6 +22,8 @@ lib:RegisterItems({
 	-- 2.0 BC
 	
 	-- 3.0 WotLK
+	[36768] = SetQuestItem(2),				-- Vial of Corrosive Spit
+	[45798] = SetQuestItem(2),				-- Heroic Celestial Planetarium Key
 	
 	-- 4.0 Cataclysm
 	

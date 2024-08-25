@@ -15,6 +15,19 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.0.003 (25/08/2024)
+
+- DataStore_Containers : Added proper support to delete a guild bank.
+- DataStore_Containers : Fixed a lua error when changing the settings of an account bank tab.
+- DataStore_Containers : Fixed an issue that deletes the content of the reagent bank at logon.
+- DataStore_Inventory : Fixed average item level not being properly updated.
+- DataStore_Currencies : Added TWW currencies.
+- DataStore_Reputations : Added TWW factions.
+- Options tab: Fixed the option to show/hide the warband bank item count not being properly restored to the UI.
+- Guild tab: Fixed a lua error when deleting a guild bank.
+- Fixed an occasional lua error when trying to link something with Shift-Click.
+- A few other minor fixes.
+
 11.0.002 (14/08/2024)
 
 - Updated GetSpellInfo to use the new C_Spell API everywhere it was used (and that's a lot..).

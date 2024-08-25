@@ -96,4 +96,16 @@ lib:RegisterItems({
 	[194124] = SetReagent(9, e.Enchanting), -- Vibrant Shard
 	[200113] = SetReagent(9, e.Enchanting), -- Resonant Crystal
 	[201584] = SetReagent(9, e.Enchanting), -- Serevite Rod
+	
+	-- 11.0 The War Within
+	[219946] = SetReagent(10, e.Enchanting), -- Storm Dust 1
+	[219947] = SetReagent(10, e.Enchanting), -- Storm Dust 2
+	[219948] = SetReagent(10, e.Enchanting), -- Storm Dust 3
+	[219949] = SetReagent(10, e.Enchanting), -- Gleaming Shard 1
+	[219950] = SetReagent(10, e.Enchanting), -- Gleaming Shard 2
+	[219951] = SetReagent(10, e.Enchanting), -- Gleaming Shard 3
+	[219952] = SetReagent(10, e.Enchanting), -- Refulgent Crystal 1
+	[219954] = SetReagent(10, e.Enchanting), -- Refulgent Crystal 2
+	[219955] = SetReagent(10, e.Enchanting), -- Refulgent Crystal 3
+	
 })

@@ -123,5 +123,38 @@ lib:RegisterItems({
 	[193961] = SetReagent(9, e.Tailoring), -- Chromatic Embroidery Thread 3
 	[193962] = SetReagent(9, e.Tailoring), -- Shimmering Embroidery Thread 1
 	[193963] = SetReagent(9, e.Tailoring), -- Shimmering Embroidery Thread 2
-	[193964] = SetReagent(9, e.Tailoring), -- Shimmering Embroidery Thread 3	
+	[193964] = SetReagent(9, e.Tailoring), -- Shimmering Embroidery Thread 3
+	
+	-- 11.0 The War Within
+	[224826] = SetReagent(10, e.Tailoring), -- Dawnweave 1
+	[228235] = SetReagent(10, e.Tailoring), -- Dawnweave 2
+	[228236] = SetReagent(10, e.Tailoring), -- Dawnweave 3
+	[222801] = SetReagent(10, e.Tailoring), -- Dawnweave Bolt 1
+	[222802] = SetReagent(10, e.Tailoring), -- Dawnweave Bolt 2
+	[222803] = SetReagent(10, e.Tailoring), -- Dawnweave Bolt 3
+	[224824] = SetReagent(10, e.Tailoring), -- Duskweave 1
+	[228233] = SetReagent(10, e.Tailoring), -- Duskweave 2
+	[228234] = SetReagent(10, e.Tailoring), -- Duskweave 3
+	[222798] = SetReagent(10, e.Tailoring), -- Duskweave Bolt 1
+	[222799] = SetReagent(10, e.Tailoring), -- Duskweave Bolt 2
+	[222800] = SetReagent(10, e.Tailoring), -- Duskweave Bolt 3
+	[224832] = SetReagent(10, e.Tailoring), -- Exquisite Weavercloth Bolt 1
+	[224833] = SetReagent(10, e.Tailoring), -- Exquisite Weavercloth Bolt 2
+	[224834] = SetReagent(10, e.Tailoring), -- Exquisite Weavercloth Bolt 3
+	[222792] = SetReagent(10, e.Tailoring), -- Spool of Dawnthread 1
+	[222793] = SetReagent(10, e.Tailoring), -- Spool of Dawnthread 2
+	[222794] = SetReagent(10, e.Tailoring), -- Spool of Dawnthread 3
+	[222789] = SetReagent(10, e.Tailoring), -- Spool of Duskthread 1
+	[222790] = SetReagent(10, e.Tailoring), -- Spool of Duskthread 2
+	[222791] = SetReagent(10, e.Tailoring), -- Spool of Duskthread 3
+	[222795] = SetReagent(10, e.Tailoring), -- Spool of Weaverthread 1
+	[222796] = SetReagent(10, e.Tailoring), -- Spool of Weaverthread 2
+	[222797] = SetReagent(10, e.Tailoring), -- Spool of Weaverthread 3
+	[224828] = SetReagent(10, e.Tailoring), -- Weavercloth 1
+	[228231] = SetReagent(10, e.Tailoring), -- Weavercloth 2
+	[228232] = SetReagent(10, e.Tailoring), -- Weavercloth 3
+	[222804] = SetReagent(10, e.Tailoring), -- Weavercloth Bolt 1
+	[222805] = SetReagent(10, e.Tailoring), -- Weavercloth Bolt 2
+	[222806] = SetReagent(10, e.Tailoring), -- Weavercloth Bolt 3
+	
 })

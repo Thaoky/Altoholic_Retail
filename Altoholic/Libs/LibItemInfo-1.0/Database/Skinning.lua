@@ -191,4 +191,44 @@ lib:RegisterItems({
 	[197735] = SetReagent(9, e.Skinning), -- Finished Prototype Explorer's Barding
 	[197736] = SetReagent(9, e.Skinning), -- Finished Prototype Regal Barding
 	
+	-- 11.0 The War Within
+	[218338] = SetReagent(10, e.Skinning), -- Bottled Storm
+	[218339] = SetReagent(10, e.Skinning), -- Burning Cinderbee Setae
+	[219880] = SetReagent(10, e.Leatherworking), -- Carapace-Backed Hide 1
+	[219881] = SetReagent(10, e.Leatherworking), -- Carapace-Backed Hide 2
+	[219882] = SetReagent(10, e.Leatherworking), -- Carapace-Backed Hide 3
+	[219898] = SetReagent(10, e.Leatherworking), -- Chitin Armor Banding 1
+	[219899] = SetReagent(10, e.Leatherworking), -- Chitin Armor Banding 2
+	[219900] = SetReagent(10, e.Leatherworking), -- Chitin Armor Banding 3
+	[219883] = SetReagent(10, e.Leatherworking), -- Crystalfused Hide 1
+	[219884] = SetReagent(10, e.Leatherworking), -- Crystalfused Hide 2
+	[219885] = SetReagent(10, e.Leatherworking), -- Crystalfused Hide 3
+	[212667] = SetReagent(10, e.Skinning), -- Gloom Chitin 1
+	[212668] = SetReagent(10, e.Skinning), -- Gloom Chitin 2
+	[212669] = SetReagent(10, e.Skinning), -- Gloom Chitin 3
+	[218337] = SetReagent(10, e.Skinning), -- Honed Bone Shards
+	[218336] = SetReagent(10, e.Skinning), -- Kaheti Swarm Chitin
+	[219892] = SetReagent(10, e.Leatherworking), -- Leyfused Hide 1
+	[219893] = SetReagent(10, e.Leatherworking), -- Leyfused Hide 2
+	[219894] = SetReagent(10, e.Leatherworking), -- Leyfused Hide 3
+	[219889] = SetReagent(10, e.Leatherworking), -- Sporecoated Hide 1
+	[219890] = SetReagent(10, e.Leatherworking), -- Sporecoated Hide 2
+	[219891] = SetReagent(10, e.Leatherworking), -- Sporecoated Hide 3
+	[219901] = SetReagent(10, e.Leatherworking), -- Storm-Touched Weapon Wrap 1
+	[219902] = SetReagent(10, e.Leatherworking), -- Storm-Touched Weapon Wrap 2
+	[219903] = SetReagent(10, e.Leatherworking), -- Storm-Touched Weapon Wrap 3
+	[212664] = SetReagent(10, e.Skinning), -- Stormcharged Leather 1
+	[212665] = SetReagent(10, e.Skinning), -- Stormcharged Leather 2
+	[212666] = SetReagent(10, e.Skinning), -- Stormcharged Leather 3
+	[212674] = SetReagent(10, e.Skinning), -- Sunless Carapace 1
+	[212675] = SetReagent(10, e.Skinning), -- Sunless Carapace 2
+	[212676] = SetReagent(10, e.Skinning), -- Sunless Carapace 3
+	[219013] = SetReagent(10, e.Skinning), -- Superb Beast Fang
+	[212670] = SetReagent(10, e.Skinning), -- Thunderous Hide 1
+	[212672] = SetReagent(10, e.Skinning), -- Thunderous Hide 2
+	[212673] = SetReagent(10, e.Skinning), -- Thunderous Hide 3
+	[219886] = SetReagent(10, e.Leatherworking), -- Writhing Hide 1
+	[219887] = SetReagent(10, e.Leatherworking), -- Writhing Hide 2
+	[219888] = SetReagent(10, e.Leatherworking), -- Writhing Hide 3
+	
 })

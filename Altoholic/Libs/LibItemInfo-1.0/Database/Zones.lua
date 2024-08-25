@@ -26,14 +26,21 @@ local lib = LibStub("LibItemInfo-1.0")
 -- ex: 38.9 42.0 => 389, 420
 local SetZoneItem = lib.SetZoneItem
 
+local SHATTRATH_CITY = 111
 
 local VALE_OF_ETERNAL_BLOSSOM = 390
-
+local KRASARANG_WILDS = 418
 
 local AZSUNA = 630
 local DRAENOR_NAGRAND = 550
+local SPIRES_OF_ARAK = 542
 local LUNARFALL = 582		-- Alliance WoD Garrison
 local FROSTWALL = 590		-- Horde WoD Garrison
+local TANAAN_JUNGLE = 534
+
+local ANTORAN_WASTES = 885
+
+local MECHAGON_ISLAND = 1462
 
 local BASTION = 1533
 local MALDRAXXUS = 1536
@@ -54,6 +61,7 @@ lib:RegisterItems({
 
 	
 	-- 2.0 BC
+	[29735] = SetZoneItem(1, SHATTRATH_CITY, 486, 266), 		-- Holy Dust
 	
 	-- 3.0 WotLK
 	
@@ -62,8 +70,10 @@ lib:RegisterItems({
 	-- 5.0 Mists of Pandaria
 	[79104] = SetZoneItem(4, VALE_OF_ETERNAL_BLOSSOM, 524, 472), 		-- Rusty Watering Can
 	[87779] = SetZoneItem(4, VALE_OF_ETERNAL_BLOSSOM, 214, 169), 		-- Ancient Guo-Lai Cache Key
+	[91877] = SetZoneItem(4, KRASARANG_WILDS, 896, 334), 		-- Domination Point Commission
 	
 	-- 6.0 Warlords of Draenor
+	[117397] = SetZoneItem(5, LUNARFALL), 		-- Nat's Lucky Coin
 	[122272] = SetZoneItem(5, LUNARFALL), 		-- Follower Ability Retraining Manual
 	[122273] = SetZoneItem(5, LUNARFALL), 		-- Follower Trait Retraining Guide
 	[122307] = SetZoneItem(5, LUNARFALL), 		-- Rush Order: Barn
@@ -73,6 +83,17 @@ lib:RegisterItems({
 	[122500] = SetZoneItem(5, LUNARFALL), 		-- Rush Order: Gnomish Gearworks
 	[122503] = SetZoneItem(5, LUNARFALL), 		-- Rush Order: Mine Shipment
 	[128373] = SetZoneItem(5, LUNARFALL), 		-- Rush Order: Shipyard
+	
+	[122576] = SetZoneItem(5, LUNARFALL), 		-- Rush Order: Alchemy Lab
+	[122590] = SetZoneItem(5, LUNARFALL), 		-- Rush Order: Enchanter's Study
+	[122591] = SetZoneItem(5, LUNARFALL), 		-- Rush Order: Engineering Works
+	[122592] = SetZoneItem(5, LUNARFALL), 		-- Rush Order: Gem Boutique
+	[122593] = SetZoneItem(5, LUNARFALL), 		-- Rush Order: Scribe's Quarters
+	[122594] = SetZoneItem(5, LUNARFALL), 		-- Rush Order: Tailoring Emporium
+	[122595] = SetZoneItem(5, LUNARFALL), 		-- Rush Order: The Forge
+	[122596] = SetZoneItem(5, LUNARFALL), 		-- Rush Order: The Tannery
+	
+	
 	-- [122273] = SetZoneItem(5, LUNARFALL), 		-- scouting missives, to do   https://www.wowhead.com/npc=78564/sergeant-crowler#sells;0+1-2
 	
 	-- same for horde : https://www.wowhead.com/npc=79774/sergeant-grimjaw#sells;0+1-2
@@ -84,11 +105,18 @@ lib:RegisterItems({
 	
 	
 	[118658] = SetZoneItem(5, DRAENOR_NAGRAND, 502, 412), 		-- Gagrog's Skull
+	[118099] = SetZoneItem(5, DRAENOR_NAGRAND, 502, 412), 		-- Gorian Artifact Fragment
+	
+	[115463] = SetZoneItem(5, SPIRES_OF_ARAK),		-- Elixir of Shadow Sight
+	
+	[124099] = SetZoneItem(5, TANAAN_JUNGLE, 552, 748),		-- Blackfang Claw
 	
 	-- 7.0 Legion
 	[131744] = SetZoneItem(6, AZSUNA, 533, 394), 		-- Key to Nar'thalas Academy
+	[152999] = SetZoneItem(6, ANTORAN_WASTES, 666, 178), 		-- Imp Meat, summon Mother Rosula
 	
 	-- 8.0 Battle for Azeroth
+	[169873] = SetZoneItem(7, MECHAGON_ISLAND, 206, 715), 		-- Mechanized Supply Key
 	
 	-- 9.0 Shadowlands
 	[178149] = SetZoneItem(8, BASTION), -- Centurion Anima Core
@@ -145,6 +173,8 @@ lib:RegisterItems({
 	[189154] = SetZoneItem(8, ZERETH_MORTIS), -- Vespoid Lattice
 	[189155] = SetZoneItem(8, ZERETH_MORTIS), -- Viperid Lattice
 	[189156] = SetZoneItem(8, ZERETH_MORTIS), -- Vombata Lattice
+	
+	[187728] = SetZoneItem(8, ZERETH_MORTIS), -- Ephemera Strands
 	
 	
 	-- 10.0 Dragonflight
