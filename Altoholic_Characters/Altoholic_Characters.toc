@@ -4,7 +4,7 @@
 
 ## Notes: Altoholic's Characters UI
 ## Author: Thaoky (EU-Marécages de Zangar)
-## Version: 11.0.002
+## Version: 11.0.003
 ## Dependencies: Altoholic, DataStore, DataStore_Characters
 ## SavedVariables: Altoholic_CharactersTab_Options
 ## LoadOnDemand: 1

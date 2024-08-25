@@ -780,20 +780,21 @@ addon:Controller("AltoholicUI.TabCharactersCategoriesList", {
 })
 
 DataStore:OnAddonLoaded(addonTabName, function() 
-	Altoholic_CharactersTab_Options = Altoholic_CharactersTab_Options or {
-		["ViewBags"] = true,
-		["ViewBank"] = true,
-		["ViewBagsAllInOne"] = false,
-		["ViewVoidStorage"] = true,
-		["ViewReagentBank"] = true,
-		["ViewBagsRarity"] = 0,						-- rarity level of items (not a boolean !)
-		["GarrisonMissions"] = 1,					-- available missions = 1, active missions = 2
-		["SortAscending"] = true,					-- ascending or descending sort order
-		["ViewLearnedRecipes"] = true,			-- View learned recipes ?
-		["ViewUnlearnedRecipes"] = false,		-- View unlearned recipes ?
-		["ViewQuestLogCategory"] = 0,				-- Quest log category to show
-		["ViewSpellTab"] = 1,						-- Spellbook tab to show
-	}
+	AddonFactory:SetOptionsTable("Altoholic_CharactersTab_Options", {
+		ViewBags = true,
+		ViewBank = true,
+		ViewBagsAllInOne = false,
+		ViewVoidStorage = true,
+		ViewReagentBank = true,
+		ViewBagsRarity = 0,						-- rarity level of items (not a boolean !)
+		GarrisonMissions = 1,					-- available missions = 1, active missions = 2
+		SortAscending = true,					-- ascending or descending sort order
+		ViewLearnedRecipes = true,			-- View learned recipes ?
+		ViewUnlearnedRecipes = false,		-- View unlearned recipes ?
+		ViewQuestLogCategory = 0,				-- Quest log category to show
+		ViewSpellTab = 1,						-- Spellbook tab to show
+	})
+	
 	options = Altoholic_CharactersTab_Options
 		
 	--Temporary: database migration
