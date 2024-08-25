@@ -998,12 +998,143 @@ Columns.RegisterColumn("Cur_ResidualMemories", {
 	currencyID = enum.ResidualMemories,
 
 	-- Header
-	headerWidth = 100,
-	headerLabel = format("             %s", Formatter.Texture18("Interface\\Icons\\spell_azerite_essence_15")),
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\spell_azerite_essence_15")),
 	headerOnEnter = CurrencyHeader_OnEnter,
 	headerSort = SortByTotal,
 	
 	-- Content
-	Width = 100,
+	Width = 70,
 	GetText = GetCurrencyText,
 })
+
+Columns.RegisterColumn("Cur_ResonanceCrystals", {
+	currencyID = enum.ResonanceCrystals,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\spell_azerite_essence14")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_Kej", {
+	currencyID = enum.Kej,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_10_tailoring_silkrare_color3")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_Valorstones", {
+	currencyID = enum.Valorstones,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_valorstone_base")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_MereldarDerbyMark", {
+	currencyID = enum.MereldarDerbyMark,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_11_0_misc_darkmoonfaresigil_color5")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_RestoredCofferKey", {
+	currencyID = enum.RestoredCofferKey,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_10_blacksmithing_consumable_key_color1")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+
+
+-- ** War Within / 11.0 / Season 1 **
+Columns.RegisterColumn("Cur_WeatheredCrest", {
+	currencyID = enum.WeatheredHarbingerCrest,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_xalatath_weathered")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_CarvedCrest", {
+	currencyID = enum.CarvedHarbingerCrest,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_xalatath_carved")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_RunedCrest", {
+	currencyID = enum.RunedHarbingerCrest,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_xalatath_runed")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_GildedCrest", {
+	currencyID = enum.GildedHarbingerCrest,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_xalatath_gilded")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+

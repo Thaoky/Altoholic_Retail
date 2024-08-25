@@ -825,6 +825,7 @@ addon:Controller("AltoholicUI.TabSummaryCategoriesList", {
 				}},				
 				{ text = EXPANSION_NAME10, subMenu = {
 					{ text = format("%s11.0|r %s", colors.green, L["PATCH_X.0"]), profile = 32 },
+					{ text = format("%s11.0|r %s", colors.green, "Season 1"), profile = 33 },
 					-- { text = format("%s11.1|r %s", colors.green, L["PATCH_11.1"]), profile = 28 },
 					-- { text = format("%s11.2|r %s", colors.green, L["PATCH_11.2"]), profile = 29 },
 				}},				
@@ -891,27 +892,27 @@ addon:Controller("AltoholicUI.TabSummaryCategoriesList", {
 })
 
 DataStore:OnAddonLoaded(addonTabName, function() 
-	Altoholic_SummaryTab_Options = Altoholic_SummaryTab_Options or {
-		["ShowRestXP150pc"] = false,					-- display max rest xp in normal 100% mode or in level equivalent 150% mode ?
-		["CurrentMode"] = 1,								-- current mode (1 = account summary, 2 = bags, ...)
-		["CurrentColumn"] = "Name",					-- current column (default = "Name")
-		["CurrentRealms"] = 2,							-- selected realms (current/all in current/all accounts)
-		["CurrentAltGroup"] = 0,						-- selected alt group
-		["CurrentFactions"] = 3,						-- 1 = Alliance, 2 = Horde, 3 = Both
-		["CurrentLevels"] = 1,							-- 1 = All
-		["CurrentLevelsMin"] = 1,							
-		["CurrentLevelsMax"] = 70,					
-		["CurrentBankType"] = 0,						-- 0 = All
-		["CurrentClasses"] = 0,							-- 0 = All
-		["CurrentRaces"] = 0,							-- 0 = All
-		["CurrentTradeSkill"] = 0,						-- 0 = All
-		["CurrentMisc"] = 0,								-- 
-		["UseColorForTradeSkills"] = true,			-- Use color coding for tradeskills, or neutral
-		["SortAscending"] = true,						-- ascending or descending sort order
-		["ShowLevelDecimals"] = true,					-- display character level with decimals or not
-		["ShowILevelDecimals"] = true,				-- display character level with decimals or not
-		["ShowGuildRank"] = false,						-- display the guild rank or the guild name
-	}
+	AddonFactory:SetOptionsTable("Altoholic_SummaryTab_Options", {
+		ShowRestXP150pc = false,					-- display max rest xp in normal 100% mode or in level equivalent 150% mode ?
+		CurrentMode = 1,								-- current mode (1 = account summary, 2 = bags, ...)
+		CurrentColumn = "Name",						-- current column (default = "Name")
+		CurrentRealms = 2,							-- selected realms (current/all in current/all accounts)
+		CurrentAltGroup = 0,							-- selected alt group
+		CurrentFactions = 3,							-- 1 = Alliance, 2 = Horde, 3 = Both
+		CurrentLevels = 1,							-- 1 = All
+		CurrentLevelsMin = 1,							
+		CurrentLevelsMax = 70,					
+		CurrentBankType = 0,							-- 0 = All
+		CurrentClasses = 0,							-- 0 = All
+		CurrentRaces = 0,								-- 0 = All
+		CurrentTradeSkill = 0,						-- 0 = All
+		CurrentMisc = 0,								-- 
+		UseColorForTradeSkills = true,			-- Use color coding for tradeskills, or neutral
+		SortAscending = true,						-- ascending or descending sort order
+		ShowLevelDecimals = true,					-- display character level with decimals or not
+		ShowILevelDecimals = true,					-- display character level with decimals or not
+		ShowGuildRank = false,						-- display the guild rank or the guild name
+	})
 	options = Altoholic_SummaryTab_Options
 	options.CurrentRaces = options.CurrentRaces or 0
 	

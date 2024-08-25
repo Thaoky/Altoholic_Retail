@@ -543,17 +543,17 @@ addon:Controller("AltoholicUI.TabSearchCategoriesList", {
 
 
 DataStore:OnAddonLoaded(addonTabName, function() 
-	Altoholic_SearchTab_Options = Altoholic_SearchTab_Options or {
-		["ItemInfoAutoQuery"] = false,
-		["IncludeNoMinLevel"] = true,				-- include items with no minimum level
-		["IncludeMailboxItems"] = true,
-		["IncludeGuildBankItems"] = true,
-		["IncludeKnownRecipes"] = true,
-		["CurrentLocation"] = 1,
-		["UseColorsForAlts"] = true,
-		["UseColorsForRealms"] = true,
-		["SortAscending"] = true,					-- ascending or descending sort order
-	}
+	AddonFactory:SetOptionsTable("Altoholic_SearchTab_Options", {
+		ItemInfoAutoQuery = false,
+		IncludeNoMinLevel = true,				-- include items with no minimum level
+		IncludeMailboxItems = true,
+		IncludeGuildBankItems = true,
+		IncludeKnownRecipes = true,
+		CurrentLocation = 1,
+		UseColorsForAlts = true,
+		UseColorsForRealms = true,
+		SortAscending = true,					-- ascending or descending sort order
+	})
 	options = Altoholic_SearchTab_Options
 	
 	--Temporary: database migration

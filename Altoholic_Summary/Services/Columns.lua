@@ -97,7 +97,10 @@ addon:Service("AltoholicUI.TabSummaryColumnProfiles",  function()
 		[31] = { "Name", "Level", "Story100", "Story101", "Story1015", "Story102" },
 		
 		-- Currencies / War Within 11.0
-		[32] = { "Name", "Level", "Cur_ResidualMemories" },
+		[32] = { "Name", "Level", "Cur_ResidualMemories", "Cur_ResonanceCrystals", "Cur_Kej", "Cur_Valorstones", "Cur_MereldarDerbyMark", "Cur_RestoredCofferKey" },
+		
+		-- Currencies / War Within 11.0 / Season 1
+		[33] = { "Name", "Level", "Cur_WeatheredCrest", "Cur_CarvedCrest", "Cur_RunedCrest", "Cur_GildedCrest" },
 
 	}
 
