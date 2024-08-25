@@ -184,10 +184,10 @@ addon:Controller("AltoholicUI.TabGuildCategoriesList", {
 })
 
 DataStore:OnAddonLoaded(addonTabName, function() 
-	Altoholic_GuildTab_Options = Altoholic_GuildTab_Options or {
-		["BankItemsRarity"] = 0,				-- rarity filter in the guild bank tab
-		["SortAscending"] = true,				-- ascending or descending sort order
-	}
+	AddonFactory:SetOptionsTable("Altoholic_GuildTab_Options", {
+		BankItemsRarity = 0,				-- rarity filter in the guild bank tab
+		SortAscending = true,			-- ascending or descending sort order
+	})
 	local options = Altoholic_GuildTab_Options
 	
 	--Temporary: database migration	

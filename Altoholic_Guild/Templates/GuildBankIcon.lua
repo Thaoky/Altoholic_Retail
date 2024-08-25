@@ -39,15 +39,11 @@ local function OnGuildDelete(frame, guildBank)
 	local _, realm, guildName = strsplit(".", guildKey)
 	
 	AltoMessageBox:Ask(format("%s\n%s%s %s(%s)", L["Delete Guild Bank?"], colors.green, guildName, colors.white, realm), function() 
-		DataStore:DeleteGuild(guildKey)
+		DataStore:DeleteGuildBank(guildKey)
 	
 		addon:Print(format( L["Guild %s successfully deleted"], guildName))
 	
-		if guildKey == currentGuildKey then
-			currentGuildKey = nil
-			currentGuildBankTab = nil
-			ns:Update()
-		end
+		AltoholicFrame.TabGuild.Panels.Bank:Update()
 	end)
 	
 	guildBank.ContextualMenu:Close()
