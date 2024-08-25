@@ -316,7 +316,21 @@ local Factions = {
 			{ name = DataStore:GetFactionName(2524), icon = "inv_dracthyrhead03" }, 				-- Obsidian Warders Dracthyrs
 		},
 	},
-	{	-- [11]
+	{ -- [11]
+		name = EXPANSION_NAME10, -- "The War Within"
+		{	-- [1]
+			name = OTHER,
+			{ name = DataStore:GetFactionName(2590), icon = "ui_majorfactions_storm" },     		-- Council of Dornogal
+			{ name = DataStore:GetFactionName(2594), icon = "ui_majorfactions_candle" },     	-- The Assembly of the Deeps
+			{ name = DataStore:GetFactionName(2570), icon = "ui_majorfactions_flame" },     		-- Hallowfall Arathi
+			{ name = DataStore:GetFactionName(2600), icon = "ui_notoriety_theweaver" },     		-- The Severed Threads
+			{ name = DataStore:GetFactionName(2605), icon = "ui_notoriety_thegeneral" },     	-- 	The General
+			{ name = DataStore:GetFactionName(2607), icon = "ui_notoriety_thevizier" },     		-- 	The Vizier
+			{ name = DataStore:GetFactionName(2601), icon = "ui_notoriety_theweaver" },     		-- 	The Weaver
+			{ name = DataStore:GetFactionName(2640), icon = "ability_druid_lunarguidance" },    -- Brann Bronzebeard
+		},
+	},
+	{	-- [12]
 		name = GUILD,
 		{	-- [1]
 			name = GUILD,

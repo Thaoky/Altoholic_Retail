@@ -326,8 +326,9 @@ addon:Controller("AltoholicUI.TabGridsCategoriesList", {
 				}},
 				{ text = EXPANSION_NAME8, callback = faction_OnClick, xPackID = 9, factionID = 1 },
 				{ text = EXPANSION_NAME9, callback = faction_OnClick, xPackID = 10, factionID = 1 },
-				{ text = format("%s%s", colors.green, GUILD), callback = faction_OnClick, xPackID = 11, factionID = 1 },
-				{ text = format("%s%s", colors.cyan, L["All-in-one"]), callback = faction_OnClick, xPackID = 12, factionID = 1 },
+				{ text = EXPANSION_NAME10, callback = faction_OnClick, xPackID = 11, factionID = 1 },
+				{ text = format("%s%s", colors.green, GUILD), callback = faction_OnClick, xPackID = 12, factionID = 1 },
+				{ text = format("%s%s", colors.cyan, L["All-in-one"]), callback = faction_OnClick, xPackID = 13, factionID = 1 },
 			}},
 			{ text = L["Currencies"], subMenu = {} },
 			{ text = QUESTS_LABEL, subMenu = {
@@ -492,8 +493,8 @@ addon:Controller("AltoholicUI.TabGridsCategoriesList", {
 })
 
 DataStore:OnAddonLoaded(addonTabName, function() 
-	Altoholic_GridsTab_Columns = Altoholic_GridsTab_Columns or {}
-	Altoholic_GridsTab_Options = Altoholic_GridsTab_Options or {
+	AddonFactory:SetOptionsTable("Altoholic_GridsTab_Columns")
+	AddonFactory:SetOptionsTable("Altoholic_GridsTab_Options", {
 		["Reputations.CurrentXPack"] = 1,				-- Current expansion pack 
 		["Reputations.CurrentFactionGroup"] = 1,		-- Current faction group in that xpack
 		["Currencies.CurrentTokenType"] = nil,			-- Current token type (default to nil = all-in-one)
@@ -513,7 +514,7 @@ DataStore:OnAddonLoaded(addonTabName, function()
 		["Emissaries.ShowXPack6"] = true,				-- Show Legion Emissaries
 		["Emissaries.ShowXPack7"] = true,				-- Show BfA Emissaries
 		["Emissaries.ShowXPack8"] = true,				-- Show Shadowlands Emissaries
-	}
+	})
 	options = Altoholic_GridsTab_Options
 		
 	--Temporary: database migration
