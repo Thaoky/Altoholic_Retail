@@ -6,6 +6,9 @@ Ex: Key bindings, add-on compartment, slash commands, etc..
 local addonName, addon = ...
 _G[addonName] = addon
 
+-- One empty function to rule them all
+addon.EmptyFunc = function() end
+
 -- Add support for an addon's binding to a key
 function addon:AddKeyBinding(prefix, name, description)
 	-- Reminder: binding is done in bindings.xml !!
@@ -66,3 +69,20 @@ function addon:RegisterChatCommand(command, callback)
 	_G[ format("SLASH_%s1", command)] = format("/%s", command:lower())
 	SlashCmdList[command] = callback
 end
+
+-- Hook a simple method
+function addon:InstallMethodHook(widget, method, preHook, postHook)
+	local orig = widget[method]
+	
+	local stub = function(...)
+		if preHook then preHook(...) end
+		
+		local a,b,c,d,e,f,g,h,i,j,k = orig(...)
+		if postHook then postHook(...) end
+		
+		return a,b,c,d,e,f,g,h,i,j,k
+	end
+	
+	widget[method] = stub
+end
+
