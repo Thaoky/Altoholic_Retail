@@ -1,7 +1,7 @@
 local addonTabName = ...
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
+local colors = AddonFactory.Colors
 
 local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
@@ -342,7 +342,7 @@ local function ClassIcon_Initialize(frame, level)
 	
 		if subMenu == 1 then				-- Armor types
 			-- Add the armor types
-			for index, armorType in ipairs(addon.Enum.ArmorTypes) do
+			for index, armorType in ipairs(AddonFactory.Enum.ArmorTypes) do
 				-- keep a numeric index, just add +20 since we have only 13 classes
 				frame:AddButton(armorType, index + 20, OnClassFilterChange, nil, (option == index + 20), level)	
 			end
@@ -901,7 +901,7 @@ DataStore:OnAddonLoaded(addonTabName, function()
 		CurrentFactions = 3,							-- 1 = Alliance, 2 = Horde, 3 = Both
 		CurrentLevels = 1,							-- 1 = All
 		CurrentLevelsMin = 1,							
-		CurrentLevelsMax = 70,					
+		CurrentLevelsMax = 80,					
 		CurrentBankType = 0,							-- 0 = All
 		CurrentClasses = 0,							-- 0 = All
 		CurrentRaces = 0,								-- 0 = All

@@ -1,7 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
-local icons = addon.Icons
+local colors = AddonFactory.Colors
+local icons = AddonFactory.Icons
 
 local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
@@ -10,8 +10,8 @@ local Formatter = MVC:GetService("AltoholicUI.Formatter")
 local Characters = MVC:GetService("AltoholicUI.Characters")
 local AccountSharing = MVC:GetService("AltoholicUI.AccountSharing")
 
+local MAX_PLAYER_LEVEL = 80
 local MAX_LOGOUT_TIMESTAMP = 5000000000
-
 
 -- *** Utility functions ***
 local function GetRestedXP(character)

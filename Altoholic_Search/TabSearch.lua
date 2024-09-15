@@ -1,7 +1,7 @@
 local addonTabName = ...
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
+local colors = AddonFactory.Colors
 
 local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")

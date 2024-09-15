@@ -1,6 +1,6 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
+local colors = AddonFactory.Colors
 
 local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
@@ -1129,6 +1129,20 @@ Columns.RegisterColumn("Cur_GildedCrest", {
 	-- Header
 	headerWidth = 70,
 	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_xalatath_gilded")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_Undercoin", {
+	currencyID = enum.Undercoin,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_misc_elvencoins")),
 	headerOnEnter = CurrencyHeader_OnEnter,
 	headerSort = SortByTotal,
 	

@@ -1,6 +1,6 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
+local colors = AddonFactory.Colors
 
 local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
@@ -207,17 +207,17 @@ local greatVaultItemLevels = {
 	415, 415, 418, 418, 421
 }
 
-Columns.RegisterColumn("RewardMythic", {
+Columns.RegisterColumn("RewardDungeons", {
 	-- Header
 	headerWidth = 120,
-	headerLabel = CHALLENGES,
-	tooltipTitle = CHALLENGES,
-	headerSort = DataStore.GetWeeklyMythicPlusReward,
+	headerLabel = DUNGEONS,
+	tooltipTitle = DUNGEONS,
+	headerSort = DataStore.GetWeeklyActivitiesReward,
 	
 	-- Content
 	Width = 120,
 	GetText = function(character) 
-		local level = DataStore:GetWeeklyMythicPlusReward(character) or 0
+		local level = DataStore:GetWeeklyActivitiesReward(character) or 0
 		local color = (level == 0) and colors.grey or colors.white
 		
 		if level > 8 then level = 8 end
@@ -301,28 +301,28 @@ Columns.RegisterColumn("RewardRaid", {
 		local level = DataStore:GetWeeklyRaidReward(character) or 0
 		local color = (level == 0) and colors.grey or colors.white
 		
-		if level > 8 then level = 8 end
+		if level > 6 then level = 6 end
 		
-		return format("%s%s%s/%s%s", color, level, colors.white, colors.yellow, 8)
+		return format("%s%s%s/%s%s", color, level, colors.white, colors.yellow, 6)
 	end,
 })
 
-Columns.RegisterColumn("RewardPvP", {
+Columns.RegisterColumn("RewardWorld", {
 	-- Header
 	headerWidth = 120,
-	headerLabel = PLAYER_V_PLAYER,
-	tooltipTitle = PLAYER_V_PLAYER,
-	headerSort = DataStore.GetWeeklyRankedPvPReward,
+	headerLabel = WORLD,
+	tooltipTitle = WORLD,
+	headerSort = DataStore.GetWeeklyWorldReward,
 	
 	-- Content
 	Width = 120,
 	GetText = function(character) 
-		local level = DataStore:GetWeeklyRankedPvPReward(character) or 0
+		local level = DataStore:GetWeeklyWorldReward(character) or 0
 		local color = (level == 0) and colors.grey or colors.white
 		
-		if level > 5500 then level = 5500 end
+		if level > 8 then level = 8 end
 		
-		return format("%s%s%s/%s%s", color, level, colors.white, colors.yellow, 5500)
+		return format("%s%s%s/%s%s", color, level, colors.white, colors.yellow, 8)
 	end,
 })
 

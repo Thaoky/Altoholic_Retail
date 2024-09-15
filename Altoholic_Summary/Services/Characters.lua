@@ -1,11 +1,13 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
+local colors = AddonFactory.Colors
 
 local L = DataStore:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
 local AccountSharing = MVC:GetService("AltoholicUI.AccountSharing")
+
+local MAX_PLAYER_LEVEL = 80
 
 local INFO_REALM_LINE = 0
 local INFO_CHARACTER_LINE = 1

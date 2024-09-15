@@ -1,7 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
-local icons = addon.Icons
+local colors = AddonFactory.Colors
+local icons = AddonFactory.Icons
 
 local L = DataStore:GetLocale(addonName)
 
@@ -85,7 +85,7 @@ function(characters, formatter, columnsData, AccountSharing)
 				item.Text:SetText(format("%s (%s%s: %s%s %s%s|r)", realm, colors.white, L["Account"], colors.green, account, colors.yellow, last or ""))
 			end
 
-			item:SetScript("OnEnter", addon.EmptyFunc)
+			item:SetScript("OnEnter", AddonFactory.EmptyFunc)
 			item:SetScript("OnClick", columnsData.Get("Name").OnClick)
 
 			if isRealmShown then
