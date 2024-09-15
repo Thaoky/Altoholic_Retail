@@ -15,6 +15,15 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.0.004 (15/09/2024)
+
+- DataStore_Stats : Fixed a lua error when doing a /reload or visiting the Great Vault (Thanks GovtGeek !).
+- DataStore_Quests : Added generic GetQuestLink.
+- Grids tab: Added a quest link tooltip when mousing over a quest name in the "Quests" category.
+- Summary tab -> currencies : added support for the Undercoin currency.
+- Fixed max level default option still at 70 instead of 80 (Thanks Evoelise !).
+
+
 11.0.003 (25/08/2024)
 
 - DataStore_Containers : Added proper support to delete a guild bank.
