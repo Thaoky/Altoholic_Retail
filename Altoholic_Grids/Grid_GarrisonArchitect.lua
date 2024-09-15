@@ -1,6 +1,6 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
+local colors = AddonFactory.Colors
 
 local MVC = LibStub("LibMVC-1.0")
 local enum = DataStore.Enum.BuildingTypes

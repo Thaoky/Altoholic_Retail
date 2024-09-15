@@ -1,6 +1,6 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
+local colors = AddonFactory.Colors
 
 local MVC = LibStub("LibMVC-1.0")
 local L = DataStore:GetLocale(addonName)
@@ -124,8 +124,6 @@ tab:RegisterGrid(11, {
 				rowFrame.Name.Text:SetJustifyH("LEFT")
 			end
 		end,
-	RowOnEnter = function()	end,
-	RowOnLeave = function() end,
 	ColumnSetup = function(self, button, dataRowID, character)
 			local id = view[dataRowID]
 			local icon, counterID, _ 

@@ -1,6 +1,6 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
+local colors = AddonFactory.Colors
 
 local L = DataStore:GetLocale(addonName)
 local ICON_VIEW_QUESTS = "Interface\\LFGFrame\\LFGIcon-Quest"
@@ -57,11 +57,31 @@ tab:RegisterGrid(4, {
 		end,
 	GetSize = function() return #view end,
 	RowSetup = function(self, rowFrame, dataRowID)
-			local name = questList[ view[dataRowID] ].title
-			if name then
-				rowFrame.Name.Text:SetText(format("%s%s", colors.white, name))
-				rowFrame.Name.Text:SetJustifyH("LEFT")
+			local questID = view[dataRowID]
+			local questTitle = questList[questID].title
+			local button = rowFrame.Name
+			
+			button.questID = questID
+			button.questTitle = questTitle			
+			
+			if questTitle then
+				button.Text:SetText(format("%s%s", colors.white, questTitle))
+				button.Text:SetJustifyH("LEFT")
 			end
+		end,
+	RowOnEnter = function(self)
+			local link = DataStore:GetQuestLink(self.questID, self.questTitle)
+			if not link then return end
+			
+			local tooltip = AddonFactory_Tooltip
+			
+			tooltip:ClearLines()
+			tooltip:SetOwner(self, "ANCHOR_TOP")
+			tooltip:SetHyperlink(link)
+			tooltip:Show()
+		end,
+	RowOnLeave = function(self)
+			AddonFactory_Tooltip:Hide()
 		end,
 	ColumnSetup = function(self, button, dataRowID, character)
 			button.Name:SetFontObject("GameFontNormalSmall")
@@ -72,7 +92,7 @@ tab:RegisterGrid(4, {
 			button.Background:SetTexCoord(0, 1, 0, 1)
 			button.Background:SetTexture(ICON_VIEW_QUESTS)
 
-			local icons = addon.Icons
+			local icons = AddonFactory.Icons
 			
 			if questList[view[dataRowID]].completedBy[character]  then
 				button.Background:SetVertexColor(1.0, 1.0, 1.0)

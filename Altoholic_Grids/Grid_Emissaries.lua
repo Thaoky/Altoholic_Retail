@@ -1,7 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
-local icons = addon.Icons
+local colors = AddonFactory.Colors
+local icons = AddonFactory.Icons
 
 local MVC = LibStub("LibMVC-1.0")
 local ICON_VIEW_QUESTS = "Interface\\LFGFrame\\LFGIcon-Quest"
@@ -97,14 +97,33 @@ tab:RegisterGrid(12, {
 		end,
 	GetSize = function() return #view end,
 	RowSetup = function(self, rowFrame, dataRowID)
-			local quest = questList[ view[dataRowID] ]
+			local questID = view[dataRowID]
+			local quest = questList[questID]
 			local level = quest.expansionLevel
-			local name = quest.title
+			local questTitle = quest.title
+			local button = rowFrame.Name
+			
+			button.questID = questID
+			button.questTitle = questTitle
 
-			if name then
-				rowFrame.Name.Text:SetText(format("%s%s\n%s", colors.white, name, GetExpansionLabel(level, true)))
-				rowFrame.Name.Text:SetJustifyH("LEFT")
+			if questTitle then
+				button.Text:SetText(format("%s%s\n%s", colors.white, questTitle, GetExpansionLabel(level, true)))
+				button.Text:SetJustifyH("LEFT")
 			end
+		end,
+	RowOnEnter = function(self)
+			local link = DataStore:GetQuestLink(self.questID, self.questTitle)
+			if not link then return end
+			
+			local tooltip = AddonFactory_Tooltip
+			
+			tooltip:ClearLines()
+			tooltip:SetOwner(self, "ANCHOR_TOP")
+			tooltip:SetHyperlink(link)
+			tooltip:Show()
+		end,
+	RowOnLeave = function(self)
+			AddonFactory_Tooltip:Hide()
 		end,
 	ColumnSetup = function(self, button, dataRowID, character)
 			button.key = nil

@@ -1,6 +1,6 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
+local colors = AddonFactory.Colors
 
 addon:Controller("AltoholicUI.TabGrids.Grids", function()
 	return {
@@ -63,8 +63,8 @@ addon:Controller("AltoholicUI.TabGrids.Grids", function()
 					
 						-- Set the row label
 						local itemButton = rowFrame.Name
-						itemButton:SetScript("OnEnter", obj.RowOnEnter or addon.EmptyFunc)
-						itemButton:SetScript("OnLeave", obj.RowOnLeave or addon.EmptyFunc)
+						itemButton:SetScript("OnEnter", obj.RowOnEnter or AddonFactory.EmptyFunc)
+						itemButton:SetScript("OnLeave", obj.RowOnLeave or AddonFactory.EmptyFunc)
 
 						rowFrame:Update(account, realm, page, obj, line)
 						rowFrame:Show()
