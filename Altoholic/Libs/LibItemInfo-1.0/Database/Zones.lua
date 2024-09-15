@@ -54,6 +54,9 @@ local WAKING_SHORES = 2127
 local ZARALEK_CAVERN = 2175
 local EMERALD_DREAM = 2200
 
+-- 11.0 The War Within
+local DORNOGAL = 2339
+
 lib:RegisterItems({
 
 	-- 1.0 Classic
@@ -198,6 +201,10 @@ lib:RegisterItems({
 	[208067] = SetZoneItem(9, EMERALD_DREAM), -- Plump Dreamseed
 	[208047] = SetZoneItem(9, EMERALD_DREAM), -- Gigantic Dreamseed
 	
+
+	-- 11.0 The War Within
+	[223951] = SetZoneItem(10, DORNOGAL, 570, 608), -- Earth-Encrusted Gem
+
 
 })
 

@@ -1,5 +1,5 @@
 local addonName, addon = ...
-local colors = addon.Colors
+local colors = AddonFactory.Colors
 
 local L = DataStore:GetLocale(addonName)
 local LII = LibStub("LibItemInfo-1.0")

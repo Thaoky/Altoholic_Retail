@@ -55,8 +55,8 @@ addon:Service("AltoholicUI.SharedContentView", { "AltoholicUI.Formatter", functi
 
 	local L = DataStore:GetLocale(addonName)
 
-	local colors = addon.Colors
-	local icons = addon.Icons
+	local colors = AddonFactory.Colors
+	local icons = AddonFactory.Icons
 	
 	local GUILD_HEADER = 1
 	local GUILD_BANK_TAB = 2

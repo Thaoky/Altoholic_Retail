@@ -7,7 +7,7 @@ addon:Service("AltoholicUI.AvailableContentView", { "AltoholicUI.Formatter", fun
 
 	local L = DataStore:GetLocale(addonName)
 
-	local colors = addon.Colors
+	local colors = AddonFactory.Colors
 	
 	local GUILD_HEADER = 1
 	local GUILD_BANK_TAB = 2

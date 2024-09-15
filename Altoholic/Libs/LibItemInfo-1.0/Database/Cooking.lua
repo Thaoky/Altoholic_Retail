@@ -235,4 +235,22 @@ lib:RegisterItems({
 	[197764] = SetReagent(9, e.Cooking), -- Salad on the Side
 	[197765] = SetReagent(9, e.Cooking), -- Impossibly Sharp Cutting Knife
 	
+	-- 11.0 The War Within
+	[223512] = SetReagent(10, e.Cooking), -- Basically Beef
+	[225567] = SetReagent(10, e.Cooking), -- Bug Brisket
+	[222737] = SetReagent(10, e.Cooking), -- Chopped Mycobloom
+	[225911] = SetReagent(10, e.Cooking), -- Cinderbee Belly
+	[225569] = SetReagent(10, e.Cooking), -- Clipped Bird Wing
+	[222701] = SetReagent(10, e.Cooking), -- Clumped Flour
+	[222697] = SetReagent(10, e.Cooking), -- Coreway Dust
+	[222696] = SetReagent(10, e.Cooking), -- Crunchy Peppers
+	[225876] = SetReagent(10, e.Cooking), -- Fine Egg Powder
+	[222741] = SetReagent(10, e.Cooking), -- Fresh Fillet
+	[222700] = SetReagent(10, e.Cooking), -- Granulated Spices
+	[222699] = SetReagent(10, e.Cooking), -- Khaz Algar Tomato
+	[225565] = SetReagent(10, e.Cooking), -- Massive Worm Flank
+	[225883] = SetReagent(10, e.Cooking), -- Prepared Ghoulfish
+	[222739] = SetReagent(10, e.Cooking), -- Spiced Meat Stock
+	[222695] = SetReagent(10, e.Cooking), -- Twined Herbs
+	
 })

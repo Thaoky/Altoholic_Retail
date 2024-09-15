@@ -245,4 +245,31 @@ lib:RegisterItems({
 	[192860] = SetReagent(9, e.Jewelcrafting), -- Ysemerald 2
 	[192861] = SetReagent(9, e.Jewelcrafting), -- Ysemerald 3
 	
+	-- 11.0 The War Within
+	[212498] = SetReagent(10, e.Jewelcrafting), -- Ambivalent Amber
+	[212514] = SetReagent(10, e.Jewelcrafting), -- Blasphemite
+	[212505] = SetReagent(10, e.Jewelcrafting), -- Extravagant Emerald
+	[213399] = SetReagent(10, e.Jewelcrafting), -- Glittering Glass
+	[213398] = SetReagent(10, e.Jewelcrafting), -- Handful of Pebbles
+	[212511] = SetReagent(10, e.Jewelcrafting), -- Ostentatious Onyx
+	[212495] = SetReagent(10, e.Jewelcrafting), -- Radiant Ruby
+	[212508] = SetReagent(10, e.Jewelcrafting), -- Stunning Sapphire
+	[215236] = SetReagent(10, e.Jewelcrafting), -- Vicious Bloodstone
+	
+	[213219] = SetReagent(10, e.Jewelcrafting), -- Crushed Gemstones 1
+	[213220] = SetReagent(10, e.Jewelcrafting), -- Crushed Gemstones 2
+	[213221] = SetReagent(10, e.Jewelcrafting), -- Crushed Gemstones 3
+	[213753] = SetReagent(10, e.Jewelcrafting), -- Decorative Lens 1
+	[213754] = SetReagent(10, e.Jewelcrafting), -- Decorative Lens 2
+	[213755] = SetReagent(10, e.Jewelcrafting), -- Decorative Lens 3
+	[213750] = SetReagent(10, e.Jewelcrafting), -- Engraved Gemcutter 1
+	[213751] = SetReagent(10, e.Jewelcrafting), -- Engraved Gemcutter 2
+	[213752] = SetReagent(10, e.Jewelcrafting), -- Engraved Gemcutter 3
+	[213759] = SetReagent(10, e.Jewelcrafting), -- Inverted Prism 1
+	[213760] = SetReagent(10, e.Jewelcrafting), -- Inverted Prism 2
+	[213761] = SetReagent(10, e.Jewelcrafting), -- Inverted Prism 3
+	[213756] = SetReagent(10, e.Jewelcrafting), -- Marbled Stone 1
+	[213757] = SetReagent(10, e.Jewelcrafting), -- Marbled Stone 2
+	[213758] = SetReagent(10, e.Jewelcrafting), -- Marbled Stone 3
+	
 })

@@ -132,4 +132,32 @@ lib:RegisterItems({
 	[198219] = SetReagent(9, e.Engineering), -- Overcharged Overclocker 1
 	[198220] = SetReagent(9, e.Engineering), -- Overcharged Overclocker 2
 	[198221] = SetReagent(9, e.Engineering), -- Overcharged Overclocker 3
+	
+	-- 11.0 The War Within
+	[227770] = SetReagent(10, e.Engineering), -- Assorted Whirligigs
+	[227771] = SetReagent(10, e.Engineering), -- Blinker Fluid
+	[227769] = SetReagent(10, e.Engineering), -- Bountiful Bolts
+	[227772] = SetReagent(10, e.Engineering), -- Cataclysmic Converter
+	[227774] = SetReagent(10, e.Engineering), -- Pummel Permit
+	[227773] = SetReagent(10, e.Engineering), -- Pummel-Proof Plating
+	
+	[221865] = SetReagent(10, e.Engineering), -- Chaos Circuit 1
+	[221866] = SetReagent(10, e.Engineering), -- Chaos Circuit 2
+	[221867] = SetReagent(10, e.Engineering), -- Chaos Circuit 3
+	[221868] = SetReagent(10, e.Engineering), -- Entropy Enhancer 1
+	[221869] = SetReagent(10, e.Engineering), -- Entropy Enhancer 2
+	[221870] = SetReagent(10, e.Engineering), -- Entropy Enhancer 3
+	[221859] = SetReagent(10, e.Engineering), -- Gyrating Gear 1
+	[221860] = SetReagent(10, e.Engineering), -- Gyrating Gear 2
+	[221861] = SetReagent(10, e.Engineering), -- Gyrating Gear 3
+	[221853] = SetReagent(10, e.Engineering), -- Handful of Bismuth Bolts 1
+	[221854] = SetReagent(10, e.Engineering), -- Handful of Bismuth Bolts 2
+	[221855] = SetReagent(10, e.Engineering), -- Handful of Bismuth Bolts 3
+	[221862] = SetReagent(10, e.Engineering), -- Safety Switch 1
+	[221863] = SetReagent(10, e.Engineering), -- Safety Switch 2
+	[221864] = SetReagent(10, e.Engineering), -- Safety Switch 3
+	[221856] = SetReagent(10, e.Engineering), -- Whimsical Wiring 1
+	[221857] = SetReagent(10, e.Engineering), -- Whimsical Wiring 2
+	[221858] = SetReagent(10, e.Engineering), -- Whimsical Wiring 3
+	
 })

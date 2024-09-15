@@ -175,4 +175,30 @@ lib:RegisterItems({
 	[199833] = SetReagent(9, e.Fishing), -- Dragonhead Eel
 	[200061] = SetReagent(9, e.Fishing), -- Prismatic Leaper
 	[200074] = SetReagent(9, e.Fishing), -- Frosted Rimefin Tuna
+	
+	-- 11.0 The War Within
+	[220145] = SetReagent(10, e.Fishing), -- Arathor Hammerfish
+	[220153] = SetReagent(10, e.Fishing), -- Awoken Coelacanth
+	[220137] = SetReagent(10, e.Fishing), -- Bismuth Bitterling
+	[220135] = SetReagent(10, e.Fishing), -- Bloody Perch
+	[220136] = SetReagent(10, e.Fishing), -- Crystalline Sturgeon
+	[220134] = SetReagent(10, e.Fishing), -- Dilly-Dally Dace
+	[220143] = SetReagent(10, e.Fishing), -- Dornish Pike
+	[222533] = SetReagent(10, e.Fishing), -- Goldengill Trout
+	[220147] = SetReagent(10, e.Fishing), -- Kaheti Slum Shark
+	[220138] = SetReagent(10, e.Fishing), -- Nibbling Minnow
+	[220148] = SetReagent(10, e.Fishing), -- Pale Huskfish
+	-- [225883] = SetReagent(10, e.Fishing), -- Prepared Ghoulfish		(to do : check if it's actually fished, or goes into cooking)
+	[220151] = SetReagent(10, e.Fishing), -- Queen's Lurefish
+	[220142] = SetReagent(10, e.Fishing), -- Quiet River Bass
+	[220146] = SetReagent(10, e.Fishing), -- Regal Dottyback
+	[220144] = SetReagent(10, e.Fishing), -- Roaring Anglerseeker
+	[220149] = SetReagent(10, e.Fishing), -- Sanguine Dogfish
+	[225568] = SetReagent(10, e.Fishing), -- Slum Shark Scrap
+	[220141] = SetReagent(10, e.Fishing), -- Specular Rainbowfish
+	[220150] = SetReagent(10, e.Fishing), -- Spiked Sea Raven
+	[225566] = SetReagent(10, e.Fishing), -- Warped Wing
+	[220139] = SetReagent(10, e.Fishing), -- Whispering Stargazer
+	
+	
 })

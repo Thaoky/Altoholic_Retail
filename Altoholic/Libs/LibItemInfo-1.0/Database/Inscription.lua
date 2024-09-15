@@ -589,5 +589,71 @@ lib:RegisterItems({
 	[194813] = SetReagent(9, e.Inscription), -- 5 of Earth
 	[194814] = SetReagent(9, e.Inscription), -- 6 of Earth
 	[194815] = SetReagent(9, e.Inscription), -- 7 of Earth
-	[194816] = SetReagent(9, e.Inscription), -- 8 of Earth	
+	[194816] = SetReagent(9, e.Inscription), -- 8 of Earth
+	
+	-- 11.0 The War Within
+	[222615] = SetReagent(10, e.Inscription), -- Apricate Ink 1
+	[222616] = SetReagent(10, e.Inscription), -- Apricate Ink 2
+	[222617] = SetReagent(10, e.Inscription), -- Apricate Ink 3
+	[222609] = SetReagent(10, e.Inscription), -- Shadow Ink 1
+	[222610] = SetReagent(10, e.Inscription), -- Shadow Ink 2
+	[222611] = SetReagent(10, e.Inscription), -- Shadow Ink 3
+	[222558] = SetReagent(10, e.Inscription), -- Boundless Cipher 1
+	[222559] = SetReagent(10, e.Inscription), -- Boundless Cipher 2
+	[222560] = SetReagent(10, e.Inscription), -- Boundless Cipher 3
+	[222555] = SetReagent(10, e.Inscription), -- Codified Greenwood 1
+	[222556] = SetReagent(10, e.Inscription), -- Codified Greenwood 2
+	[222557] = SetReagent(10, e.Inscription), -- Codified Greenwood 3
+	[226204] = SetReagent(10, e.Inscription), -- Fresh Parchment
+	[226205] = SetReagent(10, e.Inscription), -- Distilled Algari Freshwater
+	
+	[224805] = SetReagent(10, e.Inscription), -- Blossom Pigment 1
+	[224804] = SetReagent(10, e.Inscription), -- Blossom Pigment 2
+	[224803] = SetReagent(10, e.Inscription), -- Blossom Pigment 3
+	[222612] = SetReagent(10, e.Inscription), -- Luredrop Pigment 1
+	[222613] = SetReagent(10, e.Inscription), -- Luredrop Pigment 2
+	[222614] = SetReagent(10, e.Inscription), -- Luredrop Pigment 3
+	[222618] = SetReagent(10, e.Inscription), -- Nacreous Pigment 1
+	[222619] = SetReagent(10, e.Inscription), -- Nacreous Pigment 2
+	[222620] = SetReagent(10, e.Inscription), -- Nacreous Pigment 3
+	[224802] = SetReagent(10, e.Inscription), -- Orbinid Pigment 1
+	[224801] = SetReagent(10, e.Inscription), -- Orbinid Pigment 2
+	[224800] = SetReagent(10, e.Inscription), -- Orbinid Pigment 3
+	
+	[222654] = SetReagent(10, e.Inscription), -- A of Symbiosis
+	[222655] = SetReagent(10, e.Inscription), -- 2 of Symbiosis
+	[222656] = SetReagent(10, e.Inscription), -- 3 of Symbiosis
+	[222657] = SetReagent(10, e.Inscription), -- 4 of Symbiosis
+	[222658] = SetReagent(10, e.Inscription), -- 5 of Symbiosis
+	[222659] = SetReagent(10, e.Inscription), -- 6 of Symbiosis
+	[222660] = SetReagent(10, e.Inscription), -- 7 of Symbiosis
+	[222661] = SetReagent(10, e.Inscription), -- 8 of Symbiosis
+
+	[222663] = SetReagent(10, e.Inscription), -- A of Radiance
+	[222664] = SetReagent(10, e.Inscription), -- 2 of Radiance
+	[222665] = SetReagent(10, e.Inscription), -- 3 of Radiance
+	[222666] = SetReagent(10, e.Inscription), -- 4 of Radiance
+	[222667] = SetReagent(10, e.Inscription), -- 5 of Radiance
+	[222668] = SetReagent(10, e.Inscription), -- 6 of Radiance
+	[222669] = SetReagent(10, e.Inscription), -- 7 of Radiance
+	[222670] = SetReagent(10, e.Inscription), -- 8 of Radiance
+
+	[222672] = SetReagent(10, e.Inscription), -- A of Vivacity
+	[222673] = SetReagent(10, e.Inscription), -- 2 of Vivacity
+	[222674] = SetReagent(10, e.Inscription), -- 3 of Vivacity
+	[222675] = SetReagent(10, e.Inscription), -- 4 of Vivacity
+	[222676] = SetReagent(10, e.Inscription), -- 5 of Vivacity
+	[222677] = SetReagent(10, e.Inscription), -- 6 of Vivacity
+	[222678] = SetReagent(10, e.Inscription), -- 7 of Vivacity
+	[222679] = SetReagent(10, e.Inscription), -- 8 of Vivacity
+
+	[222681] = SetReagent(10, e.Inscription), -- A of Ascension
+	[222682] = SetReagent(10, e.Inscription), -- 2 of Ascension
+	[222683] = SetReagent(10, e.Inscription), -- 3 of Ascension
+	[222684] = SetReagent(10, e.Inscription), -- 4 of Ascension
+	[222685] = SetReagent(10, e.Inscription), -- 5 of Ascension
+	[222686] = SetReagent(10, e.Inscription), -- 6 of Ascension
+	[222687] = SetReagent(10, e.Inscription), -- 7 of Ascension
+	[222688] = SetReagent(10, e.Inscription), -- 8 of Ascension
+
 })
