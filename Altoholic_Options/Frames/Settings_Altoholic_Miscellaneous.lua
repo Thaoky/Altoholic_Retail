@@ -16,7 +16,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicMiscellaneous", functi
 
 			-- Setup localization & clear localized value after use (no longer needed)
 			local L = DataStore:GetLocale(addonName)
-			local colors = addon.Colors
+			local colors = AddonFactory.Colors
 			
 			frame.Title:SetText(format("%s%s", colors.white, L["Miscellaneous Options"]))
 			frame.AHColorCoding.Text:SetText(L["Use color-coding for recipes at the AH"])

@@ -1,6 +1,6 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
+local colors = AddonFactory.Colors
 
 local L = DataStore:GetLocale(addonName)
 local options = DataStore_Quests_Options
@@ -42,7 +42,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreQuests", function()
 			parent:RegisterPanel(15, frame)
 
 			-- Setup localization & clear localized value after use (no longer needed)
-			local colors = addon.Colors
+			local colors = AddonFactory.Colors
 			
 			frame.Title:SetText(format("%s%s", colors.white, L["DataStore_Quests' Options"]))
 			L["DataStore_Quests' Options"] = nil

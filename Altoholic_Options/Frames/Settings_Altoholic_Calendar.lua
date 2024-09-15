@@ -66,7 +66,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicCalendar", { "Altoholi
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel(4, frame)
 
-			local colors = addon.Colors
+			local colors = AddonFactory.Colors
 			
 			-- Setup localization & clear localized value after use (no longer needed)
 			frame.Title:SetText(format("%s%s", colors.white, L["Calendar Options"]))

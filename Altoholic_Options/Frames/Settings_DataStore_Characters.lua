@@ -14,7 +14,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreCharacters", function(
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel(11, frame)
 
-			local colors = addon.Colors
+			local colors = AddonFactory.Colors
 			
 			-- Setup localization & clear localized value after use (no longer needed)
 			frame.Title:SetText(format("%s%s", colors.white, L["DataStore_Characters' Options"]))

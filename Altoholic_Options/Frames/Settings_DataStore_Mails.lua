@@ -38,7 +38,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreMails", function()
 			parent:RegisterPanel(14, frame)
 
 			-- Setup localization & clear localized value after use (no longer needed)
-			local colors = addon.Colors
+			local colors = AddonFactory.Colors
 			
 			frame.Title:SetText(format("%s%s", colors.white, L["DataStore_Mails' Options"]))
 			L["DataStore_Mails' Options"] = nil
