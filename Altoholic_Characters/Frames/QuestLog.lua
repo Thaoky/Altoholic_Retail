@@ -3,7 +3,7 @@ local addon = _G[addonName]
 
 addon:Controller("AltoholicUI.TabCharacters.QuestLog", function()
 	
-	local colors = addon.Colors
+	local colors = AddonFactory.Colors
 
 	local function GetStatus(character, category, numQuests)
 		local allCategories = (category == 0)

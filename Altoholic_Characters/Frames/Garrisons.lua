@@ -3,7 +3,7 @@ local addon = _G[addonName]
 
 addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", function()
 
-	local colors = addon.Colors
+	local colors = AddonFactory.Colors
 	local L = DataStore:GetLocale(addonName)
 	
 	local view = {}

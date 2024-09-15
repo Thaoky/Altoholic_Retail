@@ -1,6 +1,6 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
+local colors = AddonFactory.Colors
 
 addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionReward", {
 	SetQuantity = function(frame, quantity)

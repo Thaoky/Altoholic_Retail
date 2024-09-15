@@ -3,7 +3,7 @@ local addon = _G[addonName]
 
 addon:Controller("AltoholicUI.TabCharacters.Recipes", function()
 	local L = DataStore:GetLocale(addonName)
-	local colors = addon.Colors
+	local colors = AddonFactory.Colors
 
 	local recipeColors = { [0] = colors.recipeOrange, [1] = colors.yellow, [2] = colors.recipeGreen, [3] = colors.recipeGrey }
 	local recipeColorNames = { [0] = L["COLOR_ORANGE"], [1] = L["COLOR_YELLOW"], [2] = L["COLOR_GREEN"], [3] = L["COLOR_GREY"] }

@@ -4,7 +4,7 @@ local addon = _G[addonName]
 addon:Controller("AltoholicUI.TabCharacters.Mails", function()
 	
 	local L = DataStore:GetLocale(addonName)
-	local colors = addon.Colors
+	local colors = AddonFactory.Colors
 	local currentCharacter
 	local view, isViewValid
 	local viewSortField, viewSortOrder

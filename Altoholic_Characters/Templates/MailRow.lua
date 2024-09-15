@@ -3,7 +3,7 @@ local addon = _G[addonName]
 
 addon:Controller("AltoholicUI.TabCharacters.MailRow", { "AltoholicUI.Formatter", function(Formatter)
 
-	local colors = addon.Colors
+	local colors = AddonFactory.Colors
 	local L = DataStore:GetLocale(addonName)
 	
 	return {
