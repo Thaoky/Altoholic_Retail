@@ -1,8 +1,8 @@
 local addonTabName = ...
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local colors = addon.Colors
-local icons = addon.Icons
+local colors = AddonFactory.Colors
+local icons = AddonFactory.Icons
 
 local L = DataStore:GetLocale(addonName)
 local ICON_NOT_STARTED = "Interface\\RaidFrame\\ReadyCheck-NotReady" 
@@ -182,6 +182,14 @@ addon:Controller("AltoholicUI.TabAchievementsCategoriesList", {
 				}},
 				{ text = L["Explorer"], id = cat.ExplorationExplorer },
 			}},
+			
+			{ id = cat.Delves, subMenu = {
+				{ id = cat.DelvesWarWithin, subMenu = {
+					{ text = L["Tiers"], id = cat.DelvesWarWithinTiers },
+					{ text = L["Stories"], id = cat.DelvesWarWithinStories },
+					{ text = L["Discoveries"], id = cat.DelvesWarWithinDiscoveries },
+				}},
+			}},			
 			{ text = GetCategoryInfo(cat.PvP), id = cat.PvP, subMenu = {
 				{ text = format("%s%s", colors.cyan, "Battlegrounds"), subMenu = {
 					{ id = cat.PvPWarsongGulch },
