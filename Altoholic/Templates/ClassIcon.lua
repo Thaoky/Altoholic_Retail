@@ -6,6 +6,23 @@ local MVC = LibStub("LibMVC-1.0")
 local Options = MVC:GetService("AltoholicUI.ColumnOptions")
 
 local ICON_PARTIAL = "Interface\\RaidFrame\\ReadyCheck-Waiting"
+local nameList = {}
+
+local classToID = {
+	["WARRIOR"] = 1,
+	["PALADIN"] = 2,
+	["HUNTER"] = 3,
+	["ROGUE"] = 4,
+	["PRIEST"] = 5,
+	["DEATHKNIGHT"] = 6,
+	["SHAMAN"] = 7,
+	["MAGE"] = 8,
+	["WARLOCK"] = 9,
+	["MONK"] = 10,
+	["DRUID"] = 11,
+	["DEMONHUNTER"] = 12,
+	["EVOKER"] = 13,
+}
 
 local function OnCharacterChange(frame, owner)
 	local id = owner.menuID
@@ -24,40 +41,83 @@ local function ClassIcon_Initialize(frame, level)
 	local id = frame.menuID
 	local parent = frame:GetParent()
 	local account, realm = parent.SelectRealm:GetCurrentRealm()
+	
+	if level == 1 then
+		frame:AddTitle(L["Characters"])
 		
-	frame:AddTitle(L["Characters"])
-	local nameList = {}		-- we want to list characters alphabetically
-	for _, character in pairs(DataStore:GetCharacters(realm, account)) do
-		table.insert(nameList, character)	-- we can add the key instead of just the name, since they will all be like account.realm.name, where account & realm are identical
-	end
-	table.sort(nameList)
-	
-	-- get the key associated with this button
-	local key = Options.GetColumnKey(_G[frame.storage], account, realm, id)
-	
-	for _, character in ipairs(nameList) do
-		local _, _, characterName = strsplit(".", character)
-	
+		-- Add the classes
+		for key, value in ipairs(CLASS_SORT_ORDER) do
+			-- key = index
+			-- value = englishClass, ex: "DRUID"
+			-- print(key .. ": " .. value)
+			local class = format("|c%s%s", RAID_CLASS_COLORS[value].colorStr, LOCALIZED_CLASS_NAMES_MALE[value])
+			frame:AddCategoryButton(class, classToID[value], level)		
+		end
+		
+		frame:AddTitle()
+		
 		local info = frame:CreateInfo()
-		info.text		= DataStore:GetColoredCharacterName(character)
-		info.value		= characterName
+		info.text		= (id == 1) and RESET or NONE
+		info.value		= nil
 		info.func		= OnCharacterChange
-		info.checked	= (key == character)
+		info.checked	= (key == "")
 		info.arg1		= frame
 		frame:AddButtonInfo(info, 1)
+
+		frame:AddCloseMenu()
+	elseif level == 2 then
+		local classID = frame:GetCurrentOpenMenuValue() 
+	
+		wipe(nameList)			-- we want to list characters alphabetically
+		for _, character in pairs(DataStore:GetCharacters(realm, account)) do
+			if DataStore:IsCharacterClass(character, classID) then
+				table.insert(nameList, character)	-- we can add the key instead of just the name, since they will all be like account.realm.name, where account & realm are identical
+			end
+		end
+		table.sort(nameList)
+	
+		-- get the key associated with this button
+		local key = Options.GetColumnKey(_G[frame.storage], account, realm, id)
+		
+		for _, character in ipairs(nameList) do
+			local _, _, characterName = strsplit(".", character)
+		
+			local info = frame:CreateInfo()
+			info.text		= DataStore:GetColoredCharacterName(character)
+			info.value		= characterName
+			info.func		= OnCharacterChange
+			info.checked	= (key == character)
+			info.arg1		= frame
+			frame:AddButtonInfo(info, 2)
+		end
+	end
+end
+
+local function MenuGenerator(frame, root)
+	local id = frame.menuID
+	print("id: " .. (id or "nil"))
+	print("name: " .. (frame:GetName() or "nil"))
+	print("parent: " .. (frame:GetParent():GetName() or "nil"))
+	print("gparent: " .. (frame:GetParent():GetParent():GetName() or "nil"))
+
+	root:QueueTitle(L["Characters"])
+	root:QueueSpacer()
+	
+	-- Add the classes
+	for key, value in ipairs(CLASS_SORT_ORDER) do
+		-- key = index
+		-- value = englishClass, ex: "DRUID"
+		-- print(key .. ": " .. value)
+		local class = format("|c%s%s", RAID_CLASS_COLORS[value].colorStr, LOCALIZED_CLASS_NAMES_MALE[value])
+		-- frame:AddCategoryButton(class, classToID[value], level)
+		
+		local classMenu = root:CreateButton(class)
+		
+		
 	end
 	
-	frame:AddTitle()
-	
-	local info = frame:CreateInfo()
-	info.text		= (id == 1) and RESET or NONE
-	info.value		= nil
-	info.func		= OnCharacterChange
-	info.checked	= (key == "")
-	info.arg1		= frame
-	frame:AddButtonInfo(info, 1)
-
-	frame:AddCloseMenu()
+	root:QueueDivider()
+	root:CreateButton("Reset", function() print("Reset") end);
 end
 
 addon:Controller("AltoholicUI.ClassIcon", {
@@ -71,6 +131,33 @@ addon:Controller("AltoholicUI.ClassIcon", {
 		menu:Initialize(ClassIcon_Initialize, "MENU")
 		menu:Close()
 		menu:Toggle(frame, 0, 0)
+		
+		-- local function SetSelected(index) print(index) end
+		
+		-- Why is this thing allocating so much memory ? don't use until clarified
+		-- MenuUtil.CreateContextMenu(frame, MenuGenerator)
+		-- MenuUtil.CreateContextMenu(frame, function(owner, desc)
+			-- desc:SetTag("ALTOHOLIC_MENU");
+
+			-- desc:QueueTitle("Characters")
+			-- desc:QueueSpacer()
+			-- desc:CreateButton("hello", function() print("test ?")	end);
+-- local submenu = desc:CreateButton("My Submenu");
+-- submenu:CreateButton("Enable", SetEnabledFunction, true);
+-- submenu:CreateButton("Disable", SetEnabledFunction, false);
+			-- desc:QueueDivider()
+			-- desc:CreateButton("Reset", function() print("Reset") end);
+
+			-- desc:CreateRadio("My Radio "..1, IsSelected, SetSelected, index);
+			-- desc:CreateRadio("My Radio "..1, true, SetSelected, 1);
+			-- desc:CreateRadio("My Radio "..2, false, SetSelected, 2);
+			-- desc:CreateRadio("My Radio "..3, nil, SetSelected, 3);
+
+
+
+		-- end);
+		
+		
 
 		-- get the key associated with this button
 		local account, realm = parent.SelectRealm:GetCurrentRealm()

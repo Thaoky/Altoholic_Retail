@@ -1,9 +1,9 @@
 local addonName, addon = ...
 _G[addonName] = addon
 
-addon.Version = "v11.0.004"
+addon.Version = "v11.0.005"
 -- addon.VersionNum = 11 00 006
-addon.VersionNum = 1100004
+addon.VersionNum = 1100005
 
 LibStub("LibMVC-1.0"):Embed(addon)
 
@@ -110,7 +110,7 @@ local commandLineCommands = {
 local function CommandLineCallback(args)
 	-- No arguments ? show the options
 	if not args or args == "" then
-		local yellow = addon.Colors.yellow
+		local yellow = colors.yellow
 	
 		addon:Print(format("Arguments to %s/Alto :", yellow))
 		print(format("  %sshow|r - %s", yellow, L["Shows the UI"]))
@@ -248,7 +248,7 @@ DataStore:OnAddonLoaded(addonName, function()
 			-- On Yes
 			function() DataStore:SendBankTabToGuildMember(sender, tabName) end, 
 		
-			-- On no
+			-- On No
 			function() DataStore:RejectBankTabRequest(sender) end)
 
 	end)
@@ -302,92 +302,6 @@ DataStore:OnAddonLoaded(addonName, function()
 	if Altoholic_UI_Options.moreRecentVersion and addon.VersionNum >= Altoholic_UI_Options.moreRecentVersion then
 		Altoholic_UI_Options.moreRecentVersion = nil
 	end
-		
-	--Temporary: database migration	
-	if not AltoholicDB or not AltoholicDB.global or not AltoholicDB.global.options then return end		-- just being extra safe here ..
-	
-	local source = AltoholicDB.global.options
-	
-	local dest = Altoholic_UI_Options
-	dest.Scale = source["UI.Scale"] or dest.Scale
-	dest.Transparency = source["UI.Transparency"] or dest.Transparency
-	dest.ClampWindowToScreen = source["UI.ClampWindowToScreen"] or dest.ClampWindowToScreen
-	source["UI.Scale"] = nil
-	source["UI.Transparency"] = nil
-	source["UI.ClampWindowToScreen"] = nil
-	
-	dest.Mail.GuildMailWarning = source["UI.Mail.GuildMailWarning"] or dest.Mail.GuildMailWarning
-	dest.Mail.AutoCompleteRecipient = source["UI.Mail.AutoCompleteRecipient"] or dest.Mail.AutoCompleteRecipient
-	dest.Mail.AutoCompletePriority = source["UI.Mail.AutoCompletePriority"] or dest.Mail.AutoCompletePriority
-	dest.Mail.LastExpiryWarning = source["UI.Mail.LastExpiryWarning"] or dest.Mail.LastExpiryWarning
-	dest.Mail.TimeToNextWarning = source["UI.Mail.TimeToNextWarning"] or dest.Mail.TimeToNextWarning
-	
-	source["UI.Mail.GuildMailWarning"] = nil
-	source["UI.Mail.AutoCompleteRecipient"] = nil
-	source["UI.Mail.AutoCompletePriority"] = nil
-	source["UI.Mail.LastExpiryWarning"] = nil
-	source["UI.Mail.TimeToNextWarning"] = nil
-	
-	-- not yet, requires update of AddonFactory -> MinimapButton
-	-- dest.Minimap.ShowIcon = source["UI.Minimap.ShowIcon"] or dest.Minimap.ShowIcon
-	-- dest.Minimap.IconAngle = source["UI.Minimap.IconAngle"] or dest.Minimap.IconAngle
-	-- dest.Minimap.IconRadius = source["UI.Minimap.IconRadius"] or dest.Minimap.IconRadius
-	-- source["UI.Minimap.ShowIcon"] = nil
-	-- source["UI.Minimap.IconAngle"] = nil
-	-- source["UI.Minimap.IconRadius"] = nil
-	
-	dest = Altoholic_Calendar_Options
-	dest.WarningsEnabled = source["UI.Calendar.WarningsEnabled"] or dest.WarningsEnabled
-	dest.WeekStartsOnMonday = source["UI.Calendar.WeekStartsOnMonday"] or dest.WeekStartsOnMonday
-	dest.UseDialogBoxForWarnings = source["UI.Calendar.UseDialogBoxForWarnings"] or dest.UseDialogBoxForWarnings
-	dest.WarningType1 = source.WarningType1 or dest.WarningType1
-	dest.WarningType2 = source.WarningType2 or dest.WarningType2
-	dest.WarningType3 = source.WarningType3 or dest.WarningType3
-	dest.WarningType4 = source.WarningType4 or dest.WarningType4
-	
-	source["UI.Calendar.WarningsEnabled"] = nil
-	source["UI.Calendar.WeekStartsOnMonday"] = nil
-	source["UI.Calendar.UseDialogBoxForWarnings"] = nil
-	source.WarningType1 = nil
-	source.WarningType2 = nil
-	source.WarningType3 = nil
-	source.WarningType4 = nil
-	
-	dest = Altoholic_Tooltip_Options
-
-	for k, v in pairs(source) do
-		local arg1, arg2, arg3, arg4 = strsplit(".", k)
-		
-		if arg1 == "UI" and arg2 == "Tooltip" then
-			local prefix = "UI.Tooltip."
-			local optionName = k:sub(#prefix + 1)
-			
-			-- Create the new entries
-			dest[optionName] = v
-			
-			-- Delete the old entries
-			source[k] = nil
-		end
-		
-		if arg4 and arg4 == "HideInTooltip" then
-			local guildKey = format("%s.%s.%s", arg1, arg2, arg3)
-			
-			-- Create the new entries
-			dest.HiddenGuilds[guildKey] = v
-			
-			-- Delete the old entries
-			source[k] = nil
-		end
-	end
-	
-	-- move account sharing options
-	dest = Altoholic_Sharing_Options
-	dest.IsEnabled = source["UI.AccountSharing.IsEnabled"] or dest.IsEnabled
-	source["UI.AccountSharing.IsEnabled"] = nil
-	
-	-- guild bank tab auto update not really part of the guild tab options, it's a sharing option.
-	dest.GuildBankAutoUpdate = source["UI.Tabs.Guild.BankAutoUpdate"] or dest.GuildBankAutoUpdate
-	source["UI.Tabs.Guild.BankAutoUpdate"] = nil
 	
 end)
 

@@ -15,6 +15,32 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.0.005 (11/11/2024)
+
+- Fixed a lua error when typing /alto.
+- Added the TWW weekly World Boss quests.
+- Added the TWW weekly PvP quests (Thanks Eschaton !).
+- DataStore_Stats : Fixed multiple issues related to the scanning of Mythic+ data.
+- Agenda tab -> Fixed an issue in the event list scroll frame where the displaying the list was messed up when it contained too many items.
+- Summary tab -> Activity : Created a few sub-categories to offer more data columns related to mails & auction house.
+	The existing view is unchanged, but moved under Activity -> Summary.
+	Activity -> Mails : Added 4 columns to view the number of mails to be returned or deleted upon expiry, and the closest durations for those.
+	Activity -> Auctions : Added 3 columns to view the highest buyout price, the lowest, and the closest expiry.
+	
+- Summary tab -> Mythic Dungeons : Fixed multiple lua errors.
+- Achievements tab & Grids tab : the character selection drop down that appears when mousing over an icon was getting a bit long with 50+ characters, so there is now an additional level to filter by class first.
+- Removed the database migration code from the old to the new format.
+- Increased the font-size in all dropdown and contextual menus, they were getting a bit tiny on higher resolutions..
+- Summary tab -> Added new marks for the bank types. By right-clicking an alt's name, you could already mark it as a profession bank, you can now mark it as an expansion bank too.
+You can for instance say that an alt is a "Cataclysm Mining" bank.
+- Reworked the tooltip part that showed on which bank an item could be stored on, to better display the type of bank.
+Note: as a reminder, these are the rules to display "Could be stored on:" :
+This only applies to items of previous expansions, not for the current one.
+The code will first try to link an item to a profession bank, and if none is found, it will look for an expansion bank.
+For the expansion bank, keep in mind that the information comes from the game, it can be that the item info returned by the game.
+ (ex: an item is tagged as Classic but is in fact Cataclysm, that's what the API returns, don't shoot the messenger)
+
+
 11.0.004 (15/09/2024)
 
 - DataStore_Stats : Fixed a lua error when doing a /reload or visiting the Great Vault (Thanks GovtGeek !).

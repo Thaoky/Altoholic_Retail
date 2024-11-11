@@ -55,6 +55,7 @@ local ZARALEK_CAVERN = 2175
 local EMERALD_DREAM = 2200
 
 -- 11.0 The War Within
+local ISLE_OF_DORN = 2248
 local DORNOGAL = 2339
 
 lib:RegisterItems({
@@ -203,6 +204,7 @@ lib:RegisterItems({
 	
 
 	-- 11.0 The War Within
+	[225557] = SetZoneItem(10, ISLE_OF_DORN, 744, 452), -- Sizzling Cinderpollen
 	[223951] = SetZoneItem(10, DORNOGAL, 570, 608), -- Earth-Encrusted Gem
 
 

@@ -72,6 +72,12 @@ lib:RegisterItems({
 	[36930] = SetReagent(2, e.Jewelcrafting), -- Monarch Topaz
 	[36932] = SetReagent(2, e.Jewelcrafting), -- Dark Jade
 	[36933] = SetReagent(2, e.Jewelcrafting), -- Forest Emerald
+	[36919] = SetReagent(2, e.Jewelcrafting), -- Cardinal Ruby
+	[36922] = SetReagent(2, e.Jewelcrafting), -- King's Amber
+	[36925] = SetReagent(2, e.Jewelcrafting), -- Majestic Zircon
+	[36928] = SetReagent(2, e.Jewelcrafting), -- Dreadstone
+	[36934] = SetReagent(2, e.Jewelcrafting), -- Eye of Zul
+	[36931] = SetReagent(2, e.Jewelcrafting), -- Ametrine
 	[42225] = SetReagent(2, e.Jewelcrafting), -- Dragon's Eye
 	
 	-- 4.0 Cataclysm
@@ -82,6 +88,12 @@ lib:RegisterItems({
 	[52181] = SetReagent(3, e.Jewelcrafting), -- Hessonite
 	[52182] = SetReagent(3, e.Jewelcrafting), -- Jasper
 	[52188] = SetReagent(3, e.Jewelcrafting), -- Jeweler's Setting
+	[52190] = SetReagent(3, e.Jewelcrafting), -- Inferno Ruby
+	[52191] = SetReagent(3, e.Jewelcrafting), -- Ocean Sapphire
+	[52192] = SetReagent(3, e.Jewelcrafting), -- Dream Emerald
+	[52193] = SetReagent(3, e.Jewelcrafting), -- Ember Topaz
+	[52194] = SetReagent(3, e.Jewelcrafting), -- Demonseye
+	[52195] = SetReagent(3, e.Jewelcrafting), -- Amberjewel	
 	[52196] = SetReagent(3, e.Jewelcrafting), -- Chimera's Eye
 	
 	[71805] = SetReagent(3, e.Jewelcrafting), -- Queen's Garnet
@@ -93,12 +105,18 @@ lib:RegisterItems({
 	
 	-- 5.0 Mists of Pandaria
 	[76130] = SetReagent(4, e.Jewelcrafting), -- Tiger Opal
+	[76131] = SetReagent(4, e.Jewelcrafting), -- Primordial Ruby
 	[76132] = SetReagent(4, e.Jewelcrafting), -- Primal Diamond
 	[76133] = SetReagent(4, e.Jewelcrafting), -- Lapis Lazuli
 	[76134] = SetReagent(4, e.Jewelcrafting), -- Sunstone
 	[76135] = SetReagent(4, e.Jewelcrafting), -- Roguestone
 	[76136] = SetReagent(4, e.Jewelcrafting), -- Pandarian Garnet
 	[76137] = SetReagent(4, e.Jewelcrafting), -- Alexandrite
+	[76138] = SetReagent(4, e.Jewelcrafting), -- River's Heart
+	[76139] = SetReagent(4, e.Jewelcrafting), -- Wild Jade
+	[76140] = SetReagent(4, e.Jewelcrafting), -- Vermilion Onyx
+	[76141] = SetReagent(4, e.Jewelcrafting), -- Imperial Amethyst
+	[76142] = SetReagent(4, e.Jewelcrafting), -- Sun's Radiance
 	[76734] = SetReagent(4, e.Jewelcrafting), -- Serpent's Eye
 	[90407] = SetReagent(4, e.Jewelcrafting), -- Sparkling Shard	
 	

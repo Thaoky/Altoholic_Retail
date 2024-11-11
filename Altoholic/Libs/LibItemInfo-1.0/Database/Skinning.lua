@@ -40,6 +40,7 @@ lib:RegisterItems({
 	[8169] = SetReagent(0, e.Skinning), -- Thick Hide
 	[8170] = SetReagent(0, e.Skinning), -- Rugged Leather
 	[8171] = SetReagent(0, e.Skinning), -- Rugged Hide
+	[12607] = SetReagent(0, e.Skinning), -- Brilliant Chromatic Scale
 	[15408] = SetReagent(0, e.Skinning), -- Heavy Scorpid Scale
 	[15410] = SetReagent(0, e.Skinning), -- Scale of Onyxia
 	[15412] = SetReagent(0, e.Skinning), -- Green Dragonscale

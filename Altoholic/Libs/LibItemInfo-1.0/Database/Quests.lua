@@ -18,6 +18,7 @@ local SetQuestItem = lib.SetQuestItem
 lib:RegisterItems({
 
 	-- 1.0 Classic
+	[2794] = SetQuestItem(0),				-- An Old History Book
 	
 	-- 2.0 BC
 	

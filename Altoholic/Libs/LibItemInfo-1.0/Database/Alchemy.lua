@@ -68,12 +68,13 @@ lib:RegisterItems({
 	[37704] = SetReagent(2, e.Alchemy), -- Crystallized Life
 	[37705] = SetReagent(2, e.Alchemy), -- Crystallized Water
 	
-	[36919] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- Cardinal Ruby
-	[36922] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- King's Amber
-	[36925] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- Majestic Zircon
-	[36928] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- Dreadstone
-	[36934] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- Eye of Zul
-	[36931] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- Ametrine
+	-- Actually jewelcrafting
+	-- [36919] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- Cardinal Ruby
+	-- [36922] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- King's Amber
+	-- [36925] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- Majestic Zircon
+	-- [36928] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- Dreadstone
+	-- [36934] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- Eye of Zul
+	-- [36931] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- Ametrine
 	[41266] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- Skyflare Diamond
 	[41334] = SetReagent(2, e.Alchemy, 65, bag.GemBag), -- Earthsiege Diamond
 	
@@ -81,12 +82,13 @@ lib:RegisterItems({
 	[65892] = SetReagent(3, e.Alchemy), -- Pyrium-Laced Crystalline Vial
 	[56850] = SetReagent(3, e.Alchemy, 20), -- Deepstone Oil
 	
-	[52192] = SetReagent(3, e.Alchemy, 60, bag.GemBag), -- Dream Emerald
-	[52193] = SetReagent(3, e.Alchemy, 65, bag.GemBag), -- Ember Topaz
-	[52191] = SetReagent(3, e.Alchemy, 70, bag.GemBag), -- Ocean Sapphire
-	[52194] = SetReagent(3, e.Alchemy, 70, bag.GemBag), -- Demonseye
-	[52190] = SetReagent(3, e.Alchemy, 75, bag.GemBag), -- Inferno Ruby
-	[52195] = SetReagent(3, e.Alchemy, 75, bag.GemBag), -- Amberjewel
+	-- Actually jewelcrafting
+	-- [52190] = SetReagent(3, e.Alchemy, 75, bag.GemBag), -- Inferno Ruby
+	-- [52191] = SetReagent(3, e.Alchemy, 70, bag.GemBag), -- Ocean Sapphire
+	-- [52192] = SetReagent(3, e.Alchemy, 60, bag.GemBag), -- Dream Emerald
+	-- [52193] = SetReagent(3, e.Alchemy, 65, bag.GemBag), -- Ember Topaz
+	-- [52194] = SetReagent(3, e.Alchemy, 70, bag.GemBag), -- Demonseye
+	-- [52195] = SetReagent(3, e.Alchemy, 75, bag.GemBag), -- Amberjewel
 	
 	[52303] = SetReagent(3, e.Alchemy, 75, bag.GemBag), -- Shadowspirit Diamond
 	[58480] = SetReagent(3, e.Alchemy, 75, bag.MiningBag), -- Truegold
@@ -94,12 +96,13 @@ lib:RegisterItems({
 	-- 5.0 Mists of Pandaria
 	[87872] = SetReagent(4, e.Alchemy, 15), -- Desecrated Oil
 	
-	[76131] = SetReagent(4, e.Alchemy, 75, bag.GemBag), -- Primordial Ruby
-	[76138] = SetReagent(4, e.Alchemy, 75, bag.GemBag), -- River's Heart
-	[76139] = SetReagent(4, e.Alchemy, 75, bag.GemBag), -- Wild Jade
-	[76140] = SetReagent(4, e.Alchemy, 75, bag.GemBag), -- Vermilion Onyx
-	[76141] = SetReagent(4, e.Alchemy, 75, bag.GemBag), -- Imperial Amethyst
-	[76142] = SetReagent(4, e.Alchemy, 75, bag.GemBag), -- Sun's Radiance
+	-- Actually jewelcrafting
+	-- [76131] = SetReagent(4, e.Alchemy, 75, bag.GemBag), -- Primordial Ruby
+	-- [76138] = SetReagent(4, e.Alchemy, 75, bag.GemBag), -- River's Heart
+	-- [76139] = SetReagent(4, e.Alchemy, 75, bag.GemBag), -- Wild Jade
+	-- [76140] = SetReagent(4, e.Alchemy, 75, bag.GemBag), -- Vermilion Onyx
+	-- [76141] = SetReagent(4, e.Alchemy, 75, bag.GemBag), -- Imperial Amethyst
+	-- [76142] = SetReagent(4, e.Alchemy, 75, bag.GemBag), -- Sun's Radiance
 	
 	[72104] = SetReagent(4, e.Alchemy, 75, bag.MiningBag), -- Living Steel
 	

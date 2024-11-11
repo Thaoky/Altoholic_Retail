@@ -59,6 +59,7 @@ local cachedItemID, cachedCount, cachedTotal
 local cachedRecipeOwners
 local cachedAltStorage
 
+local charList = {}
 local itemCounts = {}
 local itemCountsLabels = { L["Bags"], L["Bank"], VOID_STORAGE, REAGENT_BANK, L["AH"], L["Equipped"], L["Mail"], CURRENCY, L["Reagent Bag"] }
 local counterLines = {}		-- list of lines containing a counter to display in the tooltip
@@ -559,44 +560,68 @@ local function ProcessTooltip(tooltip, link)
 		end
 	end
 	
-	local itemSubType, _, _, _, _, classID, subclassID, bindType = select(7, GetItemInfo(itemID))
+	local _, _, _, iLevel, _, _, itemSubType, _, _, _, _, classID, subclassID, bindType, expacID = GetItemInfo(itemID)
+	
+	-- print("classID: " .. (classID or "nil"))
+	-- print("subclassID: " .. (subclassID or "nil"))
+	
 	
 	-- Show "Could be stored on" info
-	if options["ShowCouldBeStoredOn"] and itemType and expansionID and expansionID < GetExpansionLevel() then
+	-- if options["ShowCouldBeStoredOn"] and itemType and expansionID and expansionID < GetExpansionLevel() then
+	if options["ShowCouldBeStoredOn"] and expacID and expacID < GetExpansionLevel() then
 		
+		wipe(charList)
 		local bankType = reagentTypeToBankType[arg3]
+		
+		-- special case for companion pets
+		if classID == Enum.ItemClass.Miscellaneous and subclassID == Enum.ItemMiscellaneousSubclass.CompanionPet then
+			bankType = DataStore.Enum.BankTypes.BattlePets
+		end
 		
 		-- Only for trade goods, and not soulbound
 		-- if classID == Enum.ItemClass.Tradegoods and bindType == LE_ITEM_BIND_NONE and bankType then
-		if classID == Enum.ItemClass.Tradegoods and bindType == 0 and bankType then
+		-- if classID == Enum.ItemClass.Tradegoods and bindType == 0 and bankType then
+		if bindType == 0 and bankType then
 			if not cachedAltStorage then
-				local charList = {}
-			
+		
 				-- Loop on this realm's characters only
 				for _, character in pairs(DataStore:GetCharacters()) do
 					-- Do not show the current character
 					if character ~= DataStore.ThisCharKey and DataStore:IsBankType(character, bankType) then
-						table.insert(charList, DataStore:GetColoredCharacterName(character))
+						local bankLabel = DataStore.Enum.BankTypesLabels[bankType]
+						-- table.insert(charList, DataStore:GetColoredCharacterName(character))
+						table.insert(charList, { name = DataStore:GetColoredCharacterName(character), bank = bankLabel })
 					end
 				end
-				
-				-- size may be 0 if only the current alt is the actual bank for this type of item
-				if #charList > 0 then
-					cachedAltStorage = table.concat(charList, format("%s, ", colors.white))
+			end
+		end
+		
+		-- if we have not found a profession bank alt, maybe an expansion bank alt ?
+		if #charList == 0 and bindType == 0 and not bankType then
+			bankType = DataStore.Enum.BankTypes.MinimumExpansion + expacID
+			
+			-- Loop on this realm's characters only
+			for _, character in pairs(DataStore:GetCharacters()) do
+				-- Do not show the current character
+				if character ~= DataStore.ThisCharKey and DataStore:IsBankType(character, bankType) then
+					table.insert(charList, { name = DataStore:GetColoredCharacterName(character), bank = expansion or _G["EXPANSION_NAME"..expacID] })
 				end
 			end
+		end
 			
-			if cachedAltStorage then
-				tooltip:AddLine(" ",1,1,1)
-				tooltip:AddLine(format("%s%s: %s", colors.gold, L["Could be stored on"], cachedAltStorage))
+		-- size may be 0 if only the current alt is the actual bank for this type of item
+		if #charList > 0 then
+			tooltip:AddLine(" ",1,1,1)
+			tooltip:AddLine(format("%s%s:", colors.gold, L["Could be stored on"]))
+			
+			for i = 1, #charList do
+				local info = charList[i]
+				tooltip:AddDoubleLine(info.name, format("%s%s:|r %s%s", colors.white, L["Bank"], colors.green, info.bank))
 			end
 		end
 	end
 	
-	
 	if options["ShowItemID"] then
-		local iLevel = select(4, GetItemInfo(itemID))
-		
 		if iLevel then
 			tooltip:AddLine(" ",1,1,1)
 			tooltip:AddDoubleLine(format("Item ID: %s%s", colors.green, itemID), format("iLvl: %s%s", colors.green, iLevel))

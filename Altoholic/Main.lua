@@ -371,7 +371,9 @@ function addon.ShowOptionsPanel(self, helpID)
 	tab:ShowPanel(panel)	
 end
 
-
+function addon:GetItemQualityLabel(qLevel)
+	return format("|c%s%s", select(4, GetItemQualityColor(qLevel)), _G[format("ITEM_QUALITY%d_DESC", qLevel)])
+end
 
 -- ** Calendar stuff **
 local calendarFirstWeekday = 1
