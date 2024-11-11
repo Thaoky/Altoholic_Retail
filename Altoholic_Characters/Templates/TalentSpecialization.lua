@@ -1,5 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
+local colors = AddonFactory.Colors
+
 local L = DataStore:GetLocale(addonName)
 
 local STAT_PRIO = 1
@@ -37,7 +39,7 @@ addon:Controller("AltoholicUI.TalentSpecialization", {
 			tt:AddLine(L["TALENT_SPECIALIZATION_STAT_PRIORITY"], 0, 1, 0)
 			tt:AddLine(" ", 1, 1, 1)
 			for i, priority in pairs(DataStore:GetStatPriority(frame.class, frame.spec)) do
-				tt:AddLine(format("%s%d. %s%s", addon.Colors.cyan, i, addon.Colors.white, priority), 1, 1, 1)
+				tt:AddLine(format("%s%d. %s%s", colors.cyan, i, colors.white, priority), 1, 1, 1)
 			end
 
 			tt:AddLine(" ", 1, 1, 1)
