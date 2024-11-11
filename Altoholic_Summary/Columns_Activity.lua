@@ -12,7 +12,8 @@ local options = DataStore_Mails_Options
 
 -- *** Utility functions ***
 
--- ** Activity **
+-- ** Activity / Mails **
+
 Columns.RegisterColumn("Mails", {
 	-- Header
 	headerWidth = 60,
@@ -158,6 +159,85 @@ Columns.RegisterColumn("LastMailCheck", {
 		end,
 })
 
+Columns.RegisterColumn("Mails_NumReturns", {
+	-- Header
+	headerWidth = 60,
+	headerLabel = L["COLUMN_MAILS_NUM_RETURNS_TITLE_SHORT"],
+	tooltipTitle = L["COLUMN_MAILS_NUM_RETURNS_TITLE"],
+	tooltipSubTitle = L["COLUMN_MAILS_NUM_RETURNS_SUBTITLE"],
+	headerSort = DataStore.GetNumReturnsOnExpiry,
+	
+	-- Content
+	Width = 60,
+	GetText = function(character)
+			local num = DataStore:GetNumReturnsOnExpiry(character) or 0
+			local color = num == 0 and colors.grey or colors.green
+
+			return format("%s%s", color, num)
+		end,
+
+})
+
+Columns.RegisterColumn("Mails_ClosestReturn", {
+	-- Header
+	headerWidth = 100,
+	headerLabel = L["COLUMN_MAILS_CLOSEST_RETURN_TITLE_SHORT"],
+	tooltipTitle = L["COLUMN_MAILS_CLOSEST_RETURN_TITLE"],
+	tooltipSubTitle = L["COLUMN_MAILS_CLOSEST_RETURN_SUBTITLE"],
+	headerSort = DataStore.GetClosestReturnsOnExpiry,
+	
+	-- Content
+	Width = 100,
+	JustifyH = "RIGHT",
+	GetText = function(character)
+		local closest = DataStore:GetClosestReturnsOnExpiry(character)
+		closest = closest and Formatter.TimeString(closest)
+
+		return closest or format("%s%s", colors.grey, NONE)
+	end,
+})
+
+Columns.RegisterColumn("Mails_NumDelete", {
+	-- Header
+	headerWidth = 70,
+	headerLabel = L["COLUMN_MAILS_NUM_DELETIONS_TITLE_SHORT"],
+	tooltipTitle = L["COLUMN_MAILS_NUM_DELETIONS_TITLE"],
+	tooltipSubTitle = L["COLUMN_MAILS_NUM_DELETIONS_SUBTITLE"],
+	headerSort = DataStore.GetNumDeletionOnExpiry,
+	
+	-- Content
+	Width = 70,
+	GetText = function(character)
+			local num = DataStore:GetNumDeletionOnExpiry(character) or 0
+			local color = num == 0 and colors.grey or colors.green
+
+			return format("%s%s", color, num)
+		end,
+
+})
+
+Columns.RegisterColumn("Mails_ClosestDelete", {
+	-- Header
+	headerWidth = 110,
+	headerLabel = L["COLUMN_MAILS_CLOSEST_DELETION_TITLE_SHORT"],
+	tooltipTitle = L["COLUMN_MAILS_CLOSEST_DELETION_TITLE"],
+	tooltipSubTitle = L["COLUMN_MAILS_CLOSEST_DELETION_SUBTITLE"],
+	headerSort = DataStore.GetClosestDeletionOnExpiry,
+	
+	-- Content
+	Width = 100,
+	JustifyH = "RIGHT",
+	GetText = function(character)
+		local closest = DataStore:GetClosestDeletionOnExpiry(character)
+		closest = closest and Formatter.TimeString(closest)
+
+		return closest or format("%s%s", colors.grey, NONE)
+	end,
+})
+
+
+-- ** Activity / Auction house **
+
 Columns.RegisterColumn("Auctions", {
 	-- Header
 	headerWidth = 70,
@@ -182,6 +262,64 @@ Columns.RegisterColumn("Auctions", {
 			Altoholic_UI_Options.ViewAuctionHouse = "Auctions"
 			addon:ShowCharacterPanel(character, "Auctions")
 		end,
+})
+
+Columns.RegisterColumn("Auction_HighBuyout", {
+	-- Header
+	headerWidth = 100,
+	headerLabel = L["COLUMN_AUCTIONS_HIGH_BUYOUT_TITLE_SHORT"],
+	tooltipTitle = L["COLUMN_AUCTIONS_HIGH_BUYOUT_TITLE"],
+	tooltipSubTitle = L["COLUMN_AUCTIONS_HIGH_BUYOUT_SUBTITLE"],
+	headerSort = DataStore.GetHighestBuyoutAuction,
+	
+	-- Content
+	Width = 100,
+	JustifyH = "RIGHT",
+	GetText = function(character)
+			local num = DataStore:GetHighestBuyoutAuction(character) or 0
+			return num == 0
+				and format("%s%s", colors.grey, num)
+				or Formatter.MoneyString(num)
+		end,
+})
+
+Columns.RegisterColumn("Auction_LowBuyout", {
+	-- Header
+	headerWidth = 100,
+	headerLabel = L["COLUMN_AUCTIONS_LOW_BUYOUT_TITLE_SHORT"],
+	tooltipTitle = L["COLUMN_AUCTIONS_LOW_BUYOUT_TITLE"],
+	tooltipSubTitle = L["COLUMN_AUCTIONS_LOW_BUYOUT_SUBTITLE"],
+	headerSort = DataStore.GetLowestBuyoutAuction,
+	
+	-- Content
+	Width = 100,
+	JustifyH = "RIGHT",
+	GetText = function(character)
+			local num = DataStore:GetLowestBuyoutAuction(character) or 0
+			return num == 0
+				and format("%s%s", colors.grey, num)
+				or Formatter.MoneyString(num)
+		end,
+})
+
+Columns.RegisterColumn("Auction_ClosestExpiry", {
+	-- Header
+	headerWidth = 110,
+	headerLabel = L["COLUMN_AUCTIONS_CLOSEST_EXPIRY_TITLE_SHORT"],
+	tooltipTitle = L["COLUMN_AUCTIONS_CLOSEST_EXPIRY_TITLE"],
+	tooltipSubTitle = L["COLUMN_AUCTIONS_CLOSEST_EXPIRY_SUBTITLE"],
+	headerSort = DataStore.GetClosestAuctionExpiry,
+	
+	-- Content
+	Width = 100,
+	JustifyH = "RIGHT",
+	GetText = function(character)
+		local closest, lastScan = DataStore:GetClosestAuctionExpiry(character)
+		
+		return closest == 0
+			and format("%s%s", colors.grey, NONE)
+			or Formatter.TimeString(closest)
+	end,
 })
 
 Columns.RegisterColumn("Bids", {
@@ -388,3 +526,4 @@ Columns.RegisterColumn("MissionTableLastVisit", {
 			addon:ShowCharacterPanel(character, "GarrisonMissions")
 		end,
 })
+

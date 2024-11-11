@@ -24,6 +24,7 @@ L["Levels"] = true
 L["Location"] = true
 L["Bag Usage"] = true
 L["Activity"] = true
+L["Equipment"] = true
 L["Currencies"] = true
 L["PATCH_X.0"] = "Expansion Patch"
 L["PATCH_9.1"] = "Chains of Domination"
@@ -89,6 +90,8 @@ L["Update from %s%s"] = true
 
 L["View"] = true
 L["Mark as bank"] = true
+L["Mark as profession bank"] = true
+L["Mark as expansion bank"] = true
 L["Add to group"] = true
 L["Remove from group"] = true
 
@@ -145,6 +148,24 @@ L["COLUMN_SAVEDRESTXP_SUBTITLE"] = "Amount of unused rest experience at logout"
 L["COLUMN_EARNEDRESTXP_TITLE"] = "XP earned while resting"
 L["COLUMN_EARNEDRESTXP_TITLE_SHORT"] = "Earned XP"
 L["COLUMN_EARNEDRESTXP_SUBTITLE"] = "Amount of rest experience that was earned while resting"
+
+-- *** Character Information / Equipment ***
+L["COLUMN_EQUIP_HIGHEST_TITLE"] = "Best Equipment Piece"
+L["COLUMN_EQUIP_HIGHEST_TITLE_SHORT"] = "Best"
+L["COLUMN_EQUIP_HIGHEST_SUBTITLE"] = "Item level of your best piece of equipment"
+L["COLUMN_EQUIP_LOWEST_TITLE"] = "Worst Equipment Piece"
+L["COLUMN_EQUIP_LOWEST_TITLE_SHORT"] = "Worst"
+L["COLUMN_EQUIP_LOWEST_SUBTITLE"] = "Item level of your worst piece of equipment"
+L["COLUMN_EQUIP_NUM_GREENS_TITLE"] = "Uncommon Equipment"
+L["COLUMN_EQUIP_NUM_GREENS_SUBTITLE"] = "Number of equipped uncommon items"
+L["COLUMN_EQUIP_NUM_BLUES_TITLE"] = "Rare Equipment"
+L["COLUMN_EQUIP_NUM_BLUES_SUBTITLE"] = "Number of equipped rare items"
+L["COLUMN_EQUIP_NUM_EPICS_TITLE"] = "Epic Equipment"
+L["COLUMN_EQUIP_NUM_EPICS_SUBTITLE"] = "Number of equipped epic items"
+L["COLUMN_EQUIP_NUM_HEIRLOOMS_TITLE"] = "Heirloom Equipment"
+L["COLUMN_EQUIP_NUM_HEIRLOOMS_SUBTITLE"] = "Number of equipped heirloom items"
+
+
 
 -- *** Character Information / Guild ***
 L["COLUMN_GUILD_TITLE"] = "Guild name"
@@ -221,9 +242,33 @@ L["COLUMN_MAILS_DETAIL_2"] = "These mails are not accounted for here."
 L["COLUMN_MAILBOX_VISITED_TITLE"] = "Last Mailbox Check"
 L["COLUMN_MAILBOX_VISITED_TITLE_SHORT"] = "Visited"
 L["COLUMN_MAILBOX_VISITED_SUBTITLE"] = "Last time mailbox content was checked"
+
+L["COLUMN_MAILS_NUM_RETURNS_TITLE"] = "Number of returns"
+L["COLUMN_MAILS_NUM_RETURNS_TITLE_SHORT"] = "Returns"
+L["COLUMN_MAILS_NUM_RETURNS_SUBTITLE"] = "Amount of mails that will be returned to their sender upon expiry"
+L["COLUMN_MAILS_CLOSEST_RETURN_TITLE"] = "Closest Return"
+L["COLUMN_MAILS_CLOSEST_RETURN_TITLE_SHORT"] = "Closest Return"
+L["COLUMN_MAILS_CLOSEST_RETURN_SUBTITLE"] = "Minimum duration before a character's mail is returned to the sender"
+L["COLUMN_MAILS_NUM_DELETIONS_TITLE"] = "Number of deletions"
+L["COLUMN_MAILS_NUM_DELETIONS_TITLE_SHORT"] = "Deletions"
+L["COLUMN_MAILS_NUM_DELETIONS_SUBTITLE"] = "Amount of mails that will be deleted upon expiry"
+L["COLUMN_MAILS_CLOSEST_DELETION_TITLE"] = "Closest Deletion"
+L["COLUMN_MAILS_CLOSEST_DELETION_TITLE_SHORT"] = "Closest Deletion"
+L["COLUMN_MAILS_CLOSEST_DELETION_SUBTITLE"] = "Minimum duration before a character's mail is deleted"
+
 L["COLUMN_AUCTIONS_TITLE"] = "Auction House Auctions"
 L["COLUMN_AUCTIONS_TITLE_SHORT"] = "Auctions"
 L["COLUMN_AUCTIONS_SUBTITLE"] = "Number of active auctions at the Auction House"
+L["COLUMN_AUCTIONS_LOW_BUYOUT_TITLE"] = "Lowest Buyout Price"
+L["COLUMN_AUCTIONS_LOW_BUYOUT_TITLE_SHORT"] = "Lowest Buyout"
+L["COLUMN_AUCTIONS_LOW_BUYOUT_SUBTITLE"] = "Lowest buyout price set for all active auctions"
+L["COLUMN_AUCTIONS_HIGH_BUYOUT_TITLE"] = "Highest Buyout Price"
+L["COLUMN_AUCTIONS_HIGH_BUYOUT_TITLE_SHORT"] = "Highest Buyout"
+L["COLUMN_AUCTIONS_HIGH_BUYOUT_SUBTITLE"] = "Highest buyout price set for all active auctions"
+L["COLUMN_AUCTIONS_CLOSEST_EXPIRY_TITLE"] = "Closest Expiry"
+L["COLUMN_AUCTIONS_CLOSEST_EXPIRY_TITLE_SHORT"] = "Closest Expiry"
+L["COLUMN_AUCTIONS_CLOSEST_EXPIRY_SUBTITLE"] = "Time before the first auction expires"
+
 L["COLUMN_BIDS_TITLE"] = "Auction House Bids"
 L["COLUMN_BIDS_TITLE_SHORT"] = "Bids"
 L["COLUMN_BIDS_SUBTITLE"] = "Number of bids placed at the Auction House"

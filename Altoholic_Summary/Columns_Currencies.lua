@@ -1151,4 +1151,18 @@ Columns.RegisterColumn("Cur_Undercoin", {
 	GetText = GetCurrencyText,
 })
 
+Columns.RegisterColumn("Cur_BronzeCelebToken", {
+	currencyID = enum.BronzeCelebration,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_10_dungeonjewelry_dragon_necklace_1_bronze")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
 

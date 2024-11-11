@@ -27,12 +27,12 @@ local options
 
 local function OnRealmFilterChange(frame)
 	options[OPTION_REALMS] = frame.value
-	AltoholicFrame.TabSummary:Update()
+	tab:Update()
 end
 
 local function OnAltGroupChange(frame)
 	options[OPTION_ALTGROUPS] = frame.value
-	AltoholicFrame.TabSummary:Update()
+	tab:Update()
 end
 
 local function OnCreateAltGroup(frame)
@@ -49,7 +49,7 @@ local function OnCreateAltGroup(frame)
 		end
 		
 		-- rebuild the main character table, and all the menus
-		AltoholicFrame.TabSummary:Update()
+		tab:Update()
 	end)
 end
 
@@ -72,7 +72,7 @@ local function OnRenameAltGroup(frame)
 		end
 		
 		-- rebuild the main character table, and all the menus
-		AltoholicFrame.TabSummary:Update()
+		tab:Update()
 	end)
 end
 
@@ -97,62 +97,64 @@ local function OnDeleteAltGroup(frame)
 		end
 		
 		-- rebuild the main character table, and all the menus
-		AltoholicFrame.TabSummary:Update()
+		tab:Update()
 	end)
 end
 
 local function OnFactionFilterChange(frame)
 	options[OPTION_FACTIONS] = frame.value
-	AltoholicFrame.TabSummary:Update()
+	tab:Update()
 end
 
 local function OnLevelFilterChange(frame, minLevel, maxLevel)
 	options[OPTION_LEVELS] = frame.value
 	options[OPTION_LEVELS_MIN] = minLevel
 	options[OPTION_LEVELS_MAX] = maxLevel
-	AltoholicFrame.TabSummary:Update()
+	tab:Update()
 end
 
 local function OnTradeSkillFilterChange(frame)
 	frame:GetParent():Close()
 	
 	options[OPTION_TRADESKILL] = frame.value
-	AltoholicFrame.TabSummary:Update()
+	tab:Update()
 end
 
 local function OnTradeSkillLevelColorChange(frame)
 	-- Toggle the option
 	options[OPTION_COLORED_SKILLS] = not options[OPTION_COLORED_SKILLS]
-	AltoholicFrame.TabSummary:Update()
+	tab:Update()
 end
 
 local function OnClassFilterChange(frame)
 	options[OPTION_CLASSES] = frame.value
-	AltoholicFrame.TabSummary:Update()
+	tab:Update()
 end
 
 local function OnRaceFilterChange(frame)
 	options[OPTION_RACES] = frame.value
-	AltoholicFrame.TabSummary:Update()
+	tab:Update()
 end
 
 local function OnMiscFilterChange(frame)
 	options[OPTION_MISC] = frame.value
+
+	local list = tab.CategoriesList
 	
 	if frame.value == 1 or frame.value == 2 then
-		AltoholicFrame.TabSummary.CategoriesList:ClickCategory("profile", 9)
+		list:ClickCategory("profile", 9)
 	elseif frame.value == 5 or frame.value == 6 then
-		AltoholicFrame.TabSummary.CategoriesList:ClickCategory("profile", 4)
+		list:ClickCategory("profile", 4)
 	elseif frame.value == 7 then
-		AltoholicFrame.TabSummary.CategoriesList:ClickCategory("profile", 8)
+		list:ClickCategory("profile", 8)
 	end
 	
-	AltoholicFrame.TabSummary:Update()
+	tab:Update()
 end
 
 local function OnBankTypeFilterChange(frame)
 	options[OPTION_BANKTYPE] = frame.value
-	AltoholicFrame.TabSummary:Update()
+	tab:Update()
 end
 
 local function ResetAllData()
@@ -162,7 +164,7 @@ local function ResetAllData()
 		addon:Print(L["DATABASE_WIPED"])
 		
 		-- rebuild the main character table, and all the menus
-		AltoholicFrame.TabSummary:Update()
+		tab:Update()
 	end)
 end
 
@@ -785,8 +787,8 @@ addon:Controller("AltoholicUI.TabSummary", {
 end})
 
 local function categoriesList_OnClick(categoryData)
-	AltoholicFrame.TabSummary:SetColumns(categoryData.profile)
-	AltoholicFrame.TabSummary:Update()
+	tab:SetColumns(categoryData.profile)
+	tab:Update()
 end
 
 addon:Controller("AltoholicUI.TabSummaryCategoriesList", {
@@ -798,6 +800,7 @@ addon:Controller("AltoholicUI.TabSummaryCategoriesList", {
 			{ text = L["Character Information"], isExpanded = true, subMenu = {
 				{ text = L["Account Summary"], profile = 1 },
 				{ text = L["Experience"], profile = 2 },
+				{ text = L["Equipment"], profile = 37 },
 				{ text = L["Levels"], profile = 3 },
 				{ text = GUILD, profile = 4 },
 				{ text = L["Location"], profile = 5 },
@@ -805,7 +808,12 @@ addon:Controller("AltoholicUI.TabSummaryCategoriesList", {
 			}},
 			{ text = L["Bag Usage"], profile = 7 },
 			{ text = SKILLS, profile = 8 },
-			{ text = L["Activity"], profile = 9 },
+			{ text = L["Activity"], subMenu = {
+				{ text = L["TAB_SUMMARY"], profile = 9 },
+				{ text = L["COLUMN_MAILS_TITLE_SHORT"], profile = 34 },
+				{ text = AUCTIONS, profile = 35 },
+				-- { text = BIDS, profile = 36 },
+			}},
 			{ text = L["Currencies"], subMenu = {
 				{ text = MISCELLANEOUS, profile = 10 },
 				{ text = EXPANSION_NAME3, profile = 11 },
@@ -915,26 +923,6 @@ DataStore:OnAddonLoaded(addonTabName, function()
 	})
 	options = Altoholic_SummaryTab_Options
 	options.CurrentRaces = options.CurrentRaces or 0
-	
-	--Temporary: database migration
-	if AltoholicDB and AltoholicDB.global and AltoholicDB.global.options then
-		local source = AltoholicDB.global.options
-
-		for k, v in pairs(source) do
-			local arg1, arg2, arg3 = strsplit(".", k)
-			
-			if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Summary" then
-				local prefix = "UI.Tabs.Summary."
-				local optionName = k:sub(#prefix + 1)
-				
-				-- Create the new entries
-				options[optionName] = v
-				
-				-- Delete the old entries
-				source[k] = nil
-			end
-		end
-	end
 	
 	-- Update only when options are ready
 	tab.CategoriesList.Entry2:Button_OnClick("LeftButton")

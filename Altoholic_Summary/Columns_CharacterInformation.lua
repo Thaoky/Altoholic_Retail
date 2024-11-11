@@ -167,9 +167,10 @@ local function NameRightClickMenu_Initialize(frame, level)
 		frame:AddTitle()
 		
 		frame:AddCategoryButton(L["View"], 1, level)
-		frame:AddCategoryButton(L["Mark as bank"], 2, level)		
-		frame:AddCategoryButton(L["Add to group"], 3, level)		
-		frame:AddCategoryButton(L["Remove from group"], 4, level)		
+		frame:AddCategoryButton(L["Mark as profession bank"], 2, level)
+		frame:AddCategoryButton(L["Mark as expansion bank"], 3, level)
+		frame:AddCategoryButton(L["Add to group"], 4, level)
+		frame:AddCategoryButton(L["Remove from group"], 5, level)
 		frame:AddTitle()
 		frame:AddButtonWithArgs(L["Delete this Alt"], nil, DeleteAlt, clickedLine)
 		frame:AddCloseMenu()
@@ -186,7 +187,7 @@ local function NameRightClickMenu_Initialize(frame, level)
 			frame:AddButtonWithArgs(BIDS, 5, ViewAltInfo, clickedLine, nil, nil, level)
 			frame:AddButtonWithArgs(COMPANIONS, 6, ViewAltInfo, clickedLine, nil, nil, level)
 			
-		elseif subMenu == 2 then			-- Mark as bank
+		elseif subMenu == 2 then			-- Mark as profession bank
 			local bank = DataStore.Enum.BankTypes
 			local labels = DataStore.Enum.BankTypesLabels
 			local _, _, _, character = Characters.GetInfo(clickedLine)
@@ -207,7 +208,15 @@ local function NameRightClickMenu_Initialize(frame, level)
 			frame:AddTitle(nil, nil, level)
 			frame:AddButtonWithArgs(labels.BattlePets, bank.BattlePets, MarkAltAsBank, clickedLine, nil, DataStore:IsBankType(character, bank.BattlePets), level)
 			
-		elseif subMenu == 3 then			-- Add to group
+		elseif subMenu == 3 then			-- Mark as expansion bank
+			local _, _, _, character = Characters.GetInfo(clickedLine)
+			local minBank = DataStore.Enum.BankTypes.MinimumExpansion
+		
+			for i = 0, GetExpansionLevel() do
+				frame:AddButtonWithArgs(_G["EXPANSION_NAME" .. i], minBank + i, MarkAltAsBank, clickedLine, nil, DataStore:IsBankType(character, minBank + i), level)
+			end
+		
+		elseif subMenu == 4 then			-- Add to group
 			local _, _, _, character = Characters.GetInfo(clickedLine)
 
 			DataStore.AltGroups:Iterate(function(groupName, groupMembers) 
@@ -216,7 +225,7 @@ local function NameRightClickMenu_Initialize(frame, level)
 				end
 			end)
 			
-		elseif subMenu == 4 then			-- Remove from group
+		elseif subMenu == 5 then			-- Remove from group
 			local _, _, _, character = Characters.GetInfo(clickedLine)
 
 			DataStore.AltGroups:Iterate(function(groupName, groupMembers) 
@@ -1029,4 +1038,113 @@ Columns.RegisterColumn("AltGroup", {
 		end,
 })
 
+-- ** Equipment **
+
+Columns.RegisterColumn("Inv_HighestLevel", {
+	-- Header
+	headerWidth = 60,
+	headerLabel = L["COLUMN_EQUIP_HIGHEST_TITLE_SHORT"],
+	tooltipTitle = L["COLUMN_EQUIP_HIGHEST_TITLE"],
+	tooltipSubTitle = L["COLUMN_EQUIP_HIGHEST_SUBTITLE"],
+	headerSort = DataStore.GetHighestItemLevel,
+	
+	-- Content
+	Width = 60,
+	GetText = function(character) 
+		local level = DataStore:GetHighestItemLevel(character)
+		local color = level == 0 and colors.grey or colors.gold
+	
+		return format("%s%s", color, level)
+	end,
+})
+
+Columns.RegisterColumn("Inv_LowestLevel", {
+	-- Header
+	headerWidth = 60,
+	headerLabel = L["COLUMN_EQUIP_LOWEST_TITLE_SHORT"],
+	tooltipTitle = L["COLUMN_EQUIP_LOWEST_TITLE"],
+	tooltipSubTitle = L["COLUMN_EQUIP_LOWEST_SUBTITLE"],
+	headerSort = DataStore.GetLowestItemLevel,
+	
+	-- Content
+	Width = 60,
+	GetText = function(character) 
+		local level = DataStore:GetLowestItemLevel(character)
+		local color = level == 0 and colors.grey or colors.gold
+	
+		return format("%s%s", color, level)
+	end,
+})
+
+Columns.RegisterColumn("Inv_NumEpics", {
+	-- Header
+	headerWidth = 60,
+	headerLabel = addon:GetItemQualityLabel(4),
+	tooltipTitle = L["COLUMN_EQUIP_NUM_EPICS_TITLE"],
+	tooltipSubTitle = L["COLUMN_EQUIP_NUM_EPICS_SUBTITLE"],
+	headerSort = DataStore.GetNumEpicEquipment,
+	
+	-- Content
+	Width = 60,
+	GetText = function(character) 
+		local level = DataStore:GetNumEpicEquipment(character)
+		local color = level == 0 and colors.grey or colors.gold
+	
+		return format("%s%s", color, level)
+	end,
+})
+
+Columns.RegisterColumn("Inv_NumBlues", {
+	-- Header
+	headerWidth = 60,
+	headerLabel = addon:GetItemQualityLabel(3),
+	tooltipTitle = L["COLUMN_EQUIP_NUM_BLUES_TITLE"],
+	tooltipSubTitle = L["COLUMN_EQUIP_NUM_BLUES_SUBTITLE"],
+	headerSort = DataStore.GetNumRareEquipment,
+	
+	-- Content
+	Width = 60,
+	GetText = function(character) 
+		local level = DataStore:GetNumRareEquipment(character)
+		local color = level == 0 and colors.grey or colors.gold
+	
+		return format("%s%s", color, level)
+	end,
+})
+
+Columns.RegisterColumn("Inv_NumGreens", {
+	-- Header
+	headerWidth = 80,
+	headerLabel = addon:GetItemQualityLabel(2),
+	tooltipTitle = L["COLUMN_EQUIP_NUM_GREENS_TITLE"],
+	tooltipSubTitle = L["COLUMN_EQUIP_NUM_GREENS_SUBTITLE"],
+	headerSort = DataStore.GetNumUncommonEquipment,
+	
+	-- Content
+	Width = 80,
+	GetText = function(character) 
+		local level = DataStore:GetNumUncommonEquipment(character)
+		local color = level == 0 and colors.grey or colors.gold
+	
+		return format("%s%s", color, level)
+	end,
+})
+
+Columns.RegisterColumn("Inv_NumHeirlooms", {
+	-- Header
+	headerWidth = 80,
+	headerLabel = addon:GetItemQualityLabel(7),
+	tooltipTitle = L["COLUMN_EQUIP_NUM_HEIRLOOMS_TITLE"],
+	tooltipSubTitle = L["COLUMN_EQUIP_NUM_HEIRLOOMS_SUBTITLE"],
+	headerSort = DataStore.GetNumHeirloomEquipment,
+	
+	-- Content
+	Width = 80,
+	GetText = function(character) 
+		local level = DataStore:GetNumHeirloomEquipment(character)
+		local color = level == 0 and colors.grey or colors.gold
+	
+		return format("%s%s", color, level)
+	end,
+})
 
