@@ -138,11 +138,11 @@
 					<ScrollFrame parentKey="ScrollFrame" inherits="AddonFactory_BaseScrollFrameTemplate">
 						<Scripts>
 							<OnVerticalScroll>
-								self:OnVerticalScroll(offset, 18, self:GetParent():Update())
+								self:OnVerticalScroll(offset, 18, function() self:GetParent():Update() end)
 							</OnVerticalScroll>
 						</Scripts>
 						<KeyValues>
-							<KeyValue key="numRows" value="14" type="number" />
+							<KeyValue key="numRows" value="18" type="number" />
 							<KeyValue key="rowHeight" value="18" type="number" />
 							<KeyValue key="rowTemplate" value="AltoCalendarEventTemplate" />
 						</KeyValues>

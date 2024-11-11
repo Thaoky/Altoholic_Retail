@@ -151,7 +151,10 @@ function(EventsList, Events, View)
 				end
 			end
 
-			scrollFrame:Update(View.GetSize())
+			-- scrollFrame:Update(View.GetSize())
+			local maxDisplayedRows = View.GetSize() > 18 and 18 or View.GetSize()
+			
+			scrollFrame:Update(View.GetSize(), maxDisplayedRows)
 		end,
 		InvalidateView = function(frame)
 			isViewValid = nil
