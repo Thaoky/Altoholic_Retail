@@ -106,9 +106,7 @@ local function RarityIcon_Initialize(frame, level)
 	frame:AddTitle(L["FILTER_SEARCH_RARITY"])
 	
 	for i = 0, Enum.ItemQuality.Heirloom do		-- Quality: 0 = poor .. 5 = legendary ..
-		local quality = format("|c%s%s", select(4, GetItemQualityColor(i)), _G[format("ITEM_QUALITY%d_DESC", i)])
-		
-		frame:AddButton(quality, i, OnSearchRarityChange, nil, (option == i))
+		frame:AddButton(addon:GetItemQualityLabel(i), i, OnSearchRarityChange, nil, (option == i))
 	end
 	
 	frame:AddCloseMenu()
@@ -555,24 +553,5 @@ DataStore:OnAddonLoaded(addonTabName, function()
 		SortAscending = true,					-- ascending or descending sort order
 	})
 	options = Altoholic_SearchTab_Options
-	
-	--Temporary: database migration
-	if AltoholicDB and AltoholicDB.global and AltoholicDB.global.options then
-		local source = AltoholicDB.global.options
 
-		for k, v in pairs(source) do
-			local arg1, arg2, arg3 = strsplit(".", k)
-			
-			if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Search" then
-				local prefix = "UI.Tabs.Search."
-				local optionName = k:sub(#prefix + 1)
-				
-				-- Create the new entries
-				options[optionName] = v
-				
-				-- Delete the old entries
-				source[k] = nil
-			end
-		end
-	end
 end)
