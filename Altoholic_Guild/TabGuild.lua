@@ -188,25 +188,4 @@ DataStore:OnAddonLoaded(addonTabName, function()
 		BankItemsRarity = 0,				-- rarity filter in the guild bank tab
 		SortAscending = true,			-- ascending or descending sort order
 	})
-	local options = Altoholic_GuildTab_Options
-	
-	--Temporary: database migration	
-	if AltoholicDB and AltoholicDB.global and AltoholicDB.global.options then
-		local source = AltoholicDB.global.options
-
-		for k, v in pairs(source) do
-			local arg1, arg2, arg3 = strsplit(".", k)
-			
-			if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Guild" then
-				local prefix = "UI.Tabs.Guild."
-				local optionName = k:sub(#prefix + 1)
-				
-				-- Create the new entries
-				options[optionName] = v
-				
-				-- Delete the old entries
-				source[k] = nil
-			end
-		end
-	end
 end)
