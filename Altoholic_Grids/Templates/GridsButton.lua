@@ -5,8 +5,6 @@ local icons = AddonFactory.Icons
 
 local L = DataStore:GetLocale(addonName)
 
-
-
 addon:Controller("AltoholicUI.GridsButton", { "AltoholicUI.Formatter", function(formatter)
 	return {
 		Button_OnEnter = function(frame)

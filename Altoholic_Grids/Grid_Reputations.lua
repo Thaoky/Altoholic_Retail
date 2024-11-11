@@ -550,15 +550,18 @@ tab:RegisterGrid(2, {
 			else
 				tooltip:AddLine(format("%s: %d/%d (%s)", status, currentLevel, maxLevel, rate),1,1,1)
 				
+				local xp = DataStore.Enum.FactionStandingXPPerLevel
+				
 				tooltip:AddLine(" ",1,1,1)
 				tooltip:AddLine(format("%s = %s", icons.notReady, UNKNOWN), 0.8, 0.13, 0.13)
-				tooltip:AddLine(FACTION_STANDING_LABEL1, 0.8, 0.13, 0.13)
-				tooltip:AddLine(FACTION_STANDING_LABEL2, 1.0, 0.0, 0.0)
-				tooltip:AddLine(FACTION_STANDING_LABEL3, 0.93, 0.4, 0.13)
-				tooltip:AddLine(FACTION_STANDING_LABEL4, 1.0, 1.0, 0.0)
-				tooltip:AddLine(FACTION_STANDING_LABEL5, 0.0, 1.0, 0.0)
-				tooltip:AddLine(FACTION_STANDING_LABEL6, 0.0, 1.0, 0.8)
-				tooltip:AddLine(FACTION_STANDING_LABEL7, 1.0, 0.4, 1.0)
+				tooltip:AddDoubleLine(FACTION_STANDING_LABEL1, xp[1], 0.8, 0.13, 0.13)
+				tooltip:AddDoubleLine(FACTION_STANDING_LABEL2, xp[2], 1.0, 0.0, 0.0)
+				tooltip:AddDoubleLine(FACTION_STANDING_LABEL3, xp[3], 0.93, 0.4, 0.13)
+				tooltip:AddDoubleLine(FACTION_STANDING_LABEL4, xp[4], 1.0, 1.0, 0.0)
+				tooltip:AddDoubleLine(FACTION_STANDING_LABEL5, xp[5], 0.0, 1.0, 0.0)
+				tooltip:AddDoubleLine(FACTION_STANDING_LABEL6, xp[6], 0.0, 1.0, 0.8)
+				tooltip:AddDoubleLine(FACTION_STANDING_LABEL7, xp[7], 1.0, 0.4, 1.0)
+				
 				tooltip:AddLine(format("%s = %s", icons.ready, FACTION_STANDING_LABEL8), 1, 1, 1)
 				tooltip:AddLine(format("%s = %s%s", icons.waiting, colors.epic, PARAGON_LABEL), 1, 1, 1)
 			end

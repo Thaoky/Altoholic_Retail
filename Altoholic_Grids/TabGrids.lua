@@ -516,41 +516,6 @@ DataStore:OnAddonLoaded(addonTabName, function()
 		["Emissaries.ShowXPack8"] = true,				-- Show Shadowlands Emissaries
 	})
 	options = Altoholic_GridsTab_Options
-		
-	--Temporary: database migration
-	if AltoholicDB and AltoholicDB.global and AltoholicDB.global.options then
-		local source = AltoholicDB.global.options
-		local dest = Altoholic_GridsTab_Columns
-
-		for k, v in pairs(source) do
-			local arg1, arg2, arg3, realm, column = strsplit(".", k)
-			
-			if arg1 == "Tabs" and arg2 == "Grids" then
-				local realmKey = format("%s.%s", arg3, realm)	-- ex: "Default.Dalaran"
-				local columnIndex = tonumber(column:match("%d+$"))
-				local _, _, characterName = strsplit(".", v)
-				
-				-- Create the new entries
-				dest[realmKey] = dest[realmKey] or {}
-				dest[realmKey][columnIndex] = characterName
-				
-				-- Delete the old entries
-				source[k] = nil
-			end
-			
-			if arg1 == "UI" and arg2 == "Tabs" and arg3 == "Grids" then
-				local prefix = "UI.Tabs.Grids."
-				local optionName = k:sub(#prefix + 1)
-				
-				-- Create the new entries
-				options[optionName] = v
-				
-				-- Delete the old entries
-				source[k] = nil
-			end
-			
-		end
-	end
 
 	-- Update only when options are ready
 	local account, realm = tab.SelectRealm:GetCurrentRealm()
