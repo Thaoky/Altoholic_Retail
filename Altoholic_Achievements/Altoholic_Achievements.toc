@@ -1,10 +1,10 @@
-﻿## Interface: 110002
+﻿## Interface: 110005
 ## Title: Altoholic_Achievements
 ## IconTexture: Interface\Icons\inv_drink_13
 
 ## Notes: Altoholic's Achievements UI
 ## Author: Thaoky (EU-Marécages de Zangar)
-## Version: 11.0.004
+## Version: 11.0.005
 ## Dependencies: Altoholic, DataStore, DataStore_Achievements, DataStore_Characters
 ## SavedVariables: Altoholic_AchievementsTab_Columns
 ## LoadOnDemand: 1

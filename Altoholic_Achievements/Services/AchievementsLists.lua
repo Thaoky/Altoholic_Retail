@@ -30,7 +30,7 @@ There are some achievements that are identical for both factions, but that bear 
 
 local sortedAchievements = {
 	-- Character
-	[cat.Character] = { 14796, 14797, 545, 546 },
+	[cat.Character] = { 14796, 14797, 40146, 40147, 545, 546 },
 	[cat.CharacterLevel] = { 6, 7, 8, 9, 14884, 14782, 14783, 15805, 7382, 7383, 7384, 7380 },
 	[cat.CharacterMoney] = { 1176, 1177, 1178, 1180, 1181, 5455, 5456, 6753 },
 	[cat.CharacterRiding] = { 891, 889, 890, 5180 },
@@ -407,6 +407,7 @@ local sortedAchievements = {
 	[cat.ExpansionFeaturesPrimalStorms] = { 16480, 16484, 16498, 16477, 16483, 16467, 16461, 16487, 16482, 16478, 16481,
 		16465, 16479, 16476, 16500, 16475, 16492, 16486, 16463, 16488, 16489, 16466, 16485, 16468, 16499, 16490 },
 
+	[cat.FeatsOfStrength] = { 40107, 40115, 40118, 40939 },
 	[cat.FeatsOfStrengthMountsArena] = { 886, 887, 888, 2316, 3096, 3756, 3757, 4600, 6003, 6322, 6741, 8216, 8678, 8705,
 		8707, 9229, 10137, 10146, 10999, 11000, 11001, 11002, 13450, 12139, 12140, 13093, 13202, 13632, 13958, 14816, 14999 },
 	[cat.FeatsOfStrengthMountsRaF] = { 1436, 4832, 8213, 8794, 9925 },
