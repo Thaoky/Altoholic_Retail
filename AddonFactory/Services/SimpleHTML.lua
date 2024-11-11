@@ -25,7 +25,9 @@ MVC:Service("AddonFactory.SimpleHTML", function()
 			TableInsert(content, format("</%s>", tag))
 		end,
 		AddTag = function(tag, value)
-			TableInsert(content, format("<%s>%s</%s>", tag, value, tag))
+			if value then
+				TableInsert(content, format("<%s>%s</%s>", tag, value, tag))
+			end
 		end,
 		AddContent = function(value)
 			TableInsert(content, value)
@@ -44,8 +46,8 @@ MVC:Service("AddonFactory.SimpleHTML", function()
 				
 				if endPos then
 					-- get the payload before the first |h, and use it as-is to build the icon link
-					local content = string.sub(link, 1, endPos - 2)
-					return format("%s|h|T%s:20:20|t|h|r", content, icon)
+					local payload = string.sub(link, 1, endPos - 2)
+					return format("%s|h|T%s:20:20|t|h|r", payload, icon)
 				end
 			end
 
@@ -61,15 +63,39 @@ MVC:Service("AddonFactory.SimpleHTML", function()
 				
 				if endPos then
 					-- get the payload before the first |h, and use it as-is to build the icon link
-					local content = string.sub(link, 1, endPos - 2)
+					local payload = string.sub(link, 1, endPos - 2)
+					-- print(payload)
 					count = (count and count ~= "") and format("%dx ", count) or ""
 					
-					return format("%s%s|h|T%s:20:20|t [%s]|h|r", count, content, icon, name)
+					return format("%s%s|h|T%s:16:16|t [%s]|h|r", count, payload, icon, name)
 				end
 			end
 
 			-- Question mark icon
-			return "|TInterface\\Icons\\inv_misc_questionmark:20:20|t |cFF808080[querying..]|r"
+			return "|TInterface\\Icons\\inv_misc_questionmark:16:16|t |cFF808080[querying..]|r"
+		end,
+		
+		GetSpellIconAndLink = function(spellID)
+			local link = C_Spell.GetSpellLink(spellID)
+			local info = C_Spell.GetSpellInfo(spellID)
+
+			local name = info.name 
+			local icon = info.iconID
+
+			if link and icon then
+				local _, endPos = string.find(link, "|h")
+				
+				if endPos then
+					-- get the payload before the first |h, and use it as-is to build the icon link
+					local payload = string.sub(link, 1, endPos - 2)
+					-- print(payload)
+					
+					return format("%s|h|T%s:16:16|t [%s]|h|r", payload, icon, info.name)
+				end
+			end
+
+			-- Question mark icon
+			return "|TInterface\\Icons\\inv_misc_questionmark:16:16|t |cFF808080[querying..]|r"
 		end,
 		
 		AddItemLink = function(itemID)
@@ -133,15 +159,32 @@ MVC:Service("AddonFactory.SimpleHTML", function()
 			-- expected: $map:Timeless Isle:554:346:536
 			-- but if the map name is the same as the map ID, then passing 0 suffices
 			-- ex: $map:0:554:346:536
+			-- the mapName also contain the id used for the link label 
+			-- 	ex: I want to show Hellfire Ramparts (the dungeon = 347) on the Hellfire Peninsula (100) zone map, id's can return both names
+			--		=> $map:347:100:xxx:yyy
+			
+			local mapID = tonumber(mapName)
 
-			if mapName == "0" then
-				local info = C_Map.GetMapInfo(uiMapID)
+			if mapID then
+				-- 0 means use the uiMapID for the name
+				if mapID == 0 then mapID = uiMapID end
+				
+				local info = C_Map.GetMapInfo(mapID)
 				if info and info.name then
 					mapName = info.name
 				else
 					mapName = "Missing map name!"
 				end
 			end
+			
+			-- if mapName == "0" then
+				-- local info = C_Map.GetMapInfo(uiMapID)
+				-- if info and info.name then
+					-- mapName = info.name
+				-- else
+					-- mapName = "Missing map name!"
+				-- end
+			-- end
 		
 			return format("|cff71d5ff|Hworldmap:%d:%d0:%d0|h[%s]|h|r", uiMapID, locX, locY, mapName)
 		end,
@@ -160,5 +203,21 @@ MVC:Service("AddonFactory.SimpleHTML", function()
 				TableInsert(content, "<br/>")
 			end
 		end,
+
+		-- Create a new paragraph, with a variable list of parameters
+		NewParagraph = function(...)
+			local para = "<p>"
+			
+			for i = 1, select("#", ...) do
+				para = format("%s%s", para, tostring(select(i, ...)))
+			end
+
+			return format("%s<br/></p>", para)
+		end,
+
+		-- Functions to insert a line with one or two <br/> tags (Li stands for Line, obviously)
+		NewLine1BR = function(line) return format("%s<br/>", line) end,
+		NewLine2BR = function(line) return format("%s<br/><br/>", line) end,
+		
 	}
 end)

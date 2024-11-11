@@ -187,9 +187,9 @@
 				<Anchor point="LEFT" x="-5" y="0" />
 			</Anchors>
 		</ButtonText>
-		<NormalFont style="GameFontHighlightSmallLeft"/>
-		<HighlightFont style="GameFontHighlightSmallLeft"/>
-		<DisabledFont style="GameFontDisableSmallLeft"/>
+		<NormalFont style="GameFontHighlight"/>
+		<HighlightFont style="GameFontHighlight"/>
+		<DisabledFont style="GameFontDisable"/>
 	</Button>
 	
 	<Button name="AddonFactory_DropDownListTemplate" hidden="true" frameStrata="DIALOG" enableMouse="true" virtual="true">
@@ -290,7 +290,7 @@
 					</Anchors>
 					<TexCoords left="0.8046875" right="1" top="0" bottom="1"/>
 				</Texture>
-				<FontString parentKey="Text" inherits="GameFontHighlightSmall" justifyH="RIGHT" wordwrap="false" >
+				<FontString parentKey="Text" inherits="GameFontHighlight" justifyH="RIGHT" wordwrap="false" >
 					<Size x="0" y="10" />
 					<Anchors>
 						<Anchor point="RIGHT" relativeKey="$parent.Right" x="-43" y="2" />

@@ -4,7 +4,7 @@ local MVC = LibStub("LibMVC-1.0")
 local MAX_BUTTONS = 8
 local MAX_MENULEVELS = 2
 
-local BUTTON_HEIGHT = 16
+local BUTTON_HEIGHT = 18
 local BORDER_HEIGHT = 15
 
 -- *** DropDownMenuButton ***
@@ -227,13 +227,13 @@ MVC:Controller("AddonFactory.DropDownList", {
 	SetButtonNotClickable = function(frame, level, buttonIndex)
 		local button = GetListButton(level, buttonIndex)
 		if button then
-			button:SetDisabledFontObject(GameFontHighlightSmallLeft)
+			button:SetDisabledFontObject(GameFontHighlight)
 		end
 	end,
 	SetButtonClickable = function(frame, level, buttonIndex)
 		local button = GetListButton(level, buttonIndex)
 		if button then
-			button:SetDisabledFontObject(GameFontDisableSmallLeft)
+			button:SetDisabledFontObject(GameFontDisable)
 		end
 	end,
 	HideDropDownMenu = function(frame, level)
@@ -692,20 +692,20 @@ MVC:Controller("AddonFactory.DropDownMenu", {
 		local invisibleButton = button.InvisibleButton
 		
 		-- Default settings
-		button:SetDisabledFontObject(GameFontDisableSmallLeft)
+		button:SetDisabledFontObject(GameFontDisable)
 		invisibleButton:Hide()
 		button:Enable()
 		
 		-- If not clickable then disable the button and set it white
 		if info.notClickable then
 			info.disabled = 1
-			button:SetDisabledFontObject(GameFontHighlightSmallLeft)
+			button:SetDisabledFontObject(GameFontHighlight)
 		end
 
 		-- Set the text color and disable it if its a title
 		if info.isTitle then
 			info.disabled = 1
-			button:SetDisabledFontObject(GameFontNormalSmallLeft)
+			button:SetDisabledFontObject(GameFontNormal)
 		end
 		
 		-- Disable the button if disabled and turn off the color code
@@ -751,8 +751,8 @@ MVC:Controller("AddonFactory.DropDownMenu", {
 				button:SetNormalFontObject(info.fontObject)
 				button:SetHighlightFontObject(info.fontObject)
 			else
-				button:SetNormalFontObject(GameFontHighlightSmallLeft)
-				button:SetHighlightFontObject(GameFontHighlightSmallLeft)
+				button:SetNormalFontObject(GameFontHighlight)
+				button:SetHighlightFontObject(GameFontHighlight)
 			end
 		else
 			button:SetText("")
