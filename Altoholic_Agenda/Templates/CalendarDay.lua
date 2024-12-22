@@ -2,26 +2,25 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
-local CALENDAR_DAYBUTTON_NORMALIZED_TEX_WIDTH	= 90 / 256 - 0.001		-- fudge factor to prevent texture seams
-local CALENDAR_DAYBUTTON_NORMALIZED_TEX_HEIGHT	= 90 / 256 - 0.001		-- fudge factor to prevent texture seams
-local CALENDAR_DAYBUTTON_HIGHLIGHT_ALPHA		= 0.5
-
-addon:Controller("AltoholicUI.CalendarDay", { "AltoholicUI.EventsList", function(EventsList)
+addon:Controller("AltoholicUI.CalendarDay", { "AltoholicUI.EventsList", "AddonFactory.Dates", function(EventsList, Dates)
 	return {
 		OnBind = function(frame)
 			-- set the normal texture to be the background
 			local tex = frame:GetNormalTexture()
 			tex:SetDrawLayer("BACKGROUND")
 			
-			local texLeft = random(0,1) * CALENDAR_DAYBUTTON_NORMALIZED_TEX_WIDTH
-			local texRight = texLeft + CALENDAR_DAYBUTTON_NORMALIZED_TEX_WIDTH
-			local texTop = random(0,1) * CALENDAR_DAYBUTTON_NORMALIZED_TEX_HEIGHT
-			local texBottom = texTop + CALENDAR_DAYBUTTON_NORMALIZED_TEX_HEIGHT
+			local texWidth = 90 / 256 - 0.001		-- fudge factor to prevent texture seams
+			local texHeight = 90 / 256 - 0.001		-- fudge factor to prevent texture seams
+			
+			local texLeft = random(0,1) * texWidth
+			local texRight = texLeft + texWidth
+			local texTop = random(0,1) * texHeight
+			local texBottom = texTop + texHeight
 			tex:SetTexCoord(texLeft, texRight, texTop, texBottom)
 			
 			-- adjust the highlight texture layer
 			tex = frame:GetHighlightTexture()
-			tex:SetAlpha(CALENDAR_DAYBUTTON_HIGHLIGHT_ALPHA)
+			tex:SetAlpha(0.5)
 		end,
 		Update = function(frame, day, month, year, isDarkened)
 			frame.day = day
@@ -57,21 +56,19 @@ addon:Controller("AltoholicUI.CalendarDay", { "AltoholicUI.EventsList", function
 				return	-- no events on that day ? exit
 			end
 			
-			local calendar = frame:GetParent()
 			local tooltip = AddonFactory_Tooltip
 			
 			tooltip:SetOwner(frame, "ANCHOR_LEFT")
 			tooltip:ClearLines()
 			
 			local eventDate = format("%04d-%02d-%02d", year, month, day)
-			local weekday = calendar:GetWeekdayIndex(mod(frame:GetID(), 7)) 
-			weekday = (weekday == 0) and 7 or weekday
 			
-			tooltip:AddLine(colors.teal..format(FULLDATE, calendar:GetFullDate(weekday, month, day, year)))
+			tooltip:AddLine(format("%s%s", colors.teal, Dates.GetFullDate(year, month, day)))
+			tooltip:AddLine(" ")
 
 			for index, event in pairs(EventsList.GetEvents()) do
 				if event.eventDate == eventDate then
-					local char, eventTime, title = EventsList.GetEventInfo(index)
+					local char, eventTime, title = EventsList.GetEventInfo(event)
 					tooltip:AddDoubleLine(format("%s%s %s", colors.white, eventTime, char), title)
 				end
 			end

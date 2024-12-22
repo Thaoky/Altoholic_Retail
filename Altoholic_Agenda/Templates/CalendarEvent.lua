@@ -4,8 +4,8 @@ local colors = AddonFactory.Colors
 
 addon:Controller("AltoholicUI.CalendarEvent", { "AltoholicUI.EventsList", function(EventsList)
 	return {
-		SetDate = function(frame, weekdayName, monthName, day, year, month)
-			frame.Date:SetText(format(FULLDATE, weekdayName, monthName, day, year, month))
+		SetDate = function(frame, dateString)
+			frame.Date:SetText(dateString)
 			frame.Date:Show()
 			frame.Background:Show()
 
@@ -13,7 +13,11 @@ addon:Controller("AltoholicUI.CalendarEvent", { "AltoholicUI.EventsList", functi
 			frame.Character:Hide()
 			frame.Title:Hide()
 		end,
-		SetInfo = function(frame, characterName, eventTime, title)
+		SetInfo = function(frame, event)
+			frame.event = event
+			
+			local characterName, eventTime, title = EventsList.GetEventInfo(event)
+			
 			frame.Hour:SetText(eventTime)
 			frame.Character:SetText(characterName)
 			frame.Title:SetText(title)
@@ -26,21 +30,13 @@ addon:Controller("AltoholicUI.CalendarEvent", { "AltoholicUI.EventsList", functi
 			frame.Background:Hide()
 		end,
 		Event_OnEnter = function(frame)
-			-- local s = view[frame:GetID()]
-			-- if not s or s.linetype == EVENT_DATE then return end
-			
-			local eventList = frame:GetParent()
-			local eventIndex = eventList:GetEventIndex(frame:GetID())
-			if not eventIndex then return end
+			if not frame.event then return end
 			
 			local tooltip = AddonFactory_Tooltip
 			tooltip:SetOwner(frame, "ANCHOR_RIGHT")
 			tooltip:ClearLines()
-			-- local eventDate = format("%04d-%02d-%02d", self.year, self.month, self.day)
-			-- local weekday = GetWeekdayIndex(mod(self:GetID(), 7))
-			-- tooltip:AddLine(colors.teal..format(FULLDATE, GetFullDate(weekday, self.month, self.day, self.year)));
-			
-			local char, eventTime, title, desc = EventsList.GetEventInfo(eventIndex)
+
+			local char, eventTime, title, desc = EventsList.GetEventInfo(frame.event)
 			
 			tooltip:AddDoubleLine(format("%s%s %s", colors.white, eventTime, char), title)
 			if desc then

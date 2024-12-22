@@ -7,32 +7,6 @@ addon:Service("AltoholicUI.CalendarEventListView", { function()
 
 	local EVENT_DATE = 1
 	local EVENT_INFO = 2
-	
-	local function GetDay(fullday)
-		-- full day = a date as YYYY-MM-DD
-		-- this function is actually different than the one in Blizzard_Calendar.lua, since weekday can't necessarily be determined from a UI button
-		local refDate = {}		-- let's use the 1st of current month as reference date
-		local refMonthFirstDay
-		local _
-		
-		local CurMonthInfo = C_Calendar.GetMonthInfo()
-		refDate.month, refDate.year, refMonthFirstDay = CurMonthInfo.month, CurMonthInfo.year, CurMonthInfo.firstWeekday
-		refDate.day = 1
-
-		local t = {}
-		local year, month, day = strsplit("-", fullday)
-		t.year = tonumber(year)
-		t.month = tonumber(month)
-		t.day = tonumber(day)
-
-		local numDays = floor(difftime(time(t), time(refDate)) / 86400)
-		local weekday = mod(refMonthFirstDay + numDays, 7)
-		
-		-- at this point, weekday might be negative or 0, simply add 7 to keep it in the proper range
-		weekday = (weekday <= 0) and (weekday+7) or weekday
-		
-		return t.year, t.month, t.day, weekday
-	end
 
 	return {
 		Initialize = function()
@@ -50,8 +24,9 @@ addon:Service("AltoholicUI.CalendarEventListView", { function()
 		end,
 		GetDateLineInfo = function(index)
 			local event = view[index]
+			local year, month, day = strsplit("-", event.eventDate)
 		
-			return GetDay(event.eventDate)
+			return tonumber(year), tonumber(month), tonumber(day)		
 		end,
 		GetDateLineIndex = function(eventDate)
 			for index, event in pairs(view) do
@@ -62,8 +37,8 @@ addon:Service("AltoholicUI.CalendarEventListView", { function()
 		end,
 		
 		-- ** Info lines **
-		AddInfoLine = function(source)
-			table.insert(view, { lineType = EVENT_INFO, source = source })
+		AddInfoLine = function(eventInfo)
+			table.insert(view, { lineType = EVENT_INFO, info = eventInfo })
 		end,
 		IsInfoLine = function(index)
 			return (view[index].lineType == EVENT_INFO)
@@ -73,14 +48,14 @@ addon:Service("AltoholicUI.CalendarEventListView", { function()
 			local event = view[index]
 			
 			if event and event.lineType == EVENT_INFO then
-				return event.source
+				return event.info
 			end
 		end,
 	}
 end})
 
-addon:Controller("AltoholicUI.CalendarEventList", { "AltoholicUI.EventsList", "AltoholicUI.Events", "AltoholicUI.CalendarEventListView", 
-function(EventsList, Events, View)
+addon:Controller("AltoholicUI.CalendarEventList", { "AltoholicUI.EventsList", "AltoholicUI.CalendarEventListView", "AddonFactory.Dates",
+function(EventsList, View, Dates)
 
 	local isViewValid
 		
@@ -100,16 +75,16 @@ function(EventsList, Events, View)
 				event 2
 		--]]
 		
-		Events.BuildList()
+		EventsList.BuildList()
 		
 		local eventDate = ""
 		
-		for index, event in pairs(Events:GetList()) do
+		for index, event in pairs(EventsList.GetEvents()) do
 			if eventDate ~= event.eventDate then
 				View.AddDateLine(event.eventDate)
 				eventDate = event.eventDate
 			end
-			View.AddInfoLine(index)
+			View.AddInfoLine(event)
 		end
 		
 		isViewValid = true
@@ -136,12 +111,10 @@ function(EventsList, Events, View)
 					if View.IsDateLine(line) then
 						local year, month, day, weekday = View.GetDateLineInfo(line)
 						
-						rowFrame:SetDate(calendar:GetFullDate(weekday, month, day, year))
+						rowFrame:SetDate(Dates.GetFullDate(year, month, day))
 					
 					elseif View.IsInfoLine(line) then
-						local source = View.GetInfoLineSource(line)
-						
-						rowFrame:SetInfo(EventsList.GetEventInfo(source))
+						rowFrame:SetInfo(View.GetInfoLineSource(line))
 					end
 
 					rowFrame:SetID(line)
@@ -189,3 +162,4 @@ function(EventsList, Events, View)
 		end,
 	}
 end})
+

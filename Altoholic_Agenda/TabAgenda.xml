@@ -28,6 +28,46 @@
 				</Scripts>
 			</Frame>
 			
+			<Button parentKey="CharacterFilterIcon" inherits="AddonFactory_ButtonTemplate" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="250" y="-30" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\Achievement_GuildPerk_Everyones a Hero_rank2" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="DateFilterIcon" inherits="AddonFactory_ButtonTemplate" id="2">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.CharacterFilterIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\spell_nature_timestop" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			<Button parentKey="EventFilterIcon" inherits="AddonFactory_ButtonTemplate" id="3">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.DateFilterIcon" relativePoint="TOPRIGHT" x="5" y="0" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="iconFile" value="Interface\Icons\achievement_zone_darnassus" />
+				</KeyValues>
+				<Scripts>
+					<OnEnter>
+						self:GetParent():FilterIcon_OnEnter(self)
+					</OnEnter>
+				</Scripts>
+			</Button>
+			
 			<Frame parentKey="Background" useParentLevel="true">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.CategoriesList" relativePoint="TOPRIGHT" x="4" y="-25"/>
@@ -40,11 +80,16 @@
 					</Layer>
 				</Layers>
 			</Frame>
+			
+			<Frame parentKey="ContextualMenu" inherits="AddonFactory_ContextualMenuTemplate" />
 		</Frames>
 		<Scripts>
 			<OnLoad>
 				Altoholic:BindViewToController(self, "AltoholicUI.TabAgenda")
 			</OnLoad>
+			<OnHide>
+				self.ContextualMenu:Close()
+			</OnHide>
 		</Scripts>
 	</Frame>
 </Ui>
