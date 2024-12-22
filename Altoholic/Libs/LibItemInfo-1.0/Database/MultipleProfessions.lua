@@ -16,25 +16,25 @@ lib:RegisterItems({
 	-- 1.0 Classic
 	[5498] = SetReagent(0, e.Multi, 0, bag.GemBag), -- Small Lustrous Pearl
 	[5500] = SetReagent(0, e.Multi, 0, bag.GemBag), -- Iridescent Pearl
-	[7067] = SetReagent(0, e.Multi), -- Elemental Earth
-	[7068] = SetReagent(0, e.Multi), -- Elemental Fire
-	[7069] = SetReagent(0, e.Multi), -- Elemental Air
-	[7070] = SetReagent(0, e.Multi), -- Elemental Water
-	[7075] = SetReagent(0, e.Multi), -- Core of Earth
-	[7077] = SetReagent(0, e.Multi), -- Heart of Fire
-	[7079] = SetReagent(0, e.Multi), -- Globe of Water
-	[7081] = SetReagent(0, e.Multi), -- Breath of Wind
+	[7067] = SetReagent(0, e.Elemental), -- Elemental Earth
+	[7068] = SetReagent(0, e.Elemental), -- Elemental Fire
+	[7069] = SetReagent(0, e.Elemental), -- Elemental Air
+	[7070] = SetReagent(0, e.Elemental), -- Elemental Water
+	[7075] = SetReagent(0, e.Elemental), -- Core of Earth
+	[7077] = SetReagent(0, e.Elemental), -- Heart of Fire
+	[7079] = SetReagent(0, e.Elemental), -- Globe of Water
+	[7081] = SetReagent(0, e.Elemental), -- Breath of Wind
 	[7971] = SetReagent(0, e.Multi), -- Black Pearl
-	[7972] = SetReagent(0, e.Multi), -- Ichor of Undeath
-	[10286] = SetReagent(0, e.Multi, 0, bag.HerbBag), -- Heart of the wild
+	[7972] = SetReagent(0, e.Elemental), -- Ichor of Undeath
+	[10286] = SetReagent(0, e.Elemental, 0, bag.HerbBag), -- Heart of the wild
 	[11291] = SetReagent(0, e.Multi), -- Star Wood
 	[12809] = SetReagent(0, e.Multi, 0), -- Guardian Stone
 	[13926] = SetReagent(0, e.Multi, 0, bag.GemBag), -- Golden Pearl
 	
 	-- 2.0 BC
-	[23572] = SetReagent(1, e.Multi), -- Primal Nether
+	[23572] = SetReagent(1, e.Elemental), -- Primal Nether
 	[24478] = SetReagent(1, e.Multi, 0, bag.GemBag), -- Jaggal Pearl
-	[30183] = SetReagent(1, e.Multi, 0, bag.LeatherworkingBag), -- Nether Vortex
+	[30183] = SetReagent(1, e.Elemental, 0, bag.LeatherworkingBag), -- Nether Vortex
 	[32428] = SetReagent(1, e.Multi, 0, bag.LeatherworkingBag), -- Heart of Darkness
 	
 	-- 3.0 WotLK
@@ -43,15 +43,15 @@ lib:RegisterItems({
 	[49908] = SetReagent(2, e.Multi, 0, bag.LeatherworkingBag), -- Primordial Saronite
 	
 	-- 4.0 Cataclysm
-	[52325] = SetReagent(3, e.Multi), -- Volatile Fire
-	[52326] = SetReagent(3, e.Multi), -- Volatile Water
-	[52327] = SetReagent(3, e.Multi), -- Volatile Earth
-	[52328] = SetReagent(3, e.Multi), -- Volatile Air
-	[52329] = SetReagent(3, e.Multi), -- Volatile Life
+	[52325] = SetReagent(3, e.Elemental), -- Volatile Fire
+	[52326] = SetReagent(3, e.Elemental), -- Volatile Water
+	[52327] = SetReagent(3, e.Elemental), -- Volatile Earth
+	[52328] = SetReagent(3, e.Elemental), -- Volatile Air
+	[52329] = SetReagent(3, e.Elemental), -- Volatile Life
 	
 	-- 5.0 Mists of Pandaria
-	[89112] = SetReagent(4, e.Multi), -- Mote of Harmony
-	[76061] = SetReagent(4, e.Multi), -- Spirit of Harmony
+	[89112] = SetReagent(4, e.Elemental), -- Mote of Harmony
+	[76061] = SetReagent(4, e.Elemental), -- Spirit of Harmony
 	
 	-- 6.0 Warlords of Draenor
 	[120945] = SetReagent(4, e.Multi), -- Primal Spirit
@@ -69,14 +69,14 @@ lib:RegisterItems({
 	[165948] = SetReagent(7, e.Multi), -- Tidalcore
 		
 	-- 9.0 Shadowlands
-	[178787] = SetReagent(8, e.Multi), -- Orboreal Shard
+	[178787] = SetReagent(8, e.Elemental), -- Orboreal Shard
 	[180055] = SetReagent(8, e.Multi), -- Relic of the Past I
 	[178757] = SetReagent(8, e.Multi), -- Relic of the Past II
 	[178788] = SetReagent(8, e.Multi), -- Relic of the Past III
 	[178759] = SetReagent(8, e.Multi), -- Relic of the Past IV
 	[178760] = SetReagent(8, e.Multi), -- Relic of the Past V
-	[186017] = SetReagent(8, e.Multi), -- Korthite Crystal
-	[187707] = SetReagent(8, e.Multi), -- Progenitor Essentia
+	[186017] = SetReagent(8, e.Elemental), -- Korthite Crystal
+	[187707] = SetReagent(8, e.Elemental), -- Progenitor Essentia
 	[187742] = SetReagent(8, e.Multi), -- Crafter's Mark of the First Ones
 	[187784] = SetReagent(8, e.Multi), -- Vestige of the Eternal
 	
@@ -89,25 +89,25 @@ lib:RegisterItems({
 	[187850] = SetReagent(8, e.Multi), -- Sustaining Armor Polish
 	
 	-- 10.0 Dragonflight
-	[190315] = SetReagent(9, e.Multi), -- Rousing Earth
-	[190316] = SetReagent(9, e.Multi), -- Awakened Earth
-	[190320] = SetReagent(9, e.Multi), -- Rousing Fire
-	[190321] = SetReagent(9, e.Multi), -- Awakened Fire
-	[190322] = SetReagent(9, e.Multi), -- Rousing Order
-	[190324] = SetReagent(9, e.Multi), -- Awakened Order
-	[190326] = SetReagent(9, e.Multi), -- Rousing Air
-	[190327] = SetReagent(9, e.Multi), -- Awakened Air
-	[190328] = SetReagent(9, e.Multi), -- Rousing Frost
-	[190329] = SetReagent(9, e.Multi), -- Awakened Frost
-	[190330] = SetReagent(9, e.Multi), -- Rousing Decay
-	[190331] = SetReagent(9, e.Multi), -- Awakened Decay
-	[190450] = SetReagent(9, e.Multi), -- Awakened Ire
-	[190451] = SetReagent(9, e.Multi), -- Rousing Ire
+	[190315] = SetReagent(9, e.Elemental), -- Rousing Earth
+	[190316] = SetReagent(9, e.Elemental), -- Awakened Earth
+	[190320] = SetReagent(9, e.Elemental), -- Rousing Fire
+	[190321] = SetReagent(9, e.Elemental), -- Awakened Fire
+	[190322] = SetReagent(9, e.Elemental), -- Rousing Order
+	[190324] = SetReagent(9, e.Elemental), -- Awakened Order
+	[190326] = SetReagent(9, e.Elemental), -- Rousing Air
+	[190327] = SetReagent(9, e.Elemental), -- Awakened Air
+	[190328] = SetReagent(9, e.Elemental), -- Rousing Frost
+	[190329] = SetReagent(9, e.Elemental), -- Awakened Frost
+	[190330] = SetReagent(9, e.Elemental), -- Rousing Decay
+	[190331] = SetReagent(9, e.Elemental), -- Awakened Decay
+	[190450] = SetReagent(9, e.Elemental), -- Awakened Ire
+	[190451] = SetReagent(9, e.Elemental), -- Rousing Ire
 	[190456] = SetReagent(9, e.Multi), -- Artisan's Mettle
 
-	[192887] = SetReagent(9, e.Multi), -- Elemental Harmony 1
-	[193378] = SetReagent(9, e.Multi), -- Elemental Harmony 2
-	[193379] = SetReagent(9, e.Multi), -- Elemental Harmony 3
+	[192887] = SetReagent(9, e.Elemental), -- Elemental Harmony 1
+	[193378] = SetReagent(9, e.Elemental), -- Elemental Harmony 2
+	[193379] = SetReagent(9, e.Elemental), -- Elemental Harmony 3
 	[191514] = SetReagent(9, e.Multi), -- Brood Salt 1
 	[191515] = SetReagent(9, e.Multi), -- Brood Salt 2
 	[191516] = SetReagent(9, e.Multi), -- Brood Salt 3

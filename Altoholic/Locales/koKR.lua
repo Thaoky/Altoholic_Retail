@@ -1,5 +1,5 @@
 local addonName = ...
-local L = DataStore:SetLocale(addonName,  "koKR")
+local L = AddonFactory:SetLocale(addonName,  "koKR")
 if not L then return end
 
 L["TAB_SUMMARY"] = "요약"

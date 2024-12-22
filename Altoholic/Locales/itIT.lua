@@ -1,5 +1,5 @@
 local addonName = ...
-local L = DataStore:SetLocale(addonName,  "itIT")
+local L = AddonFactory:SetLocale(addonName,  "itIT")
 if not L then return end
 
 L["TAB_SUMMARY"] = "Sommario"

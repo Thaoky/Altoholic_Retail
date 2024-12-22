@@ -5,7 +5,7 @@ addon:Service("AltoholicUI.AvailableContentView", { "AltoholicUI.Formatter", fun
 	-- This service manages the view
 	local view
 
-	local L = DataStore:GetLocale(addonName)
+	local L = AddonFactory:GetLocale(addonName)
 
 	local colors = AddonFactory.Colors
 	

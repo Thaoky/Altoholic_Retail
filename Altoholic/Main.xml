@@ -20,7 +20,7 @@
 					options = "Altoholic_UI_Options"
 				})
 				
-				local L = DataStore:GetLocale(addonName)
+				local L = AddonFactory:GetLocale(addonName)
 				local white = "|cFFFFFFFF"
 				local green = "|cFF00FF00"
 	
@@ -49,7 +49,7 @@
 				})
 				
 				local addonName = "Altoholic"
-				local L = DataStore:GetLocale(addonName)
+				local L = AddonFactory:GetLocale(addonName)
 				
 				self:SetTabs("AltoholicFrame", {
 					{ id = "Summary", name = L["TAB_SUMMARY"], loadOnDemand = "Altoholic_Summary" },

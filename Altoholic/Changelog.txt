@@ -15,6 +15,35 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.0.006 (22/12/2024)
+
+In just two days, Altoholic will be seventeen ! It has been a long ride, but I am still having fun, and hopefully you guys are enjoying the ride as well :)
+
+My to-do-list never seems to decrease, and if you think the slower pace of updates means I have given up on my projects, you would be wrong.
+In fact, more than 6 months ago, roughly when Pandaria Remix started, I embarked on a new journey to create a new add-on that will
+become a companion add-on to Altoholic. 
+
+It is still too soon to tell you more, but it is already working and I am busy adding content to it.
+I am confident many of you will enjoy it once it releases in a few months.
+
+- AddonFactory : Added a simple table pool to manage the use of temporary tables in a cleaner way.
+- AddonFactory : Fixed the categories list object to properly navigate to an element when simulating a Category_OnClick.
+- AddonFactory : Added the 'Dates' service.
+- AddonFactory : Added the 'Classes' service, to support basic OOP functionality.
+- AddonFactory : Updated LibMVC to support a controller's metatable functions, required for proper OOP support.
+- AddonFactory : Transferred the loading event handler, the locales and the communication handlers from DataStore to AddonFactory.
+- AddonFactory : Transferred ChatThrottleLib from DataStore to AddonFactory.
+- AddonFactory : Added the SQLTable class.
+- AddonFactory : Added the SQLTableView class.
+- AddonFactory : Moved to its own repo on github.
+- All DataStore modules now have a dependency on AddonFactory.
+- Tooltip : removed the "Could be stored on" info when mousing items we do not have in the inventory (ex: mousing over items at the AH).
+- DataStore_Inventory : Fixed high memory consumption in ScanTransmogSets().
+- Agenda tab -> fully reworked the events list to use the new OOP classes.
+- Agenda tab -> added 3 icons on top of the events list to filter by character, event date and event type.
+- .. and a few more minor stuff here and there.
+
+
 11.0.005 (11/11/2024)
 
 - Fixed a lua error when typing /alto.

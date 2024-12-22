@@ -86,6 +86,7 @@ lib.Enum = {
 		Archaeology = 13,
 		Fishing = 14,
 		Multi = 15,
+		Elemental = 16,
 	},
 	BagTypes = {
 		-- These id's match C_Item.GetItemSubClassInfo(Enum.ItemClass.Container, id)
@@ -127,6 +128,7 @@ local reagentTypes = {
 	[13] = C_Spell.GetSpellName(78670),	-- Archaeology
 	[14] = C_Spell.GetSpellName(131474),	-- Fishing
 	[15] = L["Multiple Professions"],	-- For items used in multiple professions
+	[16] = L["Multiple Professions"],	-- Elementals are de facto in multiple professions
 }
 
 local bagTypes = {}

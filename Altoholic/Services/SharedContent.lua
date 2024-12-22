@@ -53,7 +53,7 @@ addon:Service("AltoholicUI.SharedContentView", { "AltoholicUI.Formatter", functi
 	-- This service manages the view
 	local view
 
-	local L = DataStore:GetLocale(addonName)
+	local L = AddonFactory:GetLocale(addonName)
 
 	local colors = AddonFactory.Colors
 	local icons = AddonFactory.Icons

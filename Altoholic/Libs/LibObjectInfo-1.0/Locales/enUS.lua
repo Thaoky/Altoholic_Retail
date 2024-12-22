@@ -1,4 +1,4 @@
-local L = DataStore:SetDefaultLocale("LibObjectInfo", "enUS")
+local L = AddonFactory:SetDefaultLocale("LibObjectInfo", "enUS")
 
 -- *** Mining nodes ***
 -- ** Classic **

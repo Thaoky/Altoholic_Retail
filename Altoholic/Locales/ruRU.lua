@@ -4,7 +4,7 @@
 --
 
 local addonName = ...
-local L = DataStore:SetLocale(addonName, "ruRU")
+local L = AddonFactory:SetLocale(addonName, "ruRU")
 if not L then return end
 
 L["TAB_SUMMARY"] = "Сводная информация"

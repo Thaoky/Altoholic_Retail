@@ -1,7 +1,7 @@
 local addonName, addon = ...
 local colors = AddonFactory.Colors
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local LCI = LibStub("LibCraftInfo-1.0")
 local MVC = LibStub("LibMVC-1.0")
 
@@ -31,7 +31,7 @@ SendMailNameEditBox:SetScript("OnChar", function(self, ...)
 		local textLength = strlen(text)
 		local currentFaction = UnitFactionGroup("player")
 		
-		local matches = {}
+		local matches = AddonFactory:GetTable()
 		
 		for characterName, character in pairs(DataStore:GetCharacters()) do
 			if DataStore:GetCharacterFaction(character) == currentFaction then
@@ -64,6 +64,8 @@ SendMailNameEditBox:SetScript("OnChar", function(self, ...)
 			SendMailNameEditBox:HighlightText(textLength, strlen(characterName))
 			SendMailNameEditBox:SetCursorPosition(textLength)
 		end
+		
+		AddonFactory:ReleaseTable(matches)
 	end
 	
 	if Orig_SendMailNameEditBox_OnChar then
@@ -163,7 +165,7 @@ local function MerchantFrame_UpdateMerchantInfoHook()
 end
 
 
-DataStore:OnPlayerLogin(function() 
+AddonFactory:OnPlayerLogin(function() 
 	MVC:GetService("AltoholicUI.Authorization"):Initialize()
 	MVC:GetService("AltoholicUI.SharedContent"):Initialize()
 	MVC:GetService("AltoholicUI.AccountSharing"):Initialize()
@@ -375,17 +377,3 @@ function addon:GetItemQualityLabel(qLevel)
 	return format("|c%s%s", select(4, GetItemQualityColor(qLevel)), _G[format("ITEM_QUALITY%d_DESC", qLevel)])
 end
 
--- ** Calendar stuff **
-local calendarFirstWeekday = 1
--- 1 = Sunday, recreated locally to avoid the problem caused by the calendar addon not being loaded at startup.
--- On an EU client, CALENDAR_FIRST_WEEKDAY = 1 when the game is loaded, but becomes 2 as soon as the calendar is launched.
--- So default it to 1, and add an option to select Monday as 1st day of the week instead. If need be, use a slider.
--- Although the calendar is LoD, avoid it.
-
-function addon:SetFirstDayOfWeek(day)
-	calendarFirstWeekday = day
-end
-
-function addon:GetFirstDayOfWeek()
-	return calendarFirstWeekday
-end

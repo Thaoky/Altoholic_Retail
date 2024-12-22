@@ -1,7 +1,7 @@
 local addonName, addon = ...
 local colors = AddonFactory.Colors
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local LII = LibStub("LibItemInfo-1.0")
 local LOI = LibStub("LibObjectInfo-1.0")
 local MVC = LibStub("LibMVC-1.0")
@@ -35,6 +35,7 @@ local reagentTypeToBankType = {
 	[11] = 4,	-- Tailoring => Cloth
 	[12] = 1,	-- Cooking
 	[14] = 2,	-- Fishing
+	[16] = 7,	-- Elemental
 }
 
 -- *** Utility functions ***
@@ -137,10 +138,10 @@ local function GetCharacterItemCount(character, searchedID)
 			name = format("%s%s (%s)", name, colors.yellow, realm)
 		end
 		
-		local t = {}
+		local line = AddonFactory:GetTable()
 		for k, v in pairs(itemCounts) do
 			if v > 0 then	-- if there are more than 0 items in this container
-				table.insert(t, format("%s%s: %s%s", colors.white, itemCountsLabels[k], colors.teal, v))
+				table.insert(line, format("%s%s: %s%s", colors.white, itemCountsLabels[k], colors.teal, v))
 			end
 		end
 
@@ -148,8 +149,10 @@ local function GetCharacterItemCount(character, searchedID)
 			AddCounterLine(name, format("%s%s", colors.orange, charCount))
 		else
 			-- charInfo should look like 	(Bags: 4, Bank: 8, Equipped: 1, Mail: 7), table concat takes care of this
-			AddCounterLine(name, format("%s%s%s (%s%s)", colors.orange, charCount, colors.white, table.concat(t, format("%s, ", colors.white)), colors.white))
+			AddCounterLine(name, format("%s%s%s (%s%s)", colors.orange, charCount, colors.white, table.concat(line, format("%s, ", colors.white)), colors.white))
 		end
+		
+		AddonFactory:ReleaseTable(line)
 	end
 	
 	return charCount
@@ -234,7 +237,7 @@ local function GetItemCount(searchedID, itemLink)
 					end
 					
 					if options.ShowGuildBankCountPerTab then
-						local tabCounters = {}
+						local tabCounters = AddonFactory:GetTable()
 						
 						local tabCount
 						for tabID = 1, 8 do 
@@ -248,6 +251,8 @@ local function GetItemCount(searchedID, itemLink)
 							guildCount = DataStore:GetGuildBankItemCount(guildKey, searchedID) or 0
 							AddCounterLine(guildLabel, format("%s%d %s(%s%s)", colors.orange, guildCount, colors.white, table.concat(tabCounters, ","), colors.white))
 						end
+						
+						AddonFactory:ReleaseTable(tabCounters)
 					else
 						guildCount = DataStore:GetGuildBankItemCount(guildKey, searchedID) or 0
 						if guildCount > 0 then
@@ -265,7 +270,7 @@ local function GetItemCount(searchedID, itemLink)
 
 	if options.ShowAccountBankCount then
 		local accountBankCount = 0
-		local tabCounters = {}
+		local tabCounters = AddonFactory:GetTable()
 		local tabCount
 		
 		for index, tabID in pairs(C_Bank.FetchPurchasedBankTabIDs(Enum.BankType.Account)) do
@@ -280,6 +285,8 @@ local function GetItemCount(searchedID, itemLink)
 		if #tabCounters > 0 then
 			AddCounterLine(L["Account Bank"], format("%s%d %s(%s%s)", colors.orange, accountBankCount, colors.white, table.concat(tabCounters, ","), colors.white))
 		end
+		
+		AddonFactory:ReleaseTable(tabCounters)
 
 		count = count + accountBankCount
 	end
@@ -307,9 +314,9 @@ function addon:GetRecipeOwners(professionName, link, recipeLevel)
 		end
 	end
 	
-	local know = {}				-- list of alts who know this recipe
-	local couldLearn = {}		-- list of alts who could learn it
-	local willLearn = {}			-- list of alts who will be able to learn it later
+	local know = AddonFactory:GetTable()				-- list of alts who know this recipe
+	local couldLearn = AddonFactory:GetTable()		-- list of alts who could learn it
+	local willLearn = AddonFactory:GetTable()		-- list of alts who will be able to learn it later
 
 	if not recipeLevel then
 		-- it seems that some tooltip libraries interfere and cause a recipeLevel to be nil
@@ -359,7 +366,8 @@ function addon:GetRecipeOwners(professionName, link, recipeLevel)
 			local coloredName = DataStore:GetColoredCharacterName(character)
 			
 			if isKnownByChar then
-				table.insert(know, coloredName)
+				-- table.insert(know, coloredName)
+				table.insert(know, format("%s|r", coloredName))
 			else
 				local currentLevel = DataStore:GetProfessionRank(character, professionName)
 				if currentLevel > 0 then
@@ -380,7 +388,7 @@ local function GetRecipeOwnersText(professionName, link, recipeLevel)
 
 	local know, couldLearn, willLearn = addon:GetRecipeOwners(professionName, link, recipeLevel)
 	
-	local lines = {}
+	local lines = AddonFactory:GetTable()
 	if #know > 0 then
 		table.insert(lines, format("%s%s|r : %s%s\n", colors.teal, L["Already known by"], colors.white, table.concat(know, ", ")))
 	end
@@ -393,12 +401,19 @@ local function GetRecipeOwnersText(professionName, link, recipeLevel)
 		table.insert(lines, format("%s%s|r : %s%s", colors.red, L["Will be learnable by"], colors.white, table.concat(willLearn, ", ")))
 	end
 	
-	return table.concat(lines, "\n")
+	local output = table.concat(lines, "\n")
+	
+	AddonFactory:ReleaseTable(know)
+	AddonFactory:ReleaseTable(couldLearn)
+	AddonFactory:ReleaseTable(willLearn)
+	AddonFactory:ReleaseTable(lines)
+	
+	return output
 end
 
 local function AddGlyphOwners(itemID, tooltip)
-	local know = {}				-- list of alts who know this glyoh
-	local couldLearn = {}		-- list of alts who could learn it
+	local know = AddonFactory:GetTable()				-- list of alts who know this glyoh
+	local couldLearn = AddonFactory:GetTable()		-- list of alts who could learn it
 
 	local knows, could
 	for characterName, character in pairs(DataStore:GetCharacters()) do
@@ -419,6 +434,9 @@ local function AddGlyphOwners(itemID, tooltip)
 		tooltip:AddLine(" ",1,1,1)
 		tooltip:AddLine(format("%s%s|r : %s%s", colors.yellow, L["Could be learned by"], colors.white, table.concat(couldLearn, ", ")), 1, 1, 1, 1)
 	end
+	
+	AddonFactory:ReleaseTable(know)
+	AddonFactory:ReleaseTable(couldLearn)
 end
 
 local function ShowGatheringNodeCounters()
@@ -568,7 +586,8 @@ local function ProcessTooltip(tooltip, link)
 	
 	-- Show "Could be stored on" info
 	-- if options["ShowCouldBeStoredOn"] and itemType and expansionID and expansionID < GetExpansionLevel() then
-	if options["ShowCouldBeStoredOn"] and expacID and expacID < GetExpansionLevel() then
+	if options["ShowCouldBeStoredOn"] and expacID and expacID < GetExpansionLevel() and cachedCount and cachedCount > 0 then
+		-- Do not show if there is no cachedCount, could be the case when mousing over items at the AH
 		
 		wipe(charList)
 		local bankType = reagentTypeToBankType[arg3]

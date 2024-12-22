@@ -1,311 +1,405 @@
 local addonName, addon = ...
 local colors = AddonFactory.Colors
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
-addon:Service("AltoholicUI.EventsList", { "AltoholicUI.Formatter", function(Formatter) 
-
+addon:Service("AltoholicUI.EventsList", { "AddonFactory.Classes", "AltoholicUI.Formatter", function(oop, Formatter)
+	
+	local function ExpiryDate(t) return date("%Y-%m-%d", t) end
+	local function ExpiryTime(t) return date("%H:%M", t) end
+	local function GetCharInfo(character) 
+		local _, realm, char = strsplit(".", character)
+		return char, realm
+	end
+	
 	local timeTable = {}				-- to pass as an argument to time()	see http://lua-users.org/wiki/OsLibraryTutorial for details
 	
-	local function GetEventExpiry(event)
-		-- returns the number of seconds in which a calendar event expires
-		assert(type(event) == "table")
+	oop:Create("EventLine", {
+		Init = function(self, eventType, eventDate, eventTime, character)
+			self.eventType = eventType
+			self.eventDate = eventDate
+			self.eventTime = eventTime
+			self.character = character
+		end,
+		
+		GetExpiry = function(self)
+			local year, month, day = strsplit("-", self.eventDate)
+			local hour, minute = strsplit(":", self.eventTime)
 
-		local year, month, day = strsplit("-", event.eventDate)
-		local hour, minute = strsplit(":", event.eventTime)
+			timeTable.year = tonumber(year)
+			timeTable.month = tonumber(month)
+			timeTable.day = tonumber(day)
+			timeTable.hour = tonumber(hour)
+			timeTable.min = tonumber(minute)
 
-		timeTable.year = tonumber(year)
-		timeTable.month = tonumber(month)
-		timeTable.day = tonumber(day)
-		timeTable.hour = tonumber(hour)
-		timeTable.min = tonumber(minute)
+			local gap = 0
+			if DataStore_Agenda then
+				gap = DataStore:GetClientServerTimeGap()
+			end
+			
+			return difftime(time(timeTable), time() + gap)	-- in seconds
+		end,
+		
+		GetWarnings = function(self)
+			-- Shared cooldown = same type as normal cooldown
+			local warningType = (self.eventType == 5) and 1 or self.eventType
 
-		local gap = 0
-		if DataStore_Agenda then
-			gap = DataStore:GetClientServerTimeGap()
+			-- Gets something like "15|5|1"
+			return Altoholic_Calendar_Options[format("WarningType%d", warningType)]
+		end,
+		
+		MarkForDeletion = function(self)
+			self.markForDeletion = true
+		end,
+	})
+	
+	oop:Create("CooldownEventLine", { __inherits = "EventLine",
+		Init = function(self, expiresAt, character, id, professionTable)
+			self.EventLine.Init(self, 1, ExpiryDate(expiresAt), ExpiryTime(expiresAt), character)
+			
+			self.parentID = id
+			self.source = professionTable
+		end,
+		
+		GetInfo = function(self)
+			local title, expiresIn = DataStore:GetCraftCooldownInfo(self.source, self.parentID)
+			return title, format("%s %s", COOLDOWN_REMAINING, Formatter.TimeString(expiresIn))
+		end,
+		
+		GetReadyNowWarning = function(self)
+			local name = DataStore:GetCraftCooldownInfo(self.source, self.parentID)
+			local _, realm, char = strsplit(".", self.character)
+			local char, realm = GetCharInfo(self.character)
+			
+			return format(L["%s is now ready (%s on %s)"], name, char, realm)
+		end,
+		
+		GetReadySoonWarning = function(self, minutes)
+			local name = DataStore:GetCraftCooldownInfo(self.source, self.parentID)
+			local char, realm = GetCharInfo(self.character)
+			
+			return format(L["%s will be ready in %d minutes (%s on %s)"], name, minutes, char, realm)
+		end,
+	})
+	
+	oop:Create("InstanceEventLine", { __inherits = "EventLine",
+		Init = function(self, expiresAt, character, dungeonKey)
+			self.EventLine.Init(self, 2, ExpiryDate(expiresAt), ExpiryTime(expiresAt), character)
+			
+			self.parentID = dungeonKey
+			self.char2 = character
+		end,
+		
+		GetInfo = function(self)
+			-- title gets the instance name, desc gets the raid id
+			local instanceName, raidID = strsplit("|", self.parentID)
+
+			--	CALENDAR_EVENTNAME_FORMAT_RAID_LOCKOUT = "%s Unlocks"; -- %s = Raid Name
+			return instanceName, format("%s%s\nID: %s%s", 
+				colors.white,	format(CALENDAR_EVENTNAME_FORMAT_RAID_LOCKOUT, instanceName), 
+				colors.green, raidID)
+		end,
+		
+		GetReadyNowWarning = function(self)
+			local instance = strsplit("|", self.parentID)
+			local char, realm = GetCharInfo(self.character)
+			
+			return format(L["%s is now unlocked (%s on %s)"], instance, char, realm)
+		end,
+		
+		GetReadySoonWarning = function(self, minutes)
+			local instance = strsplit("|", self.parentID)
+			local char, realm = GetCharInfo(self.character)
+			
+			return format(L["%s will be unlocked in %d minutes (%s on %s)"], instance, minutes, char, realm)
+		end,
+	})
+	
+	oop:Create("CalendarEventLine", { __inherits = "EventLine",
+		Init = function(self, eventDate, eventTime, character, index)
+			self.EventLine.Init(self, 3, eventDate, eventTime, character)
+			
+			self.parentID = index
+		end,
+		
+		GetInfo = function(self)
+			local _, _, title, eventType, inviteStatus = DataStore:GetCalendarEventInfo(self.character, self.parentID)
+
+			inviteStatus = tonumber(inviteStatus)
+			
+			local desc
+			if type(inviteStatus) == "number" and (inviteStatus > 1) and (inviteStatus < 8) then
+				local StatusText = {
+					CALENDAR_STATUS_INVITED,		-- CALENDAR_INVITESTATUS_INVITED   = 1
+					CALENDAR_STATUS_ACCEPTED,		-- CALENDAR_INVITESTATUS_ACCEPTED  = 2
+					CALENDAR_STATUS_DECLINED,		-- CALENDAR_INVITESTATUS_DECLINED  = 3
+					CALENDAR_STATUS_CONFIRMED,		-- CALENDAR_INVITESTATUS_CONFIRMED = 4
+					CALENDAR_STATUS_OUT,				-- CALENDAR_INVITESTATUS_OUT       = 5
+					CALENDAR_STATUS_STANDBY,		-- CALENDAR_INVITESTATUS_STANDBY   = 6
+					CALENDAR_STATUS_SIGNEDUP,		-- CALENDAR_INVITESTATUS_SIGNEDUP     = 7
+					CALENDAR_STATUS_NOT_SIGNEDUP	-- CALENDAR_INVITESTATUS_NOT_SIGNEDUP = 8
+				}
+			
+				desc = format("%s: %s%s", STATUS, colors.white, StatusText[inviteStatus]) 
+			else 
+				desc = format("%s", STATUS) 
+			end
+
+			return title, desc
+		end,
+		
+		GetReadyNowWarning = function(self)
+			local _, _, title = DataStore:GetCalendarEventInfo(self.character, self.parentID)
+			local char, realm = GetCharInfo(self.character)
+			
+			return format("%s (%s/%s)", format(CALENDAR_EVENTNAME_FORMAT_START, title), char, realm)
+		end,
+		
+		GetReadySoonWarning = function(self, minutes)
+			local _, _, title = DataStore:GetCalendarEventInfo(self.character, self.parentID)
+			local char, realm = GetCharInfo(self.character)
+			
+			return format(L["%s starts in %d minutes (%s on %s)"], title, minutes, char, realm)
+		end,
+	})
+	
+	oop:Create("TimerEventLine", { __inherits = "EventLine",
+		Init = function(self, expiresAt, character, index)
+			self.EventLine.Init(self, 4, ExpiryDate(expiresAt), ExpiryTime(expiresAt), character, GetTimerInfo)
+			
+			self.parentID = index
+		end,
+		
+		GetInfo = function(self)
+			local title = DataStore:GetItemCooldownInfo(self.character, self.parentID)
+			local expiresIn = self:GetExpiry()
+			
+			return title, format("%s %s", COOLDOWN_REMAINING, Formatter.TimeString(expiresIn))
+		end,
+		
+		GetReadyNowWarning = function(self)
+			local item = DataStore:GetItemCooldownInfo(self.character, self.parentID)
+			
+			if item then
+				local char, realm = GetCharInfo(self.character)
+				return format(L["%s is now ready (%s on %s)"], item, char, realm)
+			end
+		end,
+		
+		GetReadySoonWarning = function(self, minutes)
+			local item = DataStore:GetItemCooldownInfo(self.character, self.parentID)
+			
+			if item then
+				local char, realm = GetCharInfo(self.character)
+				return format(L["%s will be ready in %d minutes (%s on %s)"], item, minutes, char, realm)
+			end
+		end,
+	})
+	
+	oop:Create("SharedCooldownEventLine", { __inherits = "EventLine",
+		Init = function(self, expiresAt, character, professionName)
+			self.EventLine.Init(self, 5, ExpiryDate(expiresAt), ExpiryTime(expiresAt), character, GetSharedCooldownInfo)
+			
+			self.source = professionName
+		end,
+		
+		GetInfo = function(self)
+			local expiresIn = self:GetExpiry()
+			
+			return self.source, format("%s %s", COOLDOWN_REMAINING, Formatter.TimeString(expiresIn))
+		end,
+		
+		GetReadyNowWarning = function(self)
+			local char, realm = GetCharInfo(self.character)
+			return format(L["%s is now ready (%s on %s)"], self.source, char, realm)
+		end,
+		
+		GetReadySoonWarning = function(self, minutes)
+			local char, realm = GetCharInfo(self.character)
+			return format(L["%s will be ready in %d minutes (%s on %s)"], self.source, minutes, char, realm)
+		end,
+	})
+
+	local events = oop:New("SQLTable", "Events")
+
+	local currentView = events
+	
+	local currentDate, currentEvent, currentChar
+	-- local views = {
+		-- ByDate = oop:New("SQLTableView", events, function(r) return r.eventDate == currentDate end),
+		-- ByEvent = oop:New("SQLTableView", events, function(r) return r:GetInfo() == currentEvent end),
+		-- ByOwner = oop:New("SQLTableView", events, function(r) return r.character == currentChar end),
+	-- }
+	
+	local eventsView = oop:New("SQLTableView", events, function(r)
+		if currentDate and r.eventDate ~= currentDate then return false end
+		if currentEvent and r:GetInfo() ~= currentEvent then return false end
+		if currentChar and r.character ~= currentChar then return false end
+		
+		return true
+	end)
+
+	local function BuildList()
+		events:Delete()
+		
+		local timeGap = DataStore:GetClientServerTimeGap() or 0
+
+		for account in pairs(DataStore:GetAccounts()) do
+			for realm in pairs(DataStore:GetRealms(account)) do
+				for characterName, character in pairs(DataStore:GetCharacters(realm, account)) do
+					-- add all timers, even expired ones. Expiries will be handled elsewhere.
+					
+					-- Profession Cooldowns
+					local professions = DataStore:GetProfessions(character)
+					if professions then
+						for professionName, profession in pairs(professions) do
+							local supportsSharedCD
+							if professionName == C_Spell.GetSpellName(2259) or			-- alchemy
+								professionName == C_Spell.GetSpellName(3908) or 			-- tailoring
+								professionName == C_Spell.GetSpellName(2575) then			-- mining
+								supportsSharedCD = true		-- current profession supports shared cooldowns
+							end
+							
+							if supportsSharedCD then
+								local sharedCDFound		-- is there a shared cd for this profession ?
+								for i = 1, DataStore:GetNumActiveCooldowns(profession) do
+									local _, _, _, expiresAt = DataStore:GetCraftCooldownInfo(profession, i)
+
+									if not sharedCDFound then
+										sharedCDFound = true
+										events:Insert(oop:New("SharedCooldownEventLine", expiresAt, character, professionName))
+									end
+								end
+							else
+								for i = 1, DataStore:GetNumActiveCooldowns(profession) do
+									local _, _, _, expiresAt = DataStore:GetCraftCooldownInfo(profession, i)
+									events:Insert(oop:New("CooldownEventLine", expiresAt, character, i, profession))
+								end
+							end
+						end
+					end
+					
+					-- Saved Instances
+					local dungeons = DataStore:GetSavedInstances(character)
+					if dungeons then
+						for key, _ in pairs(dungeons) do
+							local reset, lastCheck = DataStore:GetSavedInstanceInfo(character, key)
+							local expires = reset + lastCheck + timeGap
+
+							events:Insert(oop:New("InstanceEventLine", expires, character, key))
+						end
+					end
+					
+					-- Calendar Events
+					local num = DataStore:GetNumCalendarEvents(character) or 0 
+					for i = 1, num do
+						local eventDate, eventTime = DataStore:GetCalendarEventInfo(character, i)
+						
+						-- TODO: do not add declined invitations
+						events:Insert(oop:New("CalendarEventLine", eventDate, eventTime, character, i))
+					end
+					
+					-- Other timers (like mysterious egg, etc..)
+					num = DataStore:GetNumItemCooldowns(character) or 0
+					for i = 1, num do
+						local _, lastCheck, duration = DataStore:GetItemCooldownInfo(character, i)
+						-- checked in datastore, these should always be numeric
+						-- lastCheck = lastCheck or 0
+						-- duration = duration or 0
+
+						local expires = duration + lastCheck + timeGap
+						
+						events:Insert(oop:New("TimerEventLine", expiresAt, character, i))
+					end
+				end
+			end
 		end
-		
-		return difftime(time(timeTable), time() + gap)	-- in seconds
-	end
-	
-	-- ** Constants / Event Types **
-	local COOLDOWN_LINE = 1
-	local INSTANCE_LINE = 2
-	local CALENDAR_LINE = 3
-	local TIMER_LINE = 4
-	local SHARED_CD_LINE = 5		-- this type is used for shared cooldowns (alchemy, etc..) among others.
 
-	local events
-	
-	local function GetCooldownInfo(event)
-		local title, expiresIn = DataStore:GetCraftCooldownInfo(event.source, event.parentID)
-		
-		return title, format("%s %s", COOLDOWN_REMAINING, Formatter.TimeString(expiresIn))
-	end
-	
-	local function GetInstanceInfo(event)
-		-- title gets the instance name, desc gets the raid id
-		local instanceName, raidID = strsplit("|", event.parentID)
-
-		--	CALENDAR_EVENTNAME_FORMAT_RAID_LOCKOUT = "%s Unlocks"; -- %s = Raid Name
-		return instanceName, format("%s%s\nID: %s%s", 
-			colors.white,	format(CALENDAR_EVENTNAME_FORMAT_RAID_LOCKOUT, instanceName), 
-			colors.green, raidID)
-	end
-	
-	local function GetCalendarInfo(event)
-		local character = DataStore:GetCharacter(event.char, event.realm)
-		local _, _, title, eventType, inviteStatus = DataStore:GetCalendarEventInfo(character, event.parentID)
-
-		inviteStatus = tonumber(inviteStatus)
-		
-		local desc
-		if type(inviteStatus) == "number" and (inviteStatus > 1) and (inviteStatus < 8) then
-			local StatusText = {
-				CALENDAR_STATUS_INVITED,		-- CALENDAR_INVITESTATUS_INVITED   = 1
-				CALENDAR_STATUS_ACCEPTED,		-- CALENDAR_INVITESTATUS_ACCEPTED  = 2
-				CALENDAR_STATUS_DECLINED,		-- CALENDAR_INVITESTATUS_DECLINED  = 3
-				CALENDAR_STATUS_CONFIRMED,		-- CALENDAR_INVITESTATUS_CONFIRMED = 4
-				CALENDAR_STATUS_OUT,				-- CALENDAR_INVITESTATUS_OUT       = 5
-				CALENDAR_STATUS_STANDBY,		-- CALENDAR_INVITESTATUS_STANDBY   = 6
-				CALENDAR_STATUS_SIGNEDUP,		-- CALENDAR_INVITESTATUS_SIGNEDUP     = 7
-				CALENDAR_STATUS_NOT_SIGNEDUP	-- CALENDAR_INVITESTATUS_NOT_SIGNEDUP = 8
-			}
-		
-			desc = format("%s: %s%s", STATUS, colors.white, StatusText[inviteStatus]) 
-		else 
-			desc = format("%s", STATUS) 
-		end
-
-		return title, desc
-	end
-	
-	local function GetTimerInfo(event)
-		local character = DataStore:GetCharacter(event.char, event.realm)
-		local title = DataStore:GetItemCooldownInfo(character, event.parentID)
-		local expiresIn = GetEventExpiry(event)
-		
-		return title, format("%s %s", COOLDOWN_REMAINING, Formatter.TimeString(expiresIn))
-	end
-	
-	local function GetSharedCooldownInfo(event)
-		local expiresIn = GetEventExpiry(event)
-		
-		return event.source, format("%s %s", COOLDOWN_REMAINING, Formatter.TimeString(expiresIn))
+		-- sort by date first, then by hour, then by alt
+		events:Sort("eventDate", "asc", "eventTime", "asc", "character", "asc")
 	end
 
 	return {
 		Initialize = function()
-			events = events or {}
-			wipe(events)
+			events:Delete()
 		end,
-		GetEvents = function() return events end,
-		GetEvent = function(index) return events[index] end,
-		GetEventInfo = function(index)
-			local event = events[index]		-- dereference event
-			if not event then return end
+		SetView = function(viewDate, viewEvent, viewChar)
+			currentDate = viewDate
+			currentEvent = viewEvent
+			currentChar = viewChar
 			
-			local character = DataStore:GetCharacter(event.char, event.realm, event.account)
-			local char = DataStore:GetColoredCharacterName(character)
+			if not currentDate and not currentEvent and not currentChar then
+				currentView = events
+			else
+				eventsView:Update()
+				currentView = eventsView
+			end
+		end,
+
+		BuildList = BuildList,
+		
+		GetEvents = function()
+			return currentView:GetData()
+		end,
+		GetEventInfo = function(event)
+			local name = DataStore:GetColoredCharacterName(event.character)
+			local _, realm = GetCharInfo(event.character)
 			
-			if event.realm ~= DataStore.ThisRealm then	-- different realm ?
-				char = format("%s %s(%s)", char, colors.green, event.realm)
+			if realm ~= DataStore.ThisRealm then	-- different realm ?
+				name = format("%s %s(%s)", name, colors.green, realm)
 			end
 			
-			local title, desc = event.GetInfo(event)
+			local title, desc = event:GetInfo(event)
 
-			return char, event.eventTime, title, desc
+			return name, event.eventTime, title, desc
 		end,
-		GetExpiry = function(index)
-			return GetEventExpiry(events[index])
+		
+		GetEventOwners = function()
+			local out = {}
+			
+			events:IterateRows(function(r) 
+				out[r.character] = true
+			end)
+			
+			return DataStore:HashToSortedArray(out)
+		end,
+		GetEventDates = function()
+			return events:SelectDistinct("eventDate")
+		end,
+		GetEventNames = function()
+			local out = {}
+			
+			events:IterateRows(function(r) 
+				local title = r.GetInfo(r)
+				out[title] = true
+			end)
+			
+			return DataStore:HashToSortedArray(out)
 		end,
 		
 		GetDayCount = function(year, month, day)
 			-- returns the number of events on a given day
-			
 			local eventDate = format("%04d-%02d-%02d", year, month, day)
-			local count = 0
-			
-			for index, event in pairs(events) do
-				if event.eventDate == eventDate then
-					count = count + 1
-				end
-			end
-			
-			return count
-		end,
-		
-		AddCooldownLine = function(expiresAt, characterName, realm, account, id, professionTable)
-			table.insert(events, { 
-				eventType = COOLDOWN_LINE, 
-				eventDate = date("%Y-%m-%d", expiresAt), 
-				eventTime = date("%H:%M", expiresAt), 
-				GetInfo = GetCooldownInfo,
-				char = characterName,
-				realm = realm,
-				account = account,
-				parentID = id,
-				source = professionTable
-			})
-		end,
-		AddInstanceLine = function(expiresAt, characterName, realm, account, dungeonKey)
-			table.insert(events, { 
-				eventType = INSTANCE_LINE, 
-				eventDate = date("%Y-%m-%d", expiresAt), 
-				eventTime = date("%H:%M", expiresAt), 
-				GetInfo = GetInstanceInfo,
-				char = characterName,
-				realm = realm,
-				account = account,
-				parentID = dungeonKey,
-				-- source = nil
-			})
-		end,
-		AddCalendarLine = function(eventDate, eventTime, characterName, realm, account, index)
-			table.insert(events, { 
-				eventType = CALENDAR_LINE, 
-				eventDate = eventDate, 
-				eventTime = eventTime, 
-				GetInfo = GetCalendarInfo,
-				char = characterName,
-				realm = realm,
-				account = account,
-				parentID = index,
-				-- source = nil
-			})
-		end,
-		AddTimerLine = function(expiresAt, characterName, realm, account, index)
-			table.insert(events, { 
-				eventType = TIMER_LINE, 
-				eventDate = date("%Y-%m-%d", expiresAt), 
-				eventTime = date("%H:%M", expiresAt), 
-				GetInfo = GetTimerInfo,
-				char = characterName,
-				realm = realm,
-				account = account,
-				parentID = index,
-				-- source = nil
-			})
-		end,
-		AddSharedCooldown = function(expiresAt, characterName, realm, account, professionName)
-			table.insert(events, { 
-				eventType = SHARED_CD_LINE, 
-				eventDate = date("%Y-%m-%d", expiresAt), 
-				eventTime = date("%H:%M", expiresAt), 
-				GetInfo = GetSharedCooldownInfo,
-				char = characterName,
-				realm = realm,
-				account = account,
-				-- parentID = nil,
-				source = professionName
-			})
+			return events:Count(function(r) return r.eventDate == eventDate end)
 		end,
 
-		SortByTime = function()
-			table.sort(events, function(a, b)
-				if (a.eventDate ~= b.eventDate) then			-- sort by date first ..
-					return a.eventDate < b.eventDate
-					
-				elseif (a.eventTime ~= b.eventTime) then		-- .. then by hour
-					return a.eventTime < b.eventTime
-					
-				elseif (a.char ~= b.char) then					-- .. then by alt
-					return a.char < b.char
-				end
-			end)
-		end,
-
-		-- ** Warnings **
-		GetWarnings = function(index)
-			local event = events[index]
-			
-			if event then
-				-- shared cooldown = same type as normal cooldown
-				local warningType = (event.eventType == SHARED_CD_LINE) and COOLDOWN_LINE or event.eventType
-				-- Gets something like "15|5|1"
-
-				return Altoholic_Calendar_Options[format("WarningType%d", warningType)]
-			end
-		end,
-		GetReadyNowWarning = function(index)
-			local event = events[index]
-		
-			if event.eventType == COOLDOWN_LINE then
-				local name = DataStore:GetCraftCooldownInfo(event.source, event.parentID)
-				return format(L["%s is now ready (%s on %s)"], name, event.char, event.realm)
-
-			elseif event.eventType == INSTANCE_LINE then
-				local instance = strsplit("|", event.parentID)
-				return format(L["%s is now unlocked (%s on %s)"], instance, event.char, event.realm)
-				
-			elseif event.eventType == CALENDAR_LINE then
-				local character = DataStore:GetCharacter(event.char, event.realm)
-				local _, _, title = DataStore:GetCalendarEventInfo(character, event.parentID)
-				
-				return format("%s (%s/%s)", format(CALENDAR_EVENTNAME_FORMAT_START, title), event.char, event.realm)
-				
-			elseif event.eventType == TIMER_LINE then
-				local character = DataStore:GetCharacter(event.char, event.realm)
-				local item = DataStore:GetItemCooldownInfo(character, event.parentID)
-				
-				if item then
-					return format(L["%s is now ready (%s on %s)"], item, event.char, event.realm)
-				end
-				
-			elseif event.eventType == SHARED_CD_LINE then
-				
-				return format(L["%s is now ready (%s on %s)"], event.source, event.char, event.realm)
-			end
-		end,
-		GetReadySoonWarning = function(index, minutes)
-			local event = events[index]
-			
-			if event.eventType == COOLDOWN_LINE then
-				local name = DataStore:GetCraftCooldownInfo(event.source, event.parentID)
-				return format(L["%s will be ready in %d minutes (%s on %s)"], name, minutes, event.char, event.realm)
-
-			elseif event.eventType == INSTANCE_LINE then
-				local instance = strsplit("|", event.parentID)
-				return format(L["%s will be unlocked in %d minutes (%s on %s)"], instance, minutes, event.char, event.realm)
-				
-			elseif event.eventType == CALENDAR_LINE then
-				local character = DataStore:GetCharacter(event.char, event.realm)
-				local _, _, title = DataStore:GetCalendarEventInfo(character, event.parentID)
-				
-				return format(L["%s starts in %d minutes (%s on %s)"], title, minutes, event.char, event.realm)
-				
-			elseif event.eventType == TIMER_LINE then
-				local character = DataStore:GetCharacter(event.char, event.realm)
-				local item = DataStore:GetItemCooldownInfo(character, event.parentID)
-				
-				if item then
-					return format(L["%s will be ready in %d minutes (%s on %s)"], item, minutes, event.char, event.realm)
-				end
-				
-			elseif event.eventType == SHARED_CD_LINE then
-				
-				return format(L["%s will be ready in %d minutes (%s on %s)"], event.source, minutes, event.char, event.realm)
-			end
-		end,
-		
 		-- ** Deletion **
-		MarkForDeletion = function(i)
-			events[i].markForDeletion = true		
-		end,
+
 		ClearMarkedEvents = function()
-			for i = #events, 1, -1 do			-- browse the event table backwards
-				if events[i].markForDeletion then	-- erase marked events
-					table.remove(events, i)
-				end
-			end
-		
+			events:Delete(function(r) return r.markForDeletion == true end)
 		end,
+		
 	}
+	
 end})
 
 addon:Service("AltoholicUI.Events", { "AltoholicUI.EventsList", function(EventsList) 
 
 	local timerThresholds = { 30, 15, 10, 5, 4, 3, 2, 1 }
+
+	local function WarningsEnabled()
+		return Altoholic_Calendar_Options["WarningsEnabled"]
+	end
 
 	local function IsNumberInString(number, str)
 		-- ex: with str = "15|10|3" returns true if value is in this string
@@ -316,14 +410,11 @@ addon:Service("AltoholicUI.Events", { "AltoholicUI.EventsList", function(EventsL
 		end
 	end
 	
-	local function ShowExpiryWarning(index, minutes)
-		local warning
+	local function ShowExpiryWarning(event, minutes)
+		local warning = minutes == 0
+			and event:GetReadyNowWarning()
+			or event:GetReadySoonWarning(minutes)
 		
-		if minutes == 0 then
-			warning = EventsList.GetReadyNowWarning(index)
-		else
-			warning = EventsList.GetReadySoonWarning(index, minutes)
-		end
 		if not warning then return end
 		
 		-- print instead of dialog box if player is in combat
@@ -343,17 +434,16 @@ addon:Service("AltoholicUI.Events", { "AltoholicUI.EventsList", function(EventsL
 	end
 	
 	local function InitialExpiryCheck()
-		local events = EventsList.GetEvents()
-	
-		for index, event in pairs(events) do			-- browse all events
-			local expiresIn = EventsList.GetExpiry(index)
+		-- browse all events
+		for _, event in pairs(EventsList.GetEvents()) do
+			local expiresIn = event:GetExpiry()
 			
-			if expiresIn < 0 then							-- if the event has expired
-				EventsList.MarkForDeletion(index)		-- .. mark it for deletion (no table.remove in this pass, to avoid messing up indexes)
+			if expiresIn < 0 then			-- if the event has expired
+				event:MarkForDeletion()		-- .. mark it for deletion (no table.remove in this pass, to avoid messing up indexes)
 				
 				-- only report if warnings are enabled
-				if Altoholic_Calendar_Options["WarningsEnabled"] == true then
-					ShowExpiryWarning(index, 0)		-- .. and do the appropriate warning
+				if WarningsEnabled() then
+					ShowExpiryWarning(event, 0)		-- .. and do the appropriate warning
 				end
 			end
 		end
@@ -404,112 +494,31 @@ addon:Service("AltoholicUI.Events", { "AltoholicUI.EventsList", function(EventsL
 		end
 	end
 
-	local function BuildList()
-		EventsList.Initialize()
-		
-		local timeGap = DataStore:GetClientServerTimeGap() or 0
-		
-		for account in pairs(DataStore:GetAccounts()) do
-			for realm in pairs(DataStore:GetRealms(account)) do
-				for characterName, character in pairs(DataStore:GetCharacters(realm, account)) do
-					-- add all timers, even expired ones. Expiries will be handled elsewhere.
-					
-					-- Profession Cooldowns
-					local professions = DataStore:GetProfessions(character)
-					if professions then
-						for professionName, profession in pairs(professions) do
-							local supportsSharedCD
-							if professionName == C_Spell.GetSpellName(2259) or			-- alchemy
-								professionName == C_Spell.GetSpellName(3908) or 			-- tailoring
-								professionName == C_Spell.GetSpellName(2575) then			-- mining
-								supportsSharedCD = true		-- current profession supports shared cooldowns
-							end
-							
-							if supportsSharedCD then
-								local sharedCDFound		-- is there a shared cd for this profession ?
-								for i = 1, DataStore:GetNumActiveCooldowns(profession) do
-									local _, _, _, expiresAt = DataStore:GetCraftCooldownInfo(profession, i)
-
-									if not sharedCDFound then
-										sharedCDFound = true
-										EventsList.AddSharedCooldown(expiresAt, characterName, realm, account, professionName)
-									end
-								end
-							else
-								for i = 1, DataStore:GetNumActiveCooldowns(profession) do
-									local _, _, _, expiresAt = DataStore:GetCraftCooldownInfo(profession, i)
-									EventsList.AddCooldownLine(expiresAt, characterName, realm, account, i, profession)
-								end
-							end
-						end
-					end
-					
-					-- Saved Instances
-					local dungeons = DataStore:GetSavedInstances(character)
-					if dungeons then
-						for key, _ in pairs(dungeons) do
-							local reset, lastCheck = DataStore:GetSavedInstanceInfo(character, key)
-							local expires = reset + lastCheck + timeGap
-							
-							EventsList.AddInstanceLine(expires, characterName, realm, account, key)
-						end
-					end
-					
-					-- Calendar Events
-					local num = DataStore:GetNumCalendarEvents(character) or 0 
-					for i = 1, num do
-						local eventDate, eventTime = DataStore:GetCalendarEventInfo(character, i)
-						
-						-- TODO: do not add declined invitations
-						EventsList.AddCalendarLine(eventDate, eventTime, characterName, realm, account, i)
-					end
-					
-					-- Other timers (like mysterious egg, etc..)
-					num = DataStore:GetNumItemCooldowns(character) or 0
-					for i = 1, num do
-						local _, lastCheck, duration = DataStore:GetItemCooldownInfo(character, i)
-						if duration == nil then
-							duration = 0
-						end
-						if lastCheck == nil then
-							lastCheck = 0
-						end
-						local expires = duration + lastCheck + timeGap
-						
-						EventsList.AddTimerLine(expires, characterName, realm, account, i)
-					end
-				end
-			end
-		end
-
-		EventsList.SortByTime()
-	end
-	
 	local function CheckExpiries()
 		-- warning here, check the value of self, the elapsed parameter seems wrong, double check this !
 		C_Timer.After(60, CheckExpiries)	-- repeating timer
-		if Altoholic_Calendar_Options["WarningsEnabled"] == false then	-- warnings disabled ? do nothing
+		if not WarningsEnabled() then	-- warnings disabled ? do nothing
 			return
 		end
 
 		-- called every 60 seconds
 		local hasExpired
 		
-		for index, event in pairs(EventsList.GetEvents()) do
-			local minutes = floor(EventsList.GetExpiry(index) / 60)
+		for _, event in pairs(EventsList.GetEvents()) do
+			local minutes = floor(event:GetExpiry() / 60)
 
 			if minutes > -1440 and minutes < 0 then		-- expiry older than 1 day is ignored
 				hasExpired = true		-- at least one event has expired
 				
 			elseif minutes == 0 then
-				ShowExpiryWarning(index, 0)
+				ShowExpiryWarning(event, 0)
 				hasExpired = true		-- at least one event has expired
 				
 			elseif minutes > 0 and minutes <= 30 then
 				for _, threshold in pairs(timerThresholds) do
 					if threshold == minutes then			-- if snooze is allowed for this value
-						if IsNumberInString(threshold, EventsList.GetWarnings(index)) then
-							ShowExpiryWarning(index, minutes)
+						if IsNumberInString(threshold, event:GetWarnings()) then
+							ShowExpiryWarning(event, minutes)
 						end
 						break
 						
@@ -524,7 +533,7 @@ addon:Service("AltoholicUI.Events", { "AltoholicUI.EventsList", function(EventsL
 		-- if at least one event has expired, rebuild the list & Update
 		if hasExpired then
 			ClearExpiredEvents()
-			BuildList()
+			EventsList.BuildList()
 			
 			DataStore:Broadcast("ALTOHOLIC_EVENT_EXPIRY")
 		end
@@ -538,16 +547,15 @@ addon:Service("AltoholicUI.Events", { "AltoholicUI.EventsList", function(EventsL
 			end)
 		
 			-- Sequence of operations : 
-			BuildList()									-- 1. Build a list of events
-			InitialExpiryCheck()						-- 2. Check for expiries  + Warning
+			EventsList.BuildList()					-- 1. Build a list of events
+			InitialExpiryCheck()						-- 2. Check for expiries + Warning
 			ClearExpiredEvents()						-- 3. Clear expiries
-			BuildList()									-- 4. Rebuild the list of events
+			EventsList.BuildList()					-- 4. Rebuild the list of events
 		end,
-		BuildList = BuildList,
+		BuildList = EventsList.BuildList,
 	
 		GetTimerThresholds = function() return timerThresholds end,
 		
 		GetList = function() return EventsList.GetEvents() end,
 	}
 end})
-

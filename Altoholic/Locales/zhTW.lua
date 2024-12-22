@@ -1,5 +1,5 @@
 local addonName = ...
-local L = DataStore:SetLocale(addonName, "zhTW")
+local L = AddonFactory:SetLocale(addonName, "zhTW")
 if not L then return end
 
 L["TAB_SUMMARY"] = "摘要"

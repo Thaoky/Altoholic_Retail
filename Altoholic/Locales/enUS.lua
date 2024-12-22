@@ -1,5 +1,5 @@
 local addonName = ...
-local L = DataStore:SetDefaultLocale(addonName, "enUS")
+local L = AddonFactory:SetDefaultLocale(addonName, "enUS")
 
 L["TAB_SUMMARY"] = "Summary"
 L["TAB_CHARACTERS"] = "Characters"

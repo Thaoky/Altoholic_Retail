@@ -1,7 +1,7 @@
 local addonName, addon = ...
 local colors = AddonFactory.Colors
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
 local Options = MVC:GetService("AltoholicUI.ColumnOptions")
 

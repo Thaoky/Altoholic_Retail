@@ -1,13 +1,13 @@
 local addonName, addon = ...
 _G[addonName] = addon
 
-addon.Version = "v11.0.005"
+addon.Version = "v11.0.006"
 -- addon.VersionNum = 11 00 006
-addon.VersionNum = 1100005
+addon.VersionNum = 1100006
 
 LibStub("LibMVC-1.0"):Embed(addon)
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local LibSerialize = LibStub:GetLibrary("LibSerialize")
 local commPrefix = addonName
 
@@ -152,8 +152,8 @@ local GuildCommCallbacks = {
 }
 
 
-DataStore:OnAddonLoaded(addonName, function() 
-	addon.ListenTo = function(self, ...) DataStore:ListenToEvent(self, ...)	end
+AddonFactory:OnAddonLoaded(addonName, function() 
+	addon.ListenTo = function(self, ...) AddonFactory:ListenToEvent(self, ...)	end
 	
 	AddonFactory:SetOptionsTable("Altoholic_UI_Options", {
 		Mail = {
