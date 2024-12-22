@@ -1,4 +1,4 @@
-local L = DataStore:SetDefaultLocale("Altoholic", "enUS")
+local L = AddonFactory:SetDefaultLocale("Altoholic", "enUS")
 
 L["GUILD_BANKS"] = "Guild Banks"
 L["GUILD_MEMBERS"] = "Guild Members"

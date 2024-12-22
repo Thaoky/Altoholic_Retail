@@ -2,7 +2,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
 local MAX_BANK_TABS = 8
 
@@ -125,8 +125,8 @@ local function UpdateIcon_Initialize(frame, level)
 	local player = UnitName("player")
 	local myClientTime = DataStore:GetGuildMemberBankTabInfo(player, tabName)
 	
-	local older = {}
-	local newer = {}
+	local older = AddonFactory:GetTable()
+	local newer = AddonFactory:GetTable()
 	
 	frame:AddTitle(L["Update current tab from"])
 	for member in pairs(DataStore:GetGuildBankTabSuppliers()) do
@@ -180,6 +180,9 @@ local function UpdateIcon_Initialize(frame, level)
 			frame:AddButtonInfo(info)
 		end
 	end
+
+	AddonFactory:ReleaseTable(older)
+	AddonFactory:ReleaseTable(newer)
 
 	frame:AddCloseMenu()
 end

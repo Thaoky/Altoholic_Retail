@@ -2,7 +2,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
 -- *** Guild Members ***
 
@@ -139,7 +139,7 @@ local function BuildView()
 	view = view or {}
 	wipe(view)
 	
-	local onlineMembers = {}		-- list of online guild members (and their alts)
+	local onlineMembers = AddonFactory:GetTable()		-- list of online guild members (and their alts)
 
 	-- 1) Start by adding mains, users of altoholic or not
 	for member in pairs(DataStore:GetOnlineGuildMembers()) do
@@ -178,7 +178,7 @@ local function BuildView()
 	table.insert(view, {	lineType = OFFLINEHEADER_LINE, name = L["OFFLINE_MEMBERS"] } )
 	
 	-- 6) Prepare the list of offline members for which we have data, sort it, then add it to the view
-	local offlineMembers = {}
+	local offlineMembers = AddonFactory:GetTable()
 
 	local guild = DataStore:GetGuild()
 	
@@ -197,6 +197,9 @@ local function BuildView()
 	for _, member in ipairs(offlineMembers) do
 		table.insert(view, {	lineType = OFFLINEMEMBER_LINE, name = member } )
 	end
+	
+	AddonFactory:ReleaseTable(onlineMembers)
+	AddonFactory:ReleaseTable(offlineMembers)
 	
 	isViewValid = true
 end
