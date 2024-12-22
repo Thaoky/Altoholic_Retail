@@ -4,7 +4,7 @@ local addon = _G[addonName]
 local colors = AddonFactory.Colors
 local icons = AddonFactory.Icons
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local ICON_NOT_STARTED = "Interface\\RaidFrame\\ReadyCheck-NotReady" 
 local ICON_PARTIAL = "Interface\\RaidFrame\\ReadyCheck-Waiting"
 local ICON_COMPLETED = "Interface\\RaidFrame\\ReadyCheck-Ready" 
@@ -213,7 +213,7 @@ addon:Controller("AltoholicUI.TabAchievementsCategoriesList", {
 				{ id = cat.PvPArena },
 				{ text = L["Kills"], id = cat.PvPKills },
 			}},
-			{ text = L["Dungeons"], subMenu = {
+			{ text = DUNGEONS, subMenu = {
 				{ text = format("%s%s", colors.cyan, "Expansions"), subMenu = {
 					{ text = EXPANSION_NAME0, id = cat.DungeonsClassic },
 					{ text = EXPANSION_NAME1, id = cat.DungeonsBurningCrusade },
@@ -231,7 +231,7 @@ addon:Controller("AltoholicUI.TabAchievementsCategoriesList", {
 				{ text = OTHER, id = cat.DungeonsOther },
 				-- by exp
 			}},
-			{ text = L["Raids"], subMenu = {
+			{ text = RAIDS, subMenu = {
 				-- Source for C_Map.GetAreaInfo id's : https://wow.tools/dbc/?dbc=areatable
 				{ text = EXPANSION_NAME0, id = cat.RaidsClassic },
 				{ text = EXPANSION_NAME1, id = cat.RaidsBurningCrusade },
@@ -388,7 +388,9 @@ addon:Controller("AltoholicUI.TabAchievementsCategoriesList", {
 					{ text = L["The Real Race"], id = cat.WorldEventsDarkmoonRealRace },
 					{ text = L["The Real Big Race"], id = cat.WorldEventsDarkmoonRealBigRace },
 				}},
-				{ id = cat.WorldEventsBrawlersGuild },
+				{ id = cat.WorldEventsTimewalking },
+				{ id = cat.WorldEventsAnniversary },
+				-- { id = cat.WorldEventsBrawlersGuild },
 			}},
 			{ id = cat.PetBattles, subMenu = {
 				{ id = cat.PetBattlesCollect, subMenu = {
@@ -445,14 +447,6 @@ addon:Controller("AltoholicUI.TabAchievementsCategoriesList", {
 				{ text = GetCategoryInfo(cat.ExpansionFeaturesDragonriderRacing), id = cat.ExpansionFeaturesDragonriderRacing },
 				{ text = "Primal Storms", id = cat.ExpansionFeaturesPrimalStorms },
 			}},
-			{ id = cat.PandariaRemix, subMenu = {
-				{ id = cat.PandariaRemixQuests },
-				{ id = cat.PandariaRemixReputation },
-				{ id = cat.PandariaRemixExploration },
-				{ id = cat.PandariaRemixScenarios },
-				{ id = cat.PandariaRemixDungeons },
-				{ id = cat.PandariaRemixRaids },
-			}},
 			{ id = cat.FeatsOfStrength, subMenu = {
 				{ id = cat.FeatsOfStrengthMounts, subMenu = {
 					{ text = GetCategoryInfo(cat.PvPArena), id = cat.FeatsOfStrengthMountsArena },
@@ -490,6 +484,26 @@ addon:Controller("AltoholicUI.TabAchievementsCategoriesList", {
 				}},
 				{ text = L["Realm First"], id = cat.FeatsOfStrengthRealmFirst },
 			}},
+			{ id = cat.Legacy, subMenu = {
+				{ id = cat.LegacyCharacter },
+				{ id = cat.LegacyQuests },
+				{ id = cat.LegacyPvP },
+				{ id = cat.LegacyDungeons },
+				{ id = cat.LegacyRaids },
+				{ id = cat.LegacyProfessions },
+				{ id = cat.LegacyCurrencies },
+				{ id = cat.LegacyWorldEvents },
+				{ id = cat.LegacyExpansionFeatures },
+				{ id = cat.LegacyRemixPandaria, subMenu = {
+					{ text = GetCategoryInfo(cat.Quests), id = cat.PandariaRemixQuests },
+					{ text = GetCategoryInfo(cat.Reputations), id = cat.PandariaRemixReputation },
+					{ text = GetCategoryInfo(cat.Exploration), id = cat.PandariaRemixExploration },
+					{ text = L["Scenarios"], id = cat.PandariaRemixScenarios },
+					{ text = DUNGEONS, id = cat.PandariaRemixDungeons },	-- { text = GetCategoryInfo(cat.FeatsOfStrengthDungeons) },
+					{ text = RAIDS, id = cat.PandariaRemixRaids },			-- { text = GetCategoryInfo(cat.FeatsOfStrengthRaids) },
+				}},
+			}},
+
 		}
 		
 		-- Initialize categories (auto-fill .text & .callback)
@@ -507,7 +521,7 @@ addon:Controller("AltoholicUI.TabAchievementsCategoriesList", {
 	end,
 })
 
-DataStore:OnAddonLoaded(addonTabName, function() 
+AddonFactory:OnAddonLoaded(addonTabName, function() 
 	Altoholic_AchievementsTab_Columns = Altoholic_AchievementsTab_Columns or {}
 
 	local account, realm = tab.SelectRealm:GetCurrentRealm()

@@ -1,4 +1,4 @@
-local L = DataStore:SetDefaultLocale("Altoholic", "enUS")
+local L = AddonFactory:SetDefaultLocale("Altoholic", "enUS")
 
 -- ** Menu **
 L["Riding"] = true
@@ -14,6 +14,7 @@ L["Stories"] = true
 L["Discoveries"] = true
 L["Dungeons"] = true
 L["Raids"] = true
+L["Scenarios"] = true
 L["Learn"] = true
 L["Cook"] = true
 L["Fish up"] = true
