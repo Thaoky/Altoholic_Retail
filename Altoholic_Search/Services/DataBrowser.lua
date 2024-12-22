@@ -3,7 +3,7 @@ local addon = _G[addonName]
 
 addon:Service("AltoholicUI.DataBrowser", { "AltoholicUI.SearchResults", "AltoholicUI.ItemFilters", function(Results, ItemFilters)
 
-	local L = DataStore:GetLocale(addonName)
+	local L = AddonFactory:GetLocale(addonName)
 	local enum = DataStore.Enum.ContainerIDs
 
 	local MYTHIC_KEYSTONE = 138019

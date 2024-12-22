@@ -3,7 +3,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
 local Equipment = MVC:GetService("AltoholicUI.Equipment")
 
@@ -540,7 +540,7 @@ addon:Controller("AltoholicUI.TabSearchCategoriesList", {
 })
 
 
-DataStore:OnAddonLoaded(addonTabName, function() 
+AddonFactory:OnAddonLoaded(addonTabName, function() 
 	AddonFactory:SetOptionsTable("Altoholic_SearchTab_Options", {
 		ItemInfoAutoQuery = false,
 		IncludeNoMinLevel = true,				-- include items with no minimum level

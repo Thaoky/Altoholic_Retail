@@ -4,7 +4,7 @@ local colors = AddonFactory.Colors
 
 addon:Controller("AltoholicUI.TabSearch.Search", { "AltoholicUI.SearchResults", "AltoholicUI.ItemFilters", function(Results, ItemFilters)
 
-	local L = DataStore:GetLocale(addonName)
+	local L = AddonFactory:GetLocale(addonName)
 
 	return {
 		OnBind = function(frame)

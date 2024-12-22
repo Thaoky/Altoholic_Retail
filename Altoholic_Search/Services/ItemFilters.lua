@@ -96,7 +96,7 @@ addon:Service("AltoholicUI.ItemFilters", { "AltoholicUI.Equipment", function(Equ
 			end
 		end,
 		GetFiltersString = function()
-			local out = {}
+			local out = AddonFactory:GetTable()
 			local color = colors.cyan
 			
 			if filters["itemName"] then
@@ -131,6 +131,8 @@ addon:Service("AltoholicUI.ItemFilters", { "AltoholicUI.Equipment", function(Equ
 			end
 			
 			local filtersString = TableConcat(out, ", ")
+			
+			AddonFactory:ReleaseTable(out)
 			
 			return (filtersString:len() > 0) and filtersString or "No active filter"
 		end,
