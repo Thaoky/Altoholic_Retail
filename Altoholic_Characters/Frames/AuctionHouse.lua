@@ -3,7 +3,7 @@ local addon = _G[addonName]
 
 addon:Controller("AltoholicUI.TabCharacters.Auctions", function()
 
-	local L = DataStore:GetLocale(addonName)
+	local L = AddonFactory:GetLocale(addonName)
 	local colors = AddonFactory.Colors
 	local currentCharacter
 	local view, isViewValid

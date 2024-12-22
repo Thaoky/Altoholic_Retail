@@ -48,7 +48,7 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLog", function()
 			local currentCategoryID = Altoholic_CharactersTab_Options["ViewQuestLogCategory"]
 			
 			-- Get the quest list
-			local questList = {}
+			local questList = AddonFactory:GetTable()
 			
 			DataStore:IterateQuests(character, currentCategoryID, function(questIndex) 
 				table.insert(questList, questIndex)
@@ -92,5 +92,7 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLog", function()
 
 			scrollFrame:Update(#questList, maxDisplayedRows)
 			frame:Show()
+			
+			AddonFactory:ReleaseTable(questList)
 		end,
 }end)

@@ -1,4 +1,4 @@
-local L = DataStore:SetDefaultLocale("Altoholic", "enUS")
+local L = AddonFactory:SetDefaultLocale("Altoholic", "enUS")
 
 L["Account"] = true
 L["Select a character on the left"] = true

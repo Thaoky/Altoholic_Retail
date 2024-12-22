@@ -2,7 +2,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
 -- Quest Tags Copied from 10.0.7 Constants.lua as they are REMOVED from the game --TechnoHunter
 --QUEST_ICONS_FILE = "Interface\\QuestFrame\\QuestTypeIcons";
@@ -45,7 +45,7 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLogRow", { "AltoholicUI.Formatt
 			frame.Name.Text:SetText(format("%s[%s%d%s] %s%s", colors.white, colors.cyan, level, colors.white, colors.gold, name))
 		end,
 		SetInfo = function(frame, isComplete, isDaily, groupSize, money)
-			local infos = {}
+			local infos = AddonFactory:GetTable()
 		
 			local moneyText = ""
 			if money and money > 0 then
@@ -58,6 +58,7 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLogRow", { "AltoholicUI.Formatt
 			if (groupSize > 1) then table.insert(infos, format(GROUP_NUMBER, groupSize)) end
 		
 			frame.Info:SetText(table.concat(infos,	" / "))
+			AddonFactory:ReleaseTable(infos)
 		end,
 		SetType = function(frame, tagID)
 			local icon = frame.QuestType.Icon

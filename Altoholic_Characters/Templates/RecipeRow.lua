@@ -1,6 +1,6 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
 addon:Controller("AltoholicUI.TabCharacters.RecipeRow", {
 	Update = function(frame, profession, recipeID, color, isLearned, recipeRank, totalRanks)

@@ -3,7 +3,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
 local Equipment = MVC:GetService("AltoholicUI.Equipment")
 
@@ -225,7 +225,7 @@ local function QuestsIcon_Initialize(frame, level)
 	frame:AddButton(ALL, 0, OnQuestHeaderChange, nil, (questLogCategory == 0))
 	
 	-- get the list of quest headers/categories
-	local sortedHeaders = {}
+	local sortedHeaders = AddonFactory:GetTable()
 	for headerIndex, header in pairs(DataStore:GetQuestHeaders(character)) do
 		table.insert(sortedHeaders, { name = header, index = headerIndex })
 	end
@@ -236,6 +236,8 @@ local function QuestsIcon_Initialize(frame, level)
 	for _, v in pairs(sortedHeaders) do
 		frame:AddButton(v.name, v.index, OnQuestHeaderChange, nil, (questLogCategory == v.index))
 	end
+	
+	AddonFactory:ReleaseTable(sortedHeaders)
 	
 	frame:AddTitle("|r ")
 	frame:AddTitle(GAMEOPTIONS_MENU)
@@ -450,7 +452,7 @@ local function ProfessionsIcon_Initialize(frame, level)
 			info.func = OnProfessionSlotChange
 			frame:AddButtonInfo(info, level)
 			
-			local invSlots = {}
+			local invSlots = AddonFactory:GetTable()
 			local profession = DataStore:GetProfession(character, currentProfession)
 			
 			DataStore:IterateRecipes(profession, 0, 0, function(recipeData)
@@ -475,6 +477,8 @@ local function ProfessionsIcon_Initialize(frame, level)
 				info.func = OnProfessionSlotChange
 				frame:AddButtonInfo(info, level)
 			end
+
+			AddonFactory:ReleaseTable(invSlots)
 
 			--NONEQUIPSLOT = "Created Items"; -- Items created by enchanting
 			info.text = NONEQUIPSLOT
@@ -779,7 +783,7 @@ addon:Controller("AltoholicUI.TabCharactersCategoriesList", {
 
 })
 
-DataStore:OnAddonLoaded(addonTabName, function() 
+AddonFactory:OnAddonLoaded(addonTabName, function() 
 	AddonFactory:SetOptionsTable("Altoholic_CharactersTab_Options", {
 		ViewBags = true,
 		ViewBank = true,
