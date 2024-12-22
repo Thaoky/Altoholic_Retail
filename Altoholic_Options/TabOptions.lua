@@ -2,62 +2,32 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
 local tab		-- small shortcut to easily address the frame (set in OnBind)
-local currentPanelKey
 
-addon:Controller("AltoholicUI.TabOptions", {
-	OnBind = function(frame)
-		tab = frame
+addon:Controller("AltoholicUI.TabOptions", { "AddonFactory.Classes", function(oop)
+	return oop:New("AuctionHouseUI.Tab", {
+		OnBind = function(frame)
+			tab = frame
+			
+			frame.URLInfo:SetText(L["CTRL_C_TO_COPY"])
+		end,
+		SetHelp = function(frame, helpID)
 		
-		frame.URLInfo:SetText(L["CTRL_C_TO_COPY"])
-	end,
-	RegisterPanel = function(frame, key, panel)
-		-- a simple list of all the child frames
-		frame.Panels = frame.Panels or {}
-		frame.Panels[key] = panel
-	end,
-	HideAllPanels = function(frame)
-		for _, panel in pairs(frame.Panels) do
-			panel:Hide()
-		end
-	end,
-	ShowPanel = function(frame, panelKey)
-		if not panelKey then return end
-		
-		currentPanelKey = panelKey
-		
-		frame:HideAllPanels()
-		
-		local panel = frame.Panels[currentPanelKey]
-		
-		panel:Show()
-		if panel.PreUpdate then
-			panel:PreUpdate()
-		end
-		panel:Update()
-	end,
-	SetStatus = function(frame, text)
-		frame.Status:SetText(text)
-	end,
-	SetHelp = function(frame, helpID)
-	
-		local panel = frame.Panels[30]	-- SetHelp is only for this panel
-		panel:SetHelp(helpID)
-	end,
-	Update = function(frame)
-		frame:ShowPanel(currentPanelKey)
-	end,
-})
+			local panel = frame.Panels[30]	-- SetHelp is only for this panel
+			panel:SetHelp(helpID)
+		end,
+	})
+end})
 
 local function Settings_OnClick(categoryData)
-	currentPanelKey = categoryData.panel
+	tab:SetCurrentPanel(categoryData.panel)
 	tab:Update()
 end
 
 local function Help_OnClick(categoryData)
-	currentPanelKey = categoryData.panel
+	tab:SetCurrentPanel(categoryData.panel)
 	tab:SetHelp(categoryData.helpID)
 	tab:Update()
 end

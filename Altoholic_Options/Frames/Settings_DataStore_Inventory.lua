@@ -15,7 +15,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreInventory", function()
 			-- Setup localization & clear localized value after use (no longer needed)
 			local colors = AddonFactory.Colors
 			
-			local L = DataStore:GetLocale(addonName)
+			local L = AddonFactory:GetLocale(addonName)
 			frame.Title:SetText(format("%s%s", colors.white, L["DataStore_Inventory's Options"]))
 			L["DataStore_Inventory's Options"] = nil
 		end,

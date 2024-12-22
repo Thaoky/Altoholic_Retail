@@ -15,7 +15,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicMiscellaneous", functi
 			parent:RegisterPanel(5, frame)
 
 			-- Setup localization & clear localized value after use (no longer needed)
-			local L = DataStore:GetLocale(addonName)
+			local L = AddonFactory:GetLocale(addonName)
 			local colors = AddonFactory.Colors
 			
 			frame.Title:SetText(format("%s%s", colors.white, L["Miscellaneous Options"]))

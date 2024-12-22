@@ -1,7 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
 addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicMail.TimeToNextWarning", function()
 	return {

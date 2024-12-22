@@ -1,4 +1,4 @@
-local L = DataStore:SetDefaultLocale("Altoholic", "enUS")
+local L = AddonFactory:SetDefaultLocale("Altoholic", "enUS")
 
 -- ** Menu **
 L["Settings"] = true

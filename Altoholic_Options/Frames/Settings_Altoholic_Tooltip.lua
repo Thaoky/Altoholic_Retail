@@ -14,7 +14,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicTooltip", function()
 			parent:RegisterPanel(3, frame)
 
 			-- Setup localization & clear localized value after use (no longer needed)
-			local L = DataStore:GetLocale(addonName)
+			local L = AddonFactory:GetLocale(addonName)
 			local colors = AddonFactory.Colors
 			
 			frame.Title:SetText(format("%s%s", colors.white, L["Tooltip Options"]))

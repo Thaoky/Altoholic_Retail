@@ -1,9 +1,9 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
-addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicCalendar", { "AltoholicUI.Events", function(Events)
+addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicCalendar", { "AltoholicUI.Events", "AddonFactory.Dates", function(Events, Dates)
 
 	local warningTypes = {
 		L["Profession Cooldowns"],
@@ -25,19 +25,21 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicCalendar", { "Altoholi
 		local id = self.arg1
 		local warnings = Altoholic_Calendar_Options[format("WarningType%d", id)]		-- Gets something like "15,5,1"
 
-		local t = {}		-- create a temporary table to store checked values
+		local checkedValues = AddonFactory:GetTable()
+		
 		for v in warnings:gmatch("(%d+)") do
 			v = tonumber(v)
 			if v ~= self.value then		-- add all values except the one that was clicked
-				table.insert(t, v)
+				table.insert(checkedValues, v)
 			end
 		end
 		
 		if not IsNumberInString(self.value, warnings) then		-- if number is not yet in the string, save it (we're checking it, otherwise we're unchecking)
-			table.insert(t, self.value)
+			table.insert(checkedValues, self.value)
 		end
 		
-		Altoholic_Calendar_Options[format("WarningType%d", id)] = table.concat(t, ",")		-- Sets something like "15,5,10,1"
+		Altoholic_Calendar_Options[format("WarningType%d", id)] = table.concat(checkedValues, ",")		-- Sets something like "15,5,10,1"
+		AddonFactory:ReleaseTable(checkedValues)
 	end
 
 	local function WarningType_Initialize(self)
@@ -103,10 +105,10 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicCalendar", { "Altoholi
 		ToggleWeekStart = function(frame, isChecked)
 			if isChecked then 
 				Altoholic_Calendar_Options["WeekStartsOnMonday"] = true
-				addon:SetFirstDayOfWeek(2)
+				Dates.SetFirstDayOfWeek(2)
 			else
 				Altoholic_Calendar_Options["WeekStartsOnMonday"] = false
-				addon:SetFirstDayOfWeek(1)
+				Dates.SetFirstDayOfWeek(1)
 			end
 						
 			if C_AddOns.IsAddOnLoaded("Altoholic_Agenda") then

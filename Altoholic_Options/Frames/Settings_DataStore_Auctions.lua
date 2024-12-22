@@ -1,7 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local options = DataStore_Auctions_Options
 
 addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreAuctions.SliderLastVisit", function()

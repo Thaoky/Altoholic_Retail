@@ -3,7 +3,7 @@ local addon = _G[addonName]
 local colors = AddonFactory.Colors
 local icons = AddonFactory.Icons
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
 addon:Controller("AltoholicUI.TabOptions.SharingContent", { "AltoholicUI.SharedContent", "AltoholicUI.SharedContentView", function(SharedContent, View)
 	
