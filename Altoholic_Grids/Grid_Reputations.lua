@@ -4,7 +4,7 @@ local colors = AddonFactory.Colors
 local icons = AddonFactory.Icons
 
 local MVC = LibStub("LibMVC-1.0")
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local PARAGON_LABEL = "Paragon"
 
 -- *** Reputations ***
@@ -390,7 +390,6 @@ local function BuildView()
 				DEFAULT_CHAT_FRAME:AddMessage(b.icon)
 			end
 			
-			
 			return a.name < b.name
 		end)
 	end
@@ -400,7 +399,7 @@ end
 
 local function AddGuildsToFactionsTable(realm, account)
 	-- get the guilds on this realm/account
-	local guilds = {}
+	local guilds = AddonFactory:GetTable()
 	for guildName, guild in pairs(DataStore:GetGuilds(realm, account)) do
 		if DataStore:GetGuildFaction(guildName, realm, account) == FACTION_ALLIANCE then
 			guilds[guildName] = "inv_misc_tournaments_banner_human"
@@ -418,6 +417,8 @@ local function AddGuildsToFactionsTable(realm, account)
 	for k, v in pairs(guilds) do
 		table.insert(Factions[CAT_GUILD][1], { name = k, icon = v } )
 	end
+	
+	AddonFactory:ReleaseTable(guilds)
 end
 
 local tab = AltoholicFrame.TabGrids

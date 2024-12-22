@@ -17,7 +17,7 @@ local transmogSets = {
 		{ setID = 898, tier = 4 },				-- Gruul's Lair
 		{ setID = 905, tier = 5 },				-- Serpentshrine Cavern
 		{ setID = 904, tier = 6 },				-- Black Temple
-		{ setID = 903, tier = 6 },				-- Sunwell Plateau
+		{ setID = 903, tier = 6.5 },			-- Sunwell Plateau
 		{ setID = 975, tier = 1, isPVP = true },		-- Season 1
 		{ setID = 967, tier = 2, isPVP = true },		-- Season 2
 		{ setID = 959, tier = 3, isPVP = true },		-- Season 3
@@ -225,7 +225,7 @@ local transmogSets = {
 		{ setID = 1977, tier = "/" },       -- Goblin
 		{ setID = 1980, tier = "/" },       -- Mechagnome
 		{ setID = 1981, tier = "/" },       -- Vulpera
-		]]--
+		--]]
 
 		-- Misc:
 		--{ setID = 1823},        -- Brawler's Guild H

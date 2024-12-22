@@ -6,7 +6,7 @@ local icons = AddonFactory.Icons
 local MVC = LibStub("LibMVC-1.0")
 local Dungeons = MVC:GetService("AltoholicUI.DungeonsLists")
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
 local tab = AltoholicFrame.TabGrids
 

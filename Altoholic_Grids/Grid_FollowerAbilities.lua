@@ -3,7 +3,7 @@ local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
 local MVC = LibStub("LibMVC-1.0")
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
 local tab = AltoholicFrame.TabGrids
 

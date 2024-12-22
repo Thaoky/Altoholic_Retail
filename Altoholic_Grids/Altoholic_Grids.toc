@@ -1,10 +1,10 @@
-## Interface: 110005
+## Interface: 110007
 ## Title: Altoholic_Grids
 ## IconTexture: Interface\Icons\inv_drink_13
 
 ## Notes: Altoholic's Grids Tab
 ## Author: Thaoky (EU-Marécages de Zangar)
-## Version: 11.0.005
+## Version: 11.0.006
 ## Dependencies: Altoholic, DataStore, DataStore_Characters
 ## SavedVariables: Altoholic_GridsTab_Options, Altoholic_GridsTab_Columns
 ## LoadOnDemand: 1

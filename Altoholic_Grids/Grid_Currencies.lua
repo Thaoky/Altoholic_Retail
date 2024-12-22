@@ -3,7 +3,7 @@ local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
 local MVC = LibStub("LibMVC-1.0")
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
 local view
 local isViewValid
@@ -13,7 +13,7 @@ local tab = AltoholicFrame.TabGrids
 local function GetUsedTokens(header)
 	-- get the list of tokens found under a specific header, across all alts
 	
-	local tokens = {}
+	local tokens = AddonFactory:GetTable()
 
 	for _, character in pairs(DataStore:GetCharacters(tab:GetRealm())) do	-- all alts on this realm
 		
@@ -26,7 +26,10 @@ local function GetUsedTokens(header)
 		end
 	end
 	
-	return DataStore:HashToSortedArray(tokens)
+	local output = DataStore:HashToSortedArray(tokens)
+	AddonFactory:ReleaseTable(tokens)
+	
+	return output
 end
 
 local function BuildView()

@@ -6,7 +6,7 @@ local icons = AddonFactory.Icons
 local MVC = LibStub("LibMVC-1.0")
 local TransmogSets = MVC:GetService("AltoholicUI.TransmogSetsLists")
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
 local tab = AltoholicFrame.TabGrids
 
@@ -58,7 +58,7 @@ local function BuildView()
 	local includeHorde = options[format("%s%s", OPTION_PVPDESC_PREFIX, "Horde")]
 	local currentXPack = options["Sets.CurrentXPack"]
 	
-	local activePVPTypes = {}
+	local activePVPTypes = AddonFactory:GetTable()
 	
 	for _, pvpDescription in ipairs(TransmogSets.GetPvPDescriptions()) do
 		if IsPVPDescriptionChecked(pvpDescription) then
@@ -95,6 +95,8 @@ local function BuildView()
 			end
 		end
 	end
+	
+	AddonFactory:ReleaseTable(activePVPTypes)
 	
 	isViewValid = true
 end
@@ -208,6 +210,9 @@ tab:RegisterGrid(13, {
 			if itemsMissing then
 				tt:AddLine(L["Fetching item information .."], 1,0,0)	
 			end
+			
+			tt:AddLine(" ",1,1,1)
+			tt:AddLine(format("Set ID: %s%d", colors.green , setID))
 
 			tt:Show()
 		end,

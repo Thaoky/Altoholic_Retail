@@ -3,7 +3,7 @@ local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
 local MVC = LibStub("LibMVC-1.0")
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
 local tab = AltoholicFrame.TabGrids
 
@@ -75,7 +75,7 @@ local function BuildView()
 	-- list all collected followers (across all alts), sorted alphabetically
 	-- .. then list all uncollected followers, also sorted alphabetically
 
-	local uncollected = {}
+	local uncollected = AddonFactory:GetTable()
 	local followers
 	
 	-- Prepare a list of all collected followers across all alts on this realm
@@ -147,6 +147,8 @@ local function BuildView()
 			table.insert(view, id)
 		end
 	end
+	
+	AddonFactory:ReleaseTable(uncollected)
 	
 	isViewValid = true
 end
