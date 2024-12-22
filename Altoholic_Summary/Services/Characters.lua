@@ -2,7 +2,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
 local AccountSharing = MVC:GetService("AltoholicUI.AccountSharing")
@@ -249,11 +249,11 @@ local function AddRealm(accountName, realmName)
 				local rank = DataStore:GetCookingRank(character) or 0
 				if rank == 0 then shouldAddCharacter = false end
 
-			elseif tradeskill == firstSecondary+1 then
+			elseif tradeskill == firstSecondary + 1 then
 				local rank = DataStore:GetFishingRank(character) or 0
 				if rank == 0 then	shouldAddCharacter = false end
 
-			elseif tradeskill == firstSecondary+2 then
+			elseif tradeskill == firstSecondary + 2 then
 				local rank = DataStore:GetArchaeologyRank(character) or 0
 				if rank == 0 then	shouldAddCharacter = false end
 			end

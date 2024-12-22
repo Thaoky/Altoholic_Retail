@@ -3,7 +3,7 @@ local addon = _G[addonName]
 local colors = AddonFactory.Colors
 local icons = AddonFactory.Icons
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
 local Columns = MVC:GetService("AltoholicUI.TabSummaryColumns")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
@@ -593,36 +593,36 @@ Columns.RegisterColumn("LastOnline", {
 		return format("%s%s", colors.white, Formatter.Delay(lastLogout))
 	end,
 	OnEnter = function(frame)
-			local character = frame:GetParent().character
-			if not character or not DataStore:GetModuleLastUpdateByKey("DataStore_Inventory", character) then
-				return
-			end
+		local character = frame:GetParent().character
+		if not character or not DataStore:GetModuleLastUpdateByKey("DataStore_Inventory", character) then
+			return
+		end
+		
+		local text
+		
+		if DataStore:IsCurrentPlayerKey(character) then
+			-- current player ? show ONLINE
+			text = format("%s%s", colors.green, GUILD_ONLINE_LABEL)
+		else
+			-- other player, show real time since last online
+			local lastLogout = DataStore:GetLastLogout(character)
 			
-			local text
-			
-			if DataStore:IsCurrentPlayerKey(character) then
-				-- current player ? show ONLINE
-				text = format("%s%s", colors.green, GUILD_ONLINE_LABEL)
+			if lastLogout == MAX_LOGOUT_TIMESTAMP then
+				text = UNKNOWN
 			else
-				-- other player, show real time since last online
-				local lastLogout = DataStore:GetLastLogout(character)
-				
-				if lastLogout == MAX_LOGOUT_TIMESTAMP then
-					text = UNKNOWN
-				else
-					text = format("%s: %s", LASTONLINE, SecondsToTime(time() - lastLogout))
-				end
+				text = format("%s: %s", LASTONLINE, SecondsToTime(time() - lastLogout))
 			end
-			
-			local tt = AddonFactory_Tooltip
-			tt:ClearLines()
-			tt:SetOwner(frame, "ANCHOR_RIGHT")
-			tt:AddLine(DataStore:GetColoredCharacterName(character),1,1,1)
-			tt:AddLine(" ")
-			-- then - now = x seconds
-			tt:AddLine(text,1,1,1)
-			tt:Show()
-		end,
+		end
+		
+		local tt = AddonFactory_Tooltip
+		tt:ClearLines()
+		tt:SetOwner(frame, "ANCHOR_RIGHT")
+		tt:AddLine(DataStore:GetColoredCharacterName(character),1,1,1)
+		tt:AddLine(" ")
+		-- then - now = x seconds
+		tt:AddLine(text,1,1,1)
+		tt:Show()
+	end,
 })
 
 -- ** Experience **

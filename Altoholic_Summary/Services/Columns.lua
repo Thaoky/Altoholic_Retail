@@ -1,6 +1,6 @@
 local addon = Altoholic
 
-addon:Service("AltoholicUI.TabSummaryColumns",  function() 
+addon:Service("AltoholicUI.TabSummaryColumns",  function()
 	local columns = {}
 
 	return {
@@ -79,7 +79,7 @@ addon:Service("AltoholicUI.TabSummaryColumnProfiles",  function()
 		[25] = { "Name", "Level", "CypherLvl", "Metrial", "Aealic", "Dealic", "Trebalim", "Cur_Cyphers" },
 		
 		-- Weekly Rewards
-		[26] = { "Name", "Level", "RewardRaid", "RewardDungeons", "RewardWorld" },
+		[26] = { "Name", "Level", "RewardRaid", "RewardDungeons", "RewardWorld", "PendingReward" },
 
 		-- Currencies / Dragonflight 10.0
 		[27] = { "Name", "Level", "Cur_DragonIslesSupplies", "Cur_ElementalOverflow", "Cur_StormSigil", "Cur_ConquestPoints", "Cur_Honor" },

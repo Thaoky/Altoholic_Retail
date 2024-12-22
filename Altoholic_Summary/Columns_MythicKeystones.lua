@@ -2,7 +2,7 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
 local Columns = MVC:GetService("AltoholicUI.TabSummaryColumns")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
@@ -256,7 +256,7 @@ Columns.RegisterColumn("RewardDungeons", {
 			tt:AddLine(DUNGEONS)
 			
 			local dungeons = DataStore:GetDungeonStats(character)
-			local runLevels = {}
+			local runLevels = AddonFactory:GetTable()
 			
 			for mapID, dungeonInfo in pairs(dungeons) do
 				local mapName = C_ChallengeMode.GetMapUIInfo(mapID)
@@ -279,6 +279,8 @@ Columns.RegisterColumn("RewardDungeons", {
 					)
 				end
 			end
+
+			AddonFactory:ReleaseTable(runLevels)
 
 			tt:AddLine(" ")
 			tt:AddLine(format("%s%s", colors.green, CRITERIA_COMPLETED))
@@ -323,6 +325,70 @@ Columns.RegisterColumn("RewardWorld", {
 		if level > 8 then level = 8 end
 		
 		return format("%s%s%s/%s%s", color, level, colors.white, colors.yellow, 8)
+	end,
+})
+
+Columns.RegisterColumn("PendingReward", {
+	-- Header
+	headerWidth = 80,
+	headerLabel = "Rewards",
+	tooltipTitle = "Pending Rewards",
+	-- tooltipTitle = L["COLUMN_KEYNAME_TITLE"],
+	-- tooltipSubTitle = L["COLUMN_KEYNAME_SUBTITLE"],
+	tooltipSubTitle = "Are there pending rewards to collect at the vault ?",
+	headerSort = function(self, character) 
+		local rewards = DataStore:HasAvailableRewards(character)
+		
+		if type(rewards) == "boolean" then
+			return rewards == false and 1 or 2
+		else
+			return 0
+		end
+	end,
+	
+	-- Content
+	Width = 80,
+	GetText = function(character) 
+		local rewards = DataStore:HasAvailableRewards(character)
+		
+		if type(rewards) == "nil" then
+			return format("%s%s", colors.grey, UNKNOWN)
+		elseif rewards == true then
+			return format("%s%s", colors.green, YES)
+		else
+			return format("%s%s", colors.grey, NO)
+		end
+	end,
+	OnEnter = function(frame)
+		local character = frame:GetParent().character
+		if not character or not DataStore:GetModuleLastUpdateByKey("DataStore_Inventory", character) then
+			return
+		end
+		
+		local text
+		
+		if DataStore:IsCurrentPlayerKey(character) then
+			-- current player ? show ONLINE
+			text = format("%s%s", colors.green, GUILD_ONLINE_LABEL)
+		else
+			-- other player, show real time since last online
+			local lastLogout = DataStore:GetLastLogout(character)
+			
+			if lastLogout == MAX_LOGOUT_TIMESTAMP then
+				text = UNKNOWN
+			else
+				text = format("%s: %s", LASTONLINE, SecondsToTime(time() - lastLogout))
+			end
+		end
+		
+		local tt = AddonFactory_Tooltip
+		tt:ClearLines()
+		tt:SetOwner(frame, "ANCHOR_RIGHT")
+		tt:AddLine(DataStore:GetColoredCharacterName(character),1,1,1)
+		tt:AddLine(" ")
+		-- then - now = x seconds
+		tt:AddLine(text,1,1,1)
+		tt:Show()
 	end,
 })
 

@@ -3,7 +3,7 @@ local addon = _G[addonName]
 local colors = AddonFactory.Colors
 local icons = AddonFactory.Icons
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 
 local TEXTURE_HORDE = format("|T%s:%s:%s|t", icons.Horde, 18, 18)
 local TEXTURE_ALLIANCE = format("|T%s:%s:%s|t", icons.Alliance, 18, 18)

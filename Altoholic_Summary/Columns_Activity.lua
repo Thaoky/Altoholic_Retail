@@ -3,7 +3,7 @@ local addon = _G[addonName]
 local colors = AddonFactory.Colors
 local icons = AddonFactory.Icons
 
-local L = DataStore:GetLocale(addonName)
+local L = AddonFactory:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
 local Columns = MVC:GetService("AltoholicUI.TabSummaryColumns")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
