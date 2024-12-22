@@ -28,6 +28,10 @@ jobs:
 
       - name: Copy subfolders from DataStore repositories
         run: |
+          git clone https://github.com/Thaoky/AddonFactory.git temp
+          mv temp/AddonFactory .
+          rm -rf temp
+                    
           git clone https://github.com/Thaoky/DataStore.git temp
           mv temp/DataStore .
           rm -rf temp
