@@ -402,24 +402,13 @@ local function ProfessionsIcon_Initialize(frame, level)
 		frame:AddTitle(" ")
 		frame:AddTitle(FILTERS)
 		
-		if currentProfession then		-- if a profession is visible, display filters
-			local info = frame:CreateInfo()
-
-			info.text = format("%s%s", colors.white, COLOR)
-			info.hasArrow = 1
-			info.checked = nil
-			info.value = "colors"
-			info.func = nil
-			frame:AddButtonInfo(info, level)
-
-			info.text = format("%s%s", colors.white, SLOT_ABBR)
-			info.hasArrow = 1
-			info.checked = nil
-			info.value = "slots"
-			info.func = nil
-			frame:AddButtonInfo(info, level)
+		if currentProfession then
+			-- if a profession is visible, display filters
+			frame:AddCategoryButton(format("%s%s", colors.white, COLOR), "colors", level)
+			frame:AddCategoryButton(format("%s%s", colors.white, SLOT_ABBR), "slots", level)
 			
-		else		-- grey out filters
+		else
+			-- grey out filters
 			frame:AddButton(format("%s%s", colors.grey, COLOR), nil, nil)
 			frame:AddButton(format("%s%s", colors.grey, SLOT_ABBR), nil, nil)
 		end
@@ -725,6 +714,17 @@ addon:Controller("AltoholicUI.TabCharacters", { "AltoholicUI.Characters", functi
 			
 			-- hc:LimitWidth(frame.Background:GetWidth())
 		end,
+		
+		-- Invalidate the view of the current panel
+		InvalidateView = function(frame)
+			local panel = tab.Panels[currentPanelKey]
+			
+			-- Necessary for instance when going from a character with auctions to a character without auctions
+			if panel and panel.InvalidateView then
+				panel:InvalidateView()
+			end
+		end,
+		
 		Update = function(frame)
 			frame:SetColumns(currentPanelKey)
 			frame:ShowPanel(currentPanelKey)
@@ -737,6 +737,7 @@ local function categoriesList_OnClick(categoryData)
 	
 	tab:SetCharacter(character)
 	tab:SetStatus(DataStore:GetColoredCharacterName(character))
+	tab:InvalidateView()
 	tab:Update()
 end
 

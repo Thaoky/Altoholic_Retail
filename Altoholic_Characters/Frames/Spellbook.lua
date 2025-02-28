@@ -10,10 +10,9 @@ local currentPage
 addon:Controller("AltoholicUI.TabCharacters.Spellbook", function()
 
 	return {
-		OnBind = function(frame)
-			local parent = AltoholicFrame.TabCharacters
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabCharacters,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("Spellbook", frame)

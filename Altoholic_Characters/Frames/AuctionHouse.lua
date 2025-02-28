@@ -1,12 +1,12 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Controller("AltoholicUI.TabCharacters.Auctions", function()
+addon:Controller("AltoholicUI.TabCharacters.Auctions", { "AddonFactory.Classes", function(oop)
 
 	local L = AddonFactory:GetLocale(addonName)
 	local colors = AddonFactory.Colors
 	local currentCharacter
-	local view, isViewValid
+	local view, viewHandler, isViewValid
 	local viewSortField, viewSortOrder
 	local listType		-- "Auctions" or "Bids"
 	
@@ -48,7 +48,7 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", function()
 
 	local function BuildView(field, ascending)
 		field = field or "expiry"
-		
+
 		view = view or {}
 		wipe(view)
 		
@@ -79,10 +79,9 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", function()
 	end
 
 	return {
-		OnBind = function(frame)
-			local parent = AltoholicFrame.TabCharacters
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabCharacters,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("Auctions", frame)
@@ -94,6 +93,8 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", function()
 					frame:Update()
 				end
 			end)
+			
+			viewHandler = oop:New("ScrollFrameViewHandler", frame.ScrollFrame)
 			
 			-- Handle resize
 			frame:SetScript("OnSizeChanged", function(self, width, height)
@@ -141,42 +142,27 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", function()
 				colors.white, format("%s %s(%d)", AUCTIONS, colors.green, numAuctions)))
 			
 			-- Update the scrollframe
-			local scrollFrame = frame.ScrollFrame
-			local numRows = scrollFrame.numRows
-			local offset = scrollFrame:GetOffset()
+			viewHandler:Update(#view, isResizing, function(rowFrame, line) 
 			
-			local maxDisplayedRows = math.floor(scrollFrame:GetHeight() / scrollFrame.rowHeight)
-			
-			for rowIndex = 1, numRows do
-				local rowFrame = scrollFrame:GetRow(rowIndex)
-				local line = rowIndex + offset
+				local index = view[line]
 				
-				if line <= numAuctions and (rowIndex <= maxDisplayedRows)then	-- if the line is visible
-					if not (isResizing and rowFrame:IsVisible()) then
-						local index = view[line]
-						
-						local isGoblin, itemID, count, highBidder, startPrice, buyoutPrice, timeLeft = DataStore:GetAuctionHouseItemInfo(character, "Auctions", index)
+				local isGoblin, itemID, count, highBidder, startPrice, buyoutPrice, timeLeft = DataStore:GetAuctionHouseItemInfo(character, "Auctions", index)
 
-						if itemID then
-							local itemName, _, itemRarity = GetItemInfo(itemID)
-							rowFrame:SetName(itemName or L["N/A"], itemRarity or 1)
-							rowFrame.Item:SetID(index)
-						end
-						
-						rowFrame:SetTimeLeft(timeLeft)
-						rowFrame:SetHighBidder(isGoblin, highBidder)
-						rowFrame:SetPrice(startPrice, buyoutPrice)
-						rowFrame.Item:SetIcon(GetItemIcon(itemID))
-						rowFrame.Item:SetCount(count)
-						rowFrame.Item.listType = listType
-					end
-					rowFrame:Show()
-				else
-					rowFrame:Hide()
+				if itemID then
+					local itemName, _, itemRarity = GetItemInfo(itemID)
+					rowFrame:SetName(itemName or L["N/A"], itemRarity or 1)
+					rowFrame.Item:SetID(index)
 				end
-			end
-
-			scrollFrame:Update(#view, maxDisplayedRows)
+				
+				rowFrame:SetTimeLeft(timeLeft)
+				rowFrame:SetHighBidder(isGoblin, highBidder)
+				rowFrame:SetPrice(startPrice, buyoutPrice)
+				
+				rowFrame.Item:SetIcon(GetItemIcon(itemID))
+				rowFrame.Item:SetCount(count)
+				rowFrame.Item.listType = listType
+			end)
+			
 			frame:Show()
 		end,
 		UpdateBids = function(frame, isResizing)
@@ -197,42 +183,26 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", function()
 				colors.white, format("%s %s(%d)", BIDS, colors.green, numBids)))
 			
 			-- Update the scrollframe
-			local scrollFrame = frame.ScrollFrame
-			local numRows = scrollFrame.numRows
-			local offset = scrollFrame:GetOffset()
-			
-			local maxDisplayedRows = math.floor(scrollFrame:GetHeight() / scrollFrame.rowHeight)
-			
-			for rowIndex = 1, numRows do
-				local rowFrame = scrollFrame:GetRow(rowIndex)
-				local line = rowIndex + offset
+			viewHandler:Update(#view, isResizing, function(rowFrame, line)
+				local index = view[line]
 				
-				if line <= numBids and (rowIndex <= maxDisplayedRows)then	-- if the line is visible
-					if not (isResizing and rowFrame:IsVisible()) then
-						local index = view[line]
-						
-						local isGoblin, itemID, count, ownerName, bidPrice, buyoutPrice, timeLeft = DataStore:GetAuctionHouseItemInfo(character, "Bids", index)
-						
-						if itemID then
-							local itemName, _, itemRarity = GetItemInfo(itemID)
-							rowFrame:SetName(itemName or L["N/A"], itemRarity or 1)
-							rowFrame.Item:SetID(index)
-						end
-						
-						rowFrame:SetTimeLeftForBid(timeLeft)
-						rowFrame:SetOwnBid(isGoblin, ownerName)
-						rowFrame:SetBidPrice(bidPrice, buyoutPrice)
-						rowFrame.Item:SetIcon(GetItemIcon(itemID))
-						rowFrame.Item:SetCount(count)
-						rowFrame.Item.listType = listType
-					end
-					rowFrame:Show()
-				else
-					rowFrame:Hide()
+				local isGoblin, itemID, count, ownerName, bidPrice, buyoutPrice, timeLeft = DataStore:GetAuctionHouseItemInfo(character, "Bids", index)
+				
+				if itemID then
+					local itemName, _, itemRarity = GetItemInfo(itemID)
+					rowFrame:SetName(itemName or L["N/A"], itemRarity or 1)
+					rowFrame.Item:SetID(index)
 				end
-			end
-
-			scrollFrame:Update(#view, maxDisplayedRows)
+				
+				rowFrame:SetTimeLeftForBid(timeLeft)
+				rowFrame:SetOwnBid(isGoblin, ownerName)
+				rowFrame:SetBidPrice(bidPrice, buyoutPrice)
+				rowFrame.Item:SetIcon(GetItemIcon(itemID))
+				rowFrame.Item:SetCount(count)
+				rowFrame.Item.listType = listType
+			end)
+		
 			frame:Show()
 		end,
-}end)
+	}
+end})

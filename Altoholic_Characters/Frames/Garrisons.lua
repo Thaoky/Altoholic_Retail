@@ -1,12 +1,13 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", function()
+addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", { "AddonFactory.Classes", function(oop)
 
 	local colors = AddonFactory.Colors
 	local L = AddonFactory:GetLocale(addonName)
 	
 	local view = {}
+	local viewHandler
 
 	local modes = {
 		[1] = {	-- available missions
@@ -76,10 +77,9 @@ addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", function()
 	end
 
 	return {
-		OnBind = function(frame)
-			local parent = AltoholicFrame.TabCharacters
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabCharacters,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("GarrisonMissions", frame)		
@@ -91,6 +91,8 @@ addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", function()
 			end
 		
 			addon:ListenTo("GARRISON_MISSION_LIST_UPDATE", OnGarrisonMissionListUpdate)
+			
+			viewHandler = oop:New("ScrollFrameViewHandler", frame.ScrollFrame)
 			
 			-- Handle resize
 			frame:SetScript("OnSizeChanged", function(self, width, height)
@@ -114,38 +116,22 @@ addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionsPanel", function()
 
 				BuildView(character)
 			end
+			
+			viewHandler:Update(#view, isResizing, function(rowFrame, line) 
+				local missionID = view[line]
+				local followers, remainingTime, successChance = DataStore:GetActiveMissionInfo(character, missionID)
+				
+				rowFrame:SetName(missionID, DataStore:GetMissionDuration(missionID))
+				rowFrame:SetType(DataStore:GetMissionAtlas(missionID))
+				rowFrame:SetLevel(DataStore:GetMissionLevel(missionID))
+				rowFrame:SetRemainingTime(remainingTime)
+				rowFrame:SetSuccessChance(successChance)
+				rowFrame:SetCost(DataStore:GetMissionCost(missionID))
+				rowFrame:SetFollowers(followers, missionID, character)
+				rowFrame:SetRewards(DataStore:GetMissionRewards(missionID))
+			end)
 
-			local scrollFrame = frame.ScrollFrame
-			local numRows = scrollFrame.numRows
-			local offset = scrollFrame:GetOffset()
-			
-			local maxDisplayedRows = math.floor(scrollFrame:GetHeight() / scrollFrame.rowHeight)
-			
-			for rowIndex = 1, numRows do
-				local rowFrame = scrollFrame:GetRow(rowIndex)
-				local line = rowIndex + offset
-			
-				if line <= #view and (rowIndex <= maxDisplayedRows) then	-- if the line is visible
-					if not (isResizing and rowFrame:IsVisible()) then
-						local missionID = view[line]
-						local followers, remainingTime, successChance = DataStore:GetActiveMissionInfo(character, missionID)
-						
-						rowFrame:SetName(missionID, DataStore:GetMissionDuration(missionID))
-						rowFrame:SetType(DataStore:GetMissionAtlas(missionID))
-						rowFrame:SetLevel(DataStore:GetMissionLevel(missionID))
-						rowFrame:SetRemainingTime(remainingTime)
-						rowFrame:SetSuccessChance(successChance)
-						rowFrame:SetCost(DataStore:GetMissionCost(missionID))
-						rowFrame:SetFollowers(followers, missionID, character)
-						rowFrame:SetRewards(DataStore:GetMissionRewards(missionID))
-					end
-					rowFrame:Show()
-				else
-					rowFrame:Hide()
-				end
-			end
-			
-			scrollFrame:Update(#view, maxDisplayedRows)
 			frame:Show()
 		end,
-}end)
+	}
+end})

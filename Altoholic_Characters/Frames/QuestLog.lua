@@ -1,7 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Controller("AltoholicUI.TabCharacters.QuestLog", function()
+addon:Controller("AltoholicUI.TabCharacters.QuestLog", { "AddonFactory.Classes", function(oop)
 	
 	local colors = AddonFactory.Colors
 
@@ -22,15 +22,18 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLog", function()
 			text, 
 			colors.green, numQuests)
 	end
+	
+	local viewHandler
 
 	return {
-		OnBind = function(frame)
-			local parent = AltoholicFrame.TabCharacters
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabCharacters,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("QuestLog", frame)
+			
+			viewHandler = oop:New("ScrollFrameViewHandler", frame.ScrollFrame)
 			
 			-- Handle resize
 			frame:SetScript("OnSizeChanged", function(self, width, height)
@@ -58,41 +61,26 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLog", function()
 			parent:SetStatus(GetStatus(character, currentCategoryID, #questList))
 			
 			-- Update the scrollframe
-			local scrollFrame = frame.ScrollFrame
-			local numRows = scrollFrame.numRows
-			local offset = scrollFrame:GetOffset()
-			
-			local maxDisplayedRows = math.floor(scrollFrame:GetHeight() / scrollFrame.rowHeight)
-			
-			for rowIndex = 1, numRows do
-				local rowFrame = scrollFrame:GetRow(rowIndex)
-				local line = rowIndex + offset
+			viewHandler:Update(#questList, isResizing, function(rowFrame, line)
+				local lineID = questList[line]
+				rowFrame:SetID(lineID)
+
+				local questID = DataStore:GetQuestLogID(character, lineID)
 				
-				if line <= #questList and (rowIndex <= maxDisplayedRows)then	-- if the line is visible
-					if not (isResizing and rowFrame:IsVisible()) then
-						local lineID = questList[line]
-						rowFrame:SetID(lineID)
+				rowFrame:SetName(DataStore:GetQuestName(questID), DataStore:GetQuestLevel(questID))
+				rowFrame:SetType(DataStore:GetQuestLogTag(character, lineID))
+				rowFrame:SetRewards(character)
+				rowFrame:SetInfo(
+					DataStore:IsQuestCompleted(character, lineID), 
+					DataStore:IsQuestDaily(questID), 
+					DataStore:GetQuestGroupSize(questID), 
+					DataStore:GetQuestLogMoney(character, lineID)
+				)		
+			end)
 
-						local questID = DataStore:GetQuestLogID(character, lineID)
-						
-						rowFrame:SetName(DataStore:GetQuestName(questID), DataStore:GetQuestLevel(questID))
-						rowFrame:SetType(DataStore:GetQuestLogTag(character, lineID))
-						rowFrame:SetRewards(character)
-						rowFrame:SetInfo(
-							DataStore:IsQuestCompleted(character, lineID), 
-							DataStore:IsQuestDaily(questID), 
-							DataStore:GetQuestGroupSize(questID), 
-							DataStore:GetQuestLogMoney(character, lineID))
-					end
-					rowFrame:Show()
-				else
-					rowFrame:Hide()
-				end
-			end
-
-			scrollFrame:Update(#questList, maxDisplayedRows)
 			frame:Show()
 			
 			AddonFactory:ReleaseTable(questList)
 		end,
-}end)
+	}
+end})

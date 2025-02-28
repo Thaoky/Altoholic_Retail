@@ -1,4 +1,4 @@
-local L = DataStore:SetLocale("Altoholic", "zhCN")
+local L = AddonFactory:SetLocale("Altoholic", "zhCN")
 if not L then return end
 
 L["Account"] = "账号"

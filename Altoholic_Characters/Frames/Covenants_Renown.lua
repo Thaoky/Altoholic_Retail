@@ -128,10 +128,9 @@ addon:Controller("AltoholicUI.RenownLevel", {
 })
 
 addon:Controller("AltoholicUI.TabCharacters.RenownPanel", {
-	OnBind = function(frame)
-		local parent = AltoholicFrame.TabCharacters
-		
-		frame:SetParent(parent)
+	__Parent = AltoholicFrame.TabCharacters,
+
+	OnBind = function(frame, parent)
 		frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 		frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 		parent:RegisterPanel("Renown", frame)
@@ -143,6 +142,7 @@ addon:Controller("AltoholicUI.TabCharacters.RenownPanel", {
 			frame:Update(true)
 		end)
 	end,
+	
 	Update = function(frame, isResizing)
 		local parent = frame:GetParent()
 		local character = parent:GetCharacter()

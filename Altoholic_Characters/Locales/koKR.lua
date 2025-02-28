@@ -1,4 +1,4 @@
-local L = DataStore:SetLocale("Altoholic", "koKR")
+local L = AddonFactory:SetLocale("Altoholic", "koKR")
 if not L then return end
 
 L["Account"] = "계정"

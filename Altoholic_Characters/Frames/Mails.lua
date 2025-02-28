@@ -1,12 +1,12 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Controller("AltoholicUI.TabCharacters.Mails", function()
+addon:Controller("AltoholicUI.TabCharacters.Mails", { "AddonFactory.Classes", function(oop)
 	
 	local L = AddonFactory:GetLocale(addonName)
 	local colors = AddonFactory.Colors
 	local currentCharacter
-	local view, isViewValid
+	local view, viewHandler, isViewValid
 	local viewSortField, viewSortOrder
 
 	local function SortByName(a, b, ascending)
@@ -65,13 +65,14 @@ addon:Controller("AltoholicUI.TabCharacters.Mails", function()
 	end
 	
 	return {
-		OnBind = function(frame)
-			local parent = AltoholicFrame.TabCharacters
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabCharacters,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("Mails", frame)
+			
+			viewHandler = oop:New("ScrollFrameViewHandler", frame.ScrollFrame)
 			
 			-- Handle resize
 			frame:SetScript("OnSizeChanged", function(self, width, height)
@@ -113,45 +114,29 @@ addon:Controller("AltoholicUI.TabCharacters.Mails", function()
 			end
 			
 			-- Update the scrollframe
-			local scrollFrame = frame.ScrollFrame
-			local numRows = scrollFrame.numRows
-			local offset = scrollFrame:GetOffset()
-			
-			local maxDisplayedRows = math.floor(scrollFrame:GetHeight() / scrollFrame.rowHeight)
-			
-			for rowIndex = 1, numRows do
-				local rowFrame = scrollFrame:GetRow(rowIndex)
-				local line = rowIndex + offset
-				
-				if line <= numMails and (rowIndex <= maxDisplayedRows)then	-- if the line is visible
-					if not (isResizing and rowFrame:IsVisible()) then
-						local index = view[line]
+			viewHandler:Update(#view, isResizing, function(rowFrame, line)
+				local index = view[line]
 
-						local icon, count, link, _, _, wasReturned = DataStore:GetMailInfo(character, index)
+				local icon, count, link, _, _, wasReturned = DataStore:GetMailInfo(character, index)
 
-						rowFrame.Name:SetText(link or DataStore:GetMailSubject(character, index))
-						rowFrame.Character:SetText(DataStore:GetMailSender(character, index))
+				rowFrame.Name:SetText(link or DataStore:GetMailSubject(character, index))
+				rowFrame.Character:SetText(DataStore:GetMailSender(character, index))
 
-						local msg
-						if not wasReturned then
-							msg = format(L["Will be %sreturned|r in"], colors.green, colors.white)
-						else
-							msg = format(L["Will be %sdeleted|r in"], colors.red, colors.white)
-						end
-				
-						local _, seconds = DataStore:GetMailExpiry(character, index)
-						rowFrame.Expiry:SetText(format("%s:\n%s%s", msg, colors.white, SecondsToTime(seconds)))
-						rowFrame.Item:SetIcon(icon)
-						rowFrame.Item:SetCount(count)
-						rowFrame.Item:SetID(index)
-					end
-					rowFrame:Show()
+				local msg
+				if not wasReturned then
+					msg = format(L["Will be %sreturned|r in"], colors.green, colors.white)
 				else
-					rowFrame:Hide()
+					msg = format(L["Will be %sdeleted|r in"], colors.red, colors.white)
 				end
-			end
+		
+				local _, seconds = DataStore:GetMailExpiry(character, index)
+				rowFrame.Expiry:SetText(format("%s:\n%s%s", msg, colors.white, SecondsToTime(seconds)))
+				rowFrame.Item:SetIcon(icon)
+				rowFrame.Item:SetCount(count)
+				rowFrame.Item:SetID(index)		
+			end)
 
-			scrollFrame:Update(#view, maxDisplayedRows)
 			frame:Show()
 		end,
-}end)
+	}
+end})

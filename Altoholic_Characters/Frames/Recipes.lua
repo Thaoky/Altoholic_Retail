@@ -1,7 +1,7 @@
 local addonName = "Altoholic"
 local addon = _G[addonName]
 
-addon:Controller("AltoholicUI.TabCharacters.Recipes", function()
+addon:Controller("AltoholicUI.TabCharacters.Recipes", { "AddonFactory.Classes", function(oop)
 	local L = AddonFactory:GetLocale(addonName)
 	local colors = AddonFactory.Colors
 
@@ -114,6 +114,8 @@ addon:Controller("AltoholicUI.TabCharacters.Recipes", function()
 		
 		return list
 	end
+	
+	local viewHandler
 
 	return {
 
@@ -135,13 +137,14 @@ addon:Controller("AltoholicUI.TabCharacters.Recipes", function()
 			currentSlots = ALL_INVENTORY_SLOTS
 		end,
 		
-		OnBind = function(frame)
-			local parent = AltoholicFrame.TabCharacters
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabCharacters,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("Recipes", frame)
+			
+			viewHandler = oop:New("ScrollFrameViewHandler", frame.ScrollFrame)
 			
 			-- Handle resize
 			frame:SetScript("OnSizeChanged", function(self, width, height)
@@ -161,30 +164,12 @@ addon:Controller("AltoholicUI.TabCharacters.Recipes", function()
 			-- Set the tab status
 			parent:SetStatus(GetStatus(character, currentProfession, #recipeList))
 			
-		
-			local scrollFrame = frame.ScrollFrame
-			local numRows = scrollFrame.numRows
-			local offset = scrollFrame:GetOffset()
-			
-			local maxDisplayedRows = math.floor(scrollFrame:GetHeight() / scrollFrame.rowHeight)
-
-			for rowIndex = 1, numRows do
-				local rowFrame = scrollFrame:GetRow(rowIndex)
-				local line = rowIndex + offset
+			viewHandler:Update(#recipeList, isResizing, function(rowFrame, line)
+				local color, recipeID, isLearned, recipeRank, totalRanks = DataStore:GetRecipeInfo(recipeList[line])
 				
-				if line <= #recipeList and (rowIndex <= maxDisplayedRows)then	-- if the line is visible
-					if not (isResizing and rowFrame:IsVisible()) then
-						local color, recipeID, isLearned, recipeRank, totalRanks = DataStore:GetRecipeInfo(recipeList[line])
-						
-						rowFrame:Update(currentProfession, recipeID, recipeColors[color], isLearned, recipeRank, totalRanks)
-					end
-					rowFrame:Show()
-				else
-					rowFrame:Hide()
-				end
-			end
+				rowFrame:Update(currentProfession, recipeID, recipeColors[color], isLearned, recipeRank, totalRanks)
+			end)
 
-			scrollFrame:Update(#recipeList, maxDisplayedRows)
 			frame:Show()
 		end,
 		Link_OnClick = function(frame, button)
@@ -218,4 +203,5 @@ addon:Controller("AltoholicUI.TabCharacters.Recipes", function()
 			currentSearch = self:GetText()
 			frame:Update()
 		end,
-}end)
+	}
+end})

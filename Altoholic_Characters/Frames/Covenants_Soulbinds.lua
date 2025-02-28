@@ -7,10 +7,9 @@ local L = AddonFactory:GetLocale(addonName)
 local currentCovenantID
 
 addon:Controller("AltoholicUI.TabCharacters.SoulbindsPanel", {
-	OnBind = function(frame)
-		local parent = AltoholicFrame.TabCharacters
-		
-		frame:SetParent(parent)
+	__Parent = AltoholicFrame.TabCharacters,
+
+	OnBind = function(frame, parent)
 		frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 		frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 		parent:RegisterPanel("Soulbinds", frame)
@@ -22,6 +21,7 @@ addon:Controller("AltoholicUI.TabCharacters.SoulbindsPanel", {
 			frame:Update(true)
 		end)
 	end,
+	
 	Update = function(frame, isResizing)
 		frame:Hide()
 		
