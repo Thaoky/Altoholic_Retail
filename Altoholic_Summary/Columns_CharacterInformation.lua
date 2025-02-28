@@ -1092,6 +1092,7 @@ Columns.RegisterColumn("Inv_NumEpics", {
 	
 		return format("%s%s", color, level)
 	end,
+	GetTotal = function(line) return Characters.GetField(line, "epics") end,
 })
 
 Columns.RegisterColumn("Inv_NumBlues", {
@@ -1110,6 +1111,7 @@ Columns.RegisterColumn("Inv_NumBlues", {
 	
 		return format("%s%s", color, level)
 	end,
+	GetTotal = function(line) return Characters.GetField(line, "rares") end,
 })
 
 Columns.RegisterColumn("Inv_NumGreens", {
@@ -1128,6 +1130,7 @@ Columns.RegisterColumn("Inv_NumGreens", {
 	
 		return format("%s%s", color, level)
 	end,
+	GetTotal = function(line) return Characters.GetField(line, "uncommons") end,
 })
 
 Columns.RegisterColumn("Inv_NumHeirlooms", {
@@ -1146,5 +1149,6 @@ Columns.RegisterColumn("Inv_NumHeirlooms", {
 	
 		return format("%s%s", color, level)
 	end,
+	GetTotal = function(line) return Characters.GetField(line, "heirlooms") end,
 })
 

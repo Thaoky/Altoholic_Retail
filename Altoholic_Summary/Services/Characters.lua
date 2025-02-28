@@ -103,7 +103,11 @@ local function AddRealm(accountName, realmName)
 	local realmBankSlots = 0
 	local realmFreeBankSlots = 0
 	local realmAiL = 0
-	local realmOffset = realmCount*3
+	local realmOffset = realmCount * 3
+	local realmEpics = 0
+	local realmRares = 0
+	local realmUncommons = 0
+	local realmHeirlooms = 0
 	local numCharacters = 0
 
 	-- let's get our filter values
@@ -264,6 +268,10 @@ local function AddRealm(accountName, realmName)
 			realmLevels = realmLevels + (DataStore:GetCharacterLevel(character) or 0)
 			realmMoney = realmMoney + (DataStore:GetMoney(character) or 0)
 			realmPlayed = realmPlayed + (DataStore:GetPlayTime(character) or 0)
+			realmEpics = realmEpics + (DataStore:GetNumEpicEquipment(character) or 0)
+			realmRares = realmRares + (DataStore:GetNumRareEquipment(character) or 0)
+			realmUncommons = realmUncommons + (DataStore:GetNumUncommonEquipment(character) or 0)
+			realmHeirlooms = realmHeirlooms + (DataStore:GetNumHeirloomEquipment(character) or 0)
 			
 			realmBagSlots = realmBagSlots + (DataStore:GetNumBagSlots(character) or 0)
 			realmFreeBagSlots = realmFreeBagSlots + (DataStore:GetNumFreeBagSlots(character) or 0)
@@ -286,6 +294,10 @@ local function AddRealm(accountName, realmName)
 		bankSlots = realmBankSlots,
 		freeBankSlots = realmFreeBankSlots,
 		realmAiL = (numCharacters ~= 0) and (realmAiL / numCharacters) or 0,
+		epics = format("%s%d", colors.white, realmEpics),
+		rares = format("%s%d", colors.white, realmRares),
+		uncommons = format("%s%d", colors.white, realmUncommons),
+		heirlooms = format("%s%d", colors.white, realmHeirlooms),
 	} )
 
 	totalMoney = totalMoney + realmMoney

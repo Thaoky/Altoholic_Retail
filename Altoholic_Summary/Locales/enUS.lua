@@ -31,6 +31,7 @@ L["PATCH_9.1"] = "Chains of Domination"
 L["PATCH_9.2"] = "Eternity's End"
 L["PATCH_10.1"] = "Embers of Neltharion"
 L["PATCH_10.2"] = "Guardians of the Dream"
+L["PATCH_11.1"] = "Undermine(d)"
 
 -- ** Filter Icons **
 L["FILTER_REALMS"] = "Realms filter"

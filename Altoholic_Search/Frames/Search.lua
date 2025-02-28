@@ -2,18 +2,21 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
-addon:Controller("AltoholicUI.TabSearch.Search", { "AltoholicUI.SearchResults", "AltoholicUI.ItemFilters", function(Results, ItemFilters)
+addon:Controller("AltoholicUI.TabSearch.Search", { "AddonFactory.Classes", "AltoholicUI.SearchResults", "AltoholicUI.ItemFilters", 
+function(oop, Results, ItemFilters)
 
 	local L = AddonFactory:GetLocale(addonName)
+	local viewHandler
 
 	return {
-		OnBind = function(frame)
-			local parent = AltoholicFrame.TabSearch
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabSearch,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("Search", frame)
+			
+			viewHandler = oop:New("ScrollFrameViewHandler", frame.ScrollFrame)
 			
 			-- Handle resize
 			frame:SetScript("OnSizeChanged", function(self, width, height)
@@ -24,12 +27,6 @@ addon:Controller("AltoholicUI.TabSearch.Search", { "AltoholicUI.SearchResults", 
 		end,
 
 		Update = function(frame, isResizing)
-			local scrollFrame = frame.ScrollFrame
-			local numRows = scrollFrame.numRows
-			local offset = scrollFrame:GetOffset()
-			
-			local maxDisplayedRows = math.floor(scrollFrame:GetHeight() / scrollFrame.rowHeight)
-			
 			local parent = frame:GetParent()
 			local numResults = Results.GetSize()
 			
@@ -53,64 +50,49 @@ addon:Controller("AltoholicUI.TabSearch.Search", { "AltoholicUI.SearchResults", 
 			local options = Altoholic_SearchTab_Options
 			local useClassColor = options["UseColorsForAlts"]
 			local useFactionColor = options["UseColorsForRealms"]
-			
-			for rowIndex = 1, numRows do
-				local rowFrame = scrollFrame:GetRow(rowIndex)
-				local line = rowIndex + offset
+		
+			viewHandler:Update(numResults, isResizing, function(rowFrame, line)
+				local result = Results.GetResult(line)
+				local itemID = result.itemID
+				local itemLink = result.itemLink
 				
-				if line <= numResults and (rowIndex <= maxDisplayedRows) then	-- if the line is visible
-					if not (isResizing and rowFrame:IsVisible()) then
-						local result = Results.GetResult(line)
-						local itemID = result.itemID
-						local itemLink = result.itemLink
-						
-						local hex = rowFrame:DrawItemBorder(itemID, itemLink)
-						local isCraft = Results.IsPlayerCraft(line)
-						
-						if isCraft then
-							rowFrame:DrawCraftItem(itemID)
-							rowFrame:DrawCraftInfo(result.spellID, result.professionName, line, hex)
-						else
-							rowFrame:DrawItem(itemID, itemLink, result.isBattlePet)
-							rowFrame:DrawItemInfo(itemID, itemLink, result.location, result.isBattlePet, hex)
-						end
-						
-						-- crafts will work below this point
-						if Results.IsPlayerItem(line) or isCraft then
-							rowFrame:DrawOwner(result.sourceKey, useClassColor)
-							rowFrame:DrawRealm(result.sourceKey, useFactionColor)
-							
-						elseif Results.IsGuildItem(line) then
-							rowFrame:DrawOwner(result.sourceKey, useClassColor, true)
-							rowFrame:DrawRealm(result.sourceKey, useFactionColor, true)
-						end
-
-						rowFrame:DrawItemCount(result.count)
-						rowFrame:DrawItemLevel(itemID)
-						rowFrame:Show()
-					end
+				local hex = rowFrame:DrawItemBorder(itemID, itemLink)
+				local isCraft = Results.IsPlayerCraft(line)
+				
+				if isCraft then
+					rowFrame:DrawCraftItem(itemID)
+					rowFrame:DrawCraftInfo(result.spellID, result.professionName, line, hex)
 				else
-					rowFrame:Hide()
+					rowFrame:DrawItem(itemID, itemLink, result.isBattlePet)
+					rowFrame:DrawItemInfo(itemID, itemLink, result.location, result.isBattlePet, hex)
 				end
-			end
+				
+				-- crafts will work below this point
+				if Results.IsPlayerItem(line) or isCraft then
+					rowFrame:DrawOwner(result.sourceKey, useClassColor)
+					rowFrame:DrawRealm(result.sourceKey, useFactionColor)
+					
+				elseif Results.IsGuildItem(line) then
+					rowFrame:DrawOwner(result.sourceKey, useClassColor, true)
+					rowFrame:DrawRealm(result.sourceKey, useFactionColor, true)
+				end
 
-			-- numResults = number of items in the list
-			-- maxDisplayedRows = number of items that will actually be displayed
-			scrollFrame:Update(numResults, (numRows < maxDisplayedRows) and numRows or maxDisplayedRows)
+				rowFrame:DrawItemCount(result.count)
+				rowFrame:DrawItemLevel(itemID)
+			end)
+
 			frame:Show()
-			
-			frame.lastMaxDisplayedRows = maxDisplayedRows
 		end,
 		
 		CheckForResize = function(frame)
 			-- Check if a resize happened while viewing another tab
-			
-			if not frame.lastMaxDisplayedRows then return end
+			local lastMaxRows = viewHandler:GetLastMaxRows()
+			if not lastMaxRows then return end
 			
 			local maxDisplayedRows = math.floor(frame.ScrollFrame:GetHeight() / 41)
 			
 			-- it the last number of rows we displayed is not identical to the current frame size.. we need to refresh
-			if (maxDisplayedRows ~= frame.lastMaxDisplayedRows) then
+			if (maxDisplayedRows ~= frame.lastMaxRows) then
 				frame:Update()
 			end
 		end,

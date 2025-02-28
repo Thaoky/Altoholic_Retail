@@ -37,31 +37,28 @@ function(characters, formatter, columnsData, AccountSharing)
 
 	local function ShowTotals(frame)
 		local line = frame:GetParent():GetID()
-		local tt = AddonFactory_Tooltip
 		
-		tt:ClearLines()
-		tt:SetOwner(frame, "ANCHOR_TOP")
-		tt:AddLine(L["Totals"])
-		
-		local aLevels, aMoney, aPlayed = GetFactionTotals("Alliance", line)
-		local hLevels, hMoney, hPlayed = GetFactionTotals("Horde", line)
-		
-		tt:AddLine(" ")
-		tt:AddDoubleLine(format("%s%s", colors.white, L["Levels"]), format("%s%s", colors.white, characters.GetField(line, "level")))
-		tt:AddDoubleLine(TEXTURE_ALLIANCE, format("%s%s", colors.white, aLevels))
-		tt:AddDoubleLine(TEXTURE_HORDE, format("%s%s", colors.white, hLevels))
-		
-		tt:AddLine(" ")
-		tt:AddDoubleLine(format("%s%s", colors.white, MONEY), formatter.MoneyString(characters.GetField(line, "money")))
-		tt:AddDoubleLine(TEXTURE_ALLIANCE, formatter.MoneyString(aMoney, colors.white))
-		tt:AddDoubleLine(TEXTURE_HORDE, formatter.MoneyString(hMoney, colors.white))
-		
-		tt:AddLine(" ")
-		tt:AddDoubleLine(format("%s%s", colors.white, PLAYED), characters.GetField(line, "played"))
-		tt:AddDoubleLine(TEXTURE_ALLIANCE, formatter.TimeString(aPlayed))
-		tt:AddDoubleLine(TEXTURE_HORDE, formatter.TimeString(hPlayed))
-		
-		tt:Show()
+		AddonFactory_Tooltip:ShowAtCursor(frame, function(tt)
+			tt:AddLine(L["Totals"])
+			
+			local aLevels, aMoney, aPlayed = GetFactionTotals("Alliance", line)
+			local hLevels, hMoney, hPlayed = GetFactionTotals("Horde", line)
+			
+			tt:AddLine(" ")
+			tt:AddDoubleLine(format("%s%s", colors.white, L["Levels"]), format("%s%s", colors.white, characters.GetField(line, "level")))
+			tt:AddDoubleLine(TEXTURE_ALLIANCE, format("%s%s", colors.white, aLevels))
+			tt:AddDoubleLine(TEXTURE_HORDE, format("%s%s", colors.white, hLevels))
+			
+			tt:AddLine(" ")
+			tt:AddDoubleLine(format("%s%s", colors.white, MONEY), formatter.MoneyString(characters.GetField(line, "money")))
+			tt:AddDoubleLine(TEXTURE_ALLIANCE, formatter.MoneyString(aMoney, colors.white))
+			tt:AddDoubleLine(TEXTURE_HORDE, formatter.MoneyString(hMoney, colors.white))
+			
+			tt:AddLine(" ")
+			tt:AddDoubleLine(format("%s%s", colors.white, PLAYED), characters.GetField(line, "played"))
+			tt:AddDoubleLine(TEXTURE_ALLIANCE, formatter.TimeString(aPlayed))
+			tt:AddDoubleLine(TEXTURE_HORDE, formatter.TimeString(hPlayed))
+		end)
 	end
 
 	return {

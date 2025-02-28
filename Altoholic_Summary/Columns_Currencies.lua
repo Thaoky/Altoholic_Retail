@@ -1081,7 +1081,7 @@ Columns.RegisterColumn("Cur_RestoredCofferKey", {
 
 
 -- ** War Within / 11.0 / Season 1 **
-Columns.RegisterColumn("Cur_WeatheredCrest", {
+Columns.RegisterColumn("Cur_WeatheredHarbinger", {
 	currencyID = enum.WeatheredHarbingerCrest,
 
 	-- Header
@@ -1095,7 +1095,7 @@ Columns.RegisterColumn("Cur_WeatheredCrest", {
 	GetText = GetCurrencyText,
 })
 
-Columns.RegisterColumn("Cur_CarvedCrest", {
+Columns.RegisterColumn("Cur_CarvedHarbinger", {
 	currencyID = enum.CarvedHarbingerCrest,
 
 	-- Header
@@ -1109,7 +1109,7 @@ Columns.RegisterColumn("Cur_CarvedCrest", {
 	GetText = GetCurrencyText,
 })
 
-Columns.RegisterColumn("Cur_RunedCrest", {
+Columns.RegisterColumn("Cur_RunedHarbinger", {
 	currencyID = enum.RunedHarbingerCrest,
 
 	-- Header
@@ -1123,7 +1123,7 @@ Columns.RegisterColumn("Cur_RunedCrest", {
 	GetText = GetCurrencyText,
 })
 
-Columns.RegisterColumn("Cur_GildedCrest", {
+Columns.RegisterColumn("Cur_GildedHarbinger", {
 	currencyID = enum.GildedHarbingerCrest,
 
 	-- Header
@@ -1165,4 +1165,61 @@ Columns.RegisterColumn("Cur_BronzeCelebToken", {
 	GetText = GetCurrencyText,
 })
 
+
+-- ** War Within / 11.1 / Season 2 **
+Columns.RegisterColumn("Cur_WeatheredUndermine", {
+	currencyID = enum.WeatheredUndermineCrest,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_undermine_weathered")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_CarvedUndermine", {
+	currencyID = enum.CarvedUndermineCrest,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_undermine_carved")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_RunedUndermine", {
+	currencyID = enum.RunedUndermineCrest,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_undermine_runed")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_GildedUndermine", {
+	currencyID = enum.GildedUndermineCrest,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_undermine_gilded")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
 

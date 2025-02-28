@@ -100,7 +100,7 @@ addon:Service("AltoholicUI.TabSummaryColumnProfiles",  function()
 		[32] = { "Name", "Level", "Cur_ResidualMemories", "Cur_ResonanceCrystals", "Cur_Kej", "Cur_Valorstones", "Cur_MereldarDerbyMark", "Cur_RestoredCofferKey" },
 		
 		-- Currencies / War Within 11.0 / Season 1
-		[33] = { "Name", "Level", "Cur_WeatheredCrest", "Cur_CarvedCrest", "Cur_RunedCrest", "Cur_GildedCrest", "Cur_Undercoin", "Cur_BronzeCelebToken" },
+		[33] = { "Name", "Level", "Cur_WeatheredHarbinger", "Cur_CarvedHarbinger", "Cur_RunedHarbinger", "Cur_GildedHarbinger", "Cur_Undercoin", "Cur_BronzeCelebToken" },
 		
 		-- Activity / Mails
 		[34] = { "Name", "Level", "Mails", "LastMailCheck", "Mails_NumReturns", "Mails_ClosestReturn", "Mails_NumDelete", "Mails_ClosestDelete" },
@@ -114,6 +114,8 @@ addon:Service("AltoholicUI.TabSummaryColumnProfiles",  function()
 		-- Equipment
 		[37] = { "Name", "Level", "AiL", "Inv_HighestLevel", "Inv_LowestLevel", "Inv_NumEpics", "Inv_NumBlues", "Inv_NumGreens", "Inv_NumHeirlooms" },
 
+		-- Currencies / War Within 11.1 / Season 2
+		[38] = { "Name", "Level", "Cur_WeatheredUndermine", "Cur_CarvedUndermine", "Cur_RunedUndermine", "Cur_GildedUndermine", "Cur_Undercoin", "Cur_BronzeCelebToken" },
 	}
 
 	return {

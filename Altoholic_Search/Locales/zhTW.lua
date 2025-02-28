@@ -1,4 +1,4 @@
-local L = DataStore:SetLocale("Altoholic", "zhTW")
+local L = AddonFactory:SetLocale("Altoholic", "zhTW")
 if not L then return end
 
 -- L["FILTER_SEARCH_LOCATION"] = "Search location"

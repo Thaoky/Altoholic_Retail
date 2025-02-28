@@ -361,10 +361,11 @@ local function ClassIcon_Initialize(frame, level)
 end
 
 -- https://wowpedia.fandom.com/wiki/RaceId
+-- Alliance Earthen : 85, Horde Earthen : 84
 local allianceRaces = { 1, 3, 4, 7, 11, 22, 25, 52 }
-local allianceAlliedRaces = { 29, 30, 34, 32, 37 }
+local allianceAlliedRaces = { 29, 30, 34, 32, 37, 85 }
 local hordeRaces = { 2, 5, 6, 8, 10, 9, 26, 70 }
-local hordeAlliedRaces = { 27, 28, 36, 31, 35 }
+local hordeAlliedRaces = { 27, 28, 36, 31, 35, 84 }
 
 local function RaceIcon_Initialize(frame, level)
 	if not level then return end
@@ -834,8 +835,8 @@ addon:Controller("AltoholicUI.TabSummaryCategoriesList", {
 				{ text = EXPANSION_NAME10, subMenu = {
 					{ text = format("%s11.0|r %s", colors.green, L["PATCH_X.0"]), profile = 32 },
 					{ text = format("%s11.0|r %s", colors.green, "Season 1"), profile = 33 },
-					-- { text = format("%s11.1|r %s", colors.green, L["PATCH_11.1"]), profile = 28 },
-					-- { text = format("%s11.2|r %s", colors.green, L["PATCH_11.2"]), profile = 29 },
+					{ text = format("%s11.1|r %s", colors.green, L["PATCH_11.1"]), profile = 38 },
+					-- { text = format("%s11.2|r %s", colors.green, L["PATCH_11.2"]), profile = 39 },
 				}},				
 			}},
 			-- Expansion Features
