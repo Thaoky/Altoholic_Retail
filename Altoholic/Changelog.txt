@@ -15,6 +15,13 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.1.001 (28/02/2025)
+
+- Grids tab -> Updated the 'sets' with missing tiers.
+- Added 11.1 currencies.
+- Added 11.1 factions.
+- Several minor fixes.
+
 11.0.006 (22/12/2024)
 
 In just two days, Altoholic will be seventeen ! It has been a long ride, but I am still having fun, and hopefully you guys are enjoying the ride as well :)

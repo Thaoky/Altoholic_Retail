@@ -28,9 +28,7 @@ SendMailNameEditBox:SetScript("OnChar", function(self, ...)
 	if Altoholic_UI_Options.Mail.AutoCompleteRecipient then
 		local text = self:GetText()
 		
-		local textLength = strlen(text)
 		local currentFaction = UnitFactionGroup("player")
-		
 		local matches = AddonFactory:GetTable()
 		
 		for characterName, character in pairs(DataStore:GetCharacters()) do
@@ -59,6 +57,7 @@ SendMailNameEditBox:SetScript("OnChar", function(self, ...)
 			end
 
 			local characterName = matches[1].name
+			local textLength = strlen(text)
 			
 			SendMailNameEditBox:SetText(characterName)
 			SendMailNameEditBox:HighlightText(textLength, strlen(characterName))

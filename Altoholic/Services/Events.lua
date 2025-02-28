@@ -315,8 +315,8 @@ addon:Service("AltoholicUI.EventsList", { "AddonFactory.Classes", "AltoholicUI.F
 			end
 		end
 
-		-- sort by date first, then by hour, then by alt
-		events:Sort("eventDate", "asc", "eventTime", "asc", "character", "asc")
+		-- Order by date first, then by hour, then by alt
+		events:OrderBy("eventDate", "asc", "eventTime", "asc", "character", "asc")
 	end
 
 	return {
@@ -348,8 +348,8 @@ addon:Service("AltoholicUI.EventsList", { "AddonFactory.Classes", "AltoholicUI.F
 			if realm ~= DataStore.ThisRealm then	-- different realm ?
 				name = format("%s %s(%s)", name, colors.green, realm)
 			end
-			
-			local title, desc = event:GetInfo(event)
+
+			local title, desc = event:GetInfo()
 
 			return name, event.eventTime, title, desc
 		end,
@@ -535,7 +535,7 @@ addon:Service("AltoholicUI.Events", { "AltoholicUI.EventsList", function(EventsL
 			ClearExpiredEvents()
 			EventsList.BuildList()
 			
-			DataStore:Broadcast("ALTOHOLIC_EVENT_EXPIRY")
+			AddonFactory:Broadcast("ALTOHOLIC_EVENT_EXPIRY")
 		end
 	end
 	
