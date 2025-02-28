@@ -3,7 +3,7 @@
 -- Перевод выполнен Хэлла и Интерим @ Азурегос 
 --
 
-local L = DataStore:SetLocale("LibObjectInfo", "ruRU")
+local L = AddonFactory:SetLocale("LibObjectInfo", "ruRU")
 if not L then return end
 
 -- *** Mining nodes ***

@@ -1,4 +1,4 @@
-﻿local L = DataStore:SetLocale("LibObjectInfo", "koKR")
+﻿local L = AddonFactory:SetLocale("LibObjectInfo", "koKR")
 if not L then return end
 
 -- *** Mining nodes ***

@@ -1,4 +1,4 @@
-﻿local L = DataStore:SetLocale("LibObjectInfo", "deDE")
+﻿local L = AddonFactory:SetLocale("LibObjectInfo", "deDE")
 if not L then return end
 
 -- *** Mining nodes ***
