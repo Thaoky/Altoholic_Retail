@@ -16,6 +16,7 @@ addon:Controller("AltoholicUI.GuildMemberRow", {
 		frame.Name.Text:SetText(format("%s%s", color, playerName))
 		frame.CharName = playerName
 	end,
+	
 	SetMemberInfo = function(frame, level, averageItemLvl, version, class)
 		frame.Level:SetText(format("%s%s", colors.green, level))
 		if averageItemLvl then
@@ -26,10 +27,12 @@ addon:Controller("AltoholicUI.GuildMemberRow", {
 		frame.Version:SetText(format("%s%s", colors.white, version))
 		frame.Class:SetText(class)
 	end,
+	
 	Collapse_OnClick = function(frame)
 		local rowID = frame:GetID()
 		frame:GetParent():TogglePlayerAlts(rowID)
 	end,
+	
 	Name_OnEnter = function(frame)
 		local member = frame.CharName
 		if not member then return end
@@ -62,6 +65,7 @@ addon:Controller("AltoholicUI.GuildMemberRow", {
 
 		tooltip:Show()
 	end,
+	
 	Level_OnEnter = function(frame)
 		local member = frame.CharName
 		if member == L["OFFLINE_MEMBERS"] then return end
@@ -70,18 +74,17 @@ addon:Controller("AltoholicUI.GuildMemberRow", {
 		local guild = DataStore:GetGuild()
 		local averageItemLvl = DataStore:GetGuildMemberAverageItemLevel(guild, member) or 0
 		
-		local tooltip = AddonFactory_Tooltip
+		AddonFactory_Tooltip:ShowAtCursor(frame, function(tt)
 		
-		tooltip:ClearLines()
-		tooltip:SetOwner(frame, "ANCHOR_RIGHT")
-		tooltip:AddLine(format("%s%s", DataStore:GetClassColor(englishClass), member), 1, 1, 1)
-		tooltip:AddLine(format("%s%s: %s%s", colors.white, L["COLUMN_ILEVEL_TITLE"], colors.green, format("%.1f", averageItemLvl)), 1, 1, 1)
+			tt:AddLine(format("%s%s", DataStore:GetClassColor(englishClass), member), 1, 1, 1)
+			tt:AddLine(format("%s%s: %s%s", colors.white, L["COLUMN_ILEVEL_TITLE"], colors.green, format("%.1f", averageItemLvl)), 1, 1, 1)
 
-		-- addon:AiLTooltip()
-		tooltip:AddLine(" ", 1, 1, 1)
-		tooltip:AddLine(format("%s%s", colors.green, L["LEFT_CLICK_SEE_PLAYER_EQUIPMENT"]), 1, 1, 1)
-		tooltip:Show()
+			-- addon:AiLTooltip()
+			tt:AddLine(" ", 1, 1, 1)
+			tt:AddLine(format("%s%s", colors.green, L["LEFT_CLICK_SEE_PLAYER_EQUIPMENT"]), 1, 1, 1)
+		end)
 	end,
+	
 	Level_OnClick = function(frame, button)
 		if button ~= "LeftButton" then return end
 

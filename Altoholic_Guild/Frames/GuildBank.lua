@@ -17,10 +17,9 @@ addon:Controller("AltoholicUI.TabGuild.Bank", { "AltoholicUI.Formatter", functio
 	end
 
 	return {
-		OnBind = function(frame)
-			local parent = AltoholicFrame.TabGuild
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabGuild,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("Bank", frame)	

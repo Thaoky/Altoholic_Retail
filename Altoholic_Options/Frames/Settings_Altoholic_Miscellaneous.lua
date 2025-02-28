@@ -5,11 +5,9 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicMiscellaneous", functi
 	local options = Altoholic_UI_Options
 	
 	return {
-		OnBind = function(frame)
-			-- Attach to the parent
-			local parent = AltoholicFrame.TabOptions
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabOptions,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel(5, frame)

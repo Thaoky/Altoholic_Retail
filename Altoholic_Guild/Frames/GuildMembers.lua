@@ -226,12 +226,11 @@ addon:Controller("AltoholicUI.TabGuild.Members", { function()
 	end
 
 	return {
-		OnBind = function(frame)
-			local parent = AltoholicFrame.TabGuild
-			
+		__Parent = AltoholicFrame.TabGuild,
+	
+		OnBind = function(frame, parent)
 			equipmentFrame = frame.Equipment
-			
-			frame:SetParent(parent)
+
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("Members", frame)	
@@ -248,15 +247,18 @@ addon:Controller("AltoholicUI.TabGuild.Members", { function()
 			
 			frame.Equipment.Info:SetText(L["CLICK_AIL_TO_SEE_EQUIPMENT"])
 		end,
+		
 		Sort = function(frame, field, sortOrder)
 			viewSortField = field
 			viewSortOrder = sortOrder
 			
 			frame:InvalidateView()
 		end,
+		
 		InvalidateView = function()
 			isViewValid = nil
 		end,
+		
 		Update = function(frame, isResizing)
 			if not isViewValid then
 				BuildView()

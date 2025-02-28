@@ -8,13 +8,12 @@ addon:Controller("AltoholicUI.GuildBankTabIcon", {
 		
 		local tabName = DataStore:GetGuildBankTabName(guildKey, frame:GetID())
 		if not tabName then return end
-
-		local tooltip = AddonFactory_Tooltip
-		tooltip:ClearLines()
-		tooltip:SetOwner(frame, "ANCHOR_RIGHT")
-		tooltip:AddLine(tabName)
-		tooltip:Show()
+		
+		AddonFactory_Tooltip:ShowAtCursor(frame, function(tt)
+			tt:AddLine(tabName)
+		end)
 	end,
+	
 	Icon_OnClick = function(frame, button)
 		local guildBank = frame:GetParent()
 		

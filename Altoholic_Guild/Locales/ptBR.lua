@@ -1,4 +1,4 @@
-local L = DataStore:SetLocale("Altoholic", "ptBR")
+local L = AddonFactory:SetLocale("Altoholic", "ptBR")
 if not L then return end
 
 -- L["GUILD_BANKS"] = "Guild Banks"

@@ -95,11 +95,9 @@ local helpProfiles = {
 local currentProfile
 
 addon:Controller("AltoholicUI.TabOptions.Help", { 
-	OnBind = function(frame)
-		-- Attach to the parent
-		local parent = AltoholicFrame.TabOptions
-		
-		frame:SetParent(parent)
+	__Parent = AltoholicFrame.TabOptions,
+
+	OnBind = function(frame, parent)
 		frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 		frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 		parent:RegisterPanel(30, frame)
@@ -108,6 +106,7 @@ addon:Controller("AltoholicUI.TabOptions.Help", {
 	SetHelp = function(frame, helpID)
 		currentProfile = helpID
 	end,
+	
 	Update = function(frame, isResizing)
 		local profile = helpProfiles[currentProfile]
 		if not profile then return end

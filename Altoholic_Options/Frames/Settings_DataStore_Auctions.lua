@@ -30,11 +30,9 @@ addon:Controller("AltoholicUI.TabOptions.SettingsDataStoreAuctions", function()
 
 	
 	return {
-		OnBind = function(frame)
-			-- Attach to the parent
-			local parent = AltoholicFrame.TabOptions
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabOptions,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel(10, frame)
