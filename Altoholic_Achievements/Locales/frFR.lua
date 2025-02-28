@@ -1,4 +1,4 @@
-local L = DataStore:SetLocale("Altoholic", "frFR")
+local L = AddonFactory:SetLocale("Altoholic", "frFR")
 if not L then return end
 
 -- ** Menu **

@@ -3,10 +3,9 @@ local addon = _G[addonName]
 
 addon:Controller("AltoholicUI.TabAgenda.Calendar", { "AddonFactory.Dates", function(Dates)
 	return {
-		OnBind = function(frame)
-			local parent = AltoholicFrame.TabAgenda
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabAgenda,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("Calendar", frame)

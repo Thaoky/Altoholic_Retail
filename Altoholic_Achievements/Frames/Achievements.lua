@@ -7,10 +7,9 @@ addon:Controller("AltoholicUI.TabAchievements.Achievements", { "AltoholicUI.Achi
 	local currentCategoryID
 
 	return {
-		OnBind = function(frame)
-			local parent = AltoholicFrame.TabAchievements
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabAchievements,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("Achievements", frame)
