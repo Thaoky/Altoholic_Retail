@@ -179,19 +179,17 @@ tab:RegisterGrid(10, {
 				rowFrame.Name.Text:SetJustifyH("LEFT")
 			end
 		end,
-	RowOnEnter = function(self)
-			local id = self.followerID
+	RowOnEnter = function(frame)
+			local id = frame.followerID
 			local text = C_Garrison.GetFollowerSourceTextByID(id)
 			if not text then return end
 			
-			local tooltip = AddonFactory_Tooltip
-			
-			tooltip:SetOwner(self, "ANCHOR_TOP")
-			tooltip:ClearLines()
-			tooltip:AddLine(self.followerName, 1, 1, 1)
-			tooltip:AddLine(" ")
-			tooltip:AddLine(text)
-			tooltip:Show()
+			AddonFactory_Tooltip:ShowAtCursor(frame, function(tt)
+				tt:AddLine(frame.followerName, 1, 1, 1)
+				tt:AddLine(" ")
+				tt:AddLine(text)
+			end)
+
 		end,
 	RowOnLeave = function(self)
 			AddonFactory_Tooltip:Hide()

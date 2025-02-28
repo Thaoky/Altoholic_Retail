@@ -131,14 +131,10 @@ tab:RegisterGrid(5, {
 	OnEnter = function(frame) 
 			local id = frame.id
 			if id then
-				local tooltip = AddonFactory_Tooltip
-				
-				tooltip:SetOwner(frame, "ANCHOR_LEFT")
-				tooltip:ClearLines()
-				tooltip:SetHyperlink(format("spell:%d", id))
-				tooltip:Show()
+				AddonFactory_Tooltip:ShowAtCursor(frame, function(tt)
+					tt:SetHyperlink(format("spell:%d", id))
+				end)
 			end
-			
 		end,
 	OnClick = CompanionOnClick,
 	OnLeave = function(self)

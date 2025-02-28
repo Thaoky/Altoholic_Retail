@@ -2,15 +2,19 @@ local addonName = "Altoholic"
 local addon = _G[addonName]
 local colors = AddonFactory.Colors
 
-addon:Controller("AltoholicUI.TabGrids.Grids", function()
+addon:Controller("AltoholicUI.TabGrids.Grids", { "AddonFactory.Classes", function(oop)
+	-- local viewHandler
+
 	return {
-		OnBind = function(frame)
-			local parent = AltoholicFrame.TabGrids
-			
-			frame:SetParent(parent)
+		__Parent = AltoholicFrame.TabGrids,
+	
+		OnBind = function(frame, parent)
 			frame:SetPoint("TOPLEFT", parent.Background, "TOPLEFT", 0, 0)
 			frame:SetPoint("BOTTOMRIGHT", parent.Background, "BOTTOMRIGHT", 26, 0)
 			parent:RegisterPanel("Grids", frame)
+			
+			-- not yet, need to turn each grid into a proper object first, to return the view.
+			-- viewHandler = oop:New("ScrollFrameViewHandler", frame.ScrollFrame)
 			
 			-- Handle resize
 			frame:SetScript("OnSizeChanged", function(self, width, height)
@@ -95,4 +99,4 @@ addon:Controller("AltoholicUI.TabGrids.Grids", function()
 			end
 		end,
 	}
-end)
+end})

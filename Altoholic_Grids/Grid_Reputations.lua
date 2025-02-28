@@ -328,6 +328,14 @@ local Factions = {
 			{ name = DataStore:GetFactionName(2607), icon = "ui_notoriety_thevizier" },     		-- 	The Vizier
 			{ name = DataStore:GetFactionName(2601), icon = "ui_notoriety_theweaver" },     		-- 	The Weaver
 			{ name = DataStore:GetFactionName(2640), icon = "ability_druid_lunarguidance" },    -- Brann Bronzebeard
+			
+			-- 11.1
+			{ name = DataStore:GetFactionName(2673), icon = "Interface\\Glues\\CharacterCreate\\UI-CHARACTERCREATE-RACES", left = 0.625, right = 0.75, top = 0.25, bottom = 0.5 },	-- Bilgewater Cartel
+			{ name = DataStore:GetFactionName(2675), icon = "inv_chicken2_mechanical" },    -- Blackwater Cartel
+			{ name = DataStore:GetFactionName(2669), icon = "inv_goblinshreddermech_black" },    -- Darkfuse Solutions
+			{ name = DataStore:GetFactionName(2685), icon = "inv_inscription_tarot_earthquakecard" },    -- Gallagio Loyalty Rewards Club
+			{ name = DataStore:GetFactionName(2677), icon = "achievement_femalegoblinhead" },    -- Steamwheedle Cartel
+			{ name = DataStore:GetFactionName(2671), icon = "ui_majorfactions_rocket" },    -- Venture Company
 		},
 	},
 	{	-- [12]

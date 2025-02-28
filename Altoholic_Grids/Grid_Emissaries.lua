@@ -111,16 +111,13 @@ tab:RegisterGrid(12, {
 				button.Text:SetJustifyH("LEFT")
 			end
 		end,
-	RowOnEnter = function(self)
-			local link = DataStore:GetQuestLink(self.questID, self.questTitle)
+	RowOnEnter = function(frame)
+			local link = DataStore:GetQuestLink(frame.questID, frame.questTitle)
 			if not link then return end
 			
-			local tooltip = AddonFactory_Tooltip
-			
-			tooltip:ClearLines()
-			tooltip:SetOwner(self, "ANCHOR_TOP")
-			tooltip:SetHyperlink(link)
-			tooltip:Show()
+			AddonFactory_Tooltip:ShowAtCursor(frame, function(tt)
+				tt:SetHyperlink(link)
+			end)
 		end,
 	RowOnLeave = function(self)
 			AddonFactory_Tooltip:Hide()
@@ -177,24 +174,22 @@ tab:RegisterGrid(12, {
 			button.Name:SetText(text)
 			button:Show()
 		end,
-	OnEnter = function(self)
-			local character = self.key
-			local questID = self.questID
+	OnEnter = function(frame)
+			local character = frame.key
+			local questID = frame.questID
 			local quest = questList[questID]
 			local _, _, timeLeft, objective = DataStore:GetEmissaryQuestInfo(character, questID)
-
-			local tooltip = AddonFactory_Tooltip
-			tooltip:SetOwner(self, "ANCHOR_LEFT")
-			tooltip:ClearLines()
-			tooltip:AddLine(format("%s%s", colors.white, quest.title))
-			tooltip:AddLine(format(BONUS_OBJECTIVE_TIME_LEFT, SecondsToTime(quest.timeLeft, true)))
-			tooltip:AddLine(" ")
-			if quest.completionStatus[character] == QUEST_COMPLETE then
-				tooltip:AddLine(format("- %s%s", colors.white, COMPLETE))
-			else
-				tooltip:AddLine(format("- %s%s", colors.white, objective or ""))
-			end
-			tooltip:Show()
+			
+			AddonFactory_Tooltip:ShowAtCursor(frame, function(tt)
+				tt:AddLine(format("%s%s", colors.white, quest.title))
+				tt:AddLine(format(BONUS_OBJECTIVE_TIME_LEFT, SecondsToTime(quest.timeLeft, true)))
+				tt:AddLine(" ")
+				if quest.completionStatus[character] == QUEST_COMPLETE then
+					tt:AddLine(format("- %s%s", colors.white, COMPLETE))
+				else
+					tt:AddLine(format("- %s%s", colors.white, objective or ""))
+				end
+			end)
 		end,
 	OnLeave = function(self)
 			AddonFactory_Tooltip:Hide() 

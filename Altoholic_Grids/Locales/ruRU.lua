@@ -3,7 +3,7 @@
 -- Перевод выполнен Хэлла и Интерим @ Азурегос 
 --
 
-local L = DataStore:SetLocale("Altoholic", "ruRU")
+local L = AddonFactory:SetLocale("Altoholic", "ruRU")
 if not L then return end
 
 -- ** Menu **

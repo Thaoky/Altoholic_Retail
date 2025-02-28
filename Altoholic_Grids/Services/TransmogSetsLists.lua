@@ -117,8 +117,8 @@ local transmogSets = {
 		{ setID = 987, tier = 19 },			-- The Nighthold
 		{ setID = 988, tier = 19 },			-- The Nighthold
 		{ setID = 174, tier = "/" },			-- Trial of Valor
-		{ setID = 172, tier = "/" },			-- Trial of Valor
 		{ setID = 171, tier = "/" },			-- Trial of Valor
+		{ setID = 172, tier = "/" },			-- Trial of Valor
 		{ setID = 173, tier = "/" },			-- Trial of Valor
 		{ setID = 1323, tier = 20 },			-- Tomb of Sargeras
 		{ setID = 1321, tier = 20 },			-- Tomb of Sargeras
@@ -238,25 +238,63 @@ local transmogSets = {
 		-- Looks like sets that don't have alternatives don't work. Trial of Style has a cloth/leather/etc alternative, but Eternal Traveler is just one set for every class.
 	},
 	{  -- [9] Shadowlands
-		{ setID = 2015, tier = 26 },        -- 9.0 Covenant - Bastion - Cloth - Gold
-		{ setID = 2016, tier = 26 },        -- 9.0 Covenant - Bastion - Cloth - White
-		{ setID = 2017, tier = 26 },        -- 9.0 Covenant - Bastion - Cloth - Bronze
-		{ setID = 2018, tier = 26 },        -- 9.0 Covenant - Bastion - Cloth - Black
-		{ setID = 2031, tier = 26 },        -- Rationale of Maldraxxus
-		{ setID = 2032, tier = 26 },        -- Rationale of Maldraxxus
-		{ setID = 2033, tier = 26 },        -- Rationale of Maldraxxus
-		{ setID = 2034, tier = 26 },        -- Rationale of Maldraxxus
-		{ setID = 2047, tier = 26 },        -- Faewoven Regalia
-		{ setID = 2048, tier = 26 },        -- Night Courtier's Regalia
-		{ setID = 2049, tier = 26 },        -- Conservator's Regalia
-		{ setID = 2050, tier = 26 },        -- Regalia of the Winter Queen
-		{ setID = 2063, tier = 26 },        -- Soulbreaker's Crimson Vestments
-		{ setID = 2064, tier = 26 },        -- Soulbreaker's Burnished Vestments
-		{ setID = 2065, tier = 26 },        -- Soulbreaker's Court Vestments
-		{ setID = 2066, tier = 26 },        -- Soulbreaker's Ebony Vestments
+		{ setID = 2015, tier = "/" },        -- 9.0 Covenant - Bastion - Cloth - Gold
+		{ setID = 2016, tier = "/" },        -- 9.0 Covenant - Bastion - Cloth - White
+		{ setID = 2017, tier = "/" },        -- 9.0 Covenant - Bastion - Cloth - Bronze
+		{ setID = 2018, tier = "/" },        -- 9.0 Covenant - Bastion - Cloth - Black
+		{ setID = 2031, tier = "/" },        -- Rationale of Maldraxxus
+		{ setID = 2032, tier = "/" },        -- Rationale of Maldraxxus
+		{ setID = 2033, tier = "/" },        -- Rationale of Maldraxxus
+		{ setID = 2034, tier = "/" },        -- Rationale of Maldraxxus
+		{ setID = 2047, tier = "/" },        -- Faewoven Regalia
+		{ setID = 2048, tier = "/" },        -- Night Courtier's Regalia
+		{ setID = 2049, tier = "/" },        -- Conservator's Regalia
+		{ setID = 2050, tier = "/" },        -- Regalia of the Winter Queen
+		{ setID = 2063, tier = "/" },        -- Soulbreaker's Crimson Vestments
+		{ setID = 2064, tier = "/" },        -- Soulbreaker's Burnished Vestments
+		{ setID = 2065, tier = "/" },        -- Soulbreaker's Court Vestments
+		{ setID = 2066, tier = "/" },        -- Soulbreaker's Ebony Vestments
 		--{ setID = 2086, tier = 26 },        -- Night Fae Renown Cloth
 		--{ setID = 2087, tier = 26 },        -- Night Fae Renown Cloth
+		
+		{ setID = 2159, tier = 26 },        -- Castle Nathria
+		{ setID = 2158, tier = 26 },        -- Castle Nathria
+		{ setID = 2160, tier = 26 },        -- Castle Nathria
+		{ setID = 2161, tier = 26 },        -- Castle Nathria
+
+		{ setID = 2263, tier = 27 },        -- Sanctum of Domination
+		{ setID = 2262, tier = 27 },        -- Sanctum of Domination
+		{ setID = 2264, tier = 27 },        -- Sanctum of Domination
+		{ setID = 2265, tier = 27 },        -- Sanctum of Domination
+		
+		{ setID = 2373, tier = 28 },        -- Sepulcher of the First Ones
+		{ setID = 2372, tier = 28 },        -- Sepulcher of the First Ones
+		{ setID = 2374, tier = 28 },        -- Sepulcher of the First Ones
+		{ setID = 2375, tier = 28 },        -- Sepulcher of the First Ones
 	},
+	{  -- [10] Dragonflight
+		{ setID = 2631, tier = 29 },        -- Vault of the Incarnates
+		{ setID = 2606, tier = 29 },        -- Vault of the Incarnates
+		{ setID = 2629, tier = 29 },        -- Vault of the Incarnates
+		{ setID = 2630, tier = 29 },        -- Vault of the Incarnates
+		
+		{ setID = 2909, tier = 30 },        -- Aberrus, the Shadowed Crucible
+		{ setID = 2865, tier = 30 },        -- Aberrus, the Shadowed Crucible
+		{ setID = 2907, tier = 30 },        -- Aberrus, the Shadowed Crucible
+		{ setID = 2908, tier = 30 },        -- Aberrus, the Shadowed Crucible
+		
+		{ setID = 3185, tier = 31 },        -- Amirdrassil, the Dream's Hope
+		{ setID = 3186, tier = 31 },        -- Amirdrassil, the Dream's Hope
+		{ setID = 3187, tier = 31 },        -- Amirdrassil, the Dream's Hope
+		{ setID = 3188, tier = 31 },        -- Amirdrassil, the Dream's Hope
+	},
+	{  -- [11] The War Within
+		{ setID = 3740, tier = 32 },        -- Nerub-ar Palace
+		{ setID = 3739, tier = 32 },        -- Nerub-ar Palace
+		{ setID = 3737, tier = 32 },        -- Nerub-ar Palace
+		{ setID = 3738, tier = 32 },        -- Nerub-ar Palace
+	},
+	
 }
 
 addon:Service("AltoholicUI.TransmogSetsLists",  function() 
@@ -272,7 +310,8 @@ addon:Service("AltoholicUI.TransmogSetsLists",  function()
 				-- 	["label"] = "Warlords Season 2",
 				-- 	["expansionID"] = 5,
 				-- 	["requiredFaction"] = "Alliance",
-				-- Note : Do not use ["uiOrder"], it may differ for sets of the same tier (blizzard bug I guess)
+				-- Note : Do not use ["uiOrder"], it may differ for sets of the same tier.
+				--		uiOrder is only used to order sets in the drop down menu (raid finder, normal, hero, ..)
 
 				-- if any basic property does not match, exit
 				if set.description ~= referenceSet.description or
@@ -303,7 +342,8 @@ addon:Service("AltoholicUI.TransmogSetsLists",  function()
 				[256] = "WARLOCK",
 				[512] = "MONK",
 				[1024] = "DRUID",
-				[2048] = "DEMONHUNTER"
+				[2048] = "DEMONHUNTER",
+				[4096] = "EVOKER"
 			}	
 		
 			local bAnd = bit.band
@@ -347,9 +387,9 @@ addon:Service("AltoholicUI.TransmogSetsLists",  function()
 								pvpDescriptions[set.description] = true
 							end
 						
-							-- save some cpu cycles, when 12 sets are found matching the reference, break the loop
+							-- save some cpu cycles, when 14 sets are found matching the reference, break the loop
 							matchCount = matchCount + 1
-							if matchCount == 12 then break end
+							if matchCount == 14 then break end
 						end
 					end
 				end
