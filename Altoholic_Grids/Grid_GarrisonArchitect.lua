@@ -11,7 +11,7 @@ local Buildings = {
 			buildingType = enum.TownHall, 
 			name = format("%s / %s", GARRISON_TOWN_HALL_ALLIANCE, GARRISON_TOWN_HALL_HORDE), 
 			tex = "Interface\\Icons\\inv_garrison_resource",
-			id = 0, 
+			id = 0,
 		},
 		{ buildingType = enum.LunarfallExcavation, id = 61 },
 		{ buildingType = enum.HerbGarden, id = 29 },
@@ -92,29 +92,28 @@ tab:RegisterGrid(9, {
 			
 			button.Background:SetDesaturated(false)
 			button.Background:SetTexCoord(0, 1, 0, 1)
-			
+
 			local v = view[dataRowID]
 			local buildingType = v.buildingType
 			local id, level = DataStore:GetBuildingInfo(character, buildingType)
+
+			-- Set basic building information
+			local tex = v.tex or select(4, C_Garrison.GetBuildingInfo(v.id))
+			button.Background:SetTexture(tex)
+			button.buildingID = v.id
 			
-			if id and level then	-- if the id exists, this character owns this building type
-				button.buildingID = id
+			if id and level then	-- if the id from DataStore exists, this character owns this building type
 				button.Background:SetVertexColor(1.0, 1.0, 1.0)
-				
-				local tex = v.tex or select(4, C_Garrison.GetBuildingInfo(v.id))
-				
-				button.Background:SetTexture(tex)
 				button.Name:SetText(format("%s%s", colors.green, level))
 				button:Show()
 			else
-				button.buildingID = nil
 				button.Name:SetText("")
-				button:Hide()
+				button.Background:SetVertexColor(0.4, 0.4, 0.4)
 			end
 		end,
 	OnEnter = function(frame) 
 			local buildingID = frame.buildingID
-			local _, buildingName, _, _, _, rank, currencyID, currencyQty, goldQty, buildTime, needsPlan, _, _, upgrades, canUpgrade = C_Garrison.GetBuildingInfo(buildingID);
+			local _, buildingName, _, _, _, rank, currencyID, currencyQty, goldQty, buildTime, needsPlan, _, _, upgrades, canUpgrade = C_Garrison.GetBuildingInfo(buildingID)
 			
 			-- from Blizzard_GarrisonBuildingUI.lua / GarrisonBuilding_ShowLevelTooltip()
 			
@@ -129,7 +128,8 @@ tab:RegisterGrid(9, {
 			for i = 1, 3 do
 				tooltip[format("Rank%d", i)]:SetFormattedText(GARRISON_CURRENT_LEVEL, i)
 			end
-			
+
+			-- The town/great hall will not have any tooltip
 			if (not upgrades or #upgrades == 0) then
 				return
 			end
