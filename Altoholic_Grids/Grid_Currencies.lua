@@ -66,13 +66,16 @@ tab:RegisterGrid(3, {
 
 			local token = view[dataRowID]
 			local _, count, icon = DataStore:GetCurrencyInfoByName(character, token)
+
+			--button.count = count or 0
 			button.count = count
-		
-			if count then 
-				button.Background:SetTexture(icon)
-				button.Background:SetVertexColor(0.5, 0.5, 0.5);	-- greyed out
-				button.key = character
-				
+			button.Background:SetTexture(icon)
+			button.key = character
+			button:SetID(dataRowID)
+
+			if count then
+				button.Background:SetVertexColor(1, 1, 1)	-- Full color
+
 				if count >= 100000 then
 					count = format("%2.1fM", count/1000000)
 				elseif count >= 10000 then
@@ -80,15 +83,13 @@ tab:RegisterGrid(3, {
 				elseif count >= 1000 then
 					count = format("%2.1fk", count/1000)
 				end
-				
+
 				button.Name:SetText(format("%s%s", colors.green, count))
-				button:SetID(dataRowID)
-				button:Show()
 			else
-				button.key = nil
-				button:SetID(0)
-				button:Hide()
+				button.Background:SetVertexColor(0.5, 0.5, 0.5)	-- greyed out
+				button.Name:SetText(button.count)
 			end
+			button:Show()
 		end,
 	OnEnter = function(frame) 
 			local character = frame.key
@@ -100,7 +101,11 @@ tab:RegisterGrid(3, {
 			tooltip:AddLine(DataStore:GetColoredCharacterName(character))
 			-- tooltip:AddLine(view[frame:GetParent():GetID()], 1, 1, 1)
 			tooltip:AddLine(view[frame:GetID()], 1, 1, 1)
-			tooltip:AddLine(format("%s%s", colors.green, frame.count))
+			if frame.count and frame.count >= 0 then
+				tooltip:AddLine(format("%s%s", colors.green, frame.count))
+			else
+				tooltip:AddLine(format("%s%s", colors.green, L["Not encountered"] or "Not encountered"))
+			end
 			tooltip:Show()
 		end,
 	OnClick = nil,
