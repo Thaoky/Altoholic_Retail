@@ -1,4 +1,4 @@
-## Interface: 110100
+## Interface: 110200
 ## Title: Altoholic_Grids
 ## IconTexture: Interface\Icons\inv_drink_13
 
