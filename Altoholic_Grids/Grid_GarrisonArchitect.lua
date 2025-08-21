@@ -11,7 +11,7 @@ local Buildings = {
 			buildingType = enum.TownHall, 
 			name = format("%s / %s", GARRISON_TOWN_HALL_ALLIANCE, GARRISON_TOWN_HALL_HORDE), 
 			tex = "Interface\\Icons\\inv_garrison_resource",
-			id = 0,
+			id = 0, 
 		},
 		{ buildingType = enum.LunarfallExcavation, id = 61 },
 		{ buildingType = enum.HerbGarden, id = 29 },
@@ -92,7 +92,7 @@ tab:RegisterGrid(9, {
 			
 			button.Background:SetDesaturated(false)
 			button.Background:SetTexCoord(0, 1, 0, 1)
-
+			
 			local v = view[dataRowID]
 			local buildingType = v.buildingType
 			local id, level = DataStore:GetBuildingInfo(character, buildingType)
@@ -105,11 +105,12 @@ tab:RegisterGrid(9, {
 			if id and level then	-- if the id from DataStore exists, this character owns this building type
 				button.Background:SetVertexColor(1.0, 1.0, 1.0)
 				button.Name:SetText(format("%s%s", colors.green, level))
-				button:Show()
 			else
-				button.Name:SetText("")
 				button.Background:SetVertexColor(0.4, 0.4, 0.4)
+				button.Name:SetText("")
 			end
+			
+			button:Show()
 		end,
 	OnEnter = function(frame) 
 			local buildingID = frame.buildingID
@@ -128,8 +129,8 @@ tab:RegisterGrid(9, {
 			for i = 1, 3 do
 				tooltip[format("Rank%d", i)]:SetFormattedText(GARRISON_CURRENT_LEVEL, i)
 			end
-
-			-- The town/great hall will not have any tooltip
+			
+			-- The town/great hall will not have any tooltip														
 			if (not upgrades or #upgrades == 0) then
 				return
 			end

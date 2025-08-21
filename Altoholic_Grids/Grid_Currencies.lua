@@ -67,7 +67,6 @@ tab:RegisterGrid(3, {
 			local token = view[dataRowID]
 			local _, count, icon = DataStore:GetCurrencyInfoByName(character, token)
 
-			--button.count = count or 0
 			button.count = count
 			button.Background:SetTexture(icon)
 			button.key = character
@@ -89,7 +88,9 @@ tab:RegisterGrid(3, {
 				button.Background:SetVertexColor(0.5, 0.5, 0.5)	-- greyed out
 				button.Name:SetText(button.count)
 			end
+			
 			button:Show()
+			
 		end,
 	OnEnter = function(frame) 
 			local character = frame.key
@@ -101,11 +102,13 @@ tab:RegisterGrid(3, {
 			tooltip:AddLine(DataStore:GetColoredCharacterName(character))
 			-- tooltip:AddLine(view[frame:GetParent():GetID()], 1, 1, 1)
 			tooltip:AddLine(view[frame:GetID()], 1, 1, 1)
+			
 			if frame.count and frame.count >= 0 then
 				tooltip:AddLine(format("%s%s", colors.green, frame.count))
 			else
-				tooltip:AddLine(format("%s%s", colors.green, L["Not encountered"] or "Not encountered"))
+				tooltip:AddLine(format("%s%s", colors.green, L["Not encountered"]))
 			end
+			
 			tooltip:Show()
 		end,
 	OnClick = nil,

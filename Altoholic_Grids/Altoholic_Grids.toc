@@ -4,7 +4,7 @@
 
 ## Notes: Altoholic's Grids Tab
 ## Author: Thaoky (EU-Marécages de Zangar)
-## Version: 11.1.001
+## Version: 11.2.001
 ## Dependencies: Altoholic, DataStore, DataStore_Characters
 ## SavedVariables: Altoholic_GridsTab_Options, Altoholic_GridsTab_Columns
 ## LoadOnDemand: 1
