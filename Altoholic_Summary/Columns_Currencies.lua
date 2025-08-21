@@ -1223,3 +1223,61 @@ Columns.RegisterColumn("Cur_GildedUndermine", {
 	GetText = GetCurrencyText,
 })
 
+
+-- ** War Within / 11.1 / Season 3 **
+Columns.RegisterColumn("Cur_WeatheredEthereal", {
+	currencyID = enum.WeatheredEtherealCrest,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_ethereal_weathered")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_CarvedEthereal", {
+	currencyID = enum.CarvedEtherealCrest,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_ethereal_carved")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_RunedEthereal", {
+	currencyID = enum.RunedEtherealCrest,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_ethereal_runed")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+
+Columns.RegisterColumn("Cur_GildedEthereal", {
+	currencyID = enum.GildedEtherealCrest,
+
+	-- Header
+	headerWidth = 70,
+	headerLabel = format("   %s", Formatter.Texture18("Interface\\Icons\\inv_crestupgrade_ethereal_gilded")),
+	headerOnEnter = CurrencyHeader_OnEnter,
+	headerSort = SortByTotal,
+	
+	-- Content
+	Width = 70,
+	GetText = GetCurrencyText,
+})
+

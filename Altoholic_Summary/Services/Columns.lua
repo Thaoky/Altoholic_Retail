@@ -116,6 +116,9 @@ addon:Service("AltoholicUI.TabSummaryColumnProfiles",  function()
 
 		-- Currencies / War Within 11.1 / Season 2
 		[38] = { "Name", "Level", "Cur_WeatheredUndermine", "Cur_CarvedUndermine", "Cur_RunedUndermine", "Cur_GildedUndermine", "Cur_Undercoin", "Cur_BronzeCelebToken" },
+		
+		-- Currencies / War Within 11.2 / Season 3
+		[39] = { "Name", "Level", "Cur_WeatheredEthereal", "Cur_CarvedEthereal", "Cur_RunedEthereal", "Cur_GildedEthereal", "Cur_Undercoin" },
 	}
 
 	return {
