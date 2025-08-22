@@ -15,6 +15,15 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.2.001 (22/08/2025)
+
+- Reagent Bank and Void Storage have been removed, there is no need to clear your saved variables, but you will still have to visit the bank again with all your alts.
+- Fixed a lua error when turning a quest in.
+- Summary tab -> Skills : fixed a lua error when clicking on a profession to see its list of recipes in the Characters tab.
+- Added 11.2 currencies.
+- Added 11.2 factions.
+- Several minor fixes (thanks GovtGeek !)
+
 11.1.001 (28/02/2025)
 
 - Grids tab -> Updated the 'sets' with missing tiers.

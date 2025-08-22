@@ -96,25 +96,25 @@ tab:RegisterGrid(9, {
 			local v = view[dataRowID]
 			local buildingType = v.buildingType
 			local id, level = DataStore:GetBuildingInfo(character, buildingType)
+
+			-- Set basic building information
+			local tex = v.tex or select(4, C_Garrison.GetBuildingInfo(v.id))
+			button.Background:SetTexture(tex)
+			button.buildingID = v.id
 			
-			if id and level then	-- if the id exists, this character owns this building type
-				button.buildingID = id
+			if id and level then	-- if the id from DataStore exists, this character owns this building type
 				button.Background:SetVertexColor(1.0, 1.0, 1.0)
-				
-				local tex = v.tex or select(4, C_Garrison.GetBuildingInfo(v.id))
-				
-				button.Background:SetTexture(tex)
 				button.Name:SetText(format("%s%s", colors.green, level))
-				button:Show()
 			else
-				button.buildingID = nil
+				button.Background:SetVertexColor(0.4, 0.4, 0.4)
 				button.Name:SetText("")
-				button:Hide()
 			end
+			
+			button:Show()
 		end,
 	OnEnter = function(frame) 
 			local buildingID = frame.buildingID
-			local _, buildingName, _, _, _, rank, currencyID, currencyQty, goldQty, buildTime, needsPlan, _, _, upgrades, canUpgrade = C_Garrison.GetBuildingInfo(buildingID);
+			local _, buildingName, _, _, _, rank, currencyID, currencyQty, goldQty, buildTime, needsPlan, _, _, upgrades, canUpgrade = C_Garrison.GetBuildingInfo(buildingID)
 			
 			-- from Blizzard_GarrisonBuildingUI.lua / GarrisonBuilding_ShowLevelTooltip()
 			
@@ -130,6 +130,7 @@ tab:RegisterGrid(9, {
 				tooltip[format("Rank%d", i)]:SetFormattedText(GARRISON_CURRENT_LEVEL, i)
 			end
 			
+			-- The town/great hall will not have any tooltip														
 			if (not upgrades or #upgrades == 0) then
 				return
 			end

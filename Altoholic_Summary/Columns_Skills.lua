@@ -199,7 +199,7 @@ local function Tradeskill_OnClick(frame, professionIndex)
 	
 	-- Set the right panel
 	local recipes = tab.Panels.Recipes
-	recipes:SetCurrentProfession(skillName)
+	recipes:SetCurrentProfession(profession.Name)
 	recipes:ResetFilters()
 	tab:ShowPanel("Recipes")
 end

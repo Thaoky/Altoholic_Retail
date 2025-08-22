@@ -32,6 +32,9 @@ L["Up to %s"] = true
 L["Shift+Left click to link"] = true
 L["%s is %s with %s (%d/%d)"] = true
 
+-- ** Currenciess **
+L["Not encountered"] = true
+
 -- ** Garrisons **
 L["Collected"] = true
 L["Not collected"] = true
