@@ -10,8 +10,6 @@ local enum = DataStore.Enum.ContainerIDs
 
 local OPTION_VIEW_BAGS = "ViewBags"
 local OPTION_VIEW_BANK = "ViewBank"
-local OPTION_VIEW_VOID_STORAGE = "ViewVoidStorage"
-local OPTION_VIEW_REAGENT_BANK = "ViewReagentBank"
 local OPTION_VIEW_BAGS_RARITY = "ViewBagsRarity"
 
 addon:Controller("AltoholicUI.TabCharacters.Containers", function()
@@ -20,7 +18,7 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 	local FIRST_BAG = 0
 	local LAST_BAG = 5
 	local FIRST_BANK_BAG = 6
-	local LAST_BANK_BAG = 12
+	local LAST_BANK_BAG = 11
 	
 	local item_OnEnter
 	
@@ -32,22 +30,16 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 			GameTooltip:AddLine(BACKPACK_TOOLTIP, 1, 1, 1)
 			GameTooltip:AddLine(format(CONTAINER_SLOTS, 16, BAGSLOT), 1, 1, 1)
 		
-		elseif id == enum.MainBankSlots then
-			GameTooltip:AddLine(L["Bank"], 0.5, 0.5, 1)
-			GameTooltip:AddLine(format("%d %s", 28, L["slots"]), 1, 1, 1)
-		
-		elseif id == enum.VoidStorageTab1 or id == enum.VoidStorageTab2 then
-			GameTooltip:AddLine(VOID_STORAGE, 0.5, 0.5, 1)
-		
-		elseif id == enum.ReagentBank then
-			GameTooltip:AddLine(REAGENT_BANK, 0.5, 0.5, 1)
-		
 		else
 			local character = AltoholicFrame.TabCharacters:GetCharacter()
 			local link = DataStore:GetContainerLink(character, id)
-			GameTooltip:SetHyperlink(link)
 			if (id >= FIRST_BANK_BAG) and (id <= LAST_BANK_BAG) then
+				local tabName = DataStore:GetPlayerBankTabName(character, id)
+				GameTooltip:AddLine(tabName, 1, 1, 1)
+				GameTooltip:AddLine(format(CONTAINER_SLOTS, 98, BAGSLOT), 1, 1, 1)
 				GameTooltip:AddLine(L["Bank bag"], 0, 1, 0)
+			else
+				GameTooltip:SetHyperlink(link)
 			end
 		end
 		GameTooltip:Show() 
@@ -86,20 +78,6 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 	end
 	
 	local containerList			-- Used by the All-in-one view
-	
-	local function GetContainer(character, containerID)
-		if containerID == enum.MainBankSlots then
-			return DataStore:GetPlayerBank(character)
-		elseif containerID == enum.VoidStorageTab1 then
-			return DataStore:GetVoidStorageTab(character, 1)
-		elseif containerID == enum.VoidStorageTab2 then
-			return DataStore:GetVoidStorageTab(character, 2)
-		elseif containerID == enum.ReagentBank then
-			return DataStore:GetReagentBank(character)
-		else
-			return DataStore:GetContainer(character, containerID)
-		end
-	end
 	
 	return {
 		__Parent = AltoholicFrame.TabCharacters,
@@ -174,8 +152,15 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 					if not (isResizing and rowFrame:IsVisible()) then
 						local containerID = bagIndices[line].bagID
 
-						local container = GetContainer(character, containerID)
-						local containerIcon = DataStore:GetContainerIcon(character, containerID)
+						local container = DataStore:GetContainer(character, containerID)
+						
+						local containerIcon
+						if containerID >= Enum.BagIndex.CharacterBankTab_1 and containerID <= Enum.BagIndex.CharacterBankTab_6 then
+							containerIcon = DataStore:GetPlayerBankTabIcon(character, containerID)
+						else 
+							containerIcon = DataStore:GetContainerIcon(character, containerID)
+						end
+						
 						local containerSize = DataStore:GetContainerSize(character, containerID)
 						
 						-- Column 1 : the bag
@@ -271,15 +256,6 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 				TableInsert(containerList, enum.MainBankSlots)
 			end
 			
-			if options[OPTION_VIEW_VOID_STORAGE] then
-				TableInsert(containerList, enum.VoidStorageTab1)
-				TableInsert(containerList, enum.VoidStorageTab2)
-			end
-			
-			if options[OPTION_VIEW_REAGENT_BANK] then
-				TableInsert(containerList, enum.ReagentBank)
-			end
-			
 			local rowIndex = 1
 			local colIndex = 1
 			local offset = scrollFrame:GetOffset()
@@ -292,7 +268,7 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 				local rowFrame = frame[format("Entry%d", rowIndex)]
 				
 				for _, containerID in pairs(containerList) do
-					local container = GetContainer(character, containerID)
+					local container = DataStore:GetContainer(character, containerID)
 					local containerSize = DataStore:GetContainerSize(character, containerID)
 
 					for slotID = 1, containerSize do
@@ -391,15 +367,6 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 				TableInsert(containerList, enum.MainBankSlots)
 			end
 			
-			if options[OPTION_VIEW_VOID_STORAGE] then
-				TableInsert(containerList, enum.VoidStorageTab1)
-				TableInsert(containerList, enum.VoidStorageTab2)
-			end
-			
-			if options[OPTION_VIEW_REAGENT_BANK] then
-				TableInsert(containerList, enum.ReagentBank)
-			end
-			
 			local itemButton
 			
 			if #containerList > 0 then
@@ -495,19 +462,6 @@ addon:Controller("AltoholicUI.TabCharacters.Containers", function()
 						UpdateBagIndices(bagID, DataStore:GetContainerSize(character, bagID))
 					end
 				end
-				
-				if DataStore:HasPlayerVisitedBank(character) then				-- if bank has been visited, add it
-					UpdateBagIndices(enum.MainBankSlots, 28)
-				end
-			end
-			
-			if options[OPTION_VIEW_VOID_STORAGE] then
-				UpdateBagIndices(enum.VoidStorageTab1, 80)
-				UpdateBagIndices(enum.VoidStorageTab2, 80)
-			end
-			
-			if options[OPTION_VIEW_REAGENT_BANK] then
-				UpdateBagIndices(enum.ReagentBank, DataStore:GetContainerSize(character, REAGENTBANK_CONTAINER))
 			end
 		end,
 }end)
