@@ -4,7 +4,7 @@
 
 ## Notes: Altoholic's Summary Tab
 ## Author: Thaoky (EU-Marécages de Zangar)
-## Version: 11.2.001
+## Version: 11.2.002
 ## Dependencies: Altoholic, DataStore, DataStore_Characters
 ## SavedVariables: Altoholic_SummaryTab_Options
 ## LoadOnDemand: 1

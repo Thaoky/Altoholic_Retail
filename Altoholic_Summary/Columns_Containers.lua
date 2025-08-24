@@ -138,16 +138,18 @@ Columns.RegisterColumn("BankSlots", {
 				return L["Bank not visited yet"]
 			end
 
-			return format("%s/%s|r/%s|r/%s|r/%s|r/%s|r/%s|r/%s",
-				DataStore:GetContainerSize(character, -1),
-				DataStore:GetColoredContainerSize(character, 6),
-				DataStore:GetColoredContainerSize(character, 7),
-				DataStore:GetColoredContainerSize(character, 8),
-				DataStore:GetColoredContainerSize(character, 9),
-				DataStore:GetColoredContainerSize(character, 10),
-				DataStore:GetColoredContainerSize(character, 11),
-				DataStore:GetColoredContainerSize(character, 12)
-			)
+			return "98/98/98/98/98/98"
+
+			-- return format("%s/%s|r/%s|r/%s|r/%s|r/%s|r/%s|r/%s",
+				-- DataStore:GetContainerSize(character, -1),
+				-- DataStore:GetColoredContainerSize(character, 6),
+				-- DataStore:GetColoredContainerSize(character, 7),
+				-- DataStore:GetColoredContainerSize(character, 8),
+				-- DataStore:GetColoredContainerSize(character, 9),
+				-- DataStore:GetColoredContainerSize(character, 10),
+				-- DataStore:GetColoredContainerSize(character, 11),
+				-- DataStore:GetColoredContainerSize(character, 12)
+			-- )
 		end,
 	OnEnter = function(frame)
 			local character = frame:GetParent().character
@@ -167,22 +169,30 @@ Columns.RegisterColumn("BankSlots", {
 				return
 			end
 			
-			local link, size, free, bagType
-			size, free = DataStore:GetPlayerBankInfo(character)
-			tt:AddDoubleLine(format("%s[%s]", colors.white, L["Bank"]), FormatBagSlots(size, free))
+			-- local link, size, free, bagType
+			-- size, free = DataStore:GetPlayerBankInfo(character)
+			-- tt:AddDoubleLine(format("%s[%s]", colors.white, L["Bank"]), FormatBagSlots(size, free))
 			
-			local numPurchasedSlots = DataStore:GetNumPurchasedBankSlots(character)
+			-- local numPurchasedSlots = DataStore:GetNumPurchasedBankSlots(character)
 			
-			for i = 6, 12 do
-				local slotIndex = i - 5		-- ie: id 6 = first bag, 7 = 2nd bag ...
-				link, size, free, bagType = DataStore:GetContainerInfo(character, i)
+			-- for i = 6, 12 do
+			for tabID = Enum.BagIndex.CharacterBankTab_1, Enum.BagIndex.CharacterBankTab_6 do
+				-- local slotIndex = i - 5		-- ie: id 6 = first bag, 7 = 2nd bag ...
+				local size = DataStore:GetContainerSize(character, tabID)
+				local _, _, free, _ = DataStore:GetContainerInfo(character, tabID)
 
+				local tabName = DataStore:GetPlayerBankTabName(character, tabID)
+				local tabIcon = DataStore:GetPlayerBankTabIcon(character, tabID)
+				tt:AddDoubleLine(format("%s %s", Formatter.Texture18(tabIcon), tabName), FormatBagSlots(size, free))
+					
+					
+					
 				-- if this slot was not purchased yet..
-				if numPurchasedSlots and numPurchasedSlots < slotIndex then
-					tt:AddDoubleLine(L["Not purchased yet"], Formatter.MoneyStringShort(bankSlotPrices[slotIndex]))
-				elseif size ~= 0 then
-					tt:AddDoubleLine(FormatBagType(link, bagType), FormatBagSlots(size, free))
-				end
+				-- if numPurchasedSlots and numPurchasedSlots < slotIndex then
+					-- tt:AddDoubleLine(L["Not purchased yet"], Formatter.MoneyStringShort(bankSlotPrices[slotIndex]))
+				-- elseif size ~= 0 then
+					-- tt:AddDoubleLine(FormatBagType(link, bagType), FormatBagSlots(size, free))
+				-- end
 			end
 			tt:Show()
 		end,
