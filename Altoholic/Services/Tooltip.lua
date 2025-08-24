@@ -117,7 +117,6 @@ local function GetCharacterItemCount(character, searchedID)
 	itemCounts[6] = DataStore:GetInventoryItemCount(character, searchedID)
 	itemCounts[7] = DataStore:GetMailItemCount(character, searchedID)
 	
-	
 	local charCount = 0
 	for _, v in pairs(itemCounts) do
 		charCount = charCount + v

@@ -15,6 +15,14 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.2.002 (24/08/2025)
+
+- Summary tab -> Bag usage : modified the 'bank' column to display 6*98 slots, and its tooltip to display the tab names and free slots.
+- DataStore_Containers : reworked the handling of the new player bank tabs, this has a serious impact on the code. 
+There is still no need to clear the saved variables, but you definitely need to visit the bank again with all your alts.
+Sorry about this, and I know many of your have a ton of alts, but this could not be avoided.
+
+
 11.2.001 (22/08/2025)
 
 - Reagent Bank and Void Storage have been removed, there is no need to clear your saved variables, but you will still have to visit the bank again with all your alts.
