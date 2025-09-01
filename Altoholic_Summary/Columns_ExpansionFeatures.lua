@@ -211,7 +211,8 @@ Columns.RegisterColumn("FollowersItems", {
 			local avgArmor = DataStore:GetAvgArmoriLevel(character) or 0
 			local colorA = GetColorFromAIL(avgArmor)
 			
-			return format("%s%.1f%s/%s%.1f", colorW, avgWeapon, colors.white, colorA, avgArmor)
+			-- return format("%s%.1f%s/%s%.1f", colorW, avgWeapon, colors.white, colorA, avgArmor)
+			return format("%s%d%s/%s%d", colorW, avgWeapon, colors.white, colorA, avgArmor)
 		end,
 	OnEnter = function(frame)
 			local character = frame:GetParent().character
@@ -229,8 +230,10 @@ Columns.RegisterColumn("FollowersItems", {
 			tt:SetOwner(frame, "ANCHOR_RIGHT")
 			tt:AddLine(DataStore:GetColoredCharacterName(character),1,1,1)
 			tt:AddLine(" ")
-			tt:AddLine(format("%s: %s%.1f", WEAPON, colorW, avgWeapon),1,1,1)
-			tt:AddLine(format("%s: %s%.1f", ARMOR, colorA, avgArmor),1,1,1)
+			-- tt:AddLine(format("%s: %s%.1f", WEAPON, colorW, avgWeapon),1,1,1)
+			tt:AddLine(format("%s: %s%d", WEAPON, colorW, avgWeapon),1,1,1)
+			-- tt:AddLine(format("%s: %s%.1f", ARMOR, colorA, avgArmor),1,1,1)
+			tt:AddLine(format("%s: %s%d", ARMOR, colorA, avgArmor),1,1,1)
 			tt:Show()
 		end,
 })
