@@ -15,6 +15,16 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.2.003 (01/09/2025)
+
+- DataStore_Talents : Added missing Glyphs.lua in the .toc
+- DataStore_Containers : Fixed a lua error when searching bags.
+- DataStore_Containers : Fixed a lua error when opening the Warband Bank using the Distance Inhibitor.
+- DataStore_Reputations : Added the Manaforge Vandals and Flame's Radiance, forgotten in previous updates.
+- Summary tab -> Draenor Garrisons: removed the decimal point in the follower iLevel column.
+- Summary grids -> Added missing reputations.
+
+
 11.2.002 (24/08/2025)
 
 - Summary tab -> Bag usage : modified the 'bank' column to display 6*98 slots, and its tooltip to display the tab names and free slots.

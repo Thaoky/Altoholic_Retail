@@ -336,6 +336,11 @@ local Factions = {
 			{ name = DataStore:GetFactionName(2685), icon = "inv_inscription_tarot_earthquakecard" },    -- Gallagio Loyalty Rewards Club
 			{ name = DataStore:GetFactionName(2677), icon = "achievement_femalegoblinhead" },    -- Steamwheedle Cartel
 			{ name = DataStore:GetFactionName(2671), icon = "ui_majorfactions_rocket" },    -- Venture Company
+			{ name = DataStore:GetFactionName(2688), icon = "inv_ability_holyfire_buff" },    -- Flame's Radiance
+			
+			-- 11.2
+			{ name = DataStore:GetFactionName(2658), icon = "Ability_racial_etherealconnection" },    -- The K'aresh Trust
+			{ name = DataStore:GetFactionName(2736), icon = "inv_112_achievement_raid_manaforgeomega" },    -- Manaforge Vandals
 		},
 	},
 	{	-- [12]
