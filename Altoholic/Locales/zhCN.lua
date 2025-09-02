@@ -73,8 +73,10 @@ L["Do you want to open Altoholic's calendar for details ?"] = "你想开启Altoh
 -- ** Services / Tooltip **
 
 L["Transmute"] = "转化"
+L["Reagent Bag"] = "材料包"
 L["Bags"] = "背包"
 L["Bank"] = "银行"
+L["Account Bank"] = "战团银行:"
 L["AH"] = "拍卖行"
 L["Mail"] = "邮件"
 L["Equipped"] = "已装备"
@@ -85,4 +87,4 @@ L["Total owned"] = "总计"
 L["Source"] = "来源"
 -- L["Goes in"] = true
 L["Are also on this quest:"] = "有相同任务: "
--- L["Could be stored on"] = true
+L["Could be stored on"] = "可被存放在"
