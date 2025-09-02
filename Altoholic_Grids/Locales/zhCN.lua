@@ -3,11 +3,11 @@ if not L then return end
 
 -- ** Menu **
 L["Equipment"] = "装备"
--- L["Profession Equipment"] = true
--- L["Currencies"] = true
+L["Profession Equipment"] = "专业装备"
+L["Currencies"] = "货币"
 L["Reputations"] = "声望"
--- L["Daily Quests"] = true
--- L["Weekly Quests"] = true
+L["Daily Quests"] = "日常任务"
+L["Weekly Quests"] = "周常任务"
 L["Zone"] = "地区"
 L["Characters"] = "人物"
 L["Rest XP"] = "奖励经验"
@@ -16,7 +16,7 @@ L["Rest XP"] = "奖励经验"
 L["Unknown link, please relog this character"] = "未知链接，请重新登入角色"
 
 -- ** Profession Equipment ** Dragonflight
--- L["Profession"] = true
+L["Profession"] = "专业"
 -- L["Tool"] = true
 -- L["Accessory"] = true
 -- L["FISHING_TOOL"] = "Fishing Rod"
@@ -41,4 +41,4 @@ L["Not recruited at the inn"] = "尚未在旅店招募"
 L["Counters"] = "反制"
 
 -- ** Sets **
--- L["Fetching item information .."] = true
+L["Fetching item information .."] = "物品信息获取中..."
