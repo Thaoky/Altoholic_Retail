@@ -34,6 +34,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicTooltip", function()
 			frame.ShowMergedRealmsCount:SetChecked(options.ShowMergedRealmsCount)
 			frame.ShowAllRealmsCount:SetChecked(options.ShowAllRealmsCount)
 			frame.ShowAllAccountsCount:SetChecked(options.ShowAllAccountsCount)
+			frame.ShowInventoryItemCount:SetChecked(options.ShowInventoryItemCount)
 			
 			frame.ShowAccountBankCount:SetChecked(options.ShowAccountBankCount)
 			frame.ShowGuildBankCount:SetChecked(options.ShowGuildBankCount)
