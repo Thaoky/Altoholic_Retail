@@ -197,7 +197,8 @@ AddonFactory:OnAddonLoaded(addonName, function()
 		ShowGuildBankCountPerTab = false,	-- guild count = guild:count or guild (tab 1: x, tab2: y ..)
 		ShowCouldBeStoredOn = false,			-- display "could be stored on" information
 		ShowAccountBankCount = true,			-- display account bank counters
-		
+		ShowInventoryItemCount = true,		-- display equipped item counters
+
 		HiddenGuilds = {}						-- Guilds that should not be shown in the tooltip
 	})	
 	

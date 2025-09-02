@@ -114,7 +114,11 @@ local function GetCharacterItemCount(character, searchedID)
 	itemCounts[3] = DataStore:GetVoidStorageItemCount(character, searchedID)
 	itemCounts[4] = DataStore:GetReagentBankItemCount(character, searchedID)
 	itemCounts[5] = DataStore:GetAuctionHouseItemCount(character, searchedID)
-	itemCounts[6] = DataStore:GetInventoryItemCount(character, searchedID)
+	if options["ShowInventoryItemCount"] then
+		itemCounts[6] = DataStore:GetInventoryItemCount(character, searchedID)
+	else
+		itemCounts[6] = 0
+	end
 	itemCounts[7] = DataStore:GetMailItemCount(character, searchedID)
 	
 	local charCount = 0

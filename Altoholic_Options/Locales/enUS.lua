@@ -241,6 +241,11 @@ L["TT_SHOW_HEARTHSTONE_TITLE"] = "Show counters for hearthstones"
 L["TT_SHOW_HEARTHSTONE_ENABLED"] = "Display counters when mousing over a hearthstone, the Admiral's Compass, or the Flight Master's Whistle."
 L["TT_SHOW_HEARTHSTONE_DISABLED"] = "Hide the counters when mousing over one of these items."
 
+L["TT_SHOW_INVENTORYITEM_TEXT"] = "Show counters for equipped items"
+L["TT_SHOW_INVENTORYITEM_TITLE"] = "Show counters for equipped items"
+L["TT_SHOW_INVENTORYITEM_ENABLED"] = "Display counters when mousing over an equipped item."
+L["TT_SHOW_INVENTORYITEM_DISABLED"] = "Hide the counters when mousing over one of these items."
+
 
 -- ** Settings / Altoholic / Calendar **
 L["Calendar Options"] = true
