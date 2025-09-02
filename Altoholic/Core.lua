@@ -198,7 +198,7 @@ AddonFactory:OnAddonLoaded(addonName, function()
 		ShowCouldBeStoredOn = false,			-- display "could be stored on" information
 		ShowAccountBankCount = true,			-- display account bank counters
 		ShowCurrenciesCount = true,			-- display currency counters
-		
+		ShowInventoryItemCount = true,		-- display equipped item counters
 		HiddenGuilds = {}						-- Guilds that should not be shown in the tooltip
 	})	
 	
