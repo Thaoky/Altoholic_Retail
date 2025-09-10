@@ -43,6 +43,7 @@ addon:Controller("AltoholicUI.TabOptions.SettingsAltoholicTooltip", function()
 			frame.ShowHearthstoneCount:SetChecked(options.ShowHearthstoneCount)
 			frame.ShowItemXPack:SetChecked(options.ShowItemXPack)
 			frame.ShowCouldBeStoredOn:SetChecked(options.ShowCouldBeStoredOn)
+			frame.ShowCurrenciesCount:SetChecked(options.ShowCurrenciesCount)
 			
 			frame:Show()
 		end,
