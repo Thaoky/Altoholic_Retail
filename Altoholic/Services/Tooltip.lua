@@ -87,12 +87,12 @@ local function WriteTotal(tooltip)
 	end
 end
 
-local function GetRealmsList(isAccountBound)
+local function GetRealmsList()
 	-- returns the list of realms to check, either only this realm, or merged realms too.
 	local realms = {}
 	table.insert(realms, DataStore.ThisRealm)		-- always "this realm" first
 	
-	if isAccountBound and options["ShowAllRealmsCount"] then
+	if options["ShowAllRealmsCount"] then
 		for realm, _ in pairs(DataStore:GetRealms()) do
 			if realm ~= DataStore.ThisRealm then
 				table.insert(realms, realm)
@@ -106,6 +106,24 @@ local function GetRealmsList(isAccountBound)
 	end
 	
 	return realms
+end
+
+local function GetColoredName(character)
+	local account, realm, char = strsplit(".", character)
+	local name = DataStore:GetColoredCharacterName(character) or char		-- if for any reason this char isn't in DS_Characters, use the name part of the key
+	
+	local isOtherAccount = (account ~= DataStore.ThisAccount)
+	local isOtherRealm = (realm ~= DataStore.ThisRealm)
+	
+	if isOtherAccount and isOtherRealm then		-- other account AND other realm
+		name = format("%s%s (%s / %s)", name, colors.yellow, account, realm)
+	elseif isOtherAccount then							-- only other account
+		name = format("%s%s (%s)", name, colors.yellow, account)
+	elseif isOtherRealm then							-- only other realm
+		name = format("%s%s (%s)", name, colors.yellow, realm)
+	end
+
+	return name
 end
 
 local function GetCharacterItemCount(character, searchedID)
@@ -123,19 +141,7 @@ local function GetCharacterItemCount(character, searchedID)
 	end
 	
 	if charCount > 0 then
-		local account, realm, char = strsplit(".", character)
-		local name = DataStore:GetColoredCharacterName(character) or char		-- if for any reason this char isn't in DS_Characters, use the name part of the key
-		
-		local isOtherAccount = (account ~= DataStore.ThisAccount)
-		local isOtherRealm = (realm ~= DataStore.ThisRealm)
-		
-		if isOtherAccount and isOtherRealm then		-- other account AND other realm
-			name = format("%s%s (%s / %s)", name, colors.yellow, account, realm)
-		elseif isOtherAccount then							-- only other account
-			name = format("%s%s (%s)", name, colors.yellow, account)
-		elseif isOtherRealm then							-- only other realm
-			name = format("%s%s (%s)", name, colors.yellow, realm)
-		end
+		local name = GetColoredName(character)
 		
 		local line = AddonFactory:GetTable()
 		for k, v in pairs(itemCounts) do
@@ -157,10 +163,10 @@ local function GetCharacterItemCount(character, searchedID)
 	return charCount
 end
 
-local function GetAccountItemCount(account, searchedID, isAccountBound)
+local function GetAccountItemCount(account, searchedID)
 	local count = 0
 
-	for _, realm in pairs(GetRealmsList(isAccountBound)) do
+	for _, realm in pairs(GetRealmsList()) do
 		for _, character in pairs(DataStore:GetCharacters(realm, account)) do
 			if options["ShowCrossFactionCount"] then
 				count = count + GetCharacterItemCount(character, searchedID)
@@ -206,20 +212,20 @@ local function GetItemCount(searchedID, itemLink)
 	local count = 0
 
 	-- determine if the item is account bound
-	local isAccountBound = IsItemAccountBound(itemLink)
+	-- local isAccountBound = IsItemAccountBound(itemLink)
 	
 	if options["ShowAllAccountsCount"] and not AccountSharing.IsSharingInProgress() then
 		for account in pairs(DataStore:GetAccounts()) do
-			count = count + GetAccountItemCount(account, searchedID, isAccountBound)
+			count = count + GetAccountItemCount(account, searchedID)
 		end
 	else
-		count = GetAccountItemCount(DataStore.ThisAccount, searchedID, isAccountBound)
+		count = GetAccountItemCount(DataStore.ThisAccount, searchedID)
 	end
 	
 	local showCrossFaction = options.ShowCrossFactionCount
 	
 	if options.ShowGuildBankCount then
-		for _, realm in pairs(GetRealmsList(isAccountBound)) do
+		for _, realm in pairs(GetRealmsList()) do
 			for guildName, guildKey in pairs(DataStore:GetGuilds(realm)) do
 				local hideInTooltip = options.HiddenGuilds[guildKey] or false
 				local bankFaction = DataStore:GetGuildBankFaction(guildKey)
@@ -678,7 +684,7 @@ end
 addon:Service("AltoholicUI.Tooltip", { function()
 
 	local function Hook_SetCurrencyToken(self, index, ...)
-		if not index then return end
+		if not index or not options.ShowCurrenciesCount then return end
 
 		local currency = C_CurrencyInfo.GetCurrencyListInfo(index)
 		if not currency or not currency.name or DataStore:IsCurrencyAccountWide(currency.name) then return end
@@ -687,15 +693,17 @@ addon:Service("AltoholicUI.Tooltip", { function()
 
 		local total = 0
 		
-		local characters = DataStore:HashValueToSortedArray(DataStore:GetCharacters())
+		-- 
+		for _, realm in pairs(GetRealmsList()) do
+			local characters = DataStore:HashValueToSortedArray(DataStore:GetCharacters(realm))
 		
-		for _, character in pairs(characters) do
-			local _, count = DataStore:GetCurrencyInfoByName(character, currency.name)
-			if count and count > 0 then
-				GameTooltip:AddDoubleLine(DataStore:GetColoredCharacterName(character), format("%s%s", colors.teal, count))
-				total = total + count
+			for _, character in pairs(characters) do
+				local _, count = DataStore:GetCurrencyInfoByName(character, currency.name)
+				if count and count > 0 then
+					GameTooltip:AddDoubleLine(GetColoredName(character), format("%s%s", colors.teal, count))
+					total = total + count
+				end
 			end
-			
 		end
 		
 		if total > 0 then

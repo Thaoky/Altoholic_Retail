@@ -1,9 +1,9 @@
 local addonName, addon = ...
 _G[addonName] = addon
 
-addon.Version = "v11.2.003"
+addon.Version = "v11.2.004"
 -- addon.VersionNum = 11 00 007
-addon.VersionNum = 1102003
+addon.VersionNum = 1102004
 
 LibStub("LibMVC-1.0"):Embed(addon)
 
@@ -197,6 +197,7 @@ AddonFactory:OnAddonLoaded(addonName, function()
 		ShowGuildBankCountPerTab = false,	-- guild count = guild:count or guild (tab 1: x, tab2: y ..)
 		ShowCouldBeStoredOn = false,			-- display "could be stored on" information
 		ShowAccountBankCount = true,			-- display account bank counters
+		ShowCurrenciesCount = true,			-- display currency counters
 		
 		HiddenGuilds = {}						-- Guilds that should not be shown in the tooltip
 	})	

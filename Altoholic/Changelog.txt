@@ -15,6 +15,17 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.2.004 (10/09/2025)
+
+- Updated esES translations (Thanks Romanv!)
+- Updated zhCN translations (Thanks Woodsweb!)
+- Summary grids -> Reputations : changed the colors used to represent major factions (Thanks Furball13 !)
+- (GH Issue #46) Tab Characters : Fixed a lua error when viewing an unvisited area in an alt's quest log.
+- (GH Issue #32) Tooltips -> Added an option to show/hide currency tooltips. 
+- (GH Issues #4 & #43) Tooltips -> The options 'Show counters for all realms' and 'Show counters for connected realms' now also influence the currency tooltip.
+- Tooltips -> 'Show counters for all realms' now also affects all items, instead of only warbound items.
+
+
 11.2.003 (01/09/2025)
 
 - DataStore_Talents : Added missing Glyphs.lua in the .toc
