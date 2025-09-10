@@ -2,13 +2,13 @@ local L = AddonFactory:SetLocale("Altoholic", "zhCN")
 if not L then return end
  
 -- ** Menu **
--- L["Settings"] = true
+L["Settings"] = "设置"
 L["Calendar"] = "日历"
--- L["Tooltip"] = true
--- L["Enabled"] = true
--- L["Disabled"] = true
--- L["Character"] = true
-L["Characters"] = "人物"
+L["Tooltip"] = "提示信息"
+L["Enabled"] = "启用"
+L["Disabled"] = "禁用"
+L["Character"] = "角色"
+L["Characters"] = "多个角色"
 -- L["Bank characters"] = true
 L["Account Sharing"] = "账户共享"
 -- L["How to"] = true
@@ -25,10 +25,10 @@ L["About"] = "关于"
 -- L["TAB_NOT_LOADED_YET"] = "Tab not loaded yet"
 
 -- ** Settings / Altoholic / General **
--- L["General Options"] = true
+L["General Options"] = "通用设置"
 L["Minimap Icon Angle"] = "迷你地图图标角度"
 L["Minimap Icon Radius"] = "迷你地图图标半径"
--- L["Transparency"] = true
+L["Transparency"] = "透明度"
 
 L["BANK_AUTO_UPDATE_TEXT"] = "自动授权公会仓库更新"
 -- L["BANK_AUTO_UPDATE_TITLE"] = "Guild Bank Updates"
@@ -52,7 +52,7 @@ L["Move to change the radius of the minimap icon"] = "移动迷你地图图标�
 
 
 -- ** Settings / Altoholic / Mail **
--- L["Mail Options"] = true
+L["Mail Options"] = "邮件设置"
 
 -- L["AUTO_COMPLETE_PRIORITY"] = "Auto-Complete Priority"
 -- L["AUTO_COMPLETE_BY_NAME"] = "Alphabetical order"
@@ -74,9 +74,9 @@ L["Move to change the radius of the minimap icon"] = "移动迷你地图图标�
 
 
 -- ** Settings / Altoholic / Tooltip **
--- L["Tooltip Options"] = true
+L["Tooltip Options"] = "提示信息设置"
 
--- L["TT_SHOW_ITEMSOURCE_TEXT"] = "Show item source"
+L["TT_SHOW_ITEMSOURCE_TEXT"] = "显示物品来源"
 -- L["TT_SHOW_ITEMSOURCE_TITLE"] = "Item source"
 -- L["TT_SHOW_ITEMSOURCE_ENABLED"] = [[Display information about the source of the item, like the profession or the dungeon where it drops.
 
@@ -91,7 +91,7 @@ L["Move to change the radius of the minimap icon"] = "移动迷你地图图标�
  -- |cFFFFD700Boss:|r |cFF00FF9ARagnaros|r]]
 -- L["TT_SHOW_ITEMSOURCE_DISABLED"] = "No information is displayed."
 
--- L["TT_SHOW_ITEMCOUNT_TEXT"] = "Show item count per character"
+L["TT_SHOW_ITEMCOUNT_TEXT"] = "显示每个角色的物品数量"
 -- L["TT_SHOW_ITEMCOUNT_TITLE"] = "Item count per character"
 -- L["TT_SHOW_ITEMCOUNT_ENABLED"] = [[Display one line of information per character that owns at least one copy of the item being moused over.
 
@@ -101,7 +101,7 @@ L["Move to change the radius of the minimap icon"] = "移动迷你地图图标�
     -- |cFFABD473Sira|r           |cFFFF7F006|r |cFFFFFFFF(Bags: |cFF00FF9A6|r)|r]]
 -- L["TT_SHOW_ITEMCOUNT_DISABLED"] = "No information is displayed."
 
--- L["TT_SHOW_SIMPLECOUNT_TEXT"] = "Show item count without details"
+L["TT_SHOW_SIMPLECOUNT_TEXT"] = "显示物品总数量但不具体显示存放在哪"
 -- L["TT_SHOW_SIMPLECOUNT_TITLE"] = "Item count without details"
 -- L["TT_SHOW_SIMPLECOUNT_ENABLED"] = [[Display only the amount of items owned for a character, without the location.
 
@@ -113,7 +113,7 @@ L["Move to change the radius of the minimap icon"] = "移动迷你地图图标�
 -- Note that this option is tied to 
 -- |cFFFF7F00Show item count per character|r]]
 
--- L["TT_SHOW_TOTALCOUNT_TEXT"] = "Show total item count"
+L["TT_SHOW_TOTALCOUNT_TEXT"] = "显示所有角色的物品总计数量"
 -- L["TT_SHOW_TOTALCOUNT_TITLE"] = "Total item count"
 -- L["TT_SHOW_TOTALCOUNT_ENABLED"] = [[Display the total amount of items owned by all characters listed in the tooltip.
 
@@ -124,7 +124,7 @@ L["Move to change the radius of the minimap icon"] = "移动迷你地图图标�
  -- |cFFFFD700Total owned:|r |cFF00FF9A217|r]]
 -- L["TT_SHOW_TOTALCOUNT_DISABLED"] = "The total line is not displayed."
 
--- L["TT_SHOW_RECIPES_TEXT"] = "Show recipes already known/learnable by"
+L["TT_SHOW_RECIPES_TEXT"] = "显示已学/可学的配方"
 -- L["TT_SHOW_RECIPES_TITLE"] = "Show recipes already known/learnable by"
 -- L["TT_SHOW_RECIPES_ENABLED"] = [[Display information about which alts already know, could learn or will later be able to learn a recipe.
 
@@ -134,7 +134,7 @@ L["Move to change the radius of the minimap icon"] = "移动迷你地图图标�
     -- |cFFFFFF00Could be learned by :|r |cFFABD473Sira|r]]
 -- L["TT_SHOW_RECIPES_DISABLED"] = "No information is displayed."
 
--- L["TT_SHOW_GUILDBANKCOUNT_TEXT"] = "Show guild bank count"
+L["TT_SHOW_GUILDBANKCOUNT_TEXT"] = "显示公会银行计数"
 -- L["TT_SHOW_GUILDBANKCOUNT_TITLE"] = "Guild bank count"
 -- L["TT_SHOW_GUILDBANKCOUNT_ENABLED"] = [[Display the total amount of items stored in guild banks.
 
@@ -143,12 +143,12 @@ L["Move to change the radius of the minimap icon"] = "移动迷你地图图标�
     -- |cFF00FF00Odysseüs|r     |cFFFF7F0084|r |cFFFFFFFF(Guild Bank: |cFF00FF9A84|r)|r]]
 -- L["TT_SHOW_GUILDBANKCOUNT_DISABLED"] = "No information is displayed."
 
--- L["TT_INCLUDE_GUILDBANKCOUNT_TEXT"] = "Include guild bank count in the total count"
+L["TT_INCLUDE_GUILDBANKCOUNT_TEXT"] = "物品总计数量包含公会银行计数"
 -- L["TT_INCLUDE_GUILDBANKCOUNT_TITLE"] = "Include guild bank count in the total count"
 -- L["TT_INCLUDE_GUILDBANKCOUNT_ENABLED"] = "The amount of items stored in guild banks will be accounted for in the total."
 -- L["TT_INCLUDE_GUILDBANKCOUNT_DISABLED"] = "The amount of items stored in guild banks will be ignored."
 
--- L["TT_DETAILED_BANKCOUNT_TEXT"] = "Detailed guild bank count"
+L["TT_DETAILED_BANKCOUNT_TEXT"] = "公会银行计数显示具体标签页名字"
 -- L["TT_DETAILED_BANKCOUNT_TITLE"] = "Detailed guild bank count"
 -- L["TT_DETAILED_BANKCOUNT_ENABLED"] = [[Display the amount of items stored in guild banks, per tab.
 
@@ -157,7 +157,7 @@ L["Move to change the radius of the minimap icon"] = "移动迷你地图图标�
     -- |cFF00FF00Odysseüs|r     |cFFFF7F0084|r |cFFFFFFFF(Consumables: |cFF00FF9A84|r)|r]]
 -- L["TT_DETAILED_BANKCOUNT_DISABLED"] = [[Display 'Guild Bank' instead of the tab name.]]
 
--- L["TT_SHOW_GUILDBANKREALM_TEXT"] = "Show guild bank realm"
+L["TT_SHOW_GUILDBANKREALM_TEXT"] = "显示公会银行所在的服务器"
 -- L["TT_SHOW_GUILDBANKREALM_TITLE"] = "Guild bank realm"
 -- L["TT_SHOW_GUILDBANKREALM_ENABLED"] = [[Display the realm on which a guild bank resides.
 
@@ -166,7 +166,18 @@ L["Move to change the radius of the minimap icon"] = "移动迷你地图图标�
     -- |cFF00FF00Odysseüs|r |cFFFFFF00(Marécages de Zangar)|r    |cFFFF7F0084|r |cFFFFFFFF(Guild Bank: |cFF00FF9A84|r)|r]]
 -- L["TT_SHOW_GUILDBANKREALM_DISABLED"] = "Display only the guild name"
 
--- L["TT_SHOW_ITEMID_TEXT"] = "Show item ID and item level"
+
+L["TT_SHOW_ACCOUNTBANKCOUNT_TEXT"] = "显示战团银行计数"
+L["TT_SHOW_ACCOUNTBANKCOUNT_TITLE"] = "Account bank count"
+L["TT_SHOW_ACCOUNTBANKCOUNT_ENABLED"] = [[Display the total amount of items stored in the account bank.
+
+E.g. 
+
+    |cFF00FF00Account Bank|r     |cFFFF7F0084|r |cFFFFFFFF(Warbank 1: |cFF00FF9A84|r)|r]]
+L["TT_SHOW_ACCOUNTBANKCOUNT_DISABLED"] = "No information is displayed."
+
+
+L["TT_SHOW_ITEMID_TEXT"] = "显示物品ID和物品等级"
 -- L["TT_SHOW_ITEMID_TITLE"] = "Item ID and item level"
 -- L["TT_SHOW_ITEMID_ENABLED"] = [[Display the item ID and item level at the bottom of the tooltip.
 
@@ -175,7 +186,7 @@ L["Move to change the radius of the minimap icon"] = "移动迷你地图图标�
     -- |cFFFFD700Item ID:|r |cFF00FF00140192|r             |cFFFFD700iLvl:|r |cFF00FF0035|r]]
 -- L["TT_SHOW_ITEMID_DISABLED"] = "No information is displayed."
 
--- L["TT_SHOW_ITEMXPACK_TEXT"] = "Show extended item information"
+L["TT_SHOW_ITEMXPACK_TEXT"] = "显示物品所属的内容版本等扩展信息"
 -- L["TT_SHOW_ITEMXPACK_TITLE"] = "Extended item information"
 -- L["TT_SHOW_ITEMXPACK_ENABLED"] = [[Display extended information about the item, like the expansion it belongs to.
 
@@ -189,34 +200,45 @@ L["Move to change the radius of the minimap icon"] = "移动迷你地图图标�
 -- Note that this option is tied to 
 -- |cFFFF7F00Show item source|r]]
 
--- L["TT_SHOW_NODES_TEXT"] = "Show counters on gathering nodes"
+
+L["TT_SHOW_COULDBESTORED_TEXT"] = "显示可替代存储的位置"
+L["TT_SHOW_COULDBESTORED_TITLE"] = "Show alternate storage location"
+L["TT_SHOW_COULDBESTORED_ENABLED"] = [[Display on which bank alts materials from previous expansions could be stored.
+
+E.g.
+
+ |cFFFFD700Could be stored on:|r |cFF69CCF0Thaoky|r]]
+L["TT_SHOW_COULDBESTORED_DISABLED"] = "No information is displayed."
+
+
+L["TT_SHOW_NODES_TEXT"] = "鼠标滑过草药矿点时显示该物品的已有数量"
 -- L["TT_SHOW_NODES_TITLE"] = "Show counters on gathering nodes"
 -- L["TT_SHOW_NODES_ENABLED"] = "When mousing over a gathering node (herbs, mines), display the amount of related items owned."
 -- L["TT_SHOW_NODES_DISABLED"] = "No information is displayed."
 
--- L["TT_SHOW_BOTHFACTIONS_TEXT"] = "Show counters for both factions"
+L["TT_SHOW_BOTHFACTIONS_TEXT"] = "显示双方阵营的计数"
 -- L["TT_SHOW_BOTHFACTIONS_TITLE"] = "Show counters for both factions"
 -- L["TT_SHOW_BOTHFACTIONS_ENABLED"] = "Display the amount of items owned by characters of the opposite faction."
 -- L["TT_SHOW_BOTHFACTIONS_DISABLED"] = "Only information about the current faction is displayed."
 
--- L["TT_SHOW_MERGEDREALMS_TEXT"] = "Show counters for connected realms"
+L["TT_SHOW_MERGEDREALMS_TEXT"] = "显示当前服务器的计数"
 -- L["TT_SHOW_MERGEDREALMS_TITLE"] = "Show counters for connected realms"
 -- L["TT_SHOW_MERGEDREALMS_ENABLED"] = "Display the amount of items owned by characters on realms connected to the current realm."
 -- L["TT_SHOW_MERGEDREALMS_DISABLED"] = "Only information about the current realm is displayed."
 
--- L["TT_SHOW_ALLREALMS_TEXT"] = "Show counters for all realms"
+L["TT_SHOW_ALLREALMS_TEXT"] = "显示所有服务器的计数"
 -- L["TT_SHOW_ALLREALMS_TITLE"] = "Show counters for all realms"
 -- L["TT_SHOW_ALLREALMS_ENABLED"] = "Information from all realms is also displayed for account bound items."
 -- L["TT_SHOW_ALLREALMS_DISABLED"] = [[Only information about the current realm is displayed.
 
 -- Note: this option supersedes |cFFFF7F00Show counters for connected realms|r for account bound items.]]
 
--- L["TT_SHOW_ALLACCOUNTS_TEXT"] = "Show counters for all accounts"
+L["TT_SHOW_ALLACCOUNTS_TEXT"] = "显示所有帐号的计数"
 -- L["TT_SHOW_ALLACCOUNTS_TITLE"] = "Show counters for all accounts"
 -- L["TT_SHOW_ALLACCOUNTS_ENABLED"] = "Information from all imported accounts is also displayed."
 -- L["TT_SHOW_ALLACCOUNTS_DISABLED"] = "Only information about the current account is displayed."
 
--- L["TT_SHOW_HEARTHSTONE_TEXT"] = "Show counters for hearthstones"
+L["TT_SHOW_HEARTHSTONE_TEXT"] = "显示炉石的计数"
 -- L["TT_SHOW_HEARTHSTONE_TITLE"] = "Show counters for hearthstones"
 -- L["TT_SHOW_HEARTHSTONE_ENABLED"] = "Display counters when mousing over a hearthstone, the Admiral's Compass, or the Flight Master's Whistle."
 -- L["TT_SHOW_HEARTHSTONE_DISABLED"] = "Hide the counters when mousing over one of these items."

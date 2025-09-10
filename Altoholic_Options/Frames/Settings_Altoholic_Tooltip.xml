@@ -260,6 +260,18 @@
 					<KeyValue key="locDisabled" value="TT_SHOW_HEARTHSTONE_DISABLED" />
 				</KeyValues>
 			</CheckButton>
+			<CheckButton parentKey="ShowCurrenciesCount" inherits="AltoTooltipOptionTemplate">
+				<Anchors> 
+					<Anchor point="TOPLEFT" relativeKey="$parent.ShowHearthstoneCount" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="ShowCurrenciesCount" />
+					<KeyValue key="locLabel" value="TT_SHOW_CURRENCIES_TEXT" />
+					<KeyValue key="locTitle" value="TT_SHOW_CURRENCIES_TITLE" />
+					<KeyValue key="locEnabled" value="TT_SHOW_CURRENCIES_ENABLED" />
+					<KeyValue key="locDisabled" value="TT_SHOW_CURRENCIES_DISABLED" />
+				</KeyValues>
+			</CheckButton>
 		</Frames>
 		<Scripts>
 			<OnLoad>

@@ -4,7 +4,7 @@
 
 ## Notes: Altoholic's Search UI
 ## Author: Thaoky (EU-Marécages de Zangar)
-## Version: 11.2.003
+## Version: 11.2.004
 ## Dependencies: Altoholic, DataStore, DataStore_Characters
 ## SavedVariables: Altoholic_SearchTab_Options
 ## LoadOnDemand: 1

@@ -1,11 +1,11 @@
 local addonName = ...
-local L = AddonFactory:SetLocale(addonName,  "esES")
+local L = AddonFactory:SetLocale(addonName, "esES")
 if not L then return end
 
 L["TAB_SUMMARY"] = "Resumen"
 L["TAB_CHARACTERS"] = "Personajes"
 L["TAB_AGENDA"] = "Agenda"
-L["TAB_GRIDS"] = "Parrillas"
+L["TAB_GRIDS"] = "Grilla"
 
 L["Shows the UI"] = "Mostrar el interfaz"
 L["Hides the UI"] = "Ocultar el interfaz"
@@ -72,6 +72,7 @@ L["Do you want to open Altoholic's calendar for details ?"] = "¿Deseas abrir el
 L["Transmute"] = "Transmutar"
 L["Bags"] = "Bolsas"
 L["Bank"] = "Banco"
+L["Account Bank"] = "Banco de la banda guerrera:"
 L["Reagent Bag"] = "Bolsa de componentes"
 L["AH"] = "Casa de subastas"
 L["Mail"] = "Correo"

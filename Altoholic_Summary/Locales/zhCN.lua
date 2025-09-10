@@ -3,43 +3,43 @@ if not L then return end
 
 L["Calendar"] = "日历"
 L["Tooltip"] = "提示"
--- L["Getting support"] = true
--- L["Memory used"] = true
+L["Getting support"] = "获取支持"
+L["Memory used"] = "内存占用"
 L["Reset all data"] = "重置所有数据"
 L["WIPE_DATABASE"] = "清空数据库?"
 L["WIPE_WARNING"] = "警告：所有信息都将丢失！"
 L["DATABASE_WIPED"] = "数据库中所有存储信息删除完毕！"
   
-L["Account"] = "账号"
+L["Account"] = "帐号"
 L["Default"] = "默认"
-L["Characters"] = "人物"
--- L["Realms"] = true
--- L["%s%d%s characters found : did you set your filters properly ?"] = true
+L["Characters"] = "角色"
+L["Realms"] = "服务器"
+L["%s%d%s characters found : did you set your filters properly ?"] = "发现%s%d%s个角色：你有正确设置过滤吗？"
  
 -- ** Menu **
--- L["Character Information"] = true
-L["Account Summary"] = "账号统计"
--- L["Experience"] = true
-L["Levels"] = "级"
--- L["Location"] = true
+L["Character Information"] = "角色信息"
+L["Account Summary"] = "帐号统计"
+L["Experience"] = "经验"
+L["Levels"] = "等级" --实际显示的是：等级，装等，名望等级和大米评分
+L["Location"] = "位置"
 L["Bag Usage"] = "背包用量"
 L["Activity"] = "活跃度"
--- L["Currencies"] = true
--- L["PATCH_X.0"] = "Expansion Patch"
--- L["PATCH_9.1"] = "Chains of Domination"
--- L["PATCH_9.2"] = "Eternity's End"
--- L["PATCH_10.1"] = "Embers of Neltharion"
--- L["PATCH_10.2"] = "Guardians of the Dream"
+L["Currencies"] = "货币"
+L["PATCH_X.0"] = "版本号"
+L["PATCH_9.1"] = "统御之链"
+L["PATCH_9.2"] = "永恒的终结"
+L["PATCH_10.1"] = "奈萨里奥的余烬"
+L["PATCH_10.2"] = "梦境守护者"
 
 -- ** Filter Icons **
--- L["FILTER_REALMS"] = "Realms filter"
--- L["FILTER_FACTIONS"] = "Faction filter"
--- L["FILTER_LEVELS"] = "Level filter"
--- L["FILTER_PROFESSIONS"] = "Profession filter"
--- L["FILTER_CLASSES"] = "Class filter"
--- L["FILTER_RACES"] = "Race filter"
--- L["FILTER_MISC"] = "Miscellaneous filters"
--- L["FILTER_BANKTYPE"] = "Bank characters filters"
+L["FILTER_REALMS"] = "服务器过滤"
+L["FILTER_FACTIONS"] = "阵营过滤"
+L["FILTER_LEVELS"] = "等级过滤"
+L["FILTER_PROFESSIONS"] = "专业过滤"
+L["FILTER_CLASSES"] = "职业过滤"
+L["FILTER_RACES"] = "种族过滤"
+L["FILTER_MISC"] = "混合过滤"
+L["FILTER_BANKTYPE"] = "角色库标签过滤"
 L["This realm"] = "仅搜索该服务器"
 L["All realms"] = "搜索所有服务器"
 L["This account"] = "此账户"
@@ -47,34 +47,34 @@ L["All accounts"] = "所有账户"
 L["This faction"] = "此阵营"
 L["Both factions"] = "双方阵营"
 L["Any"] = "所有"
--- L["Allied Races"] = true
+L["Allied Races"] = "同盟种族"
 L["ACCOUNT_SHARING_BUTTON_TITLE"] = "账户共享请求"
 L["ACCOUNT_SHARING_BUTTON_INFO"] = [[点击此按钮来询问玩家
 是否共享整个Altoholic数据库
 并将其添加到自己的数据库]]
 
--- L["FILTER_ALT_GROUPS"] = "Alt groups"
--- L["FILTER_GROUP_CREATE"] = "Create new group"
--- L["FILTER_GROUP_DELETE"] = "Delete alt group"
--- L["FILTER_GROUP_RENAME"] = "Rename alt group"
--- L["ENTER_GROUP_NAME"] = "Enter a new group name"
--- L["CHANGE_GROUP_NAME"] = "Select a new name for %s%s|r"
--- L["ENTER_GROUP_NAME_WARNING"] = "It is recommended to avoid special characters"
+L["FILTER_ALT_GROUPS"] = "角色群组"
+L["FILTER_GROUP_CREATE"] = "新建群组"
+L["FILTER_GROUP_DELETE"] = "删除角色群组"
+L["FILTER_GROUP_RENAME"] = "重命名角色群组"
+L["ENTER_GROUP_NAME"] = "输入一个新的群组名称"
+L["CHANGE_GROUP_NAME"] = "请输入替换 %s%s|r 的名称"
+L["ENTER_GROUP_NAME_WARNING"] = "建议避免输入特殊符号"
 -- L["DELETE_GROUP_NAME"] = "Delete this alt group ?"
--- L["ALT_GROUP_CREATED"] = "Alt group %s successfully created."
--- L["ALT_GROUP_ALREADY_EXISTS"] = "Alt group %s already exists."
--- L["ALT_GROUP_RENAMED"] = "%s successfully renamed to %s"
--- L["ALT_GROUP_NOT_RENAMED"] = "%s could not be renamed to %s"
--- L["ALT_GROUP_DELETED"] = "Alt group %s successfully deleted."
--- L["ALT_GROUP_NOT_FOUND"] = "Alt group %s was not found."
+L["ALT_GROUP_CREATED"] = "角色群组 %s 已成功创建"
+L["ALT_GROUP_ALREADY_EXISTS"] = "角色群组 %s 已经存在."
+L["ALT_GROUP_RENAMED"] = "%s 成功重命名为 %s"
+L["ALT_GROUP_NOT_RENAMED"] = "%s 无法重命名为 %s"
+L["ALT_GROUP_DELETED"] = "角色群组 %s 已成功删除"
+L["ALT_GROUP_NOT_FOUND"] = "角色群组 %s 未找到..."
 
--- L["COLORED_SKILL_LEVELS"] = "Use color for skill levels"
--- L["FILTER_MISC_HAVE_MAILS"] = "With mails"
--- L["FILTER_MISC_HAVE_MAILS_EXPIRE_SOON"] = "With mails about to expire"
--- L["FILTER_MISC_HAVE_AUCTIONS_EXPIRE_SOON"] = "Auction house not recently checked"
--- L["FILTER_MISC_GUILD_EXALTED"] = "Exalted with guild"
--- L["FILTER_MISC_GUILD_NOT_EXALTED"] = "Not exalted with guild"
--- L["FILTER_MISC_UPGRADE_RIDING_SKILL"] = "Could upgrade their riding skill"
+L["COLORED_SKILL_LEVELS"] = "为技能等级着色"
+L["FILTER_MISC_HAVE_MAILS"] = "有邮件"
+L["FILTER_MISC_HAVE_MAILS_EXPIRE_SOON"] = "有快要过期的邮件"
+L["FILTER_MISC_HAVE_AUCTIONS_EXPIRE_SOON"] = "拍卖行近期未查阅"
+L["FILTER_MISC_GUILD_EXALTED"] = "已加入公会的"
+L["FILTER_MISC_GUILD_NOT_EXALTED"] = "尚未有公会的"
+L["FILTER_MISC_UPGRADE_RIDING_SKILL"] = "可升级坐骑骑术"
 
 
 -- *** Character Information / Account Summary ***
@@ -90,32 +90,34 @@ L["Delete this Realm"] = "删除此服务器内容"
 -- L["Update from %s%s"] = true
 
 L["View"] = "浏览"
--- L["Mark as bank"] = true
--- L["Add to group"] = true
--- L["Remove from group"] = true
+L["Mark as bank"] = true
+L["Mark as profession bank"] = "添加角色库标签为专业"
+L["Mark as expansion bank"] = "添加角色库标签为版本名称"
+L["Add to group"] = "添加进角色群组"
+L["Remove from group"] = "从角色群组删除"
 
 
 
 -- Column Level
 -- L["COLUMN_LEVEL_TITLE"] = "Character Level"
--- L["COLUMN_LEVEL_TITLE_SHORT"] = "Level"
+L["COLUMN_LEVEL_TITLE_SHORT"] = "等级"
 -- L["COLUMN_LEVEL_SUBTITLE"] = "Click level to toggle decimals"
 
 -- Column Rest XP
--- L["COLUMN_RESTXP_TITLE"] = "Rest XP"
--- L["COLUMN_RESTXP_TITLE_SHORT"] = "Rest XP"
--- L["COLUMN_RESTXP_SUBTITLE"] = "Click to toggle 100%/150% mode"
--- L["COLUMN_RESTXP_DETAIL_1"] = "It takes 8 hours to gain 1 XP bubble (5%)."
--- L["COLUMN_RESTXP_DETAIL_2"] = "The maximum rested XP is 30 XP bubbles, or 1.5 level."
--- L["COLUMN_RESTXP_DETAIL_3"] = "It is achieved in 10 days."
--- L["COLUMN_RESTXP_DETAIL_4"] = "%d%% mode : fully rested is displayed as '%d%%'"
--- L["Fully rested"] = true
--- L["Fully rested in"] = true
--- L["CHARACTER_NOT_IN_RESTING_AREA"] = "This character is not in a resting area !"
+L["COLUMN_RESTXP_TITLE"] = "休息经验"
+L["COLUMN_RESTXP_TITLE_SHORT"] = "休息XP"
+L["COLUMN_RESTXP_SUBTITLE"] = " "
+L["COLUMN_RESTXP_DETAIL_1"] = "每8个小时获得当前等级的5%的奖励经验"
+L["COLUMN_RESTXP_DETAIL_2"] = "最多获得当前等级的150%的奖励经验"
+L["COLUMN_RESTXP_DETAIL_3"] = "休息10天可获得最大奖励经验"
+L["COLUMN_RESTXP_DETAIL_4"] = "%d%% 模式 : 充分休息显示为 '%d%%'"
+L["Fully rested"] = "已充分休息"
+L["Fully rested in"] = "充分休息时长"
+L["CHARACTER_NOT_IN_RESTING_AREA"] = "该角色没有在休息区域!"
 
 -- Column Money
 -- L["COLUMN_MONEY_TITLE"] = "Money"
--- L["COLUMN_MONEY_TITLE_SHORT"] = "Money"
+L["COLUMN_MONEY_TITLE_SHORT"] = "金钱"
 -- L["COLUMN_MONEY_SUBTITLE_1"] = "Your shinies"
 -- L["COLUMN_MONEY_SUBTITLE_2"] = "Mo Money Mo Problems"
 -- L["COLUMN_MONEY_SUBTITLE_3"] = "Greed is good"
@@ -124,63 +126,64 @@ L["View"] = "浏览"
 
 -- Column Played
 -- L["COLUMN_PLAYED_TITLE"] = "Total Time Played"
--- L["COLUMN_PLAYED_TITLE_SHORT"] = "Played"
+L["COLUMN_PLAYED_TITLE_SHORT"] = "游戏总时长"
 -- L["COLUMN_PLAYED_SUBTITLE"] = "Click to show/hide real play time"
 
 -- Column iLevel
 -- L["COLUMN_ILEVEL_TITLE"] = "Average Item Level"
--- L["COLUMN_ILEVEL_TITLE_SHORT"] = "iLvl"
+L["COLUMN_ILEVEL_TITLE_SHORT"] = "装等"
 -- L["COLUMN_ILEVEL_SUBTITLE"] = "Click level to toggle decimals"
 
 -- Column Last Online
 -- L["COLUMN_LASTONLINE_TITLE"] = "Last Online"
--- L["COLUMN_LASTONLINE_TITLE_SHORT"] = "Last Online"
+L["COLUMN_LASTONLINE_TITLE_SHORT"] = "最后在线"
 -- L["COLUMN_LASTONLINE_SUBTITLE"] = "Last time a character was logged in"
 
 -- *** Character Information / Experience ***
 -- L["COLUMN_MAXRESTXP_TITLE"] = "Maximum Rest XP"
--- L["COLUMN_MAXRESTXP_TITLE_SHORT"] = "Max XP"
+L["COLUMN_MAXRESTXP_TITLE_SHORT"] = "最大休息XP"
 -- L["COLUMN_MAXRESTXP_SUBTITLE"] = "Maximum rest experience that can be accumulated"
 -- L["COLUMN_SAVEDRESTXP_TITLE"] = "Saved Rest XP"
--- L["COLUMN_SAVEDRESTXP_TITLE_SHORT"] = "Saved XP"
+L["COLUMN_SAVEDRESTXP_TITLE_SHORT"] = "已奖励经验"
 -- L["COLUMN_SAVEDRESTXP_SUBTITLE"] = "Amount of unused rest experience at logout"
 -- L["COLUMN_EARNEDRESTXP_TITLE"] = "XP earned while resting"
--- L["COLUMN_EARNEDRESTXP_TITLE_SHORT"] = "Earned XP"
+L["COLUMN_EARNEDRESTXP_TITLE_SHORT"] = "还可奖励经验"
 -- L["COLUMN_EARNEDRESTXP_SUBTITLE"] = "Amount of rest experience that was earned while resting"
 
 -- *** Character Information / Guild ***
 -- L["COLUMN_GUILD_TITLE"] = "Guild name"
--- L["COLUMN_GUILDRANK_TITLE"] = "Guild rank"
--- L["COLUMN_GUILDRANK_TITLE_SHORT"] = "Guild rank"
+L["COLUMN_GUILDRANK_TITLE"] = "公会级别"
+L["COLUMN_GUILDRANK_TITLE_SHORT"] = "公会内级别"
 -- L["COLUMN_GUILDRANK_SUBTITLE"] = "Character rank in the guild"
--- L["COLUMN_GUILDREP_TITLE"] = "Guild reputation"
+L["COLUMN_GUILDREP_TITLE"] = "公会声望"
 -- L["COLUMN_GUILDREP_SUBTITLE"] = "Character reputation with the guild"
 
 -- *** Character Information / Location ***
--- L["COLUMN_HEARTHSTONE_TITLE"] = "Hearthstone"
--- L["COLUMN_HEARTHSTONE_SUBTITLE"] = "That special place you call home"
--- L["COLUMN_SUBZONE_TITLE"] = "Sub-zone"
+L["COLUMN_HEARTHSTONE_TITLE"] = "炉石位置"
+L["COLUMN_HEARTHSTONE_SUBTITLE"] = "炉石绑定的地方"
+L["COLUMN_ZONE_TITLE"] = "下线位置"
+L["COLUMN_SUBZONE_TITLE"] = "下线子区域"
 
 -- *** Character Information / Miscellaneous ***
--- L["COLUMN_CLASS_SUBTITLE"] = "Character class and active specialization"
--- L["COLUMN_BANK_TYPE_MARKS"] = "Bank type marks"
+L["COLUMN_CLASS_SUBTITLE"] = "角色的职业和当前激活专精"
+L["COLUMN_BANK_TYPE_MARKS"] = "角色库的标签"
 -- L["COLUMN_BANK_TYPE_MARKS_SUBTITLE"] = "List of marks set for bank characters"
 
 -- *** Bag Usage ***
 -- L["COLUMN_BAGS_TITLE"] = "Character Bags"
--- L["COLUMN_BAGS_TITLE_SHORT"] = "Bags"
+L["COLUMN_BAGS_TITLE_SHORT"] = "背包"
 -- L["COLUMN_BAGS_SUBTITLE_1"] = "Your main inventory slots"
 -- L["COLUMN_BAGS_SUBTITLE_2"] = "Bigger is always better"
--- L["COLUMN_FREEBAGSLOTS_TITLE"] = "Free Bag Slots"
+L["COLUMN_FREEBAGSLOTS_TITLE"] = "剩余背包格子"
 -- L["COLUMN_FREEBAGSLOTS_TITLE_SHORT"] = "Free"
 -- L["COLUMN_FREEBAGSLOTS_SUBTITLE"] = "Free vs total slots"
 -- L["COLUMN_BANK_TITLE"] = "Character Bank"
--- L["COLUMN_BANK_TITLE_SHORT"] = "Bank"
+L["COLUMN_BANK_TITLE_SHORT"] = "银行"
 -- L["COLUMN_BANK_SUBTITLE_1"] = "Your bank inventory slots"
 -- L["COLUMN_BANK_SUBTITLE_2"] = "Where old ph4t l3wts go to rest"
--- L["COLUMN_FREEBANKLOTS_TITLE"] = "Free Bank Slots"
+L["COLUMN_FREEBANKLOTS_TITLE"] = "剩余银行空格"
 -- L["COLUMN_FREEBANKLOTS_TITLE_SHORT"] = "Free"
--- L["COLUMN_FREEBANKLOTS_SUBTITLE"] = "Free vs total slots"
+L["COLUMN_FREEBANKLOTS_SUBTITLE"] = "总格子数 和 剩余格子数"
 -- L["NUM_SLOTS_AND_FREE"] = "%s%d%s slots, %s%d%s free"
 
 L["Bags"] = "背包"
@@ -211,25 +214,51 @@ L["All cooldowns are up"] = "所有冷却已完成"
 L["Riding"] = "骑术"
  
 -- *** Activity ***
--- L["COLUMN_MAILS_TITLE"] = "Mailbox Content"
--- L["COLUMN_MAILS_TITLE_SHORT"] = "Mails"
+L["COLUMN_MAILS_TITLE"] = "邮箱内容"
+L["COLUMN_MAILS_TITLE_SHORT"] = "邮件数"
 -- L["COLUMN_MAILS_SUBTITLE"] = "Number of items in the mailbox"
 -- L["COLUMN_MAILS_DETAIL_1"] = "Beyond a certain limit, mails are queued server-side."
 -- L["COLUMN_MAILS_DETAIL_2"] = "These mails are not accounted for here."
--- L["COLUMN_MAILBOX_VISITED_TITLE"] = "Last Mailbox Check"
--- L["COLUMN_MAILBOX_VISITED_TITLE_SHORT"] = "Visited"
+L["COLUMN_MAILBOX_VISITED_TITLE"] = "最近邮箱访问时间"
+L["COLUMN_MAILBOX_VISITED_TITLE_SHORT"] = "访问于"
 -- L["COLUMN_MAILBOX_VISITED_SUBTITLE"] = "Last time mailbox content was checked"
+L["COLUMN_MAILS_NUM_RETURNS_TITLE"] = "Number of returns"
+L["COLUMN_MAILS_NUM_RETURNS_TITLE_SHORT"] = "将退回"
+L["COLUMN_MAILS_NUM_RETURNS_SUBTITLE"] = "Amount of mails that will be returned to their sender upon expiry"
+L["COLUMN_MAILS_CLOSEST_RETURN_TITLE"] = "Closest Return"
+L["COLUMN_MAILS_CLOSEST_RETURN_TITLE_SHORT"] = "退回倒计时"
+L["COLUMN_MAILS_CLOSEST_RETURN_SUBTITLE"] = "Minimum duration before a character's mail is returned to the sender"
+L["COLUMN_MAILS_NUM_DELETIONS_TITLE"] = "Number of deletions"
+L["COLUMN_MAILS_NUM_DELETIONS_TITLE_SHORT"] = "将删除"
+L["COLUMN_MAILS_NUM_DELETIONS_SUBTITLE"] = "Amount of mails that will be deleted upon expiry"
+L["COLUMN_MAILS_CLOSEST_DELETION_TITLE"] = "Closest Deletion"
+L["COLUMN_MAILS_CLOSEST_DELETION_TITLE_SHORT"] = "删除倒计时"
+L["COLUMN_MAILS_CLOSEST_DELETION_SUBTITLE"] = "Minimum duration before a character's mail is deleted"
+
+
+
+
 -- L["COLUMN_AUCTIONS_TITLE"] = "Auction House Auctions"
--- L["COLUMN_AUCTIONS_TITLE_SHORT"] = "Auctions"
+L["COLUMN_AUCTIONS_TITLE_SHORT"] = "拍卖数"
 -- L["COLUMN_AUCTIONS_SUBTITLE"] = "Number of active auctions at the Auction House"
+L["COLUMN_AUCTIONS_LOW_BUYOUT_TITLE"] = "Lowest Buyout Price"
+L["COLUMN_AUCTIONS_LOW_BUYOUT_TITLE_SHORT"] = "最低一口价"
+L["COLUMN_AUCTIONS_LOW_BUYOUT_SUBTITLE"] = "Lowest buyout price set for all active auctions"
+L["COLUMN_AUCTIONS_HIGH_BUYOUT_TITLE"] = "Highest Buyout Price"
+L["COLUMN_AUCTIONS_HIGH_BUYOUT_TITLE_SHORT"] = "最高一口价"
+L["COLUMN_AUCTIONS_HIGH_BUYOUT_SUBTITLE"] = "Highest buyout price set for all active auctions"
+L["COLUMN_AUCTIONS_CLOSEST_EXPIRY_TITLE"] = "Closest Expiry"
+L["COLUMN_AUCTIONS_CLOSEST_EXPIRY_TITLE_SHORT"] = "下架倒计时"
+L["COLUMN_AUCTIONS_CLOSEST_EXPIRY_SUBTITLE"] = "Time before the first auction expires"
+
 -- L["COLUMN_BIDS_TITLE"] = "Auction House Bids"
--- L["COLUMN_BIDS_TITLE_SHORT"] = "Bids"
+L["COLUMN_BIDS_TITLE_SHORT"] = "竞拍数"
 -- L["COLUMN_BIDS_SUBTITLE"] = "Number of bids placed at the Auction House"
 -- L["COLUMN_AUCTIONHOUSE_VISITED_TITLE"] = "Last Auction House Visit"
--- L["COLUMN_AUCTIONHOUSE_VISITED_TITLE_SHORT"] = "Visited"
+L["COLUMN_AUCTIONHOUSE_VISITED_TITLE_SHORT"] = "访问于"
 -- L["COLUMN_AUCTIONHOUSE_VISITED_SUBTITLE"] = "Last time the Auction House was visited"
 -- L["COLUMN_GARRISON_MISSIONS_TITLE"] = "Garrison Missions"
--- L["COLUMN_GARRISON_MISSIONS_TITLE_SHORT"] = "Missions"
+L["COLUMN_GARRISON_MISSIONS_TITLE_SHORT"] = "大厅任务"
 -- L["COLUMN_GARRISON_MISSIONS_SUBTITLE"] = "Last time mission status was checked"
 -- L["COLUMN_GARRISON_MISSIONS_DETAIL_1"] = "At least one mission is complete"
 -- L["COLUMN_GARRISON_MISSIONS_DETAIL_2"] = "All missions are complete" 
@@ -262,16 +291,16 @@ L["Visited"] = "已访问"
  
 -- *** Expansion Features / Covenant ***
 -- L["COLUMN_COVENANT_SUBTITLE"] = "Click to view your soulbinds"
--- L["COLUMN_COVENANT_TITLE"] = "Chosen Covenant"
--- L["COLUMN_COVENANT_TITLE_SHORT"] = "Covenant"
--- L["COLUMN_SOULBIND_SUBTITLE"] = "Click to view your soulbinds"
--- L["COLUMN_SOULBIND_TITLE"] = "Active Soulbind"
--- L["COLUMN_SOULBIND_TITLE_SHORT"] = "Soulbind"
--- L["COLUMN_RENOWN_SUBTITLE"] = "Click to view your renown level and rewards"
--- L["COLUMN_RENOWN_TITLE"] = "Renown Level"
+L["COLUMN_COVENANT_TITLE"] = "所选盟约"
+L["COLUMN_COVENANT_TITLE_SHORT"] = "盟约"
+L["COLUMN_SOULBIND_SUBTITLE"] = "点击查看你的灵魂羁绊"
+L["COLUMN_SOULBIND_TITLE"] = "激活的灵魂羁绊"
+L["COLUMN_SOULBIND_TITLE_SHORT"] = "灵魂羁绊"
+L["COLUMN_RENOWN_SUBTITLE"] = "点击查看你的盟约声望等级和奖励"
+L["COLUMN_RENOWN_TITLE"] = "盟约声望等级"
 -- L["COLUMN_CAMPAIGNPROGRESS_TITLE_SHORT"] = "Story"
--- L["COLUMN_CAMPAIGNPROGRESS_TITLE"] = "Campaign Progress"
--- L["COLUMN_CAMPAIGNPROGRESS_SUBTITLE"] = "Number of completed chapters in the covenant campaign"
+L["COLUMN_CAMPAIGNPROGRESS_TITLE"] = "战役进度"
+L["COLUMN_CAMPAIGNPROGRESS_SUBTITLE"] = "盟约战役已完成的章节数"
 
 -- *** Expansion Features / Reservoir ***
 -- L["COLUMN_TRANSPORT_NETWORK_TITLE"] = "Transport Network"
@@ -280,7 +309,7 @@ L["Visited"] = "已访问"
 -- L["COLUMN_SANCTUM_UNIQUE_TITLE"] = "Sanctum Unique"
 
 -- L["Overall"] = true
--- L["Torghast"] = true
+L["Torghast"] = "托加斯特，罪魂之塔"
 -- L["Single target build"] = true
 -- L["AOE build"] = true
 -- L["Recommended Covenant"] = true
@@ -288,15 +317,15 @@ L["Visited"] = "已访问"
 
 
 -- *** Mythic Keystone ***
--- L["Mythic+ Keystone"] = true
--- L["COLUMN_KEYNAME_TITLE"] = "Current Mythic+ Keystone"
--- L["COLUMN_KEYNAME_TITLE_SHORT"] = "Keystone"
+L["Mythic+ Keystone"] = "大秘境钥石"
+L["COLUMN_KEYNAME_TITLE"] = "当前大秘境钥石"
+L["COLUMN_KEYNAME_TITLE_SHORT"] = "钥石"
 -- L["COLUMN_KEYNAME_SUBTITLE"] = "Your next adventure"
--- L["COLUMN_KEYLEVEL_TITLE"] = "Current Mythic+ Keystone Level"
+L["COLUMN_KEYLEVEL_TITLE"] = "当前钥石层数"
 -- L["COLUMN_KEYLEVEL_SUBTITLE"] = "You are definitely not prepared!"
--- L["COLUMN_WEEKLYBEST_KEYNAME_TITLE"] = "Weekly Best Mythic+ Keystone"
+L["COLUMN_WEEKLYBEST_KEYNAME_TITLE"] = "每周最佳"
 -- L["COLUMN_WEEKLYBEST_KEYNAME_SUBTITLE"] = "Mouse over for weekly best for all maps"
--- L["COLUMN_WEEKLYBEST_KEYLEVEL_TITLE"] = "Weekly Best Mythic+ Level"
+L["COLUMN_WEEKLYBEST_KEYLEVEL_TITLE"] = "最高层数"
 -- L["COLUMN_WEEKLYBEST_KEYLEVEL_SUBTITLE"] = "How deep down the rabbit hole you dared to go"
--- L["COLUMN_WEEKLYBEST_KEYTIME_TITLE"] = "Weekly Best Mythic+ Time"
+L["COLUMN_WEEKLYBEST_KEYTIME_TITLE"] = "赛季最佳"
 -- L["COLUMN_WEEKLYBEST_KEYTIME_SUBTITLE"] = "Mouse over for season best for all maps"
