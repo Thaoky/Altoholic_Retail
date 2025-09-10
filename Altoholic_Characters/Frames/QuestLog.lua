@@ -14,7 +14,14 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLog", { "AddonFactory.Classes",
 			text = format("%s%s|r / %s%s", colors.white, QUEST_LOG, colors.white, ALL)
 		else
 			local headers = DataStore:GetQuestHeaders(character)
-			text = format("%s%s|r / %s%s", colors.white, QUEST_LOG, colors.white, headers[category])
+			local categoryLabel = "?"
+			
+			-- Sanity check for the category
+			if headers and headers[category] then
+				categoryLabel = headers[category]
+			end
+			
+			text = format("%s%s|r / %s%s", colors.white, QUEST_LOG, colors.white, categoryLabel)
 		end
 
 		return format("%s|r / %s (%s%d|r)|r", 
