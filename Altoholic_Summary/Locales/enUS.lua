@@ -9,7 +9,7 @@ L["Reset all data"] = true
 L["WIPE_DATABASE"] = "Wipe database ?"
 L["WIPE_WARNING"] = "Warning: all information will be lost !"
 L["DATABASE_WIPED"] = "Information saved in DataStore has been completely deleted !"
-  
+
 L["Account"] = true
 L["Default"] = true
 L["Characters"] = true
@@ -67,6 +67,7 @@ L["ALT_GROUP_RENAMED"] = "%s successfully renamed to %s"
 L["ALT_GROUP_NOT_RENAMED"] = "%s could not be renamed to %s"
 L["ALT_GROUP_DELETED"] = "Alt group %s successfully deleted."
 L["ALT_GROUP_NOT_FOUND"] = "Alt group %s was not found."
+L["ALT_GROUP_NOT_GROUPED"] = "Not in a group"
 
 L["COLORED_SKILL_LEVELS"] = "Use color for skill levels"
 L["FILTER_MISC_HAVE_MAILS"] = "With mails"

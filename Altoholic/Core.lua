@@ -1,9 +1,9 @@
 local addonName, addon = ...
 _G[addonName] = addon
 
-addon.Version = "v11.2.004"
+addon.Version = "v11.2.005"
 -- addon.VersionNum = 11 00 007
-addon.VersionNum = 1102004
+addon.VersionNum = 1102005
 
 LibStub("LibMVC-1.0"):Embed(addon)
 

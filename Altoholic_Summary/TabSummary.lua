@@ -20,6 +20,8 @@ local OPTION_BANKTYPE = "CurrentBankType"
 local OPTION_TRADESKILL = "CurrentTradeSkill"
 local OPTION_COLORED_SKILLS = "UseColorForTradeSkills"
 
+local NOT_GROUPED = L["ALT_GROUP_NOT_GROUPED"]
+
 local tab		-- small shortcut to easily address the frame (set in OnBind)
 local options
 
@@ -224,6 +226,8 @@ local function RealmsIcon_Initialize(frame, level)
 	local groupOption = options[OPTION_ALTGROUPS]
 	
 	frame:AddButton(ALL, 0, OnAltGroupChange, nil, (groupOption == 0))
+	frame:AddButton(L["ALT_GROUP_NOT_GROUPED"], NOT_GROUPED, OnAltGroupChange, nil, (groupOption == NOT_GROUPED))
+	frame:AddTitle()
 	
 	DataStore.AltGroups:Iterate(function(groupName, groupMembers) 
 		frame:AddButton(groupName, groupName, OnAltGroupChange, nil, (groupName == groupOption))

@@ -4,6 +4,7 @@ local colors = AddonFactory.Colors
 
 local L = AddonFactory:GetLocale(addonName)
 local MVC = LibStub("LibMVC-1.0")
+local oop = MVC:GetService("AddonFactory.Classes")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
 local AccountSharing = MVC:GetService("AltoholicUI.AccountSharing")
 
@@ -18,6 +19,7 @@ local THISREALM_ALLACCOUNTS = 2
 local ALLREALMS_THISACCOUNT = 3
 local ALLREALMS_ALLACCOUNTS = 4
 
+local options
 local characterList
 local view
 local isViewValid
@@ -84,6 +86,168 @@ local ROLE_ORDER = {
 	["DAMAGER"] = 33
 }
 
+local filterPipeline = oop:New("FilterPipeline")
+
+-- using parameterized closures.
+local function FilterByLevel(minLevel, maxLevel)
+	return function(character)
+		local level = DataStore:GetCharacterLevel(character)
+		return level >= minLevel and level <= maxLevel
+	end
+end
+
+local function FilterByFaction(factions)
+	return function(character)
+		local faction = DataStore:GetCharacterFaction(character)
+
+		if factions == 1 and faction ~= "Alliance" then return false end
+		if factions == 2 and faction ~= "Horde" then return false end
+		return true
+	end
+end
+
+local function FilterByRace(race)
+	return function(character)
+		if race == 0 then return true end 	-- no filter ? exit
+		
+		local characterRace = select(3, DataStore:GetCharacterRace(character))
+		if characterRace == race then return true end
+		
+		-- https://wowpedia.fandom.com/wiki/RaceId
+		-- if the race is 24, it's a special case for neutral pandarens, so let it pass
+		
+		-- if it's already a pandaren with a proper faction, it's handled by the previous test.
+		-- if it's a neutral pandaren (24), then the filtered race should be 25 or 26 to let it pass
+		if characterRace == 24 and (race == 25 or race == 26) then
+			return true
+		end
+	end
+end
+
+local function FilterByClass(class)
+	return function(character)
+		-- If we are filtering by armor type..
+		-- class is passed as : 
+		-- 	0 for ALL
+		if class == 0 then return true end 	-- no filter ? exit
+		
+		local _, characterClass = DataStore:GetCharacterClass(character)
+		
+		--		31..33 for role types
+		if class > 30 then
+			local _, _, role = DataStore:GetActiveSpecInfo(character)
+		
+			-- Roles are passed as 31..33, so direct comparison is possible
+			return ROLE_ORDER[role] == class
+		
+		--		21..24 for armor types, 
+		elseif class > 20 then
+			return CLASS_ARMOR_ORDER[characterClass] == (class - 20)
+		
+		--		1..13 for actual class, 
+		else
+			return CLASS_SORT_ORDER[class] == characterClass
+		end
+	end
+end
+
+local function FilterByBank(bankType)
+	return function(character)
+		-- 0 = All types
+		if bankType == 0 then return true end
+		
+		-- -1 = Any bank type
+		if bankType == -1 then return DataStore:GetBankType(character) ~= 0 end
+		
+		return DataStore:IsBankType(character, bankType)
+	end
+end
+
+local function FilterByAltGroup(altGroup)
+	return function(character)
+		-- altGroup = 0 means show all
+		if type(altGroup) ~= "string" then return true end
+		
+		if altGroup == L["ALT_GROUP_NOT_GROUPED"] then
+			return not DataStore.AltGroups:IsGrouped(character)
+		end
+
+		return DataStore.AltGroups:Contains(altGroup, character)
+	end
+end
+
+local function FilterByMisc(misc)
+	return function(character)
+		if misc == 0 then return true end  -- no filter ? exit
+
+		if misc == 1 then
+			local num = DataStore:GetNumMails(character) or 0
+			return num > 0
+			
+		elseif misc == 2 then
+			local num = DataStore:GetNumExpiredMails(character, 5) or 0
+			return num > 0
+			
+		elseif misc == 3 then
+			-- To do : auction house not checked in a long time
+			return true
+		
+		elseif misc == 4 then		-- fully rested ?
+			local level = DataStore:GetCharacterLevel(character)
+			if level == MAX_PLAYER_LEVEL then
+				return false
+			end
+			
+			local _, _, _, _, _, _, isFullyRested, timeUntilFullyRested = DataStore:GetRestXPRate(character)
+			
+			return (isFullyRested or timeUntilFullyRested == 0)
+			
+		elseif misc == 5 then		-- exalted with guild ?
+			return DataStore:IsExaltedWithGuild(character)
+			
+		elseif misc == 6 then		-- not exalted with guild ?
+			return not DataStore:IsExaltedWithGuild(character)
+			
+		elseif misc == 7 then		-- could upgrade their riding skill ?
+			return addon:CanUpgradeRidingSkill(character)
+		end
+		
+		return true
+	end
+end
+
+local function FilterByTradeskill(tradeskill)
+	return function(character)
+		if tradeskill == 0 then return true end  -- no filter ? exit
+	
+		local firstSecondary = addon.TradeSkills.AccountSummaryFirstSecondarySkillIndex
+		
+		-- primary professions
+		if tradeskill < firstSecondary then
+			local tradeskillID = addon.TradeSkills.AccountSummaryFiltersSpellIDs[tradeskill]
+
+			local name1 = DataStore:GetProfession1Name(character)
+			local name2 = DataStore:GetProfession2Name(character)
+			local prof1 = name1 and DataStore:GetProfessionSpellID(name1)
+			local prof2 = name2 and DataStore:GetProfessionSpellID(name2)
+
+			return tradeskillID == prof1 or tradeskillID == prof2
+
+		elseif tradeskill == firstSecondary then			-- Cooking
+			return (DataStore:GetCookingRank(character) or 0) > 0
+
+		elseif tradeskill == firstSecondary + 1 then		-- Fishing
+			return (DataStore:GetFishingRank(character) or 0) > 0
+
+		elseif tradeskill == firstSecondary + 2 then		-- Archaeology
+			return (DataStore:GetArchaeologyRank(character) or 0) > 0
+		end
+
+		return true -- fallback	
+	end
+end
+
+
 local function AddRealm(accountName, realmName)
 	
 	if AccountSharing.IsSharingInProgress() then
@@ -109,180 +273,34 @@ local function AddRealm(accountName, realmName)
 	local realmUncommons = 0
 	local realmHeirlooms = 0
 	local numCharacters = 0
-
-	-- let's get our filter values
-	local options = Altoholic_SummaryTab_Options
-	local factions = options["CurrentFactions"]
-	local altGroup = options["CurrentAltGroup"]
-	local minLevel = options["CurrentLevelsMin"]
-	local maxLevel = options["CurrentLevelsMax"]
-	local misc = options["CurrentMisc"]
-	local race = options["CurrentRaces"]
-	local class = options["CurrentClasses"]
-	local bankType = options["CurrentBankType"]
-	local tradeskill = options["CurrentTradeSkill"]
-	local firstSecondary = addon.TradeSkills.AccountSummaryFirstSecondarySkillIndex
-	
-	if factions == 4 then
-		factions = (UnitFactionGroup("player") == "Alliance") and 1 or 2
-	end
 	
 	-- 1) Add the realm name
 	table.insert(characterList, { linetype = INFO_REALM_LINE + realmOffset,
 		account = accountName,
 		realm = realmName
-	} )
+	})
 	
 	-- 2) Add the characters (if they pass filters)
-	for characterName, character in pairs(DataStore:GetCharacters(realmName, accountName)) do
-		local shouldAddCharacter = true
-	
-		local characterLevel = DataStore:GetCharacterLevel(character)
-		local characterFaction = DataStore:GetCharacterFaction(character)
-		local _, characterClass = DataStore:GetCharacterClass(character)
+	filterPipeline:Run(DataStore:GetCharacters(realmName, accountName), function(character)
 		
-		if (characterLevel < minLevel) then shouldAddCharacter = false end
-		if (characterLevel > maxLevel) then shouldAddCharacter = false end
+		realmLevels = realmLevels + (DataStore:GetCharacterLevel(character) or 0)
+		realmMoney = realmMoney + (DataStore:GetMoney(character) or 0)
+		realmPlayed = realmPlayed + (DataStore:GetPlayTime(character) or 0)
+		realmEpics = realmEpics + (DataStore:GetNumEpicEquipment(character) or 0)
+		realmRares = realmRares + (DataStore:GetNumRareEquipment(character) or 0)
+		realmUncommons = realmUncommons + (DataStore:GetNumUncommonEquipment(character) or 0)
+		realmHeirlooms = realmHeirlooms + (DataStore:GetNumHeirloomEquipment(character) or 0)
 		
-		if (factions == 1) and (characterFaction ~= "Alliance") then
-			shouldAddCharacter = false
-		elseif (factions == 2) and (characterFaction ~= "Horde") then
-			shouldAddCharacter = false
-		end
+		realmBagSlots = realmBagSlots + (DataStore:GetNumBagSlots(character) or 0)
+		realmFreeBagSlots = realmFreeBagSlots + (DataStore:GetNumFreeBagSlots(character) or 0)
+		realmBankSlots = realmBankSlots + (DataStore:GetNumBankSlots(character) or 0)
+		realmFreeBankSlots = realmFreeBankSlots + (DataStore:GetNumFreeBankSlots(character) or 0)
+		realmAiL = realmAiL + (DataStore:GetAverageItemLevel(character) or 0)
+		table.insert(characterList, { linetype = INFO_CHARACTER_LINE + realmOffset, key = character } )
 		
-		-- Race filter
-		local characterRace = select(3, DataStore:GetCharacterRace(character))
-		
-		if race > 0 and characterRace ~= race then
-			-- https://wowpedia.fandom.com/wiki/RaceId
-			-- if the race is 24, it's a special case for neutral pandarens, so let it pass
-			
-			-- if it's already a pandaren with a proper faction, it's handled by the previous test.
-			-- if it's a neutral pandaren (24), then the filtered race should be 25 or 26 to let it pass
-			if characterRace == 24 and not (race == 25 or race == 26) then
-				shouldAddCharacter = false
-			else
-				shouldAddCharacter = false
-			end
-		end
-		
-		-- If we are filtering by armor type..
-		-- class is passed as : 
-		-- 	0 for ALL, 
-		--		1..13 for actual class, 
-		--		21..24 for armor types, 
-		--		31..33 for role types
-		if class > 30 then
-			local _, _, role = DataStore:GetActiveSpecInfo(character)
-		
-			-- Roles are passed as 31..33, so direct comparison is possible
-			if ROLE_ORDER[role] ~= class then
-				shouldAddCharacter = false 
-			end
-		
-		elseif class > 20 then
-			if CLASS_ARMOR_ORDER[characterClass] ~= (class - 20) then
-				shouldAddCharacter = false 
-			end
-		elseif (class ~= 0) and CLASS_SORT_ORDER[class] ~= characterClass then
-			shouldAddCharacter = false 
-		end
-		
-		-- Any bank type
-		if bankType == -1 then
-			if DataStore:GetBankType(character) == 0 then
-				shouldAddCharacter = false
-			end
-		
-		elseif (bankType > 0) and not DataStore:IsBankType(character, bankType) then
-			shouldAddCharacter = false 
-		end
-		
-		-- altGroup = 0 means show all
-		if type(altGroup) == "string" and not DataStore.AltGroups:Contains(altGroup, character) then
-			shouldAddCharacter = false 
-		end
-		
-		if misc ~= 0 and shouldAddCharacter then
-			if misc == 1 then
-				local num = DataStore:GetNumMails(character) or 0
-				if num == 0 then shouldAddCharacter = false end
-				
-			elseif misc == 2 then
-				local num = DataStore:GetNumExpiredMails(character, 5) or 0
-				if num == 0 then shouldAddCharacter = false end
-				
-			elseif misc == 3 then
-				-- To do : auction house not checked in a long time
-			
-			elseif misc == 4 then	-- fully rested ?
-				local _, _, _, _, _, _, isFullyRested, timeUntilFullyRested = DataStore:GetRestXPRate(character)
-				
-				if not (isFullyRested or timeUntilFullyRested == 0) or characterLevel == MAX_PLAYER_LEVEL then 
-					shouldAddCharacter = false 
-				end
-				
-			elseif misc == 5 then		-- exalted with guild ?
-				if not DataStore:IsExaltedWithGuild(character) then shouldAddCharacter = false end
-				
-			elseif misc == 6 then		-- not exalted with guild ?
-				if DataStore:IsExaltedWithGuild(character) then shouldAddCharacter = false end
-				
-			elseif misc == 7 then		-- could upgrade their riding skill ?
-				if not addon:CanUpgradeRidingSkill(character) then
-					shouldAddCharacter = false 
-				end
-			end
-		end
-		
-		if (tradeskill ~= 0) and shouldAddCharacter then 
+		numCharacters = numCharacters + 1
+	end)
 
-			-- primary profession
-			if tradeskill < addon.TradeSkills.AccountSummaryFirstSecondarySkillIndex then
-				local tradeskillID = addon.TradeSkills.AccountSummaryFiltersSpellIDs[tradeskill]
-				local name1 = DataStore:GetProfession1Name(character)
-				local name2 = DataStore:GetProfession2Name(character)
-				local prof1 = DataStore:GetProfessionSpellID(name1)
-				local prof2 = DataStore:GetProfessionSpellID(name2)
-				
-				if tradeskillID ~= prof1 and tradeskillID ~= prof2 then 
-					shouldAddCharacter = false 
-				end
-				
-			elseif tradeskill == firstSecondary then
-				local rank = DataStore:GetCookingRank(character) or 0
-				if rank == 0 then shouldAddCharacter = false end
-
-			elseif tradeskill == firstSecondary + 1 then
-				local rank = DataStore:GetFishingRank(character) or 0
-				if rank == 0 then	shouldAddCharacter = false end
-
-			elseif tradeskill == firstSecondary + 2 then
-				local rank = DataStore:GetArchaeologyRank(character) or 0
-				if rank == 0 then	shouldAddCharacter = false end
-			end
-		end
-		
-		-- filters passed ?
-		if shouldAddCharacter then
-			realmLevels = realmLevels + (DataStore:GetCharacterLevel(character) or 0)
-			realmMoney = realmMoney + (DataStore:GetMoney(character) or 0)
-			realmPlayed = realmPlayed + (DataStore:GetPlayTime(character) or 0)
-			realmEpics = realmEpics + (DataStore:GetNumEpicEquipment(character) or 0)
-			realmRares = realmRares + (DataStore:GetNumRareEquipment(character) or 0)
-			realmUncommons = realmUncommons + (DataStore:GetNumUncommonEquipment(character) or 0)
-			realmHeirlooms = realmHeirlooms + (DataStore:GetNumHeirloomEquipment(character) or 0)
-			
-			realmBagSlots = realmBagSlots + (DataStore:GetNumBagSlots(character) or 0)
-			realmFreeBagSlots = realmFreeBagSlots + (DataStore:GetNumFreeBagSlots(character) or 0)
-			realmBankSlots = realmBankSlots + (DataStore:GetNumBankSlots(character) or 0)
-			realmFreeBankSlots = realmFreeBankSlots + (DataStore:GetNumFreeBankSlots(character) or 0)
-			realmAiL = realmAiL + (DataStore:GetAverageItemLevel(character) or 0)
-			table.insert(characterList, { linetype = INFO_CHARACTER_LINE + realmOffset, key = character } )
-			
-			numCharacters = numCharacters + 1
-		end
-	end
 
 	-- 3) Add the totals
 	table.insert(characterList, { linetype = INFO_TOTAL_LINE + realmOffset,
@@ -320,6 +338,27 @@ local function BuildList()
 	totalPlayed = 0
 	totalLevels = 0
 	realmCount = 0 -- will be required for sorting purposes
+	
+	options = Altoholic_SummaryTab_Options
+	
+	-- Setup our filter pipeline
+	filterPipeline:Reset()
+	
+	filterPipeline:AddFilter(FilterByLevel(options.CurrentLevelsMin, options.CurrentLevelsMax))
+	
+	local factions = options.CurrentFactions
+	if factions == 4 then
+		factions = (UnitFactionGroup("player") == "Alliance") and 1 or 2
+	end
+	
+	filterPipeline:AddFilter(FilterByFaction(factions))
+	filterPipeline:AddFilter(FilterByRace(options.CurrentRaces))
+	filterPipeline:AddFilter(FilterByClass(options.CurrentClasses))
+	filterPipeline:AddFilter(FilterByBank(options.CurrentBankType))
+	filterPipeline:AddFilter(FilterByAltGroup(options.CurrentAltGroup))
+	filterPipeline:AddFilter(FilterByMisc(options.CurrentMisc))
+	filterPipeline:AddFilter(FilterByTradeskill(options.CurrentTradeSkill))
+	
 	ProcessRealms(AddRealm)
 end
 
@@ -483,4 +522,3 @@ addon:Service("AltoholicUI.Characters",  function()
 			return totalMoney, totalPlayed, totalLevels
 		end,
 }end)
-
