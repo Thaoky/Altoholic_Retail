@@ -130,6 +130,12 @@ local function AddToAltGroup(self, characterLine)
 	local character = Characters.GetKey(characterLine)
 	
 	DataStore.AltGroups:AddCharacter(group, character)
+	
+	-- rebuild the main character table, and all the menus
+	-- coming from viewing "not grouped" alts, and adding the last alt to a group requires a refresh
+	Characters.InvalidateView()
+	AltoholicFrame.TabSummary.ContextualMenu:Close()
+	AltoholicFrame.TabSummary:Update()
 end
 
 local function RemoveFromAltGroup(self, characterLine)
@@ -140,6 +146,7 @@ local function RemoveFromAltGroup(self, characterLine)
 	
 	-- rebuild the main character table, and all the menus
 	Characters.InvalidateView()
+	AltoholicFrame.TabSummary.ContextualMenu:Close()
 	AltoholicFrame.TabSummary:Update()
 end
 
@@ -316,7 +323,9 @@ Columns.RegisterColumn("Name", {
 				colors.green, DataStore:GetCharacterLevel(character), DataStore:GetCharacterRace(character), DataStore:GetCharacterClass(character)),1,1,1)
 
 			local zone, subZone = DataStore:GetLocation(character)
-			tt:AddLine(format("%s: %s%s |r(%s%s|r)", ZONE, colors.gold, zone, colors.gold, subZone),1,1,1)
+			if zone and subZone then
+				tt:AddLine(format("%s: %s%s |r(%s%s|r)", ZONE, colors.gold, zone, colors.gold, subZone),1,1,1)
+			end
 			
 			local guildName = DataStore:GetGuildName(character)
 			if guildName then
@@ -926,25 +935,26 @@ Columns.RegisterColumn("ClassAndSpec", {
 			
 			local _, class = DataStore:GetCharacterClass(character)
 			
-			DataStore:IterateTalentTiers(function(tierIndex, level) 
+			-- 2025/09/17 : Temporarily disabled, talents need rework
+			-- DataStore:IterateTalentTiers(function(tierIndex, level) 
 				
 				-- Get the selected talent in this tier ..
-				local choice = DataStore:GetSpecializationTierChoice(character, specIndex, tierIndex)
+				-- local choice = DataStore:GetSpecializationTierChoice(character, specIndex, tierIndex)
 				
 				-- Has talent been set yet ?
-				if choice == 0 then
-					tt:AddLine(format("%s%d: |r%s", colors.green, level, TALENT_NOT_SELECTED ))
-				else
+				-- if choice == 0 then
+					-- tt:AddLine(format("%s%d: |r%s", colors.green, level, TALENT_NOT_SELECTED ))
+				-- else
 					-- .. then get the talent information ..
-					local _, talentName, icon = DataStore:GetTalentInfo(class, specIndex, tierIndex, choice)
-					if talentName and icon then
-						tt:AddLine(format("%s%d: %s %s%s", colors.green, level, Formatter.Texture18(icon), colors.white, talentName))
-					else
+					-- local _, talentName, icon = DataStore:GetTalentInfo(class, specIndex, tierIndex, choice)
+					-- if talentName and icon then
+						-- tt:AddLine(format("%s%d: %s %s%s", colors.green, level, Formatter.Texture18(icon), colors.white, talentName))
+					-- else
 						-- it may occasionally happen that information is no longer is the cache
-						tt:AddLine(format("%s%d: %s-", colors.green, level, colors.white))
-					end					
-				end
-			end)
+						-- tt:AddLine(format("%s%d: %s-", colors.green, level, colors.white))
+					-- end					
+				-- end
+			-- end)
 
 			tt:Show()
 		end,
