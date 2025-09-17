@@ -15,6 +15,14 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.2.005 (17/09/2025)
+
+- DataStore : Added a method to check if an alt belongs to any of the alt groups.
+- (GH Issue #62) Tab Summary : added a filter to view alts not in a group.
+- Tab Summary -> Guild : fixed the filters "Exalted/Not Exalted with guild".
+- DataStore_Reputations : fixed the guild reputation value not being properly calculated before being returned.
+- Tab Summary -> Miscellaneous : Temporarily disabled part of the tooltip when mousing over the Class/Spec, until Talents are properly tracked again.
+
 11.2.004 (10/09/2025)
 
 - Updated esES translations (Thanks Romanv!)
