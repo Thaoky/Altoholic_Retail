@@ -761,11 +761,17 @@ addon:Service("AltoholicUI.Tooltip", { function()
 				end
 			end)
 			
-			GameTooltip:HookScript("OnShow", function(self)
-				ShowGatheringNodeCounters()
-				GameTooltip:Show()
-			end)
+			local function GameTooltipOnShow(tooltip)
+				local name = tooltip:GetName()
+				if name and name:find("GameTooltip") then
+					ShowGatheringNodeCounters()
+				end
+			end
 			
+			-- Enum.TooltipDataType in \Blizzard_APIDocumentationGenerated\TooltipInfoSharedDocumentation.lua
+			TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Object, GameTooltipOnShow)
+			TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.MinimapMouseover, GameTooltipOnShow)
+
 			local function OnTooltipSetItem(self, data)
 				if (not isTooltipDone) and self then
 					isTooltipDone = true
