@@ -15,6 +15,13 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.2.006 (22/09/2025)
+
+- DataStore_Containers : Added the possibility to iterate the warband bank.
+- (GH Issue #66) Search tab : now also checking the content of the warband bank when performing a search, overlooked in earlier versions.
+- Fixed a conflict with Auctionator, which caused the counters of certain items to be displayed twice.
+
+
 11.2.005 (17/09/2025)
 
 - DataStore : Added a method to check if an alt belongs to any of the alt groups.
