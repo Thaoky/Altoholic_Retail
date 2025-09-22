@@ -65,7 +65,7 @@ addon:Service("AltoholicUI.DataBrowser", { "AltoholicUI.SearchResults", "Altohol
 		-- Void Storage
 		DataStore:IterateVoidStorage(character, function(item) 
 			VerifyItem(VOID_STORAGE, item, item, 1, character)
-		end)		
+		end)
 
 		-- Equipment
 		DataStore:IterateInventory(character, function(item) 
@@ -129,6 +129,11 @@ addon:Service("AltoholicUI.DataBrowser", { "AltoholicUI.SearchResults", "Altohol
 		for realm in pairs(DataStore:GetRealms(account)) do
 			BrowseRealm(realm, account, true)
 		end
+		
+		-- Warband Bank
+		DataStore:IterateWarbandBank(function(itemID, itemLink, itemCount, isBattlePet) 
+			VerifyItem(ACCOUNT_BANK_PANEL_TITLE, itemID, itemLink, itemCount, DataStore.ThisCharKey, isBattlePet)
+		end)
 	end
 	
 	return {
