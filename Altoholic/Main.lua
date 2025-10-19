@@ -95,7 +95,8 @@ local function IsBOPItemKnown(itemID)
 		tooltipLine = _G[format("AddonFactory_TooltipTextLeft%d", i)]:GetText()
 		
 		if tooltipLine then
-			if tooltipLine == ITEM_BIND_ON_PICKUP and i <= 4 then	
+			if i <= 4 and (tooltipLine == ITEM_BIND_ON_PICKUP or tooltipLine == ITEM_BIND_TO_ACCOUNT) then	
+			
 				-- some items will have "Binds when picked up" twice.. only care about the occurence in the first 4 lines
 				isBOP = true
 			elseif tooltipLine == ITEM_SPELL_KNOWN then
@@ -317,10 +318,10 @@ function addon:GetRecipeLevel(link, tooltip)
 	end
 end
 
-function addon:ListCharsOnQuest(questName, player, tooltip)
+function addon:ListCharsOnQuest(questName, tooltip, player, realm, account)
 	if not questName then return nil end
-
-	local charsOnQuest = DataStore:GetCharactersOnQuest(questName, player)
+	
+	local charsOnQuest = DataStore:GetCharactersOnQuest(questName, player, realm, account)
 	
 	if charsOnQuest and #charsOnQuest > 0 then
 		tooltip:AddLine(" ",1,1,1)

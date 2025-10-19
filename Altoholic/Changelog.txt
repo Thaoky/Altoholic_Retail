@@ -15,6 +15,12 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+11.2.007 (19/10/2025)
+
+- Characters Tab -> Fixed mousing over a quest in the quest log not showing the list of alts also on this quest.
+- Currency Tooltip : Made Legion Remix's "Infinite Knowledge" an account-wide currency.
+- Merchant frame : fixed some "Already known" icons not becoming red.
+
 11.2.006 (22/09/2025)
 
 - DataStore_Containers : Added the possibility to iterate the warband bank.
