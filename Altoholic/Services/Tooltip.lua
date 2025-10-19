@@ -797,7 +797,7 @@ addon:Service("AltoholicUI.Tooltip", { function()
 			-- ** Setup ItemRefTooltip script hooks **
 			
 			ItemRefTooltip:HookScript("OnShow", function(self)
-				addon:ListCharsOnQuest( ItemRefTooltipTextLeft1:GetText(), UnitName("player"), ItemRefTooltip)
+				addon:ListCharsOnQuest( ItemRefTooltipTextLeft1:GetText(), ItemRefTooltip, UnitName("player"))
 				ItemRefTooltip:Show()
 			end)
 
