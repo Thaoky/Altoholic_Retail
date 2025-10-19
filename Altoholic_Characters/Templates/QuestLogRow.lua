@@ -114,8 +114,8 @@ addon:Controller("AltoholicUI.TabCharacters.QuestLogRow", { "AltoholicUI.Formatt
 			
 			GameTooltip:AddDoubleLine(format("%s: %s%d", LEVEL, colors.teal, level), format("%s: %s%d", L["QuestID"], colors.teal, questID))
 			
-			-- local player = addon.Tabs.Characters:GetAlt()
-			-- addon:ListCharsOnQuest(questName, player, GameTooltip)
+			local account, realm, player = strsplit(".", character)
+			addon:ListCharsOnQuest(questName, GameTooltip, player, realm, account)
 			GameTooltip:Show()
 		end,
 		Name_OnClick = function(frame, button)
