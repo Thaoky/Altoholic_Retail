@@ -450,7 +450,7 @@ local function ShowGatheringNodeCounters()
 
 	-- Get the first tooltip line
 	local line = _G["GameTooltipTextLeft1"]:GetText()
-	if not line then return end 	-- may occasionally be nil
+	if not line or not canaccessvalue(line) then return end 	-- may occasionally be nil
 	
 	-- The first line is expected to contain the name of the node, but if the player is in altitude, the name
 	-- of the node will be preceded by an arrow pointing down. So attempt to detect the |t closing the texture
