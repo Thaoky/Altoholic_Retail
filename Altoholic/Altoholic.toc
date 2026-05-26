@@ -1,4 +1,4 @@
-﻿## Interface: 120000
+﻿## Interface: 120005
 ## Title: Altoholic by |cFF69CCF0Thaoky|r
 ## IconTexture: Interface\Icons\inv_drink_13
 

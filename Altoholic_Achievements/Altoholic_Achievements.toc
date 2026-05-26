@@ -1,4 +1,4 @@
-﻿## Interface: 120000
+﻿## Interface: 120005
 ## Title: Altoholic_Achievements
 ## IconTexture: Interface\Icons\inv_drink_13
 
