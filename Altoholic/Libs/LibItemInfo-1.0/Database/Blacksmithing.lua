@@ -85,4 +85,13 @@ lib:RegisterItems({
 	[222423] = SetReagent(10, e.Blacksmithing), -- Sanctified Alloy 1
 	[222424] = SetReagent(10, e.Blacksmithing), -- Sanctified Alloy 2
 	[222425] = SetReagent(10, e.Blacksmithing), -- Sanctified Alloy 3
+	
+	-- 12.0 Midnight
+	[238197] = SetReagent(11, e.Blacksmithing), -- Refulgent Copper Ingot
+	[238198] = SetReagent(11, e.Blacksmithing), -- Refulgent Copper Ingot
+	[238202] = SetReagent(11, e.Blacksmithing), -- Gloaming Alloy
+	[238203] = SetReagent(11, e.Blacksmithing), -- Gloaming Alloy
+	[238204] = SetReagent(11, e.Blacksmithing), -- Sterling Alloy
+	[238205] = SetReagent(11, e.Blacksmithing), -- Sterling Alloy
+	[243060] = SetReagent(11, e.Blacksmithing), -- Luminant Flux
 })

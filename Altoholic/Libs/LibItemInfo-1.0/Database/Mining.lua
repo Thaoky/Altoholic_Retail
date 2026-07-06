@@ -171,4 +171,13 @@ lib:RegisterItems({
 	[217707] = SetReagent(10, e.Mining), -- Imperfect Null Stone
 	[226202] = SetReagent(10, e.Mining), -- Echoing Flux
 	
+	-- 12.0 Midnight
+	[237359] = SetReagent(11, e.Mining), -- Refulgent Copper Ore
+	[237361] = SetReagent(11, e.Mining), -- Refulgent Copper Ore
+	[237362] = SetReagent(11, e.Mining), -- Umbral Tin Ore
+	[237363] = SetReagent(11, e.Mining), -- Umbral Tin Ore
+	[237364] = SetReagent(11, e.Mining), -- Brilliant Silver Ore
+	[237365] = SetReagent(11, e.Mining), -- Brilliant Silver Ore
+	[237366] = SetReagent(11, e.Mining), -- Dazzling Thorium
+	
 })

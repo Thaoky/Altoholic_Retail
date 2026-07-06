@@ -231,26 +231,39 @@ lib:RegisterItems({
 	[197755] = SetReagent(9, e.Cooking), -- Lava Beetle
 	[197756] = SetReagent(9, e.Cooking), -- Pebbled Rock Salts
 	[197757] = SetReagent(9, e.Cooking), -- Assorted Exotic Spices
-	
 	[197764] = SetReagent(9, e.Cooking), -- Salad on the Side
 	[197765] = SetReagent(9, e.Cooking), -- Impossibly Sharp Cutting Knife
 	
 	-- 11.0 The War Within
-	[223512] = SetReagent(10, e.Cooking), -- Basically Beef
-	[225567] = SetReagent(10, e.Cooking), -- Bug Brisket
-	[222737] = SetReagent(10, e.Cooking), -- Chopped Mycobloom
-	[225911] = SetReagent(10, e.Cooking), -- Cinderbee Belly
-	[225569] = SetReagent(10, e.Cooking), -- Clipped Bird Wing
-	[222701] = SetReagent(10, e.Cooking), -- Clumped Flour
-	[222697] = SetReagent(10, e.Cooking), -- Coreway Dust
-	[222696] = SetReagent(10, e.Cooking), -- Crunchy Peppers
-	[225876] = SetReagent(10, e.Cooking), -- Fine Egg Powder
-	[222741] = SetReagent(10, e.Cooking), -- Fresh Fillet
-	[222700] = SetReagent(10, e.Cooking), -- Granulated Spices
-	[222699] = SetReagent(10, e.Cooking), -- Khaz Algar Tomato
-	[225565] = SetReagent(10, e.Cooking), -- Massive Worm Flank
-	[225883] = SetReagent(10, e.Cooking), -- Prepared Ghoulfish
-	[222739] = SetReagent(10, e.Cooking), -- Spiced Meat Stock
 	[222695] = SetReagent(10, e.Cooking), -- Twined Herbs
+	[222696] = SetReagent(10, e.Cooking), -- Crunchy Peppers
+	[222697] = SetReagent(10, e.Cooking), -- Coreway Dust
+	[225569] = SetReagent(10, e.Cooking), -- Clipped Bird Wing
+	[222699] = SetReagent(10, e.Cooking), -- Khaz Algar Tomato
+	[222700] = SetReagent(10, e.Cooking), -- Granulated Spices
+	[222701] = SetReagent(10, e.Cooking), -- Clumped Flour
+	[222737] = SetReagent(10, e.Cooking), -- Chopped Mycobloom
+	[222739] = SetReagent(10, e.Cooking), -- Spiced Meat Stock
+	[222741] = SetReagent(10, e.Cooking), -- Fresh Fillet
+	[223512] = SetReagent(10, e.Cooking), -- Basically Beef
+	[225565] = SetReagent(10, e.Cooking), -- Massive Worm Flank
+	[225567] = SetReagent(10, e.Cooking), -- Bug Brisket
+	[225876] = SetReagent(10, e.Cooking), -- Fine Egg Powder
+	[225883] = SetReagent(10, e.Cooking), -- Prepared Ghoulfish
+	[225911] = SetReagent(10, e.Cooking), -- Cinderbee Belly
+	
+	-- 12.0 Midnight
+	[242639] = SetReagent(11, e.Cooking), -- Practically Pork
+	[242640] = SetReagent(11, e.Cooking), -- Plant Protein
+	[242641] = SetReagent(11, e.Cooking), -- Cooking Spirits
+	[242642] = SetReagent(11, e.Cooking), -- Thalassian Herbs
+	[242643] = SetReagent(11, e.Cooking), -- A Big Ol' Stick of Butter
+	[242644] = SetReagent(11, e.Cooking), -- Mana-Wyrm Essence
+	[242645] = SetReagent(11, e.Cooking), -- Ripened Vegetable Assortment
+	[242646] = SetReagent(11, e.Cooking), -- Pouch of Spices
+	[242647] = SetReagent(11, e.Cooking), -- Tavern Fixings
+	[253403] = SetReagent(11, e.Cooking), -- Thalassian Filet
+	[259894] = SetReagent(11, e.Cooking), -- Perfect Preservatives
+	
 	
 })

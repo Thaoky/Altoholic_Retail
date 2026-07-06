@@ -108,4 +108,13 @@ lib:RegisterItems({
 	[219954] = SetReagent(10, e.Enchanting), -- Refulgent Crystal 2
 	[219955] = SetReagent(10, e.Enchanting), -- Refulgent Crystal 3
 	
+	-- 12.0 Midnight
+	[243599] = SetReagent(11, e.Enchanting), -- Eversinging Dust
+	[243600] = SetReagent(11, e.Enchanting), -- Eversinging Dust
+	[243602] = SetReagent(11, e.Enchanting), -- Radiant Shard
+	[243603] = SetReagent(11, e.Enchanting), -- Radiant Shard
+	[243605] = SetReagent(11, e.Enchanting), -- Dawn Crystal
+	[243606] = SetReagent(11, e.Enchanting), -- Dawn Crystal
+	
+	
 })
