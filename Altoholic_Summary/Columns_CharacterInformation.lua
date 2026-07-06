@@ -10,7 +10,7 @@ local Formatter = MVC:GetService("AltoholicUI.Formatter")
 local Characters = MVC:GetService("AltoholicUI.Characters")
 local AccountSharing = MVC:GetService("AltoholicUI.AccountSharing")
 
-local MAX_PLAYER_LEVEL = 80
+local MAX_PLAYER_LEVEL = GetMaxLevelForPlayerExpansion()
 local MAX_LOGOUT_TIMESTAMP = 5000000000
 
 -- *** Utility functions ***

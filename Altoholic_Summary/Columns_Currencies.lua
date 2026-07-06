@@ -1281,3 +1281,93 @@ Columns.RegisterColumn("Cur_GildedEthereal", {
 	GetText = GetCurrencyText,
 })
 
+local function RegisterTab(currencies)
+	if not currencies or #currencies <= 0 then return end
+	-- 615 is the frame width and then subtract some space for name/level
+	local rowHeaderWidth = 615 - 100
+	local rowContentWidth = 615 - 100
+
+	-- The min/max size of headers and content are semi-tested with 12 'buttons' as hardcoded
+	local widthHeader = math.min(80, math.max(49, math.floor(rowHeaderWidth / #currencies)))
+	local widthContent = math.min(80, math.max(49, math.floor(rowContentWidth / #currencies)))
+
+	-- Pad the icon a little bit
+	local iconSpacing = 2 + math.floor((widthHeader - 49) / 5)
+	local padding = string.rep(" ", iconSpacing)
+
+	for index = 1, #currencies do
+		local currency = currencies[index]
+		local icon = "Interface/Icons/"..currency.icon
+		if type(currency.icon) == "number" then icon = currency.icon end
+
+		Columns.RegisterColumn("Cur_"..currency.name, {
+			currencyID = currency.id,
+
+			-- Header
+			headerWidth = widthHeader,
+			--headerLabel = format(" %s", Formatter.Texture18("Interface/Icons/"..currency.icon)),
+			headerLabel = format(padding.."%s", Formatter.Texture18(icon)),
+			headerOnEnter = CurrencyHeader_OnEnter,
+			headerSort = SortByTotal,
+			
+			-- Content
+			Width = widthContent,
+			GetText = GetCurrencyText,
+		})
+	end
+end
+
+-- ** Midnight / 12.0 **
+local Currencies_Midnight = {
+	{ name = "VoidlightMarl", id = enum.VoidlightMarl, icon = "Inv_112_raidtrinkets_voidprism" },
+	--{ name = "TwilightsBladeInsignia", id = enum.TwilightsBladeInsignia, icon = 'Inv12_twilight_-blade_cultist_insignia'}, --icon id: 7195171
+	{ name = "TwilightsBladeInsignia", id = enum.TwilightsBladeInsignia, icon = "Inv_elemental_primal_mana" }, --icon id: 7195171
+	{ name = "AnglerPearls", id = enum.AnglerPearls, icon = "Item_enchantedpearl" },
+	{ name = "ShardofDundun", id = enum.ShardofDundun, icon = "Inv_ore_feliron" },
+	{ name = "UnalloyedAbundance", id = enum.UnalloyedAbundance, icon = "Inv_10_gathering_bioluminescentspores_large" }, --icon id: 5041790
+	{ name = "BrimmingArcana", id = enum.BrimmingArcana, icon = "Inv_elemental_primal_mana" },
+	{ name = "RemnantofAnguish", id = enum.RemnantofAnguish, icon = "Inv_10_elementalcombinedfoozles_blood" },
+	{ name = "IllusionaryCoin", id = enum.IllusionaryCoin, icon = "Ability_monk_forcesphere_arcane" },
+	{ name = "UncontaminatedVoidSample", id = enum.UncontaminatedVoidSample, icon = "Spell_priest_voidshift" },
+	{ name = "FieldAccolade", id = enum.FieldAccolade, icon = "Inv_belt_armor_bloodelf_d_01" },
+}
+RegisterTab(Currencies_Midnight)
+
+local Currencies_Midnight_Moxie_1 = {
+	{ name = "ArtisanAlchemistsMoxie", id = enum.ArtisanAlchemistsMoxie, icon = "Inv_10_gearcraft_artisansmettle_color2" },
+	{ name = "ArtisanHerbalistsMoxie", id = enum.ArtisanHerbalistsMoxie, icon = "Inv_10_gearcraft_artisansmettle_color2" },
+	{ name = "ArtisanMinersMoxie", id = enum.ArtisanMinersMoxie, icon = "Inv_10_gearcraft_artisansmettle_color2" },
+	{ name = "ArtisanEnchantersMoxie", id = enum.ArtisanEnchantersMoxie, icon = "Inv_10_gearcraft_artisansmettle_color2" },
+	{ name = "ArtisanTailorsMoxie", id = enum.ArtisanTailorsMoxie, icon = "Inv_10_gearcraft_artisansmettle_color2" },
+	{ name = "ArtisanBlacksmithsMoxie", id = enum.ArtisanBlacksmithsMoxie, icon = "Inv_10_gearcraft_artisansmettle_color2" },
+}
+local Currencies_Midnight_Moxie_2 = {
+	{ name = "ArtisanSkinnersMoxie", id = enum.ArtisanSkinnersMoxie, icon = "Inv_10_gearcraft_artisansmettle_color2" },
+	{ name = "ArtisanLeatherworkersMoxie", id = enum.ArtisanLeatherworkersMoxie, icon = "Inv_10_gearcraft_artisansmettle_color2" },
+	{ name = "ArtisanEngineersMoxie", id = enum.ArtisanEngineersMoxie, icon = "Inv_10_gearcraft_artisansmettle_color2" },
+	{ name = "ArtisanJewelcraftersMoxie", id = enum.ArtisanJewelcraftersMoxie, icon = "Inv_10_gearcraft_artisansmettle_color2" },
+	{ name = "ArtisanScribesMoxie", id = enum.ArtisanScribesMoxie, icon = "Inv_10_gearcraft_artisansmettle_color2" },
+}
+RegisterTab(Currencies_Midnight_Moxie_1)
+RegisterTab(Currencies_Midnight_Moxie_2)
+
+local Currencies_Midnight_Season1_1 = {
+	{ name = "NebulousVoidcore", id = enum.NebulousVoidcore, icon = "Inv_1205_voidforge_fluctuatingvoidcores_cosmicvoid" },
+	{ name = "DawnlightManaflux", id = enum.DawnlightManaflux, icon = "Inv_10_blacksmithing_craftedoptional_blacksmithdye_fire" },
+	{ name = "MythDawncrest", id = enum.MythDawncrest, icon = "Inv_120_crest_myth" },
+	--{ name = "Undercoin", id = enum.Undercoin, icon = "Inv_misc_elvencoins"}, -- Registered earlier, but may need to be removed from earlier section to do here
+	{ name = "ChampionDawncrest", id = enum.ChampionDawncrest, icon = "Inv_120_crest_champion" },
+	{ name = "HeroDawncrest", id = enum.HeroDawncrest, icon = "Inv_120_crest_hero" },
+}
+local Currencies_Midnight_Season1_2 = {
+	--{ name = "UntaintedManaCrystals", id = enum.UntaintedManaCrystals, icon = "Jewelcrafting_uncut-epic-gem_color1" }, -- icon name from wowhead
+	--{ name = "UntaintedManaCrystals", id = enum.UntaintedManaCrystals, icon = "Jewelcrafting_uncut_epic_gem_color1" }, -- icon name using 'safe' version
+	{ name = "UntaintedManaCrystals", id = enum.UntaintedManaCrystals, icon = 5931199 }, -- icon using the iconID
+	{ name = "RadiantSparkDust", id = enum.RadiantSparkDust, icon = "Inv_enchanting_dust_color5" },
+	{ name = "CofferKeyShards", id = enum.CofferKeyShards, icon = "Inv_gizmo_hardenedadamantitetube" },
+	{ name = "VeteranDawncrest", id = enum.VeteranDawncrest, icon = "Inv_120_crest_veteran" },
+	{ name = "AdventurerDawncrest", id = enum.AdventurerDawncrest, icon = "Inv_120_crest_adventurer" },
+	--{ name = "RestoredCofferKey", id = enum.RestoredCofferKey, icon = "Inv_10_blacksmithing_consumable_key_color1" }, -- Registered earlier, but may need to be removed from earlier section to do here
+}
+RegisterTab(Currencies_Midnight_Season1_1)
+RegisterTab(Currencies_Midnight_Season1_2)

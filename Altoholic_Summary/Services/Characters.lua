@@ -8,7 +8,7 @@ local oop = MVC:GetService("AddonFactory.Classes")
 local Formatter = MVC:GetService("AltoholicUI.Formatter")
 local AccountSharing = MVC:GetService("AltoholicUI.AccountSharing")
 
-local MAX_PLAYER_LEVEL = 80
+local MAX_PLAYER_LEVEL = GetMaxLevelForPlayerExpansion()
 
 local INFO_REALM_LINE = 0
 local INFO_CHARACTER_LINE = 1
