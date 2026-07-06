@@ -49,6 +49,12 @@ lib:RegisterItems({
 	-- 9.2 Shadowlands / Zereth Mortis
 	
 	-- 10.0 Dragonflight
-
+	
+	-- 11.0 The War Within
+	
+	-- 12.0 Midnight
+	[265818] = SetQuestItem(11),			-- Ruia's Musings, Part 1
+	[265819] = SetQuestItem(11),			-- Ruia's Musings, Part 2
+	[265820] = SetQuestItem(11),			-- Ruia's Musings, Part 3
 
 })

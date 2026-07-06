@@ -14,6 +14,7 @@ L["All accounts"] = true
 L["Any"] = true
 L["Bags"] = true
 L["Bank"] = true
+L["Warband Bank"] = true
 L["Mail"] = true
 L["Equipped"] = true
 L["NO_MATCH_FOUND_BLANK"] = "No match found !"

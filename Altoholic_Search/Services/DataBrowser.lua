@@ -58,10 +58,10 @@ addon:Service("AltoholicUI.DataBrowser", { "AltoholicUI.SearchResults", "Altohol
 		end)
 		
 		-- Player Bank (main slots)
-		DataStore:IteratePlayerBankSlots(character, function(itemID, itemLink, itemCount, isBattlePet) 
+		DataStore:IteratePlayerBankSlots(character, function(itemID, itemLink, itemCount, isBattlePet)
 			VerifyItem(L["Bank"], itemID, itemLink, itemCount, character, isBattlePet)
 		end)
-		
+
 		-- Void Storage
 		DataStore:IterateVoidStorage(character, function(item) 
 			VerifyItem(VOID_STORAGE, item, item, 1, character)
@@ -129,13 +129,14 @@ addon:Service("AltoholicUI.DataBrowser", { "AltoholicUI.SearchResults", "Altohol
 		for realm in pairs(DataStore:GetRealms(account)) do
 			BrowseRealm(realm, account, true)
 		end
-		
-		-- Warband Bank
-		DataStore:IterateWarbandBank(function(itemID, itemLink, itemCount, isBattlePet) 
+	end
+
+	local function BrowseWarbandBank()
+		DataStore:IterateWarbandBank(function(itemID, itemLink, itemCount, isBattlePet)
 			VerifyItem(ACCOUNT_BANK_PANEL_TITLE, itemID, itemLink, itemCount, DataStore.ThisCharKey, isBattlePet)
 		end)
 	end
-	
+
 	return {
 		Find = function()
 			
@@ -143,6 +144,9 @@ addon:Service("AltoholicUI.DataBrowser", { "AltoholicUI.SearchResults", "Altohol
 			Results.Clear()
 			
 			local searchLocation = Altoholic_SearchTab_Options["CurrentLocation"]
+
+			-- Check the Warband Bank once and include for all searches
+			BrowseWarbandBank()
 
 			-- This character
 			if searchLocation == 1 then

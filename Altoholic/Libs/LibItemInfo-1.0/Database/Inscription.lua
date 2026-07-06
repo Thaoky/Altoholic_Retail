@@ -656,4 +656,62 @@ lib:RegisterItems({
 	[222687] = SetReagent(10, e.Inscription), -- 7 of Ascension
 	[222688] = SetReagent(10, e.Inscription), -- 8 of Ascension
 
+	-- 12.0 Midnight
+	[245764] = SetReagent(11, e.Inscription), -- Codified Azeroot
+	[245765] = SetReagent(11, e.Inscription), -- Codified Azeroot
+	[245766] = SetReagent(11, e.Inscription), -- Soul Cipher
+	[245767] = SetReagent(11, e.Inscription), -- Soul Cipher
+	[245801] = SetReagent(11, e.Inscription), -- Munsell Ink
+	[245802] = SetReagent(11, e.Inscription), -- Munsell Ink
+	[245803] = SetReagent(11, e.Inscription), -- Argentleaf Pigment
+	[245804] = SetReagent(11, e.Inscription), -- Argentleaf Pigment
+	[245805] = SetReagent(11, e.Inscription), -- Sienna Ink
+	[245806] = SetReagent(11, e.Inscription), -- Sienna Ink
+	[245807] = SetReagent(11, e.Inscription), -- Powder Pigment
+	[245808] = SetReagent(11, e.Inscription), -- Powder Pigment
+	[245864] = SetReagent(11, e.Inscription), -- Sanguithorn Pigment
+	[245865] = SetReagent(11, e.Inscription), -- Sanguithorn Pigment
+	[245866] = SetReagent(11, e.Inscription), -- Mana lily Pigment
+	[245867] = SetReagent(11, e.Inscription), -- Mana lily Pigment
+	[245881] = SetReagent(11, e.Inscription), -- Lexicologist's Vellum
+	[245882] = SetReagent(11, e.Inscription), -- Thalassian Songwater
+	[251923] = SetReagent(11, e.Inscription), -- Thalassian Essence of the Faire
+	
+	[245830] = SetReagent(11, e.Inscription), -- A of Hunt
+	[245831] = SetReagent(11, e.Inscription), -- 2 of Hunt
+	[245832] = SetReagent(11, e.Inscription), -- 3 of Hunt
+	[245833] = SetReagent(11, e.Inscription), -- 4 of Hunt
+	[245834] = SetReagent(11, e.Inscription), -- 5 of Hunt
+	[245835] = SetReagent(11, e.Inscription), -- 6 of Hunt
+	[245836] = SetReagent(11, e.Inscription), -- 7 of Hunt
+	[245837] = SetReagent(11, e.Inscription), -- 8 of Hunt
+	
+	[245838] = SetReagent(11, e.Inscription), -- A of Void
+	[245839] = SetReagent(11, e.Inscription), -- 2 of Void
+	[245840] = SetReagent(11, e.Inscription), -- 3 of Void
+	[245841] = SetReagent(11, e.Inscription), -- 4 of Void
+	[245842] = SetReagent(11, e.Inscription), -- 5 of Void
+	[245843] = SetReagent(11, e.Inscription), -- 6 of Void
+	[245844] = SetReagent(11, e.Inscription), -- 7 of Void
+	[245845] = SetReagent(11, e.Inscription), -- 8 of Void
+
+	[245847] = SetReagent(11, e.Inscription), -- A of Rot
+	[245848] = SetReagent(11, e.Inscription), -- 2 of Rot
+	[245849] = SetReagent(11, e.Inscription), -- 3 of Rot
+	[245850] = SetReagent(11, e.Inscription), -- 4 of Rot
+	[245851] = SetReagent(11, e.Inscription), -- 5 of Rot
+	[245852] = SetReagent(11, e.Inscription), -- 6 of Rot
+	[245853] = SetReagent(11, e.Inscription), -- 7 of Rot
+	[245854] = SetReagent(11, e.Inscription), -- 8 of Rot
+
+	[245856] = SetReagent(11, e.Inscription), -- A of Blood
+	[245857] = SetReagent(11, e.Inscription), -- 2 of Blood
+	[245858] = SetReagent(11, e.Inscription), -- 3 of Blood
+	[245859] = SetReagent(11, e.Inscription), -- 4 of Blood
+	[245860] = SetReagent(11, e.Inscription), -- 5 of Blood
+	[245861] = SetReagent(11, e.Inscription), -- 6 of Blood
+	[245862] = SetReagent(11, e.Inscription), -- 7 of Blood
+	[245863] = SetReagent(11, e.Inscription), -- 8 of Blood
+
+
 })

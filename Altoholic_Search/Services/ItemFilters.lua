@@ -65,7 +65,7 @@ addon:Service("AltoholicUI.ItemFilters", { "AltoholicUI.Equipment", function(Equ
 		end,
 		
 		["MinLevel"] = function()
-			local minLevel = searchedItem["itemMinLevel"]
+			local minLevel = tonumber(searchedItem["itemMinLevel"]) or 0
 			
 			if minLevel == 0 then
 				-- include items with no minimum requirement
@@ -78,7 +78,7 @@ addon:Service("AltoholicUI.ItemFilters", { "AltoholicUI.Equipment", function(Equ
 		
 		["Maxlevel"] = function() 
 			-- item min level is below max filter, keep the item
-			if searchedItem["itemMinLevel"] <= filters["itemMaxLevel"] then return true end 
+			if searchedItem["itemMinLevel"] <= filters["itemMaxLevel"] then return true end
 		end,
 	}
 	

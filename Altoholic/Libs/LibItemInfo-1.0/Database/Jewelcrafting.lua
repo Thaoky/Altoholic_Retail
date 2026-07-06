@@ -290,4 +290,36 @@ lib:RegisterItems({
 	[213757] = SetReagent(10, e.Jewelcrafting), -- Marbled Stone 2
 	[213758] = SetReagent(10, e.Jewelcrafting), -- Marbled Stone 3
 	
+	-- 12.0 Midnight
+	[242620] = SetReagent(11, e.Jewelcrafting), -- Glimmering Gemdust
+	[242621] = SetReagent(11, e.Jewelcrafting), -- Glimmering Gemdust
+	[242554] = SetReagent(11, e.Jewelcrafting), -- Amani Lapis
+	[242722] = SetReagent(11, e.Jewelcrafting), -- Amani Lapis
+	[242612] = SetReagent(11, e.Jewelcrafting), -- Flawless Amani Lapis
+	[242727] = SetReagent(11, e.Jewelcrafting), -- Flawless Amani Lapis
+	[242608] = SetReagent(11, e.Jewelcrafting), -- Eversong Diamond
+	[242712] = SetReagent(11, e.Jewelcrafting), -- Eversong Diamond
+	[242786] = SetReagent(11, e.Jewelcrafting), -- Crystalline Glass
+	[242787] = SetReagent(11, e.Jewelcrafting), -- Crystalline Glass
+	[242788] = SetReagent(11, e.Jewelcrafting), -- Duskshrouded Stone
+	[242789] = SetReagent(11, e.Jewelcrafting), -- Duskshrouded Stone
+	[242607] = SetReagent(11, e.Jewelcrafting), -- Harandar Peridot
+	[242720] = SetReagent(11, e.Jewelcrafting), -- Harandar Peridot
+	[242610] = SetReagent(11, e.Jewelcrafting), -- Flawless Harandar Peridot
+	[242726] = SetReagent(11, e.Jewelcrafting), -- Flawless Harandar Peridot
+	[242553] = SetReagent(11, e.Jewelcrafting), -- Sanguine Guarnet
+	[242723] = SetReagent(11, e.Jewelcrafting), -- Sanguine Guarnet
+	[242613] = SetReagent(11, e.Jewelcrafting), -- Flawless Sanguine Guarnet
+	[242724] = SetReagent(11, e.Jewelcrafting), -- Flawless Sanguine Guarnet
+	[242606] = SetReagent(11, e.Jewelcrafting), -- Tenebrous Amethyst
+	[242721] = SetReagent(11, e.Jewelcrafting), -- Tenebrous Amethyst
+	[242611] = SetReagent(11, e.Jewelcrafting), -- Flawless Tenebrous Amethyst
+	[242725] = SetReagent(11, e.Jewelcrafting), -- Flawless Tenebrous Amethyst
+	
+	[240972] = SetReagent(11, e.Jewelcrafting), -- Sin'dorei Lens
+	[240973] = SetReagent(11, e.Jewelcrafting), -- Sin'dorei Lens
+	[240974] = SetReagent(11, e.Jewelcrafting), -- Kaleidoscopic Prism
+	[240975] = SetReagent(11, e.Jewelcrafting), -- Kaleidoscopic Prism
+	[253307] = SetReagent(11, e.Jewelcrafting), -- Infused Heliotrope
+	
 })

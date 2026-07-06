@@ -160,4 +160,14 @@ lib:RegisterItems({
 	[221857] = SetReagent(10, e.Engineering), -- Whimsical Wiring 2
 	[221858] = SetReagent(10, e.Engineering), -- Whimsical Wiring 3
 	
+	-- 12.0 Midnight
+	[243574] = SetReagent(11, e.Engineering), -- Song Gear
+	[243575] = SetReagent(11, e.Engineering), -- Song Gear
+	[243576] = SetReagent(11, e.Engineering), -- Soul Sprocket
+	[243577] = SetReagent(11, e.Engineering), -- Soul Sprocket
+	[243578] = SetReagent(11, e.Engineering), -- Aetherlume
+	[243579] = SetReagent(11, e.Engineering), -- Aetherlume
+	[243581] = SetReagent(11, e.Engineering), -- Evercore
+	[243582] = SetReagent(11, e.Engineering), -- Evercore
+	
 })

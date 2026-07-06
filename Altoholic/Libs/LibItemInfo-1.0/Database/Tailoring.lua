@@ -157,4 +157,20 @@ lib:RegisterItems({
 	[222805] = SetReagent(10, e.Tailoring), -- Weavercloth Bolt 2
 	[222806] = SetReagent(10, e.Tailoring), -- Weavercloth Bolt 3
 	
+	-- 12.0 Midnight
+	[237015] = SetReagent(11, e.Tailoring), -- Sunfire Silk
+	[237016] = SetReagent(11, e.Tailoring), -- Sunfire Silk
+	[237017] = SetReagent(11, e.Tailoring), -- Arcanoweave
+	[237018] = SetReagent(11, e.Tailoring), -- Arcanoweave
+	[239198] = SetReagent(11, e.Tailoring), -- Arcanoweave Bolt
+	[239200] = SetReagent(11, e.Tailoring), -- Arcanoweave Bolt
+	[239201] = SetReagent(11, e.Tailoring), -- Sunfire Silk Bolt
+	[239202] = SetReagent(11, e.Tailoring), -- Sunfire Silk Bolt
+	[236963] = SetReagent(11, e.Tailoring), -- Bright Linen
+	[236965] = SetReagent(11, e.Tailoring), -- Bright Linen
+	[239700] = SetReagent(11, e.Tailoring), -- Bright Linen Bolt
+	[239701] = SetReagent(11, e.Tailoring), -- Bright Linen Bolt
+	[239702] = SetReagent(11, e.Tailoring), -- Imbued Bright Linen Bolt
+	[239703] = SetReagent(11, e.Tailoring), -- Imbued Bright Linen Bolt
+	
 })

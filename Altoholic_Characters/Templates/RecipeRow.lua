@@ -70,31 +70,71 @@ addon:Controller("AltoholicUI.TabCharacters.RecipeRow", {
 		end
 		
 		-- ** set the reagents **
+
+		-- Clear/Hide all the reagent frames first
+		for i = 1, 12 do
+			local reagentFrame = frame[format("Reagent%d", i)]
+			reagentFrame.itemID = nil
+			reagentFrame.TooltipText = nil
+			reagentFrame.Icon:SetTexture()
+			reagentFrame.Count:SetText()
+			reagentFrame.Count:Hide()
+			reagentFrame.InputOverlay:Hide()
+			reagentFrame:Hide()
+		end
+
 		local schematic = C_TradeSkillUI.GetRecipeSchematic(recipeID, false)
 		local index = 1
-		
+		local optionalReagents = {}
+		local finishingReagents = {}
 		for reagentIndex = 1, #schematic.reagentSlotSchematics do
 			local reagent = schematic.reagentSlotSchematics[reagentIndex]
-			local reagentID = reagent.reagents[1].itemID
+
+			-- Only display required reagents, use a placeholder for optional or finishing reagents
+			if reagent.reagentType == Enum.CraftingReagentType.Modifying then
+				table.insert(optionalReagents, reagent.reagents[1].itemID)
+			elseif reagent.reagentType == Enum.CraftingReagentType.Finishing then
+				table.insert(finishingReagents, reagent.reagents[1].itemID)
+			elseif reagent.reagentType == Enum.CraftingReagentType.Basic then
+				local reagentID = reagent.reagents[1].itemID
+				local reagentIcon = frame[format("Reagent%d", index)]
+				
+				if not reagentIcon then
+					print(reagentIndex)
+				else
+					if reagentID then
+						local reagentCount = reagent.quantityRequired
+											
+						reagentIcon.itemID = reagentID
+						reagentIcon:SetIcon(GetItemIcon(reagentID))
+						reagentIcon.Count:SetText(reagentCount)
+						reagentIcon.Count:Show()
+					
+						reagentIcon:Show()
+						index = index + 1
+					else
+						reagentIcon:Hide()
+					end
+				end
+			end
+		end
+		if #optionalReagents > 0 then
 			local reagentIcon = frame[format("Reagent%d", index)]
-			
-			if not reagentIcon then
-				print(reagentIndex)
-			end
-			
-			if reagentID then
-				local reagentCount = reagent.quantityRequired
-									
-				reagentIcon.itemID = reagentID
-				reagentIcon:SetIcon(GetItemIcon(reagentID))
-				reagentIcon.Count:SetText(reagentCount)
-				reagentIcon.Count:Show()
-			
-				reagentIcon:Show()
-				index = index + 1
-			else
-				reagentIcon:Hide()
-			end
+			reagentIcon.InputOverlay:Show()
+			reagentIcon.TooltipText = format("%s %d", PROFESSIONS_OPTIONAL_REAGENT_CONTAINER_LABEL, tonumber(#optionalReagents) or 0)
+			reagentIcon.Count:SetText(#optionalReagents)
+			reagentIcon.Count:Show()
+			reagentIcon:Show()
+			index = index + 1
+		end
+		if #finishingReagents > 0 then
+			local reagentIcon = frame[format("Reagent%d", index)]
+			reagentIcon.InputOverlay:Show()
+			reagentIcon.TooltipText = format("%s %d", PROFESSIONS_CRAFTING_FINISHING_HEADER, tonumber(#finishingReagents) or 0)
+			reagentIcon.Count:SetText(#finishingReagents)
+			reagentIcon.Count:Show()
+			reagentIcon:Show()
+			index = index + 1
 		end
 		
 		-- hide unused reagent icons

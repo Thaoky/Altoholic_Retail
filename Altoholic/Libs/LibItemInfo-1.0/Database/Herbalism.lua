@@ -212,4 +212,18 @@ lib:RegisterItems({
 	[210810] = SetReagent(10, e.Herbalism), -- Arathor's Spear 3
 	[213197] = SetReagent(10, e.Herbalism), -- Null Lotus
 	
+	-- 12.0 Midnight
+	[236761] = SetReagent(11, e.Herbalism), -- Tranquility Bloom
+	[236767] = SetReagent(11, e.Herbalism), -- Tranquility Bloom
+	[236770] = SetReagent(11, e.Herbalism), -- Sanguithorn
+	[236771] = SetReagent(11, e.Herbalism), -- Sanguithorn
+	[236774] = SetReagent(11, e.Herbalism), -- Azeroot
+	[236775] = SetReagent(11, e.Herbalism), -- Azeroot
+	[236776] = SetReagent(11, e.Herbalism), -- Argentleaf
+	[236777] = SetReagent(11, e.Herbalism), -- Argentleaf
+	[236778] = SetReagent(11, e.Herbalism), -- Mana Lily
+	[236779] = SetReagent(11, e.Herbalism), -- Mana Lily
+	[236780] = SetReagent(11, e.Herbalism), -- Nocturnal Lotus
+	
+	
 })

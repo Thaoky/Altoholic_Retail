@@ -232,4 +232,28 @@ lib:RegisterItems({
 	[219887] = SetReagent(10, e.Leatherworking), -- Writhing Hide 2
 	[219888] = SetReagent(10, e.Leatherworking), -- Writhing Hide 3
 	
+	-- 12.0 Midnight
+	[238511] = SetReagent(11, e.Skinning), -- Void-Tempered Leather
+	[238512] = SetReagent(11, e.Skinning), -- Void-Tempered Leather
+	[238513] = SetReagent(11, e.Skinning), -- Void-Tempered Scales
+	[238514] = SetReagent(11, e.Skinning), -- Void-Tempered Scales
+	[238518] = SetReagent(11, e.Skinning), -- Void-Tempered Hide
+	[238519] = SetReagent(11, e.Skinning), -- Void-Tempered Hide
+	[238520] = SetReagent(11, e.Skinning), -- Void-Tempered Plating
+	[238521] = SetReagent(11, e.Skinning), -- Void-Tempered Plating
+	[238522] = SetReagent(11, e.Skinning), -- Peerless Plumage
+	[238523] = SetReagent(11, e.Skinning), -- Carving Canine
+	[238525] = SetReagent(11, e.Skinning), -- Fantastic Fur
+	[238528] = SetReagent(11, e.Skinning), -- Majestic Claw
+	[238529] = SetReagent(11, e.Skinning), -- Majestic Hide
+	[238530] = SetReagent(11, e.Skinning), -- Majestic Fin
+	[244631] = SetReagent(11, e.Leatherworking), -- Scalewoven Hide
+	[244632] = SetReagent(11, e.Leatherworking), -- Scalewoven Hide
+	[244633] = SetReagent(11, e.Leatherworking), -- Infused Scalewoven Hide
+	[244634] = SetReagent(11, e.Leatherworking), -- Infused Scalewoven Hide
+	[244635] = SetReagent(11, e.Leatherworking), -- Sin'Dorei Armor Banding
+	[244636] = SetReagent(11, e.Leatherworking), -- Sin'Dorei Armor Banding
+	[244637] = SetReagent(11, e.Leatherworking), -- Silvermoon Weapon Wrap
+	[244638] = SetReagent(11, e.Leatherworking), -- Silvermoon Weapon Wrap
+	
 })
