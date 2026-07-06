@@ -271,13 +271,15 @@ local function LevelIcon_Initialize(frame, level)
 	frame:AddButtonWithArgs("50-59", 7, OnLevelFilterChange, 50, 59, (option == 7))
 	frame:AddButtonWithArgs("60-69", 8, OnLevelFilterChange, 60, 69, (option == 8))
 	frame:AddButtonWithArgs("70-79", 9, OnLevelFilterChange, 70, 79, (option == 9))
-	frame:AddButtonWithArgs("80", 10, OnLevelFilterChange, 80, 80, (option == 10))
+	frame:AddButtonWithArgs("80-89", 10, OnLevelFilterChange, 80, 89, (option == 10))
+	frame:AddButtonWithArgs("90", 11, OnLevelFilterChange, 90, 90, (option == 11))
 	frame:AddTitle()
-	frame:AddButtonWithArgs("1-44", 11, OnLevelFilterChange, 1, 44, (option == 11))
-	frame:AddButtonWithArgs(format("45+ %s(%s)", colors.green, EXPANSION_NAME7), 12, OnLevelFilterChange, 45, 80, (option == 12))
-	frame:AddButtonWithArgs(format("50+ %s(%s)", colors.green, EXPANSION_NAME8), 13, OnLevelFilterChange, 50, 80, (option == 13))
-	frame:AddButtonWithArgs(format("60+ %s(%s)", colors.green, EXPANSION_NAME9), 14, OnLevelFilterChange, 60, 80, (option == 14))
-	frame:AddButtonWithArgs(format("70+ %s(%s)", colors.green, EXPANSION_NAME10), 15, OnLevelFilterChange, 70, 80, (option == 15))
+	frame:AddButtonWithArgs("1-44", 12, OnLevelFilterChange, 1, 44, (option == 12))
+	frame:AddButtonWithArgs(format("45+ %s(%s)", colors.green, EXPANSION_NAME7), 13, OnLevelFilterChange, 45, 80, (option == 13))
+	frame:AddButtonWithArgs(format("50+ %s(%s)", colors.green, EXPANSION_NAME8), 14, OnLevelFilterChange, 50, 80, (option == 14))
+	frame:AddButtonWithArgs(format("60+ %s(%s)", colors.green, EXPANSION_NAME9), 15, OnLevelFilterChange, 60, 80, (option == 15))
+	frame:AddButtonWithArgs(format("70+ %s(%s)", colors.green, EXPANSION_NAME10), 16, OnLevelFilterChange, 70, 80, (option == 16))
+	frame:AddButtonWithArgs(format("80+ %s(%s)", colors.green, EXPANSION_NAME11), 17, OnLevelFilterChange, 80, 90, (option == 17))
 	frame:AddCloseMenu()
 end
 
@@ -629,7 +631,6 @@ addon:Controller("AltoholicUI.TabSummary", {
 			-- Setup active buttons
 			for i, columnName in ipairs(profiles) do
 				local column = columnsData.Get(columnName)
-				
 				hc:SetButton(i, column.headerLabel, column.headerWidth, function(frame) 
 					tab:SortBy(columnName)
 				end)
@@ -843,6 +844,13 @@ addon:Controller("AltoholicUI.TabSummaryCategoriesList", {
 					{ text = format("%s11.2|r %s", colors.green, "Season 3"), profile = 39 },
 					-- { text = format("%s11.2|r %s", colors.green, L["PATCH_11.2"]), profile = 39 },
 				}},				
+				{ text = EXPANSION_NAME11, subMenu = {
+					{ text = format("%s12.0|r %s", colors.green, L["PATCH_X.0"]), profile = 40 },
+					{ text = format("%s12.0|r %s", colors.green, "Moxie / Part 1"), profile = 41 },
+					{ text = format("%s12.0|r %s", colors.green, "Moxie / Part 2"), profile = 42 },
+					{ text = format("%s12.0|r %s", colors.green, "Season 1 / Part 1"), profile = 43 },
+					{ text = format("%s12.0|r %s", colors.green, "Season 1 / Part 2"), profile = 44 },
+				}},
 			}},
 			-- Expansion Features
 			{ text = GetCategoryInfo(15301), subMenu = {

@@ -110,7 +110,9 @@ function(characters, formatter, columnsData, AccountSharing)
 			end
 			
 			frame.character = character
-			frame:HideItems(#profile + 1, 10)
+			--frame:HideItems(#profile + 1, 10) --DAC
+			frame:HideItems(#profile + 1, frame:GetParent():GetParent().HeaderContainer.numButtons)
+			
 			frame:SetID(line)
 			frame:Show()
 		end,
@@ -126,7 +128,8 @@ function(characters, formatter, columnsData, AccountSharing)
 			frame.Item1:SetScript("OnEnter", ShowTotals)
 			
 			frame.character = nil
-			frame:HideItems(#profile + 1, 10)
+			--frame:HideItems(#profile + 1, 10)
+			frame:HideItems(#profile + 1, frame:GetParent():GetParent().HeaderContainer.numButtons)
 			frame:SetID(line)
 			frame:Show()
 		end,

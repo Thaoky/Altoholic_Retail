@@ -69,6 +69,16 @@
 					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item9" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
 				</Anchors>
 			</Button>
+			<Button parentKey="Item11" inherits="AltoSummaryPaneButtonTemplate" id="11">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item10" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+			<Button parentKey="Item12" inherits="AltoSummaryPaneButtonTemplate" id="12">
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeKey="$parent.Item11" relativePoint="BOTTOMRIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
 		</Frames>
 		<Scripts>
 			<OnLoad>
