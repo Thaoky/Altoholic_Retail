@@ -18,12 +18,18 @@ addon:Controller("AltoholicUI.TabCharacters.Recipes", { "AddonFactory.Classes", 
 	local currentSearch = ""
 
 	local function GetStatus(character, professionName, numRecipes)
+		if not professionName then
+			return format("%s|r", DataStore:GetColoredCharacterName(character))
+		end
 		local profession = DataStore:GetProfession(character, professionName)
 		local allCategories = (mainCategory == 0)
 		local allSubCategories = (subCategory == 0)
-		
+
+		if not profession then
+			return format("%s%s|r", colors.white, professionName)
+		end
+
 		local text = ""
-		
 		if not allCategories then
 			local categoryName = select(2, DataStore:GetRecipeCategoryInfo(profession, mainCategory))
 		

@@ -21,6 +21,36 @@
 		</Animations>
 	</Frame>
 	
+	<Button name="AltoReagentButtonTemplate" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="SlotBackground" atlas="Professions-Slot-bg" useAtlasSize="true">
+					<Anchors>
+						<Anchor point="CENTER" y="-2"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Frame parentKey="InputOverlay" setAllPoints="true">
+				<Layers>
+				<Layer level="OVERLAY">
+					<Texture parentKey="AddIcon" atlas="Professions-Slot-Plus" useAtlasSize="true" hidden="false">
+						<Anchors>
+							<Anchor point="CENTER" />
+						</Anchors>
+					</Texture>
+					<Texture parentKey="AddIconHighlight" atlas="Professions-Slot-Plus-Over" useAtlasSize="true" alphaMode="ADD" hidden="false">
+						<Anchors>
+							<Anchor point="CENTER" relativeKey="$parent.AddIcon"/>
+						</Anchors>
+					</Texture>
+				</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
+	</Button>
+
 	<Button name="AltoRecipeRowTemplate" virtual="true">
 		<Size x="615" y="43" />
 		<Layers>
@@ -87,62 +117,62 @@
 				</Frames>
 			</Frame>
 			
-			<Button parentKey="Reagent1" inherits="AltoItemIconTemplate">
+			<Button parentKey="Reagent1" inherits="AltoItemIconTemplate,AltoReagentButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.RecipeLink" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
-			<Button parentKey="Reagent2" inherits="AltoItemIconTemplate">
+			<Button parentKey="Reagent2" inherits="AltoItemIconTemplate,AltoReagentButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent1" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
-			<Button parentKey="Reagent3" inherits="AltoItemIconTemplate">
+			<Button parentKey="Reagent3" inherits="AltoItemIconTemplate,AltoReagentButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent2" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
-			<Button parentKey="Reagent4" inherits="AltoItemIconTemplate">
+			<Button parentKey="Reagent4" inherits="AltoItemIconTemplate,AltoReagentButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent3" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
-			<Button parentKey="Reagent5" inherits="AltoItemIconTemplate">
+			<Button parentKey="Reagent5" inherits="AltoItemIconTemplate,AltoReagentButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent4" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
-			<Button parentKey="Reagent6" inherits="AltoItemIconTemplate">
+			<Button parentKey="Reagent6" inherits="AltoItemIconTemplate,AltoReagentButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent5" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
-			<Button parentKey="Reagent7" inherits="AltoItemIconTemplate">
+			<Button parentKey="Reagent7" inherits="AltoItemIconTemplate,AltoReagentButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent6" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
-			<Button parentKey="Reagent8" inherits="AltoItemIconTemplate">
+			<Button parentKey="Reagent8" inherits="AltoItemIconTemplate,AltoReagentButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent7" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
-			<Button parentKey="Reagent9" inherits="AltoItemIconTemplate">
+			<Button parentKey="Reagent9" inherits="AltoItemIconTemplate,AltoReagentButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent8" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
-			<Button parentKey="Reagent10" inherits="AltoItemIconTemplate">
+			<Button parentKey="Reagent10" inherits="AltoItemIconTemplate,AltoReagentButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent9" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
-			<Button parentKey="Reagent11" inherits="AltoItemIconTemplate">
+			<Button parentKey="Reagent11" inherits="AltoItemIconTemplate,AltoReagentButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent10" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
 			</Button>
-			<Button parentKey="Reagent12" inherits="AltoItemIconTemplate">
+			<Button parentKey="Reagent12" inherits="AltoItemIconTemplate,AltoReagentButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.Reagent11" relativePoint="TOPRIGHT" x="5" y="0" />
 				</Anchors>
