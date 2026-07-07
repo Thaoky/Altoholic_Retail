@@ -119,6 +119,70 @@ addon:Service("AltoholicUI.TabSummaryColumnProfiles",  function()
 		
 		-- Currencies / War Within 11.2 / Season 3
 		[39] = { "Name", "Level", "Cur_WeatheredEthereal", "Cur_CarvedEthereal", "Cur_RunedEthereal", "Cur_GildedEthereal", "Cur_Undercoin" },
+
+		-- Currencies / Midnight 12.0
+		[40] = { "Name",
+				"Level",
+				"Cur_VoidlightMarl",
+				--"Cur_TwilightsBladeInsignia",
+				"Cur_AnglerPearls",
+				"Cur_ShardofDundun",
+				"Cur_UnalloyedAbundance",
+				"Cur_BrimmingArcana",
+				"Cur_RemnantofAnguish",
+				"Cur_IllusionaryCoin",
+				"Cur_UncontaminatedVoidSample",
+				"Cur_FieldAccolade",
+		},
+
+		-- Currencies / Midnight 12.0 / Moxie / Part 1
+		[41] = { "Name",
+				"Level",
+				"Cur_ArtisanAlchemistsMoxie",
+				"Cur_ArtisanHerbalistsMoxie",
+				"Cur_ArtisanMinersMoxie",
+				"Cur_ArtisanEnchantersMoxie",
+				"Cur_ArtisanTailorsMoxie",
+				"Cur_ArtisanBlacksmithsMoxie",
+				--[[
+				"Cur_ArtisanSkinnersMoxie",
+				"Cur_ArtisanLeatherworkersMoxie",
+				"Cur_ArtisanEngineersMoxie",
+				"Cur_ArtisanJewelcraftersMoxie",
+				"Cur_ArtisanScribesMoxie",
+				--]]
+		},
+
+		-- Currencies / Midnight 12.0 / Moxie / Part 2
+		[42] = { "Name",
+				"Level",
+				"Cur_ArtisanSkinnersMoxie",
+				"Cur_ArtisanLeatherworkersMoxie",
+				"Cur_ArtisanEngineersMoxie",
+				"Cur_ArtisanJewelcraftersMoxie",
+				"Cur_ArtisanScribesMoxie",
+		},
+
+		-- Currencies / Midnight 12.0 / Season 1 / Part 1
+		[43] = { "Name",
+				"Level",
+				"Cur_NebulousVoidcore",
+				"Cur_DawnlightManaflux",
+				"Cur_MythDawncrest",
+				"Cur_Undercoin",
+				"Cur_ChampionDawncrest",
+				"Cur_HeroDawncrest",
+		},
+		-- Currencies / Midnight 12.0 / Season 1 / Part 2
+		[44] = { "Name",
+				"Level",
+				"Cur_UntaintedManaCrystals",
+				"Cur_RadiantSparkDust",
+				"Cur_CofferKeyShards",
+				"Cur_VeteranDawncrest",
+				"Cur_AdventurerDawncrest",
+				"Cur_RestoredCofferKey",
+		},
 	}
 
 	return {
