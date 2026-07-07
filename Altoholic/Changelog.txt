@@ -15,6 +15,12 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+12.0.004 (07/07/2026)
+
+- DataStore_Mails : Added missing fix for nil mail sender.
+- DataStore_Achievements : Reverted the batch scanning of achievements, C_Timer causes it to stutter.
+- Fixed invalid ToC numbers.
+
 12.0.003 (06/07/2026)
 
 - Multiple fixes. Thanks to GovtGeek & the Discord Community for assisting during my absence !
