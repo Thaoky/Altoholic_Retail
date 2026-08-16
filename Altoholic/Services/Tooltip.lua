@@ -128,12 +128,14 @@ end
 
 local function GetCharacterItemCount(character, searchedID)
 	itemCounts[1], itemCounts[2], itemCounts[9] = DataStore:GetContainerItemCount(character, searchedID)
-	itemCounts[2] = itemCounts[2] + (DataStore:GetPlayerBankItemCount(character, searchedID) or 0)
-	itemCounts[3] = DataStore:GetVoidStorageItemCount(character, searchedID)
-	itemCounts[4] = DataStore:GetReagentBankItemCount(character, searchedID)
-	itemCounts[5] = DataStore:GetAuctionHouseItemCount(character, searchedID)
-	itemCounts[6] = DataStore:GetInventoryItemCount(character, searchedID)
-	itemCounts[7] = DataStore:GetMailItemCount(character, searchedID)
+	itemCounts[1] = itemCounts[1] or 0
+	itemCounts[2] = (itemCounts[2] or 0) + (DataStore:GetPlayerBankItemCount(character, searchedID) or 0)
+	itemCounts[9] = itemCounts[9] or 0
+	itemCounts[3] = DataStore:GetVoidStorageItemCount(character, searchedID) or 0
+	itemCounts[4] = DataStore:GetReagentBankItemCount(character, searchedID) or 0
+	itemCounts[5] = DataStore:GetAuctionHouseItemCount(character, searchedID) or 0
+	itemCounts[6] = DataStore:GetInventoryItemCount(character, searchedID) or 0
+	itemCounts[7] = DataStore:GetMailItemCount(character, searchedID) or 0
 	
 	local charCount = 0
 	for _, v in pairs(itemCounts) do
