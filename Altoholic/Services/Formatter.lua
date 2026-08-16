@@ -95,7 +95,7 @@ addon:Service("AltoholicUI.Formatter", function()
 			seconds = mod(seconds, 3600)
 
 			-- note: RecentTimeDate is not a direct API function, it's in UIParent.lua
-			return RecentTimeDate(year, month, day, hour)
+			return TimeUtil.GetRecentTimeDate(year, month, day, hour)
 		end,
 		Duration = function(seconds)
 			local color = (seconds == 0) and colors.grey or colors.white
