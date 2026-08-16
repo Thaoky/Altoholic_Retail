@@ -246,6 +246,11 @@ L["TT_SHOW_CURRENCIES_TITLE"] = "Show counters for currencies"
 L["TT_SHOW_CURRENCIES_ENABLED"] = "Display counters when mousing over a currency."
 L["TT_SHOW_CURRENCIES_DISABLED"] = "Hide the counters when mousing over a currency."
 
+L["TT_SHOW_INVENTORYITEM_TEXT"] = "Show counters for equipped items"
+L["TT_SHOW_INVENTORYITEM_TITLE"] = "Show counters for equipped items"
+L["TT_SHOW_INVENTORYITEM_ENABLED"] = "Display counters when mousing over an equipped item."
+L["TT_SHOW_INVENTORYITEM_DISABLED"] = "Hide the counters when mousing over one of these items."
+
 
 -- ** Settings / Altoholic / Calendar **
 L["Calendar Options"] = true
