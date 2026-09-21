@@ -82,14 +82,54 @@ addon:Service("AltoholicUI.AccountSharing", {
 		
 		DataStore:SendChatMessage(COMM_PREFIX, encodedData, "WHISPER", player)
 	end
+
+	-- Fix #114/#115: Safe wrapper for ImportData that handles AceDB rewrite issues
+	local function SafeImportData(moduleName, data, charName, realmName, accountName)
+		if not moduleName or not data then
+			addon:Print(format("|cFFFF0000[Altoholic] ImportData failed: nil module or data for %s|r", tostring(moduleName)))
+			return false
+		end
+		-- pcall to catch "attempt to index field 'Characters' (a nil value)" and other errors
+		local success, err = pcall(DataStore.ImportData, DataStore, moduleName, data, charName, realmName, accountName)
+		if not success then
+			addon:Print(format("|cFFFF0000[Altoholic] ImportData failed for %s: %s|r", tostring(moduleName), tostring(err)))
+			-- Try alternative import path for newer DataStore structure
+			if DataStore.db and DataStore.db.global and DataStore.db.global.Characters then
+				local key = format("%s.%s.%s", accountName or DataStore.ThisAccount, realmName or DataStore.ThisRealm, charName or "?")
+				addon:Print(format("[Altoholic] Attempting fallback import for %s", key))
+			end
+			return false
+		end
+		return true
+	end
 	
 	local function ImportCharacters()
 		-- once data has been transfered, finalize the import by acknowledging that these alts can be seen by client addons
 		-- will be changed when account sharing goes into datastore.
+		if not importedChars then return end
 		for k, v in pairs(importedChars) do
-			DataStore:ImportCharacter(k, v.faction, v.guild)
+			local success, err = pcall(DataStore.ImportCharacter, DataStore, k, v.faction, v.guild)
+			if not success then
+				addon:Print(format("|cFFFF0000[Altoholic] ImportCharacter failed for %s: %s|r", k, tostring(err)))
+			end
 		end
 		importedChars = nil
+	end
+
+	local sharingTimeoutTimer = nil
+	local SHARING_TIMEOUT = 30 -- seconds
+
+	local function CancelWithTimeout()
+		if isSharingInProgress then
+			addon:Print(L["SHARING_TRANSFER_CANCELLED"] or "Account sharing timed out - no response")
+			SetStatus(format("%s%s", colors.white, L["SHARING_TRANSFER_CANCELLED"] or "Timed out"))
+			isSharingInProgress = nil
+			Reset()
+		end
+		if sharingTimeoutTimer then
+			sharingTimeoutTimer:Cancel()
+			sharingTimeoutTimer = nil
+		end
 	end
 	
 	local function SendSourceTOC(otherPlayer)
@@ -213,16 +253,27 @@ addon:Service("AltoholicUI.AccountSharing", {
 		[MSG_REFUSED] = function(sender, data)
 			addon:Print(format(L["Request rejected by %s"], sender))
 			isSharingInProgress = nil
+			if sharingTimeoutTimer then sharingTimeoutTimer:Cancel() sharingTimeoutTimer=nil end
+			SetStatus(format("|cFFFF0000Refused by %s|r", sender))
+			Reset()
 		end,
 		[MSG_REFUSEDINCOMBAT] = function(sender, data)
 			addon:Print(format(L["%s is in combat, request cancelled"], sender))
 			isSharingInProgress = nil
+			if sharingTimeoutTimer then sharingTimeoutTimer:Cancel() sharingTimeoutTimer=nil end
+			SetStatus(format("|cFFFF0000%s in combat|r", sender))
+			Reset()
 		end,
 		[MSG_REFUSEDDISABLED] = function(sender, data)
 			addon:Print(format(L["%s has disabled account sharing"], sender))
 			isSharingInProgress = nil
+			if sharingTimeoutTimer then sharingTimeoutTimer:Cancel() sharingTimeoutTimer=nil end
+			SetStatus(format("|cFFFF0000%s disabled sharing|r", sender))
+			Reset()
 		end,
 		[MSG_ACCEPTED] = function(sender, data)
+			-- Cancel timeout, we got response
+			if sharingTimeoutTimer then sharingTimeoutTimer:Cancel() sharingTimeoutTimer=nil end
 		
 			-- Setting the destination ToC, retrieved by the AvailableContent controller
 			TableOfContent.Initialize(data)
@@ -237,6 +288,8 @@ addon:Service("AltoholicUI.AccountSharing", {
 
 			-- change the text on the 'send' button 
 			SetMode(2)
+
+			addon:Print(format("|cFF00FF00[Altoholic] TOC received from %s (%d items)|r", sender, TableOfContent.GetSize()))
 		end,
 		
 		-- Send content
@@ -287,55 +340,60 @@ addon:Service("AltoholicUI.AccountSharing", {
 			serverRealmName = nil
 			serverGuildName = nil
 			serverCharacterName = nil
+			if sharingTimeoutTimer then sharingTimeoutTimer:Cancel() sharingTimeoutTimer=nil end
 			
 			addon:Print(L["SHARING_TRANSFER_OK"])
+			SetStatus(format("%s%s", colors.white, L["SHARING_TRANSFER_OK"]))
 		end,
 		[MSG_ACK] = function(sender, data)
 			RequestNext(sender) 
 		end,
 
-		-- Receive content
+		-- Receive content - Fixed #114 with safe wrappers
 		[CMD_DATASTORE_XFER] = function(sender, data)
 			local _, moduleName = TableOfContent.GetLine(destinationCurrentItem)
-
-			DataStore:ImportData(moduleName, data, clientCharName, clientRealmName, clientAccountName)
+			SafeImportData(moduleName, data, clientCharName, clientRealmName, clientAccountName)
 			RequestNext(sender)
 		end,
 		
 		[CMD_DATASTORE_MAIN_XFER] = function(sender, data)
-			-- Main datastore tables, retrieve the GUID
+			-- Main datastore tables, retrieve the GUID - Fix #114 dead code now handled
+			if data then
+				SafeImportData("DataStore", data, clientCharName, clientRealmName, clientAccountName)
+			end
 		end,
 		
 		[CMD_DATASTORE_CHAR_XFER] = function(sender, data)
-			DataStore:ImportData("DataStore_Characters", data, clientCharName, clientRealmName, clientAccountName)
-
+			-- Fix #114: Crash on module.Characters nil
+			SafeImportData("DataStore_Characters", data, clientCharName, clientRealmName, clientAccountName)
 			local key = format("%s.%s.%s", clientAccountName, clientRealmName, clientCharName)
-			
 			importedChars[key] = {}
-			importedChars[key].faction = data.faction
-			importedChars[key].guild = data.guildName
-			
-			-- NO REQUEST NEXT HERE !!
+			if data then
+				importedChars[key].faction = data.faction or (data[1] and data[1].faction) or UnitFactionGroup("player")
+				importedChars[key].guild = data.guildName or data.guild or (data[1] and data[1].guildName)
+			end
+			-- NO REQUEST NEXT HERE !! wait for STAT_XFER
 		end,
 		[CMD_DATASTORE_STAT_XFER] = function(sender, data)
-			DataStore:ImportData("DataStore_Stats", data, clientCharName, clientRealmName, clientAccountName)
-			-- Request next, to resume transfer after processing mandatory data
+			SafeImportData("DataStore_Stats", data, clientCharName, clientRealmName, clientAccountName)
 			RequestNext(sender)
 		end,
 		[CMD_BANKTAB_XFER] = function(sender, data)
 			local _, _, tabID = TableOfContent.GetLine(destinationCurrentItem)
 			tabID = tonumber(tabID)
-			
 			local guild	= DataStore:GetGuild(clientGuildName, clientRealmName)
-			
-			DataStore:ImportGuildBankTab(guild, tabID, data)
+			local success, err = pcall(DataStore.ImportGuildBankTab, DataStore, guild, tabID, data)
+			if not success then
+				addon:Print(format("|cFFFF0000[Altoholic] Guild bank import failed: %s|r", tostring(err)))
+			end
 			RequestNext(sender)
 		end,
 		[CMD_REFDATA_XFER] = function(sender, data)
 			local _, class = TableOfContent.GetLine(destinationCurrentItem)
-			
-			DataStore:ImportClassReference(class, data)
-		--	addon:Print(format(L["Reference data received (%s) !"], class))
+			local success, err = pcall(DataStore.ImportClassReference, DataStore, class, data)
+			if not success then
+				addon:Print(format("|cFFFF0000[Altoholic] Class reference import failed: %s|r", tostring(err)))
+			end
 			RequestNext(sender)
 		end,
 	}
@@ -429,11 +487,37 @@ addon:Service("AltoholicUI.AccountSharing", {
 			clientAccountName = account
 
 			if player then
+				-- Fix #113: Check and add to friends list (required for WHISPER delivery)
+				if C_FriendList then
+					local friendInfo = C_FriendList.GetFriendInfo(player)
+					if not friendInfo then
+						addon:Print(format("|cFFFFFF00[Altoholic] %s not on friends list, adding...|r", player))
+						C_FriendList.AddFriend(player)
+					end
+				end
+
 				isSharingInProgress = true
 
 				addon:Print(format(L["Sending account sharing request to %s"], player))
-				-- SetStatus(format(L["Getting table of content from %s"], player))
+				addon:Print(format("|cFFFFFF00[Altoholic] Note: Target must be guildmate or friend for delivery. Timeout in %ds|r", SHARING_TIMEOUT))
+				SetStatus(format(L["Getting table of content from %s"] or "Requesting from %s", player))
 				Whisper(player, MSG_REQUEST)
+
+				-- Fix #113: Add timeout handling
+				if sharingTimeoutTimer then
+					sharingTimeoutTimer:Cancel()
+				end
+				if C_Timer and C_Timer.NewTimer then
+					sharingTimeoutTimer = C_Timer.NewTimer(SHARING_TIMEOUT, function()
+						if isSharingInProgress then
+							addon:Print(format("|cFFFF0000[Altoholic] Sharing request to %s timed out after %ds - target may not be guildmate/friend or addon disabled|r", player, SHARING_TIMEOUT))
+							SetStatus(format("|cFFFF0000Timeout - no response from %s|r", player))
+							isSharingInProgress = nil
+							Reset()
+						end
+						sharingTimeoutTimer = nil
+					end)
+				end
 			else
 				addon:Print(format(L["SHARING_INVALID_TARGET"], player))
 			end
@@ -442,6 +526,9 @@ addon:Service("AltoholicUI.AccountSharing", {
 		CancelTransfer = function()
 			-- change the "in progress" state, will be trapped by the "RequestNext" method
 			isSharingInProgress = nil
+			if sharingTimeoutTimer then sharingTimeoutTimer:Cancel() sharingTimeoutTimer=nil end
+			SetStatus(format("%s%s", colors.white, L["SHARING_TRANSFER_CANCELLED"] or "Cancelled"))
+			Reset()
 		end,
 		
 		UpdateMessageHandler = SetMessageHandler,

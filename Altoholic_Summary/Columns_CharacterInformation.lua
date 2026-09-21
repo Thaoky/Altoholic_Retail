@@ -82,16 +82,24 @@ local function DeleteAlt(self, characterLine)
 end
 
 local function UpdateRealm(self, characterLine)
+	-- Fix #116: Old frames AltoAccountSharing_* no longer exist, causing nil index crash
+	-- Original code referenced 4 frames that don't exist in repo: AccNameEditBox, UseTarget, UseName, AccTargetEditBox
 	local _, realm, account = Characters.GetInfo(characterLine)
 	
-	AltoAccountSharing_AccNameEditBox:SetText(account)
-	AltoAccountSharing_UseTarget:SetChecked(nil)
-	AltoAccountSharing_UseName:SetChecked(1)
-	
+	-- Safe fallback: show last sharing info and open sharing panel
 	local _, updatedWith = AccountSharing.GetLastAccountSharingInfo(realm, account)
-	AltoAccountSharing_AccTargetEditBox:SetText(updatedWith)
+	if updatedWith then
+		addon:Print(format(L["Update from %s%s"], colors.green, updatedWith))
+	else
+		addon:Print(format("Account: %s, Realm: %s - Opening sharing panel", account or "?", realm or "?"))
+	end
 	
-	addon.Tabs.Summary:AccountSharingButton_OnClick()
+	-- Open account sharing panel via new API (safe check)
+	if addon.Tabs and addon.Tabs.Summary and addon.Tabs.Summary.AccountSharingButton_OnClick then
+		addon.Tabs.Summary:AccountSharingButton_OnClick()
+	elseif AltoholicFrame and AltoholicFrame.TabSummary and AltoholicFrame.TabSummary.AccountSharingButton_OnClick then
+		AltoholicFrame.TabSummary:AccountSharingButton_OnClick()
+	end
 end
 
 local function DeleteRealm(self, characterLine)
@@ -896,21 +904,43 @@ Columns.RegisterColumn("SubZone", {
 -- ** Miscellaneous **
 Columns.RegisterColumn("ClassAndSpec", {
 	-- Header
-	headerWidth = 170,
+	headerWidth = 210,
 	headerLabel = format("%s   %s / %s", Formatter.Texture18("Interface\\Icons\\Spell_Nature_NatureGuardian"), CLASS, SPECIALIZATION),
 	tooltipTitle = format("%s / %s", CLASS, SPECIALIZATION),
 	tooltipSubTitle = L["COLUMN_CLASS_SUBTITLE"],
 	headerSort = DataStore.GetCharacterClass,
 	
 	-- Content
-	Width = 170,
+	Width = 210,
 	GetText = function(character)
 	
 		local class = DataStore:GetCharacterClass(character)
 		local spec = DataStore:GetActiveSpecInfo(character)
 		local color = DataStore:GetCharacterClassColor(character)
-		
-		return format("%s%s |r/ %s", color, class, Formatter.GreyIfEmpty(spec, color))
+
+		-- Fix #93: Add hero talent spec to character list
+		local heroSpec = nil
+		if DataStore.GetHeroTalentSpec then
+			heroSpec = DataStore:GetHeroTalentSpec(character)
+		end
+		-- Fallback for current character via live API
+		if not heroSpec and character == DataStore.ThisCharKey and C_ClassTalents and C_ClassTalents.GetActiveHeroTalentSpec then
+			local success, heroSpecID = pcall(C_ClassTalents.GetActiveHeroTalentSpec)
+			if success and heroSpecID and C_Traits and C_Traits.GetSubTreeInfo then
+				local success2, subTreeInfo = pcall(C_Traits.GetSubTreeInfo, C_ClassTalents.GetActiveConfigID(), heroSpecID)
+				if success2 and subTreeInfo and subTreeInfo.name then
+					heroSpec = subTreeInfo.name
+				elseif heroSpecID then
+					heroSpec = format("Hero %d", heroSpecID)
+				end
+			end
+		end
+
+		if heroSpec and heroSpec ~= "" then
+			return format("%s%s |r/ %s |r/ %s%s|r", color, class, Formatter.GreyIfEmpty(spec, color), colors.gold, heroSpec)
+		else
+			return format("%s%s |r/ %s", color, class, Formatter.GreyIfEmpty(spec, color))
+		end
 	end,
 	OnEnter = function(frame)
 			local character = frame:GetParent().character
