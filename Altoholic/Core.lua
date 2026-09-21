@@ -205,9 +205,10 @@ AddonFactory:OnAddonLoaded(addonName, function()
 		ShowCouldBeStoredOn = false,			-- display "could be stored on" information
 		ShowAccountBankCount = true,			-- display account bank counters
 		ShowCurrenciesCount = true,			-- display currency counters
+		SuppressProfessionEquipment = true,		-- Fix #72: suppress equipped profession tools in tooltip
 		
 		HiddenGuilds = {}						-- Guilds that should not be shown in the tooltip
-	})	
+	})
 	
 	AddonFactory:SetOptionsTable("Altoholic_Sharing_Options", {
 		IsEnabled = false,						-- account sharing communication handler is disabled by default

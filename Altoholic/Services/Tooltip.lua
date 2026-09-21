@@ -126,6 +126,21 @@ local function GetColoredName(character)
 	return name
 end
 
+local function IsProfessionEquipment(itemID)
+	-- Fix #72: Detect profession tools/gear to suppress in tooltip
+	if not itemID then return false end
+	local _, _, _, _, _, _, _, _, itemEquipLoc, _, _, classID = GetItemInfo(itemID)
+	if not itemEquipLoc then return false end
+	-- Profession tools: INVTYPE_PROFESSION_TOOL, INVTYPE_PROFESSION_GEAR, or ItemClass Profession (19)
+	if itemEquipLoc == "INVTYPE_PROFESSION_TOOL" or itemEquipLoc == "INVTYPE_PROFESSION_GEAR" then
+		return true
+	end
+	if classID == 19 then -- Enum.ItemClass.Profession
+		return true
+	end
+	return false
+end
+
 local function GetCharacterItemCount(character, searchedID)
 	itemCounts[1], itemCounts[2], itemCounts[9] = DataStore:GetContainerItemCount(character, searchedID)
 	itemCounts[2] = itemCounts[2] + (DataStore:GetPlayerBankItemCount(character, searchedID) or 0)
@@ -134,6 +149,18 @@ local function GetCharacterItemCount(character, searchedID)
 	itemCounts[5] = DataStore:GetAuctionHouseItemCount(character, searchedID)
 	itemCounts[6] = DataStore:GetInventoryItemCount(character, searchedID)
 	itemCounts[7] = DataStore:GetMailItemCount(character, searchedID)
+
+	-- Fix #72: Suppress equipped profession equipment if option enabled (default true)
+	if itemCounts[6] > 0 then
+		-- Check if we should suppress profession equipment
+		local suppress = true -- default behavior per RFE #72
+		if options and options.SuppressProfessionEquipment ~= nil then
+			suppress = options.SuppressProfessionEquipment
+		end
+		if suppress and IsProfessionEquipment(searchedID) then
+			itemCounts[6] = 0
+		end
+	end
 	
 	local charCount = 0
 	for _, v in pairs(itemCounts) do
@@ -773,6 +800,12 @@ addon:Service("AltoholicUI.Tooltip", { function()
 			TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.MinimapMouseover, GameTooltipOnShow)
 
 			local function OnTooltipSetItem(self, data)
+				-- Fix #103: Do not let equipment comparison tooltips consume the callback
+				-- Comparison tooltips set isTooltipDone before GameTooltip, breaking item counts for weapons/armor
+				if self ~= GameTooltip and self ~= ItemRefTooltip then
+					return
+				end
+
 				if (not isTooltipDone) and self then
 					isTooltipDone = true
 

@@ -248,6 +248,36 @@ local function FilterByTradeskill(tradeskill)
 end
 
 
+local function GetWarbandBankMoney()
+	-- Fix #91 #105 #83: Warband bank money handling
+	-- Try DataStore first (stored per character, account-wide)
+	if DataStore and DataStore.GetAccountBankMoney then
+		-- Find any character on current account/realm to get stored value
+		local maxMoney = 0
+		local chars = DataStore:GetCharacters()
+		if chars then
+			for charKey, _ in pairs(chars) do
+				local char = DataStore:GetCharacterDB("DataStore_Containers_Characters", charKey)
+				if char then
+					local success, amount = pcall(DataStore.GetAccountBankMoney, DataStore, char)
+					if success and amount and amount > maxMoney then
+						maxMoney = amount
+					end
+				end
+			end
+		end
+		if maxMoney > 0 then return maxMoney end
+	end
+	-- Fallback to live API for current character
+	if C_Bank and C_Bank.FetchDepositedMoney and Enum and Enum.BankType and Enum.BankType.Account then
+		local success, amount = pcall(C_Bank.FetchDepositedMoney, Enum.BankType.Account)
+		if success and amount then
+			return amount
+		end
+	end
+	return 0
+end
+
 local function AddRealm(accountName, realmName)
 	
 	if AccountSharing.IsSharingInProgress() then
@@ -360,6 +390,20 @@ local function BuildList()
 	filterPipeline:AddFilter(FilterByTradeskill(options.CurrentTradeSkill))
 	
 	ProcessRealms(AddRealm)
+
+	-- Fix #91: Add Warband bank to total money (account-wide, counted once)
+	-- Only add if we are viewing current account realms
+	local warbandMoney = GetWarbandBankMoney()
+	if warbandMoney > 0 then
+		-- Add to totalMoney only once, not per realm
+		-- Check if current filter includes current account
+		local mode = Altoholic_SummaryTab_Options["CurrentRealms"]
+		if mode == 1 or mode == 2 or mode == 3 or mode == 4 then
+			-- For simplicity, add warband money to total if we have at least one realm from current account
+			-- The money is account-wide, so add it once
+			totalMoney = totalMoney + warbandMoney
+		end
+	end
 end
 
 local function AddRealmView(accountName, realmName)
