@@ -249,8 +249,26 @@ end
 
 
 local function GetWarbandBankMoney()
-	-- Fix #91: Warband bank money was missing from total
-	-- Safely fetch account bank money if API available
+	-- Fix #91 #105 #83: Warband bank money handling
+	-- Try DataStore first (stored per character, account-wide)
+	if DataStore and DataStore.GetAccountBankMoney then
+		-- Find any character on current account/realm to get stored value
+		local maxMoney = 0
+		local chars = DataStore:GetCharacters()
+		if chars then
+			for charKey, _ in pairs(chars) do
+				local char = DataStore:GetCharacterDB("DataStore_Containers_Characters", charKey)
+				if char then
+					local success, amount = pcall(DataStore.GetAccountBankMoney, DataStore, char)
+					if success and amount and amount > maxMoney then
+						maxMoney = amount
+					end
+				end
+			end
+		end
+		if maxMoney > 0 then return maxMoney end
+	end
+	-- Fallback to live API for current character
 	if C_Bank and C_Bank.FetchDepositedMoney and Enum and Enum.BankType and Enum.BankType.Account then
 		local success, amount = pcall(C_Bank.FetchDepositedMoney, Enum.BankType.Account)
 		if success and amount then
