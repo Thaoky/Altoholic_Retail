@@ -583,7 +583,7 @@ local function ProcessTooltip(tooltip, link)
 		end
 	end
 	
-	local _, _, _, iLevel, _, _, itemSubType, _, itemEquipLoc, _, _, classID, subclassID, bindType, expacID = GetItemInfo(itemID)
+	local _, _, _, iLevel, _, _, itemSubType, _, itemEquipLoc, _, _, classID, subclassID, bindType, expacID = C_Item.GetItemInfo(itemID)
 	
 	-- print("classID: " .. (classID or "nil"))
 	-- print("subclassID: " .. (subclassID or "nil"))
@@ -753,7 +753,7 @@ addon:Service("AltoholicUI.Tooltip", { function()
 					if reagent then
 						local itemID = reagent.reagents[1].itemID
 					
-						storedLink = select(2, GetItemInfo(itemID))
+						storedLink = select(2, C_Item.GetItemInfo(itemID))
 					end
 					
 					-- print(recipeID, reagentIndex)
@@ -776,7 +776,7 @@ addon:Service("AltoholicUI.Tooltip", { function()
 				if (not isTooltipDone) and self then
 					isTooltipDone = true
 
-					local _, link = GetItemInfo(data.id)
+					local _, link = C_Item.GetItemInfo(data.id)
 
 					if link then
 						ProcessTooltip(self, link)

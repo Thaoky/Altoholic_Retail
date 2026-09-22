@@ -15,6 +15,11 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+12.1.002 (22/09/2026)
+
+- Updated old API calls in preparation of 12.1.5 (GetItemInfo, GetItemIcon, ...), and of WoW Forever.
+- Altoholic Forever version : development has begun :)
+
 12.1.001 (16/08/2026)
 
 - Fixed an issue with the minimap button not properly reacting to right-click to move it.

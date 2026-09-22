@@ -33,12 +33,12 @@ tab:RegisterGrid(1, {
 			if item then
 				button.key = character
 				
-				button.Background:SetTexture(GetItemIcon(item))
+				button.Background:SetTexture(C_Item.GetItemIconByID(item))
 				
 				-- display the coloured border
-				local _, _, itemRarity, itemLevel = GetItemInfo(item)
+				local _, _, itemRarity, itemLevel = C_Item.GetItemInfo(item)
 				if itemRarity and itemRarity >= 2 then
-					local r, g, b = GetItemQualityColor(itemRarity)
+					local r, g, b = C_Item.GetItemQualityColor(itemRarity)
 					button.IconBorder:SetVertexColor(r, g, b, 0.5)
 					button.IconBorder:Show()
 				end
@@ -46,7 +46,7 @@ tab:RegisterGrid(1, {
 				-- This returns a correct iLvl for upgraded items
 				-- There are mistakes though, sometimes for leveling items, it returns an iLvl higher than what is shown in the tooltip (+10, +20)
 				if type(item) == "string" then
-					itemLevel = GetDetailedItemLevelInfo(item)
+					itemLevel = C_Item.GetDetailedItemLevelInfo(item)
 				end
 
 				button.Name:SetText(itemLevel)
@@ -69,7 +69,7 @@ tab:RegisterGrid(1, {
 			GameTooltip:SetOwner(frame, "ANCHOR_LEFT")
 			local link
 			if type(item) == "number" then
-				link = select(2, GetItemInfo(item))
+				link = select(2, C_Item.GetItemInfo(item))
 			else
 				link = item
 			end
@@ -95,7 +95,7 @@ tab:RegisterGrid(1, {
 			
 			local link
 			if type(item) == "number" then
-				link = select(2, GetItemInfo(item))
+				link = select(2, C_Item.GetItemInfo(item))
 			else
 				link = item
 			end
@@ -109,7 +109,7 @@ tab:RegisterGrid(1, {
 				if chat:IsShown() then
 					chat:Insert(link)
 				else
-					AltoholicFrame.SearchBox:SetText(GetItemInfo(link))
+					AltoholicFrame.SearchBox:SetText(C_Item.GetItemInfo(link))
 				end
 			end
 		end,

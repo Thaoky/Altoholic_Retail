@@ -209,7 +209,7 @@ local function BagsIcon_Initialize(frame, level)
 	frame:AddButton(L["Any"], 0, OnRarityChange, nil, (rarity == 0))
 	
 	for i = Enum.ItemQuality.Uncommon, Enum.ItemQuality.Heirloom do		-- Quality: 0 = poor .. 5 = legendary
-		frame:AddButton(format("|c%s%s", select(4, GetItemQualityColor(i)), _G["ITEM_QUALITY"..i.."_DESC"]), i, OnRarityChange, nil, (rarity == i))
+		frame:AddButton(format("|c%s%s", select(4, C_Item.GetItemQualityColor(i)), _G["ITEM_QUALITY"..i.."_DESC"]), i, OnRarityChange, nil, (rarity == i))
 	end
 	
 	frame:AddCloseMenu()
@@ -449,7 +449,7 @@ local function ProfessionsIcon_Initialize(frame, level)
 				local itemID = DataStore:GetCraftResultItem(recipeID)
 				if not itemID then return end
 					
-				local _, _, _, _, _, itemType, _, _, itemEquipLoc = GetItemInfo(itemID)
+				local _, _, _, _, _, itemType, _, _, itemEquipLoc = C_Item.GetItemInfo(itemID)
 
 				if itemEquipLoc and strlen(itemEquipLoc) > 0 then
 					local slot = Equipment.GetInventoryTypeName(itemEquipLoc)

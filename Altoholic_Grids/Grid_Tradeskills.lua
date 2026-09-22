@@ -118,7 +118,7 @@ tab:RegisterGrid(7, {
 			
 			currentItemID = DataStore:GetCraftResultItem(spellID)
 			-- local orange, yellow, green, grey = LCL:GetCraftLevels(spellID)
-			currentTexture = currentItemID and GetItemIcon(currentItemID) or icons.questionMark
+			currentTexture = currentItemID and C_Item.GetItemIconByID(currentItemID) or icons.questionMark
 			
 			if orange then
 				text = format("%s%s\n%s%s %s%s %s%s %s%s",
@@ -152,9 +152,9 @@ tab:RegisterGrid(7, {
 				
 				-- do not enable this yet .. working fine, but better if more filtering allowed. ==> filtering on rarity
 				
-				-- local _, _, itemRarity, itemLevel = GetItemInfo(currentItemID)
+				-- local _, _, itemRarity, itemLevel = C_Item.GetItemInfo(currentItemID)
 				-- if itemRarity and itemRarity >= 2 then
-					-- local r, g, b = GetItemQualityColor(itemRarity)
+					-- local r, g, b = C_Item.GetItemQualityColor(itemRarity)
 					-- button.IconBorder:SetVertexColor(r, g, b, 0.5)
 					-- button.IconBorder:Show()
 				-- end

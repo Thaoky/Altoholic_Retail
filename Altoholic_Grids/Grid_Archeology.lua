@@ -24,7 +24,7 @@ tab:RegisterGrid(8, {
 			currentItemID = artifact.itemID
 			
 			if currentItemID then
-				local _, _, _, hexColor = GetItemQualityColor(artifact.rarity)
+				local _, _, _, hexColor = C_Item.GetItemQualityColor(artifact.rarity)
 				local itemName = C_Spell.GetSpellName(artifact.spellID)
 				
 				rowFrame.Name.Text:SetText(format("|c%s%s", hexColor, itemName))
@@ -37,16 +37,16 @@ tab:RegisterGrid(8, {
 			button.Name:SetPoint("BOTTOMRIGHT", 5, 0)
 			button.Background:SetDesaturated(false)
 			button.Background:SetTexCoord(0, 1, 0, 1)
-			button.Background:SetTexture(GetItemIcon(currentItemID))
+			button.Background:SetTexture(C_Item.GetItemIconByID(currentItemID))
 			
 			local artifact = DataStore:GetArtifactInfo(currentRace, dataRowID)
 			if DataStore:IsArtifactKnown(character, artifact.spellID) then
 				button.Background:SetVertexColor(1.0, 1.0, 1.0)
 				button.Name:SetText(icons.ready)
 				
-				local _, _, itemRarity, itemLevel = GetItemInfo(currentItemID)
+				local _, _, itemRarity, itemLevel = C_Item.GetItemInfo(currentItemID)
 				if itemRarity and itemRarity >= 2 then
-					local r, g, b = GetItemQualityColor(itemRarity)
+					local r, g, b = C_Item.GetItemQualityColor(itemRarity)
 					button.IconBorder:SetVertexColor(r, g, b, 0.5)
 					button.IconBorder:Show()
 				end

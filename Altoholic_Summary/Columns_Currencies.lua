@@ -754,7 +754,7 @@ Columns.RegisterColumn("Cur_Cyphers", {
 		
 		-- has this character already used the "Improvised Cypher Analysis Tool" ? 
 		if DataStore:IsQuestCompletedBy(character, 65282) then
-			local icon = select(5, GetItemInfoInstant(188793))
+			local icon = select(5, C_Item.GetItemInfoInstant(188793))
 			
 			if icon then
 				return format("%s %s", text, Formatter.Texture18(icon))

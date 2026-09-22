@@ -14,8 +14,8 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", { "AddonFactory.Classes",
 		local idA = select(2, DataStore:GetAuctionHouseItemInfo(currentCharacter, listType, a))
 		local idB = select(2, DataStore:GetAuctionHouseItemInfo(currentCharacter, listType, b))
 		
-		local textA = GetItemInfo(idA) or ""
-		local textB = GetItemInfo(idB) or ""
+		local textA = C_Item.GetItemInfo(idA) or ""
+		local textB = C_Item.GetItemInfo(idB) or ""
 		
 		if ascending then
 			return textA < textB
@@ -149,7 +149,7 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", { "AddonFactory.Classes",
 				local isGoblin, itemID, count, highBidder, startPrice, buyoutPrice, timeLeft = DataStore:GetAuctionHouseItemInfo(character, "Auctions", index)
 
 				if itemID then
-					local itemName, _, itemRarity = GetItemInfo(itemID)
+					local itemName, _, itemRarity = C_Item.GetItemInfo(itemID)
 					rowFrame:SetName(itemName or L["N/A"], itemRarity or 1)
 					rowFrame.Item:SetID(index)
 				end
@@ -158,7 +158,7 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", { "AddonFactory.Classes",
 				rowFrame:SetHighBidder(isGoblin, highBidder)
 				rowFrame:SetPrice(startPrice, buyoutPrice)
 				
-				rowFrame.Item:SetIcon(GetItemIcon(itemID))
+				rowFrame.Item:SetIcon(C_Item.GetItemIconByID(itemID))
 				rowFrame.Item:SetCount(count)
 				rowFrame.Item.listType = listType
 			end)
@@ -189,7 +189,7 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", { "AddonFactory.Classes",
 				local isGoblin, itemID, count, ownerName, bidPrice, buyoutPrice, timeLeft = DataStore:GetAuctionHouseItemInfo(character, "Bids", index)
 				
 				if itemID then
-					local itemName, _, itemRarity = GetItemInfo(itemID)
+					local itemName, _, itemRarity = C_Item.GetItemInfo(itemID)
 					rowFrame:SetName(itemName or L["N/A"], itemRarity or 1)
 					rowFrame.Item:SetID(index)
 				end
@@ -197,7 +197,7 @@ addon:Controller("AltoholicUI.TabCharacters.Auctions", { "AddonFactory.Classes",
 				rowFrame:SetTimeLeftForBid(timeLeft)
 				rowFrame:SetOwnBid(isGoblin, ownerName)
 				rowFrame:SetBidPrice(bidPrice, buyoutPrice)
-				rowFrame.Item:SetIcon(GetItemIcon(itemID))
+				rowFrame.Item:SetIcon(C_Item.GetItemIconByID(itemID))
 				rowFrame.Item:SetCount(count)
 				rowFrame.Item.listType = listType
 			end)

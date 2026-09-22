@@ -199,10 +199,10 @@ tab:RegisterGrid(13, {
 
 			-- GetItemInfo may not be able to return all info immediately
 			-- so alleviate the impact on the UI by warning the user
-			local itemName, _, itemRarity = GetItemInfo(info.itemID)
+			local itemName, _, itemRarity = C_Item.GetItemInfo(info.itemID)
 			if itemName and itemRarity then
-				local _, _, _, hex = GetItemQualityColor(itemRarity)
-				tt:AddLine(format("%s %s |c%s%s|r", icon, format(TEXTURE_FONT, GetItemIcon(info.itemID), 18, 18), hex, itemName)) 
+				local _, _, _, hex = C_Item.GetItemQualityColor(itemRarity)
+				tt:AddLine(format("%s %s |c%s%s|r", icon, format(TEXTURE_FONT, C_Item.GetItemIconByID(info.itemID), 18, 18), hex, itemName)) 
 			else
 				itemsMissing = true
 			end

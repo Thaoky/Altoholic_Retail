@@ -66,7 +66,7 @@ addon:Controller("AltoholicUI.TabCharacters.Recipes", { "AddonFactory.Classes", 
 		if recipeID then	-- on a data line, recipeID is numeric
 			local itemID = DataStore:GetCraftResultItem(recipeID)
 			if itemID then
-				local _, _, _, _, _, itemType, _, _, itemEquipLoc = GetItemInfo(itemID)
+				local _, _, _, _, _, itemType, _, _, itemEquipLoc = C_Item.GetItemInfo(itemID)
 				
 				if itemType == C_Item.GetItemClassInfo(Enum.ItemClass.Armor) or itemType == C_Item.GetItemClassInfo(Enum.ItemClass.Weapon) then
 					if itemEquipLoc and strlen(itemEquipLoc) > 0 then

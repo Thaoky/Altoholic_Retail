@@ -23,8 +23,8 @@ addon:Service("AltoholicUI.SearchResults", function()
 	local function SortByRarity(a, b, ascending)
 		-- Note: this works fine, be careful of the fact that some epic item (4) have a value of 3 because they are upgraded rares
 		-- (ex: 9.1 Korthia items)
-		local valueA = (a.itemID) and select(3, GetItemInfo(a.itemID)) or 0
-		local valueB = (b.itemID) and select(3, GetItemInfo(b.itemID)) or 0
+		local valueA = (a.itemID) and select(3, C_Item.GetItemInfo(a.itemID)) or 0
+		local valueB = (b.itemID) and select(3, C_Item.GetItemInfo(b.itemID)) or 0
 		
 		if ascending then
 			return valueA < valueB
@@ -35,8 +35,8 @@ addon:Service("AltoholicUI.SearchResults", function()
 	
 	local function SortByName(a, b, ascending)
 		-- TODO : some crafts do not have an item ID, since no item is created (ex: enchanting)
-		local valueA = (a.itemID) and select(1, GetItemInfo(a.itemID)) or 0
-		local valueB = (b.itemID) and select(1, GetItemInfo(b.itemID)) or 0
+		local valueA = (a.itemID) and select(1, C_Item.GetItemInfo(a.itemID)) or 0
+		local valueB = (b.itemID) and select(1, C_Item.GetItemInfo(b.itemID)) or 0
 		
 		if ascending then
 			return valueA < valueB
@@ -46,8 +46,8 @@ addon:Service("AltoholicUI.SearchResults", function()
 	end
 	
 	local function SortByLevel(a, b, ascending)
-		local valueA = (a.itemID) and select(4, GetItemInfo(a.itemID)) or 0
-		local valueB = (b.itemID) and select(4, GetItemInfo(b.itemID)) or 0
+		local valueA = (a.itemID) and select(4, C_Item.GetItemInfo(a.itemID)) or 0
+		local valueB = (b.itemID) and select(4, C_Item.GetItemInfo(b.itemID)) or 0
 		
 		if ascending then
 			return valueA < valueB

@@ -119,7 +119,7 @@ addon:Service("AltoholicUI.ItemFilters", { "AltoholicUI.Equipment", function(Equ
 			
 			if filters["itemRarity"] then
 				local rarity = filters["itemRarity"]
-				local rarityLabel = format("|c%s%s", select(4, GetItemQualityColor(rarity)), _G[format("ITEM_QUALITY%d_DESC", rarity)])
+				local rarityLabel = format("|c%s%s", select(4, C_Item.GetItemQualityColor(rarity)), _G[format("ITEM_QUALITY%d_DESC", rarity)])
 			
 				TableInsert(out, format("%s >= %s|r", RARITY, rarityLabel))
 			end
@@ -167,8 +167,8 @@ addon:Service("AltoholicUI.ItemFilters", { "AltoholicUI.Equipment", function(Equ
 				_, _, s.itemRarity, _, _, _, s.itemName = DataStore:GetBattlePetInfoFromLink(itemLink)
 			else
 				s.itemID = itemID
-				s.itemName, s.itemLink, s.itemRarity, s.itemLevel,	s.itemMinLevel = GetItemInfo(itemLink or itemID)
-				s.itemType,	s.itemSubType, s.itemEquipLoc = select(2, GetItemInfoInstant(itemLink or itemID))
+				s.itemName, s.itemLink, s.itemRarity, s.itemLevel,	s.itemMinLevel = C_Item.GetItemInfo(itemLink or itemID)
+				s.itemType,	s.itemSubType, s.itemEquipLoc = select(2, C_Item.GetItemInfoInstant(itemLink or itemID))
 			end
 			
 			s.itemExpansion = select(3, LII:GetItemSource(itemID))
