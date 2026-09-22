@@ -12,7 +12,7 @@ function ChatEdit_InsertLink(text, ...)
 	local editBox = AltoholicFrame.SearchBox
 
 	if text and editBox:IsVisible() and not DataStore:IsTradeSkillWindowOpen() then
-		local info = GetItemInfo(text)
+		local info = C_Item.GetItemInfo(text)
 		if info then
 			editBox:Insert(info)
 			return true
@@ -74,7 +74,7 @@ end)
 
 local function IsBOPItemKnown(itemID)
 	-- Check if a given item is BOP and known by the current player
-	local _, link = GetItemInfo(itemID)
+	local _, link = C_Item.GetItemInfo(itemID)
 	if not link then return end
 
 	-- ITEM_BIND_ON_EQUIP = "Binds when equipped";
@@ -129,9 +129,9 @@ local function MerchantFrame_UpdateMerchantInfoHook()
 				local itemID = addon:GetIDFromLink(link)
 				if itemID and itemID ~= 0 then		-- if there's a valid item link 
 					
-					-- local _, _, _, _, _, itemType, itemSubType = GetItemInfo(itemID)
-					local itemSubType = select(7, GetItemInfo(itemID))
-					local classID, subclassID = select(12, GetItemInfo(itemID))
+					-- local _, _, _, _, _, itemType, itemSubType = C_Item.GetItemInfo(itemID)
+					local itemSubType = select(7, C_Item.GetItemInfo(itemID))
+					local classID, subclassID = select(12, C_Item.GetItemInfo(itemID))
 					
 					local r, g, b = 1, 1, 1
 					
@@ -215,7 +215,7 @@ function addon:Item_OnEnter(frame)
 	if not frame.id then return end
 	
 	GameTooltip:SetOwner(frame, "ANCHOR_LEFT")
-	frame.link = frame.link or select(2, GetItemInfo(frame.id) )
+	frame.link = frame.link or select(2, C_Item.GetItemInfo(frame.id) )
 	
 	if frame.link then
 		GameTooltip:SetHyperlink(frame.link)
@@ -235,7 +235,7 @@ function addon:Item_OnClick(frame, button)
 	local link = frame.link
 	
 	if not link then
-		link = select(2, GetItemInfo(frame.id) )
+		link = select(2, C_Item.GetItemInfo(frame.id) )
 	end
 	if not link then return end		-- still not valid ? exit
 	
@@ -247,7 +247,7 @@ function addon:Item_OnClick(frame, button)
 		if chat:IsShown() then
 			chat:Insert(link)
 		else
-			AltoholicFrame.SearchBox:SetText(GetItemInfo(link))
+			AltoholicFrame.SearchBox:SetText(C_Item.GetItemInfo(link))
 		end
 	end
 end
@@ -374,6 +374,6 @@ function addon.ShowOptionsPanel(self, helpID)
 end
 
 function addon:GetItemQualityLabel(qLevel)
-	return format("|c%s%s", select(4, GetItemQualityColor(qLevel)), _G[format("ITEM_QUALITY%d_DESC", qLevel)])
+	return format("|c%s%s", select(4, C_Item.GetItemQualityColor(qLevel)), _G[format("ITEM_QUALITY%d_DESC", qLevel)])
 end
 
