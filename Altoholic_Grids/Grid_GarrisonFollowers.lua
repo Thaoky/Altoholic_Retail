@@ -213,7 +213,7 @@ tab:RegisterGrid(10, {
 				button.Background:SetVertexColor(1.0, 1.0, 1.0)
 				button.Name:SetText(format("%s%d", colors.green, level))
 				
-				local r, g, b = GetItemQualityColor(rarity)
+				local r, g, b = C_Item.GetItemQualityColor(rarity)
 				button.IconBorder:SetVertexColor(r, g, b, 0.5)
 				button.IconBorder:Show()
 				

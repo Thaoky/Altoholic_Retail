@@ -451,7 +451,7 @@ addon:Controller("AltoholicUI.TabGuild.Members.Equipment", { "AltoholicUI.Equipm
 				local itemID = DataStore:GetGuildMemberInventoryItem(guild, member, id)
 				if itemID then
 					-- display the coloured border
-					local _, _, itemRarity, itemLevel = GetItemInfo(itemID)
+					local _, _, itemRarity, itemLevel = C_Item.GetItemInfo(itemID)
 					button:SetItem(itemID, nil, itemRarity)
 					button:SetCount(itemLevel)
 				else
