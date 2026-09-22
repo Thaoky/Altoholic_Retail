@@ -7,7 +7,7 @@ addon:Controller("AltoholicUI.SearchRow", { "AltoholicUI.SearchResults", functio
 
 	local function GetIcon(itemID)
 		-- return the enchanting icon if no item id.
-		return (itemID) and GetItemIcon(itemID) or "Interface\\Icons\\Trade_Engraving"
+		return (itemID) and C_Item.GetItemIconByID(itemID) or "Interface\\Icons\\Trade_Engraving"
 	end
 
 	return {
@@ -22,7 +22,7 @@ addon:Controller("AltoholicUI.SearchRow", { "AltoholicUI.SearchResults", functio
 		
 		DrawItemInfo = function(frame, itemID, itemLink, location, isBattlePet, hex)	
 			-- Item name & source
-			local name = (isBattlePet) and select(7, DataStore:GetBattlePetInfoFromLink(itemLink)) or GetItemInfo(itemID)
+			local name = (isBattlePet) and select(7, DataStore:GetBattlePetInfoFromLink(itemLink)) or C_Item.GetItemInfo(itemID)
 			
 			if name then
 				frame.Name:SetText(format("%s%s", hex, name))
@@ -44,7 +44,7 @@ addon:Controller("AltoholicUI.SearchRow", { "AltoholicUI.SearchResults", functio
 			frame.Item:SetCount(count)
 		end,
 		DrawItemLevel = function(frame, itemID)
-			local text = (itemID) and select(4, GetItemInfo(itemID)) or ""
+			local text = (itemID) and select(4, C_Item.GetItemInfo(itemID)) or ""
 			frame.ILevel:SetText(text or "")
 		end,
 		DrawItemBorder = function(frame, itemID, itemLink)
@@ -56,11 +56,11 @@ addon:Controller("AltoholicUI.SearchRow", { "AltoholicUI.SearchResults", functio
 			local item = itemLink or itemID
 			
 			if item then
-				local itemRarity = select(3, GetItemInfo(item))
+				local itemRarity = select(3, C_Item.GetItemInfo(item))
 				
 				if itemRarity then
 					local r, g, b
-					r, g, b, hex = GetItemQualityColor(itemRarity)
+					r, g, b, hex = C_Item.GetItemQualityColor(itemRarity)
 					
 					if itemRarity >= 2 then
 						border:SetVertexColor(r, g, b, 0.5)

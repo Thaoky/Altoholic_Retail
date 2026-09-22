@@ -338,7 +338,7 @@ Columns.RegisterColumn("Riding", {
 		
 		-- If the mount is equipped, display its icon, info will be in the tooltip
 		if equipmentID then 
-			local icon = select(5, GetItemInfoInstant(equipmentID))
+			local icon = select(5, C_Item.GetItemInfoInstant(equipmentID))
 			
 			if icon then
 				return format("%s %s", text, Formatter.Texture18(icon))
@@ -369,7 +369,7 @@ Columns.RegisterColumn("Riding", {
 			-- Add the mount equipment
 			if equipmentID then
 				tt:AddLine(" ")
-				local _, link, _, _, _, _, itemSubType, _, _, icon = GetItemInfo(equipmentID)
+				local _, link, _, _, _, _, itemSubType, _, _, icon = C_Item.GetItemInfo(equipmentID)
 				
 				if itemSubType then
 					tt:AddLine(format("%s%s", colors.white, itemSubType))
