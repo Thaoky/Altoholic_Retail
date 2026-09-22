@@ -10,10 +10,10 @@ addon:Controller("AltoholicUI.TabCharacters.RecipeRow", {
 		local itemName, itemLink, itemRarity
 		
 		if craftedItemID then
-			frame.CraftedItem:SetIcon(GetItemIcon(craftedItemID))
+			frame.CraftedItem:SetIcon(C_Item.GetItemIconByID(craftedItemID))
 			frame.CraftedItem.itemID = craftedItemID
 			
-			itemName, itemLink, itemRarity = GetItemInfo(craftedItemID)
+			itemName, itemLink, itemRarity = C_Item.GetItemInfo(craftedItemID)
 			
 			local vc = (isLearned) and 1 or 0.3
 			frame.CraftedItem.Icon:SetVertexColor(vc, vc, vc)
@@ -55,7 +55,7 @@ addon:Controller("AltoholicUI.TabCharacters.RecipeRow", {
 			local recipeText
 			
 			if itemName then
-				local _, _, _, hexColor = GetItemQualityColor(itemRarity)
+				local _, _, _, hexColor = C_Item.GetItemQualityColor(itemRarity)
 				recipeText = format("|c%s%s", hexColor, itemName)
 			else
 				recipeText = link
@@ -106,7 +106,7 @@ addon:Controller("AltoholicUI.TabCharacters.RecipeRow", {
 						local reagentCount = reagent.quantityRequired
 											
 						reagentIcon.itemID = reagentID
-						reagentIcon:SetIcon(GetItemIcon(reagentID))
+						reagentIcon:SetIcon(C_Item.GetItemIconByID(reagentID))
 						reagentIcon.Count:SetText(reagentCount)
 						reagentIcon.Count:Show()
 					

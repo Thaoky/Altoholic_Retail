@@ -33,7 +33,7 @@ addon:Controller("AltoholicUI.TabCharacters.SoulbindTreeRow", {
 					elseif conduitID ~= 0 then		-- it's an item
 						local itemID = select(2, DataStore:GetConduitInfo(character, conduitID))
 						if itemID then
-							icon = GetItemIcon(itemID)
+							icon = C_Item.GetItemIconByID(itemID)
 						end
 						
 						button.conduitID = conduitID

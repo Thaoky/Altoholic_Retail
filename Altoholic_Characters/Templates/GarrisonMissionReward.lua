@@ -9,7 +9,7 @@ addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionReward", {
 	end,
 	SetItemLevel = function(frame, itemID)
 		local text = ""
-		local iLvl = select(4, GetItemInfo(itemID))
+		local iLvl = select(4, C_Item.GetItemInfo(itemID))
 		
 		-- if the reward has an iLevel .. show it
 		if iLvl and iLvl > 1 then	
@@ -54,7 +54,7 @@ addon:Controller("AltoholicUI.TabCharacters.GarrisonMissionReward", {
 		
 		if reward.itemID then
 			frame.itemID = reward.itemID
-			frame.Icon:SetTexture(GetItemIcon(reward.itemID))
+			frame.Icon:SetTexture(C_Item.GetItemIconByID(reward.itemID))
 			frame:SetItemLevel(reward.itemID)
 			
 		else

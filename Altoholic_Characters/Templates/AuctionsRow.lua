@@ -8,7 +8,7 @@ addon:Controller("AltoholicUI.TabCharacters.AuctionsRow", { "AltoholicUI.Formatt
 	
 	return {
 		SetName = function(frame, itemName, itemRarity)
-			frame.Name:SetText(format("|c%s%s", select(4, GetItemQualityColor(itemRarity)), itemName))
+			frame.Name:SetText(format("|c%s%s", select(4, C_Item.GetItemQualityColor(itemRarity)), itemName))
 		end,
 		SetTimeLeft = function(frame, timeLeft)
 			frame.TimeLeft:SetText(Formatter.TimeString(timeLeft))
@@ -48,7 +48,7 @@ addon:Controller("AltoholicUI.TabCharacters.AuctionsRow", { "AltoholicUI.Formatt
 			local itemID = select(2, DataStore:GetAuctionHouseItemInfo(character, button.listType, id))
 			if not itemID then return end
 	
-			local link = select(2, GetItemInfo(itemID))
+			local link = select(2, C_Item.GetItemInfo(itemID))
 			if link then 
 				GameTooltip:SetOwner(button, "ANCHOR_RIGHT")
 				GameTooltip:ClearLines()
@@ -64,7 +64,7 @@ addon:Controller("AltoholicUI.TabCharacters.AuctionsRow", { "AltoholicUI.Formatt
 			local itemID = select(2, DataStore:GetAuctionHouseItemInfo(character, button.listType, id))
 			if not itemID then return end
 	
-			local link = select(2, GetItemInfo(itemID))
+			local link = select(2, C_Item.GetItemInfo(itemID))
 			if link then 
 				if IsControlKeyDown() then
 					DressUpItemLink(link)
@@ -74,7 +74,7 @@ addon:Controller("AltoholicUI.TabCharacters.AuctionsRow", { "AltoholicUI.Formatt
 					if chat:IsShown() then
 						chat:Insert(link)
 					else
-						AltoholicFrame.SearchBox:SetText(GetItemInfo(link))
+						AltoholicFrame.SearchBox:SetText(C_Item.GetItemInfo(link))
 					end
 				end
 			end
