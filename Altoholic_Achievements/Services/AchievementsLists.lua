@@ -149,8 +149,7 @@ local sortedAchievements = {
 		11929, 11429, 11433, 11338, 11430, 11432, 11335, 11431, -- Return to Karazhan
 		11700, 11701, 11702, 11769, 11768, 11703, -- Cathedral of Eternal Night
 		12007, 12008, 12009, 12005, 12004, -- Seat of the Triumvirate
-		11183, 11184, 11185, 11162, 11181, -- Keystones
-		11181 -- Keystones
+		11183, 11184, 11185, 11162, 11181 -- Keystones
 	},
 
 	[cat.RaidsClassic] = { 686, 685, 689, 687 },
@@ -451,7 +450,7 @@ local sortedAchievements = {
 		20000,								-- Isle of Thunder
 		20001, 19982, 20002, 19970		-- Timeless Isle
 	},
-	[cat.PandariaRemixScenarios] = { 19893, 19924, 19931, 19927, 19930, "19934:19936", "19935:19937", 19940, 19941, 19926, 19928, 19928, 19933, 19942, 19943, 19932, 19923, 20500, 19944, 19945, "19938:19939", 19925 },
+	[cat.PandariaRemixScenarios] = { 19893, 19924, 19931, 19927, 19930, "19934:19936", "19935:19937", 19940, 19941, 19926, 19928, 19933, 19942, 19943, 19932, 19923, 20500, 19944, 19945, "19938:19939", 19925 },
 	[cat.PandariaRemixDungeons] = { 19894, 19895, 19896, 19897, 19898, 19899, 19904, 19905, 19902, 19903, 19906, 19907, 19908, 19909, 19910, 19911, 19900, 19901 },
 	[cat.PandariaRemixRaids] = {
 		19946, 19947, 19948,		-- Mogu'Shan Vaults
@@ -731,19 +730,34 @@ local unsortedAchievements = {
 
 addon:Service("AltoholicUI.AchievementsLists", function()
 
-	local function SortByName(a, b)
-		if type(a) == "string" then
-			a = strsplit(":", a)
-			a = tonumber(a)
+	local achievementNames = {}
+	local discoveredAchievements = {}
+	local nativeParents = {}
+	local initialized
+
+	local function GetSortInfo(value)
+		local id = type(value) == "string" and tonumber((strsplit(":", value))) or value
+		local name = achievementNames[id]
+		if name == nil then
+			name = select(2, GetAchievementInfo(id))
+			achievementNames[id] = name or false
 		end
-		if type(b) == "string" then
-			b = strsplit(":", b)
-			b = tonumber(b)
+		return id, name or nil
+	end
+
+	local function SortByName(a, b)
+		local idA, nameA = GetSortInfo(a)
+		local idB, nameB = GetSortInfo(b)
+
+		if nameA and nameB then
+			if nameA ~= nameB then return nameA < nameB end
+		elseif nameA then
+			return true
+		elseif nameB then
+			return false
 		end
 
-		local nameA = select(2, GetAchievementInfo(a)) or ""
-		local nameB = select(2, GetAchievementInfo(b)) or ""
-		return nameA < nameB
+		return idA < idB
 	end
 
 	local function GetSortedSize(categoryID)
@@ -752,6 +766,72 @@ addon:Service("AltoholicUI.AchievementsLists", function()
 
 	local function GetUnsortedSize(categoryID)
 		return (unsortedAchievements[categoryID]) and #unsortedAchievements[categoryID] or 0
+	end
+
+	local function DiscoverAchievements()
+		if not (GetCategoryList and GetCategoryInfo and GetCategoryNumAchievements) then return end
+
+		local knownIDs = {}
+		for _, source in ipairs({ sortedAchievements, unsortedAchievements }) do
+			for _, entries in pairs(source) do
+				for _, value in ipairs(entries) do
+					if type(value) == "number" then
+						knownIDs[value] = true
+					else
+						local allianceID, hordeID = strsplit(":", value)
+						knownIDs[tonumber(allianceID)] = true
+						knownIDs[tonumber(hordeID)] = true
+					end
+				end
+			end
+		end
+
+		local categoryIDs = GetCategoryList() or {}
+		local depths = {}
+		for _, categoryID in ipairs(categoryIDs) do
+			local _, parentID = GetCategoryInfo(categoryID)
+			nativeParents[categoryID] = parentID
+		end
+
+		local function GetDepth(categoryID)
+			if depths[categoryID] then return depths[categoryID] end
+			local parentID = nativeParents[categoryID]
+			local depth = 0
+			if parentID and parentID ~= categoryID and nativeParents[parentID] then
+				depth = GetDepth(parentID) + 1
+			end
+			depths[categoryID] = depth
+			return depth
+		end
+
+		-- Visit children first if the game also lists their achievements in a parent.
+		table.sort(categoryIDs, function(a, b)
+			local depthA, depthB = GetDepth(a), GetDepth(b)
+			if depthA ~= depthB then return depthA > depthB end
+			return a < b
+		end)
+
+		for _, categoryID in ipairs(categoryIDs) do
+			local count = GetCategoryNumAchievements(categoryID) or 0
+			local entries
+			for index = 1, count do
+				local achievementID = GetAchievementInfo(categoryID, index)
+				if type(achievementID) == "number" and not knownIDs[achievementID] then
+					entries = entries or {}
+					entries[#entries + 1] = achievementID
+					knownIDs[achievementID] = true
+				end
+			end
+			if entries then
+				table.sort(entries, SortByName)
+				discoveredAchievements[categoryID] = entries
+			end
+		end
+	end
+
+	local function GetDiscoveredSize(categoryID)
+		local entries = discoveredAchievements[categoryID]
+		return entries and #entries or 0
 	end
 
 	local function GetFactionInfo(value)
@@ -767,13 +847,50 @@ addon:Service("AltoholicUI.AchievementsLists", function()
 
 	return {
 		Initialize = function()
-			-- order each category by name, do this only once at startup
-			for category, data in pairs(unsortedAchievements) do
+			if initialized then return end
+			initialized = true
+			achievementNames = {}
+			for _, data in pairs(unsortedAchievements) do
 				table.sort(data, SortByName)
 			end
+			DiscoverAchievements()
 		end,
 		GetCategorySize = function(categoryID)
-			return GetSortedSize(categoryID) + GetUnsortedSize(categoryID)
+			return GetSortedSize(categoryID) + GetUnsortedSize(categoryID) + GetDiscoveredSize(categoryID)
+		end,
+		AppendMissingCategories = function(categories)
+			local existing = {}
+			local function IndexCategories(items)
+				for _, item in ipairs(items) do
+					if item.id then existing[item.id] = item end
+					if item.subMenu then IndexCategories(item.subMenu) end
+				end
+			end
+			IndexCategories(categories)
+
+			local added = {}
+			local function AddCategory(categoryID)
+				if existing[categoryID] then return existing[categoryID] end
+				if added[categoryID] then return added[categoryID] end
+				local name, parentID = GetCategoryInfo(categoryID)
+				if not name then return end
+				local item = { id = categoryID, text = name }
+				added[categoryID] = item
+				local destination = categories
+				if parentID and parentID ~= categoryID and parentID ~= -1 then
+					local parent = AddCategory(parentID)
+					if parent then
+						parent.subMenu = parent.subMenu or {}
+						destination = parent.subMenu
+					end
+				end
+				destination[#destination + 1] = item
+				return item
+			end
+
+			for categoryID in pairs(discoveredAchievements) do
+				if not existing[categoryID] then AddCategory(categoryID) end
+			end
 		end,
 		GetAchievementFactionInfo = function(categoryID, index)
 			if index <= 0 then return end
@@ -793,6 +910,9 @@ addon:Service("AltoholicUI.AchievementsLists", function()
 			if index <= size then
 				return GetFactionInfo(unsortedAchievements[categoryID][index])
 			end
+
+			local entries = discoveredAchievements[categoryID]
+			if entries then return entries[index - size] end
 		end,
 	}
 end)
