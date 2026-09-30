@@ -229,11 +229,14 @@ local function RealmsIcon_Initialize(frame, level)
 	frame:AddButton(L["ALT_GROUP_NOT_GROUPED"], NOT_GROUPED, OnAltGroupChange, nil, (groupOption == NOT_GROUPED))
 	frame:AddTitle()
 	
-	DataStore.AltGroups:Iterate(function(groupName, groupMembers) 
-		frame:AddButton(groupName, groupName, OnAltGroupChange, nil, (groupName == groupOption))
-	end)
+	if DataStore.AltGroups:GetNumGroups() > 0 then
+		DataStore.AltGroups:Iterate(function(groupName, groupMembers) 
+			frame:AddButton(groupName, groupName, OnAltGroupChange, nil, (groupName == groupOption))
+		end)
+		
+		frame:AddTitle()
+	end
 	
-	frame:AddTitle()
 	-- frame:AddButton(L["FILTER_GROUP_CREATE"], nil, OnCreateAltGroup, nil, (option == 1))
 	frame:AddButton(L["FILTER_GROUP_CREATE"], nil, OnCreateAltGroup, nil, nil)
 	

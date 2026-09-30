@@ -15,6 +15,12 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+12.1.003 (30/09/2026)
+
+- Added the PanelTabButton template, to remove dependencies on PanelTemplates_* functions from Blizzard.
+- Fixed an issue where the tooltip counters would not show for equippable items.
+- Fixed equippable items in the bags being wrongly reported as "equipped".
+
 12.1.002 (22/09/2026)
 
 - Updated old API calls in preparation of 12.1.5 (GetItemInfo, GetItemIcon, ...), and of WoW Forever.
