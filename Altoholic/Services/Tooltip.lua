@@ -773,13 +773,18 @@ addon:Service("AltoholicUI.Tooltip", { function()
 			TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.MinimapMouseover, GameTooltipOnShow)
 
 			local function OnTooltipSetItem(self, data)
+				-- This is triggered for all tooltips for an equippable item.
+				-- When mousing over such an item in the bags, the game will display the comparison tooltips, which we want to ignore.
+				-- If we don't, we get an improper item ID.
+				if self ~= GameTooltip then return end
+				
 				if (not isTooltipDone) and self then
 					isTooltipDone = true
 
 					local _, link = C_Item.GetItemInfo(data.id)
 
 					if link then
-						ProcessTooltip(self, link)
+						ProcessTooltip(GetAppropriateTooltip(), link)
 					end
 				end			
 			end
