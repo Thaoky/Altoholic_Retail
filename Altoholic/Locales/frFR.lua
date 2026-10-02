@@ -21,7 +21,7 @@ L["OFFICIAL_SOURCES"] = "Official sources : Curseforge & WoW Interface"
 L["%s%s|r has requested the bank tab %s%s|r\nSend this information ?"] = [[%s%s|r désire l'onglet de banque %s%s|r
 Envoyer ces informations ?]]
 L["%sWarning:|r make sure this user may view this information before accepting"] = "%sAttention :|r Vérifiez que ce joueur a le droit de voir ces informations avant d'accepter"
-L["%s|r has received a mail from %s"] = "%s|r a reçu un courrier de %s"
+L["%s|r has received mail from %s"] = "%s|r a reçu du courrier de %s"
 L["AUCTION_HOUSE_NOT_VISITED_WARNING"] = "Les enchères n'ont pas été vérifiées sur %s|r depuis %d jours, vérifiez l'hôtel des ventes et votre boîte aux lettres !"
 
 L["Mail is about to expire on at least one character."] = "Du courrier va bientôt expirer sur au moins un personnage."

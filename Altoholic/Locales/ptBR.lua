@@ -21,7 +21,7 @@ L["Right-click to %sdrag"] = "Clique com o botão direito do mouse para %sarrast
 L["%s%s|r has requested the bank tab %s%s|r\nSend this information ?"] = [[%s%s|r solicitou a aba do banco %s%s|r
 Enviar essa informação ?]]
 L["%sWarning:|r make sure this user may view this information before accepting"] = "%sAviso:|r antes de aceitar, certifique-se de que este usuário pode visualizar esta informação"
-L["%s|r has received a mail from %s"] = "%s|r recebeu um correio de %s"
+L["%s|r has received mail from %s"] = "%s|r recebeu um correio de %s"
 -- L["AUCTION_HOUSE_NOT_VISITED_WARNING"] = "Auctions have not been checked on %s|r since %d days, check the auction house and your mailbox !"
 
 L["Mail is about to expire on at least one character."] = "O correio está para expirar ao menos em um personagem."
