@@ -56,20 +56,29 @@ end
 
 local function OnAuctionsChange(self, listType)
 	CloseDropDownMenus()
-	Altoholic_UI_Options.ViewAuctionHouse = listType
+	options.ViewAuctionHouse = listType
 	currentPanelKey = self.value
+	
 	tab:Update()
 end
 
 local function OnClearAHEntries(self, character)
-	local listType = Altoholic_UI_Options.ViewAuctionHouse
+	local listType = options.ViewAuctionHouse
 	
 	if (self.value == 1) or (self.value == 3) then	-- clean this faction's data
-		DataStore:ClearAuctionEntries(character, listType, 0)
+		if listType == "Auctions" then
+			DataStore:ClearAuctions(character, 0)
+		else
+			DataStore:ClearBids(character, 0)
+		end
 	end
 	
 	if (self.value == 2) or (self.value == 3) then	-- clean goblin AH
-		DataStore:ClearAuctionEntries(character, listType, 1)
+		if listType == "Auctions" then
+			DataStore:ClearAuctions(character, 1)
+		else
+			DataStore:ClearBids(character, 1)
+		end
 	end
 	
 	tab.Panels["Auctions"]:InvalidateView()
@@ -791,6 +800,7 @@ AddonFactory:OnAddonLoaded(addonTabName, function()
 		ViewBagsAllInOne = false,
 		ViewVoidStorage = true,
 		ViewReagentBank = true,
+		ViewAuctionHouse = "Auctions",
 		ViewBagsRarity = 0,						-- rarity level of items (not a boolean !)
 		GarrisonMissions = 1,					-- available missions = 1, active missions = 2
 		SortAscending = true,					-- ascending or descending sort order
