@@ -15,6 +15,11 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+12.1.005 (02/10/2026)
+
+- DataStore_Containers : Fixed a lua error when opening the bank.
+- DataStore_Quests : Fixed 2 lua errors when turning a quest in.
+
 12.1.004 (02/10/2026)
 
 - Characters tab : Fixed auctions not properly being listed.
