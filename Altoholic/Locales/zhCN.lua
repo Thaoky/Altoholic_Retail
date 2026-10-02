@@ -21,7 +21,7 @@ L["Right-click to %sdrag"] = "右键点击%s拖拽"
 L["%s%s|r has requested the bank tab %s%s|r\nSend this information ?"] = [[%s%s|r 要求公会仓库分页 %s%s|r
 要传送这项资料吗 ?]]
 L["%sWarning:|r make sure this user may view this information before accepting"] = "%s警告:|r 请确定此用户可以查看分页的资料才接受"
-L["%s|r has received a mail from %s"] = "%s|r 已收到%s的邮件"
+L["%s|r has received mail from %s"] = "%s|r 已收到%s的邮件"
 -- L["AUCTION_HOUSE_NOT_VISITED_WARNING"] = "Auctions have not been checked on %s|r since %d days, check the auction house and your mailbox !"
 
 L["Mail is about to expire on at least one character."] = "至少一个角色的邮件即将到期."

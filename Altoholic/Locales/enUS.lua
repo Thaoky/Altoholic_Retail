@@ -19,7 +19,7 @@ L["OFFICIAL_SOURCES"] = "Official sources : Curseforge & WoW Interface"
 
 L["%s%s|r has requested the bank tab %s%s|r\nSend this information ?"] = true
 L["%sWarning:|r make sure this user may view this information before accepting"] = true
-L["%s|r has received a mail from %s"] = true
+L["%s|r has received mail from %s"] = true
 L["AUCTION_HOUSE_NOT_VISITED_WARNING"] = "Auctions have not been checked on %s|r since %d days, check the auction house and your mailbox !"
 
 L["Mail is about to expire on at least one character."] = true

@@ -263,7 +263,7 @@ AddonFactory:OnAddonLoaded(addonName, function()
 	
 	addon:ListenTo("DATASTORE_GUILD_MAIL_RECEIVED", function(event, sender, recipient)
 		if Altoholic_UI_Options.Mail.GuildMailWarning then
-			addon:Print(format(L["%s|r has received a mail from %s"], format("%s%s", colors.green, recipient), format("%s%s", colors.green, sender)))
+			addon:Print(format(L["%s|r has received mail from %s"], format("%s%s", colors.green, recipient), format("%s%s", colors.green, sender)))
 		end
 	end)
 

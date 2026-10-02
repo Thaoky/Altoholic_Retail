@@ -22,7 +22,7 @@ L["%s%s|r has requested the bank tab %s%s|r\nSend this information ?"] = [[%s%s|
 이 정보를 보낼까요?]]
 L["%sWarning:|r make sure this user may view this information before accepting"] = [[%s경고:|r 승인하기 전에 이 사용자가 이
 정보들을 정말 봐도 되는지 확인해 보세요.]]
-L["%s|r has received a mail from %s"] = "%s|r %s의 우편물을 받았음"
+L["%s|r has received mail from %s"] = "%s|r %s의 우편물을 받았음"
 -- L["AUCTION_HOUSE_NOT_VISITED_WARNING"] = "Auctions have not been checked on %s|r since %d days, check the auction house and your mailbox !"
 
 L["Mail is about to expire on at least one character."] = "한 캐릭터 이상에서 우편물 소멸이 가까워졌습니다."

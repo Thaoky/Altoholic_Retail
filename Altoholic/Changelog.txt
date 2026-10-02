@@ -15,6 +15,12 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+12.1.004 (02/10/2026)
+
+- Characters tab : Fixed auctions not properly being listed.
+- Characters tab : Fixed clearing auction house entries not working properly.
+- DataStore : Added SanitizeCharacters() to check the list of character keys, and automatically delete invalid ones.
+
 12.1.003 (30/09/2026)
 
 - Added the PanelTabButton template, to remove dependencies on PanelTemplates_* functions from Blizzard.
