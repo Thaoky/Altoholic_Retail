@@ -746,6 +746,10 @@ local function categoriesList_OnClick(categoryData)
 	
 	tab:SetCharacter(character)
 	tab:SetStatus(DataStore:GetColoredCharacterName(character))
+	
+	-- No panel chosen yet (first character click) ? default to containers instead of showing an empty pane
+	currentPanelKey = currentPanelKey or "Containers"
+	
 	tab:InvalidateView()
 	tab:Update()
 end
