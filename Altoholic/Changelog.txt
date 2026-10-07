@@ -15,6 +15,11 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+12.1.006 (07/10/2026)
+
+- DataStore_Characters : Fixed the calculation of rested xp for the currently logged in character.
+- Characters Tab : Set default panel to Containers. (Thanks Tenortim !)
+
 12.1.005 (02/10/2026)
 
 - DataStore_Containers : Fixed a lua error when opening the bank.
