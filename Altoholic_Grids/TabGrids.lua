@@ -490,6 +490,9 @@ addon:Controller("AltoholicUI.TabGridsCategoriesList", {
 		end		
 	
 		frame:SetCategories(categories)
+		
+		-- Show the equipment pane by default
+		categoriesList_OnClick(categories[1])
 	end,
 })
 

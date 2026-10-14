@@ -15,6 +15,11 @@ How to support Altoholic's development :
 If you like the addon, consider supporting it, this has been the long term effort and commitment of a single person. #ArmyOfOne
 
 
+12.1.007 (14/10/2026)
+
+- Fixed tooltip counters no longer being shown on chat links.
+- Datastore_Reputations : Fixed horde reputation names no longer provided by the API when logging on an alliance character.
+
 12.1.006 (07/10/2026)
 
 - DataStore_Characters : Fixed the calculation of rested xp for the currently logged in character.
