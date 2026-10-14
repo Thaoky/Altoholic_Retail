@@ -261,7 +261,7 @@
 				</KeyValues>
 			</CheckButton>
 			<CheckButton parentKey="ShowCurrenciesCount" inherits="AltoTooltipOptionTemplate">
-				<Anchors> 
+				<Anchors>
 					<Anchor point="TOPLEFT" relativeKey="$parent.ShowHearthstoneCount" relativePoint="BOTTOMLEFT" x="0" y="-10" />
 				</Anchors>
 				<KeyValues>
@@ -270,6 +270,18 @@
 					<KeyValue key="locTitle" value="TT_SHOW_CURRENCIES_TITLE" />
 					<KeyValue key="locEnabled" value="TT_SHOW_CURRENCIES_ENABLED" />
 					<KeyValue key="locDisabled" value="TT_SHOW_CURRENCIES_DISABLED" />
+				</KeyValues>
+			</CheckButton>
+			<CheckButton parentKey="ShowInventoryItemCount" inherits="AltoTooltipOptionTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeKey="$parent.ShowCurrenciesCount" relativePoint="BOTTOMLEFT" x="0" y="-10" />
+				</Anchors>
+				<KeyValues>
+					<KeyValue key="option" value="ShowInventoryItemCount" />
+					<KeyValue key="locLabel" value="TT_SHOW_INVENTORYITEM_TEXT" />
+					<KeyValue key="locTitle" value="TT_SHOW_INVENTORYITEM_TITLE" />
+					<KeyValue key="locEnabled" value="TT_SHOW_INVENTORYITEM_ENABLED" />
+					<KeyValue key="locDisabled" value="TT_SHOW_INVENTORYITEM_DISABLED" />
 				</KeyValues>
 			</CheckButton>
 		</Frames>
