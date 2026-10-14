@@ -776,17 +776,19 @@ addon:Service("AltoholicUI.Tooltip", { function()
 				-- This is triggered for all tooltips for an equippable item.
 				-- When mousing over such an item in the bags, the game will display the comparison tooltips, which we want to ignore.
 				-- If we don't, we get an improper item ID.
-				if self ~= GameTooltip then return end
+				local isValidTootlip = (self == ItemRefTooltip or self == GameTooltip)
+				if not isValidTootlip then return end
 				
 				if (not isTooltipDone) and self then
 					isTooltipDone = true
 
 					local _, link = C_Item.GetItemInfo(data.id)
+					local tooltip = isValidTootlip and self or GetAppropriateTooltip()
 
 					if link then
-						ProcessTooltip(GetAppropriateTooltip(), link)
+						ProcessTooltip(tooltip, link)
 					end
-				end			
+				end		
 			end
 			
 			TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, OnTooltipSetItem)

@@ -30,8 +30,11 @@ local function OnCharacterChange(frame, owner)
 	local classIcons = parent.ClassIcons
 	local account, realm = parent.SelectRealm:GetCurrentRealm()
 
-	Options.SetColumnKey(_G[owner.storage], account, realm, id, frame.value)
+	-- Make sure "None" actually nils the key
+	local value = frame.value ~= NONE and frame.value or nil
 	
+	Options.SetColumnKey(_G[owner.storage], account, realm, id, value)
+
 	if classIcons.OnCharacterChanged then
 		classIcons:OnCharacterChanged()		-- callback method in the container
 	end

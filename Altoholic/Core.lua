@@ -1,16 +1,7 @@
 local addonName, addon = ...
 _G[addonName] = addon
 
---[[
-addon.Version = "v12.0.001"
--- addon.VersionNum = 11 00 007
-addon.VersionNum = 1200000
-]]
-
-local addonVersion = C_AddOns.GetAddOnMetadata(addonName, "Version")
-local v1, v2, v3, vBeta = string.match(addonVersion, "(%d+).(%d+).(%d+)-*(.*)")
-addon.Version = "v"..addonVersion
-addon.VersionNum = string.format("%d%02d%03d", v1, v2, v3, vBeta or "")
+addon.Version, addon.VersionNum = AddonFactory:GetAddOnVersionInfo(addonName)
 
 LibStub("LibMVC-1.0"):Embed(addon)
 
